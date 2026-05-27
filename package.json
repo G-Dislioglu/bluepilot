@@ -1,0 +1,12 @@
+{
+  "name": "bluepilot",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Bluepilot governance and autonomy-layer specifications.",
+  "scripts": {
+    "check:task-lock": "node --check tools/verify-task-lock.cjs"
+  },
+  "devDependencies": {
+    "picomatch": "^4.0.3"
+  }
+}
