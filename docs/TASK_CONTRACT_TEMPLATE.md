@@ -15,6 +15,7 @@ MODE:           [lite / standard / critical / dual-control]
 TASK_TYPE:      [code_task / doc_task / ui_task / config_task / governance_task]
 RISK_CLASS:     [low / medium / high / critical]
 IMPACT_CLASS:   [cosmetic / functional / architectural / governance]
+TARGET_PERSONA: [nur ui_task: beginner_user / operator_user / power_user]
 
 GOAL:
 [Ein Satz. Nicht mehr.]
@@ -96,6 +97,7 @@ Erstelle `contracts/BP-001.json`:
   "task_type": "code_task",
   "risk_class": "high",
   "impact_class": "architectural",
+  "target_persona": null,
   "goal": "Ein Satz.",
   "eligible_context": [
     "docs/WORKCELL_LOCK_PROTOCOL.md",
@@ -135,6 +137,22 @@ Erstelle `contracts/BP-001.json`:
   ],
   "prior_task_findings": "",
   "reuse_target": ["next_task_pre_lock", "session_log"],
+  "baseline_ref": "HEAD"
+}
+```
+
+Fuer `ui_task` ist `target_persona` Pflicht. Beispiel:
+
+```json
+{
+  "task_id": "BP-UI-001",
+  "mode": "standard",
+  "task_type": "ui_task",
+  "target_persona": "beginner_user",
+  "allowed_files": ["app/**", "components/**"],
+  "forbidden_files": ["api/**", ".env*"],
+  "evidence_required": ["screenshot_check", "playwright_flow", "human_ui_review"],
+  "reuse_target": ["next_task_pre_lock"],
   "baseline_ref": "HEAD"
 }
 ```

@@ -69,7 +69,7 @@ Outside ALLOWED:
 |---|---|
 | code_task | test_result ODER runtime_check |
 | doc_task | content_check ODER link_check |
-| ui_task | visual_ref ODER screenshot_check |
+| ui_task | screenshot_check + playwright_flow + human_ui_review |
 | config_task | diff_ref + build_result/lint_result |
 | governance_task | diff_ref + content_check |
 

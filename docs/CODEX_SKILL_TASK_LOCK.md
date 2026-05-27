@@ -31,6 +31,7 @@ TASK_NAME:
 MODE:           [lite / standard / critical / dual-control]
 TASK_TYPE:      [code_task / doc_task / ui_task / config_task / governance_task]
 RISK_CLASS:     [low / medium / high / critical]
+TARGET_PERSONA: [nur ui_task]
 GOAL:
 ALLOWED_FILES:
 FORBIDDEN_FILES:
@@ -90,6 +91,8 @@ Sektionen (alle Pflicht):
 4. DOD_CHECK | 5. CLAIMS_CHECK | 6. ASSUMPTIONS_CHECK
 7. EVIDENCE | 8. DRIFT_CHECK | 9. AUDITOR_FINDINGS
 10. SELF_SCORE | 11. DECISION | 12. REUSE_NOTE
+
+Bei ui_task ist HUMAN_UI_REVIEW Pflicht. Siehe docs/APP_RECOVERY_AND_FEATURE_RUN_LITE.md Layer 4.
 
 Score: 75-100=COMPLETE, 50-74=REWORK, 0-49=STOP
 Finales Gate: immer Gurcan oder VAL-K2.

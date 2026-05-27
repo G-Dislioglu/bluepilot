@@ -54,11 +54,14 @@ git diff --name-only Output:
 | runtime_check | [Befehl] | [Output] |
 | build_result | [Befehl] | exit 0/1 |
 | content_check | [Befehl] | OK/FAIL |
+| screenshot_check | [Referenz] | OK/FAIL |
+| playwright_flow | [Befehl / Trace] | PASS/FAIL |
+| human_ui_review | [Review Packet] | HUMAN_READY/NEEDS_UI_REWORK/BLOCKED |
 
 Pflicht je task_type:
   code_task:       test_result ODER runtime_check
   doc_task:        content_check ODER link_check
-  ui_task:         visual_ref ODER screenshot_check
+  ui_task:         screenshot_check + playwright_flow + human_ui_review
   config_task:     diff_ref + build_result/lint_result
   governance_task: diff_ref + content_check
 
@@ -77,6 +80,20 @@ Outside ALLOWED: JA/NEIN
 [Adversarisch - echte Risiken, keine "alles gut"]
 -
 -
+
+---
+
+9b. HUMAN_UI_REVIEW (nur ui_task)
+TARGET_PERSONA: [beginner_user / operator_user / power_user]
+First-Glance-Test: PASS/FAIL
+One Primary Action: PASS/FAIL
+User Language: PASS/FAIL
+Flow vor Architektur: PASS/FAIL
+Error Recovery: PASS/FAIL
+Visual Hierarchy: PASS/FAIL
+Accessibility Basic: PASS/FAIL
+Cognitive Load: PASS/FAIL
+Decision: HUMAN_READY / NEEDS_UI_REWORK / BLOCKED
 
 ---
 

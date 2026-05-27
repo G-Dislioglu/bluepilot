@@ -261,7 +261,7 @@ function runVerify(contract) {
   const evidenceMap = {
     code_task: 'test_result ODER runtime_check (Pflicht)',
     doc_task: 'content_check ODER link_check (Pflicht)',
-    ui_task: 'visual_ref ODER screenshot_check (Pflicht)',
+    ui_task: 'screenshot_check + playwright_flow + human_ui_review (Pflicht)',
     config_task: 'diff_ref + build_result/lint_result (Pflicht)',
     governance_task: 'diff_ref + content_check (Pflicht)',
   };
