@@ -17,6 +17,8 @@ const cases = [
   ['bp031 runtime risk', 'BP-031.runtime-risk.input.json', 'BP-031.runtime-risk.output.json'],
   ['bp033 reject missing evidence', 'BP-033.reject-missing-evidence.input.json', 'BP-033.reject-missing-evidence.output.json'],
   ['bp033 reject unsafe file scope', 'BP-033.reject-unsafe-file-scope.input.json', 'BP-033.reject-unsafe-file-scope.output.json'],
+  ['bp034 review overlap tracks', 'BP-034.review-overlap-tracks.input.json', 'BP-034.review-overlap-tracks.output.json'],
+  ['bp034 review dependent track', 'BP-034.review-dependent-track.input.json', 'BP-034.review-dependent-track.output.json'],
 ];
 
 function readFixture(fileName) {

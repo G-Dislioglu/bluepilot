@@ -1,0 +1,89 @@
+{
+  "task_id": "BP-034",
+  "task_name": "Add Phase Scanner Parallel Track Review Fixtures",
+  "created": "2026-05-28",
+  "scope": "bluepilot/phase-scanner/parallel-track-review-fixtures",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "low",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Add Phase Scanner fixtures for parallel-track overlap and dependency review cases without changing scanner runtime behavior.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/PHASE_SCANNER_SPEC_v0.md",
+    "tools/phase-scanner.cjs",
+    "tools/test-phase-scanner-fixtures.cjs",
+    "tools/test-phase-scanner-output-invariants.cjs",
+    "review-packets/BP-033.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-034.json",
+    "tools/test-phase-scanner-fixtures.cjs",
+    "examples/phase-scanner/BP-034.review-overlap-tracks.input.json",
+    "examples/phase-scanner/BP-034.review-overlap-tracks.output.json",
+    "examples/phase-scanner/BP-034.review-dependent-track.input.json",
+    "examples/phase-scanner/BP-034.review-dependent-track.output.json",
+    "review-packets/BP-034.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "docs/**",
+    "tools/phase-scanner.cjs",
+    "tools/test-bluepilot-review-suite.cjs"
+  ],
+  "claims": [
+    "BP-034 adds parallel-track overlap and dependency review fixtures.",
+    "BP-034 proves the MVP degrades parallel track concerns to require_human_review.",
+    "BP-034 does not change Phase Scanner runtime behavior or external integration behavior."
+  ],
+  "assumptions": [
+    "Existing runtime behavior already requires human review for overlapping or dependent parallel tracks.",
+    "Golden fixtures plus output invariants are enough for this block.",
+    "No review-suite wiring change is required because the fixture test already runs from the shared suite."
+  ],
+  "dod": [
+    "Overlap-track review fixture exists and is tested.",
+    "Dependent-track review fixture exists and is tested.",
+    "node tools/test-phase-scanner-fixtures.cjs exits 0.",
+    "node tools/test-phase-scanner-output-invariants.cjs exits 0.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-034 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "fixture_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-034 --preflight",
+    "node tools/test-phase-scanner-fixtures.cjs",
+    "node tools/test-phase-scanner-output-invariants.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-034 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime changes become necessary",
+    "Live Builder, auth, secrets, DB, deploy, or external system behavior becomes necessary"
+  ],
+  "prior_task_findings": "BP-033 added hard reject fixtures for missing evidence and unsafe file scope.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
