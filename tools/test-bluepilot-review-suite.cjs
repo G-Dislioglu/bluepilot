@@ -46,6 +46,7 @@ const commands = [
   ['syntax: builder task create readiness candidate', ['--check', 'tools/builder-task-create-readiness-candidate.cjs']],
   ['syntax: builder task create readiness candidate fixture test', ['--check', 'tools/test-builder-task-create-readiness-candidate-fixtures.cjs']],
   ['syntax: builder task create readiness candidate output invariants test', ['--check', 'tools/test-builder-task-create-readiness-candidate-output-invariants.cjs']],
+  ['syntax: builder task create readiness candidate coverage map test', ['--check', 'tools/test-builder-task-create-readiness-candidate-coverage-map.cjs']],
   ['adapter fixtures', ['tools/test-builder-adapter-fixtures.cjs']],
   ['endpoint fixtures', ['tools/test-builder-adapter-endpoint-fixtures.cjs']],
   ['HTTP route fixtures', ['tools/test-builder-adapter-http-route.cjs']],
@@ -72,6 +73,7 @@ const commands = [
   ['auth persistence readiness candidate coverage map', ['tools/test-auth-persistence-readiness-candidate-coverage-map.cjs']],
   ['builder task create readiness candidate fixtures', ['tools/test-builder-task-create-readiness-candidate-fixtures.cjs']],
   ['builder task create readiness candidate output invariants', ['tools/test-builder-task-create-readiness-candidate-output-invariants.cjs']],
+  ['builder task create readiness candidate coverage map', ['tools/test-builder-task-create-readiness-candidate-coverage-map.cjs']],
 ];
 
 for (const [label, args] of commands) {
