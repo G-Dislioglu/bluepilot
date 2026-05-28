@@ -19,6 +19,7 @@ const cases = [
   ['bp033 reject unsafe file scope', 'BP-033.reject-unsafe-file-scope.input.json', 'BP-033.reject-unsafe-file-scope.output.json'],
   ['bp034 review overlap tracks', 'BP-034.review-overlap-tracks.input.json', 'BP-034.review-overlap-tracks.output.json'],
   ['bp034 review dependent track', 'BP-034.review-dependent-track.input.json', 'BP-034.review-dependent-track.output.json'],
+  ['bp037 reject missing required', 'BP-037.reject-missing-required.input.json', 'BP-037.reject-missing-required.output.json'],
 ];
 
 function readFixture(fileName) {

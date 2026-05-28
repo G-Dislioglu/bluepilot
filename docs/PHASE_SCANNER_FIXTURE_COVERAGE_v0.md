@@ -25,6 +25,7 @@ node tools/test-bluepilot-review-suite.cjs
 | `BP-033.reject-unsafe-file-scope.input.json` | `reject` | `red` | unsicherer Datei-Scope |
 | `BP-034.review-overlap-tracks.input.json` | `require_human_review` | `yellow` | parallele Tracks mit Scope-Overlap |
 | `BP-034.review-dependent-track.input.json` | `require_human_review` | `yellow` | parallele Tracks mit Abhaengigkeit |
+| `BP-037.reject-missing-required.input.json` | `reject` | `red` | fehlendes Pflichtfeld |
 
 ## Abgedeckte Decisions
 
@@ -32,13 +33,13 @@ node tools/test-bluepilot-review-suite.cjs
 |---|---|
 | `allow_single_track` | `BP-027.allow.input.json` |
 | `require_human_review` | `BP-004.input.json`, `BP-031.runtime-risk.input.json`, `BP-034.review-overlap-tracks.input.json`, `BP-034.review-dependent-track.input.json` |
-| `reject` | `BP-027.reject-no-go.input.json`, `BP-033.reject-missing-evidence.input.json`, `BP-033.reject-unsafe-file-scope.input.json` |
+| `reject` | `BP-027.reject-no-go.input.json`, `BP-033.reject-missing-evidence.input.json`, `BP-033.reject-unsafe-file-scope.input.json`, `BP-037.reject-missing-required.input.json` |
 
 ## Abgedeckte Check-Gruppen
 
 | Check-Gruppe | Abdeckung |
 |---|---|
-| Input Schema | indirekt ueber alle gueltigen Fixtures |
+| Input Schema | `BP-037.reject-missing-required.input.json` |
 | Scope Clarity | `BP-027.allow.input.json`, `BP-004.input.json` |
 | File Risk | `BP-033.reject-unsafe-file-scope.input.json` |
 | No-Go Zones | `BP-027.reject-no-go.input.json` |
@@ -54,7 +55,6 @@ node tools/test-bluepilot-review-suite.cjs
 
 Noch nicht explizit als Golden Fixture abgedeckt:
 
-- fehlende Pflichtfelder wie `idea`, `target_repo` oder `requested_scope`,
 - breiter Scope mit `everything`,
 - Wildcard-Scope als `require_human_review`,
 - adapterpflichtige Dependency-Risiken wie `maya context` oder `swarm`,
