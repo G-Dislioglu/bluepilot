@@ -1,0 +1,84 @@
+{
+  "task_id": "BP-085",
+  "task_name": "Align App and Feature Goals With Build Canvas",
+  "created": "2026-05-28",
+  "scope": "bluepilot/specify/app-feature-goals-build-canvas",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "low",
+  "impact_class": "governance",
+  "target_persona": null,
+  "goal": "Replace placeholder app and feature goals with current Bluepilot build-canvas goals while preserving phase order and Council Kernel gating.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BLUEPILOT_BUILD_CANVAS_DECISION_v0.md",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md",
+    "review-packets/BP-084.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-085.json",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md",
+    "review-packets/BP-085.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "docs/**",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-085 removes placeholder app and feature goals.",
+    "BP-085 aligns feature goals to the build canvas phase order.",
+    "BP-085 keeps BP-C1 as the required gate before BP-C2."
+  ],
+  "assumptions": [
+    "The build canvas decision in BP-084 is the current governance source for phase order.",
+    "The external BP-C0 package can inspire wording but must not overwrite current repo history.",
+    "No runtime implementation is required to update .specify goals."
+  ],
+  "dod": [
+    ".specify/.app-goal.md no longer contains [App-Name] placeholder.",
+    ".specify/.feature-goals.md contains BP-C1 through BP-C5 phase goals.",
+    ".specify/.feature-goals.md states BP-C1 must be complete before BP-C2.",
+    ".specify/.feature-goals.md states BP-C5 is integration, not an independent build.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-085 --verify exits 0."
+  ],
+  "evidence_required": [
+    "content_check",
+    "test_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-085 --preflight",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-085 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime, UI, package, or tool changes become necessary",
+    "Feature goals require skipping BP-C1 or starting BP-C2 before Council Kernel",
+    "Live Builder, Auth, Secrets, DB, Deploy, Task Create, Execute, Approve, or Push becomes necessary"
+  ],
+  "prior_task_findings": "BP-084 documented the build canvas as current governance guidance and found .specify goals still in placeholder state.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
