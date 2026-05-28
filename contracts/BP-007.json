@@ -1,0 +1,88 @@
+{
+  "task_id": "BP-007",
+  "task_name": "Add Mock Builder Adapter Skeleton",
+  "created": "2026-05-28",
+  "scope": "bluepilot/builder-adapter/mock-skeleton",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "functional",
+  "target_persona": null,
+  "goal": "Add a local mock Builder Adapter CLI that validates the BP-005 input envelope and proves blocked behavior without calling Builder.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BUILDER_ADAPTER_CONTRACT_v0.md",
+    "review-packets/BP-006.md",
+    "tools/verify-task-lock.cjs"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-007.json",
+    "tools/builder-adapter.cjs",
+    "examples/builder-adapter/BP-007.allow.input.json",
+    "examples/builder-adapter/BP-007.allow.output.json",
+    "examples/builder-adapter/BP-007.reject.input.json",
+    "examples/builder-adapter/BP-007.reject.output.json",
+    "examples/builder-adapter/BP-007.human-review.input.json",
+    "examples/builder-adapter/BP-007.human-review.output.json",
+    "review-packets/BP-007.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "docs/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "tools/verify-task-lock.cjs",
+    "tools/phase-scanner.cjs"
+  ],
+  "claims": [
+    "The mock Builder Adapter validates the BP-005 input envelope.",
+    "The adapter blocks decision=reject without producing a builder_task_id.",
+    "The adapter blocks decision=require_human_review until human_gate.status is approved.",
+    "The adapter returns a mock completed output for an approved allow_single_track input without calling Builder."
+  ],
+  "assumptions": [
+    "BP-007 should not call real Builder, network, GitHub, Maya, AICOS, or Render systems.",
+    "Mock outputs are examples, not evidence that Builder integration exists.",
+    "No package or docs edit is required."
+  ],
+  "dod": [
+    "node --check tools/builder-adapter.cjs exits 0.",
+    "Approved allow input returns status completed and decision_ready false with mock evidence refs.",
+    "Reject input returns status blocked and no builder_task_id.",
+    "Human-review pending input returns status blocked and no builder_task_id.",
+    "node tools/verify-task-lock.cjs BP-007 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-007 --preflight",
+    "node --check tools/builder-adapter.cjs",
+    "node tools/builder-adapter.cjs --input examples/builder-adapter/BP-007.allow.input.json --pretty",
+    "node tools/builder-adapter.cjs --input examples/builder-adapter/BP-007.reject.input.json --pretty",
+    "node tools/builder-adapter.cjs --input examples/builder-adapter/BP-007.human-review.input.json --pretty",
+    "node tools/verify-task-lock.cjs BP-007 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Real Builder integration becomes necessary",
+    "Network, package, docs, or scanner changes become necessary"
+  ],
+  "prior_task_findings": "BP-006 added the plain-language output rule. BP-005 said the first adapter implementation should prove input envelope validation, Scope Gate propagation, and blocked behavior for reject and human review.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}

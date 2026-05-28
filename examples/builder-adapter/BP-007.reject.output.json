@@ -1,0 +1,15 @@
+{
+  "adapter_run_id": "mock-builder-adapter-BP-007-REJECT",
+  "status": "blocked",
+  "builder_task_id": null,
+  "decision_ready": false,
+  "changed_files": [
+    "docs/example.md"
+  ],
+  "evidence": {},
+  "blocked_reasons": [
+    "Phase Scanner decision is reject. No Builder call allowed."
+  ],
+  "requires_human_gate": true,
+  "mock": true
+}

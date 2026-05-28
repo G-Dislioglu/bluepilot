@@ -1,0 +1,18 @@
+{
+  "adapter_run_id": "mock-builder-adapter-BP-007-ALLOW",
+  "status": "completed",
+  "builder_task_id": "mock-builder-task-BP-007-ALLOW",
+  "decision_ready": false,
+  "changed_files": [
+    "docs/example.md"
+  ],
+  "evidence": {
+    "task_evidence_ref": "mock-builder://BP-007-ALLOW/evidence",
+    "artifacts_ref": "mock-builder://BP-007-ALLOW/artifacts",
+    "task_audit_ref": "mock-builder://BP-007-ALLOW/task-audit",
+    "bridge_audit_ref": "mock-builder://mock-builder-adapter-BP-007-ALLOW/bridge-audit"
+  },
+  "blocked_reasons": [],
+  "requires_human_gate": true,
+  "mock": true
+}

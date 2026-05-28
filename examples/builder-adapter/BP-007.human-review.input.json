@@ -1,0 +1,33 @@
+{
+  "run_id": "BP-007-HUMAN-REVIEW",
+  "task_contract_ref": "contracts/BP-007.json",
+  "phase_scanner_result": {
+    "decision": "require_human_review",
+    "confidence": 0.74,
+    "stoplight": "yellow",
+    "human_gate_required": true
+  },
+  "target_repo": "bluepilot",
+  "allowed_files": [
+    "docs/example.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package-lock.json"
+  ],
+  "required_evidence": [
+    "diff_ref",
+    "content_check"
+  ],
+  "human_gate": {
+    "required": true,
+    "status": "pending"
+  },
+  "requested_operations": [
+    "task_create",
+    "execute"
+  ],
+  "mock_changed_files": [
+    "docs/example.md"
+  ]
+}
