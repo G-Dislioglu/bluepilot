@@ -1,0 +1,81 @@
+{
+  "task_id": "BP-057",
+  "task_name": "Define Approval Readiness Contract",
+  "created": "2026-05-28",
+  "scope": "bluepilot/approval-readiness/contract",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "medium",
+  "impact_class": "architectural",
+  "target_persona": null,
+  "goal": "Define the document-only Approval Readiness Contract after Human Gate Candidate without recording approval, enabling task creation, or calling Builder.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/MVP_CHAIN_CHECKPOINT_LOCAL_HUMAN_GATE_v0.md",
+    "docs/HUMAN_GATE_HANDOFF_v0.md",
+    "docs/HUMAN_GATE_CANDIDATE_FIXTURE_COVERAGE_v0.md",
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md",
+    "review-packets/BP-056.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-057.json",
+    "docs/APPROVAL_READINESS_CONTRACT_v0.md",
+    "review-packets/BP-057.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-057 defines only a document-level Approval Readiness Contract after Human Gate Candidate.",
+    "BP-057 keeps approval effect, approval recording, task creation, execution, and live Builder calls blocked.",
+    "BP-057 does not implement UI, auth, secrets, DB, persistence, approval action, or Builder integration."
+  ],
+  "assumptions": [
+    "Human Gate Candidate output is the required source for later Approval Readiness input.",
+    "Approval readiness can be assessed locally before any real approval action exists.",
+    "Effective approval needs later explicit auth, identity, persistence, audit, and task-create readiness decisions."
+  ],
+  "dod": [
+    "docs/APPROVAL_READINESS_CONTRACT_v0.md exists.",
+    "The document defines required input, output, gates, blocked behavior, and non-goals.",
+    "The document explicitly prevents automatic approval, approval recording, Task Create, Execute, Approve, Push, Deploy, auth, secrets, DB, and live Builder calls.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-057 --verify exits 0."
+  ],
+  "evidence_required": [
+    "content_check",
+    "test_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-057 --preflight",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-057 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime, fixture, package, or tool changes become necessary",
+    "Effective approval, auth, persistence, live Builder, DB, deploy, execution, task creation, approve, or push becomes necessary"
+  ],
+  "prior_task_findings": "BP-056 identified Approval Readiness Contract as the next safe boundary after the local Human Gate Candidate chain.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
