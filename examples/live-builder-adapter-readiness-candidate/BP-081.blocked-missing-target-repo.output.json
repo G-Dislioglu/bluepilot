@@ -1,0 +1,21 @@
+{
+  "live_builder_adapter_readiness_id": "BP-LIVE-BUILDER-ADAPTER-READINESS-081-MISSING-TARGET",
+  "status": "blocked",
+  "target_repo": null,
+  "live_builder_target": "none",
+  "auth_posture": "none",
+  "secret_source": "none",
+  "persistence_target": "none",
+  "network_effect": "none",
+  "task_create_effect": "none",
+  "execute_effect": "none",
+  "builder_task_create_allowed": false,
+  "builder_execute_allowed": false,
+  "live_builder_call_allowed": false,
+  "blocked_reasons": [
+    "Missing required input: builder_task_create_readiness.target_repo."
+  ],
+  "readiness_notes": [
+    "Target repo is missing or not explicit."
+  ]
+}

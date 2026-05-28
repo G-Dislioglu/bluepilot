@@ -1,0 +1,83 @@
+{
+  "task_id": "BP-081",
+  "task_name": "Add Remaining Live Builder Adapter Readiness Block Fixtures",
+  "created": "2026-05-28",
+  "scope": "bluepilot/live-builder-adapter-readiness/pre-live-hardening-remaining-block-fixtures",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "low",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Add the remaining local block fixtures for Live Builder Adapter Readiness Candidate fixture gaps: builder_task_create_allowed true, builder_execute_allowed true, and unclear target_repo.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/PRE_LIVE_HARDENING_DECISION_v0.md",
+    "docs/LIVE_BUILDER_ADAPTER_READINESS_CANDIDATE_FIXTURE_COVERAGE_v0.md",
+    "tools/live-builder-adapter-readiness-candidate.cjs",
+    "tools/test-live-builder-adapter-readiness-candidate-fixtures.cjs",
+    "examples/live-builder-adapter-readiness-candidate/**",
+    "review-packets/BP-080.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-081.json",
+    "tools/test-live-builder-adapter-readiness-candidate-fixtures.cjs",
+    "examples/live-builder-adapter-readiness-candidate/**",
+    "review-packets/BP-081.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "docs/**",
+    "tools/live-builder-adapter-readiness-candidate.cjs",
+    "tools/test-bluepilot-review-suite.cjs"
+  ],
+  "claims": [
+    "BP-081 adds hard-block fixtures for builder_task_create_allowed true and builder_execute_allowed true.",
+    "BP-081 adds a local blocked fixture for missing or unclear target_repo.",
+    "BP-081 does not change Live Builder Adapter Readiness Candidate runtime behavior."
+  ],
+  "assumptions": [
+    "BP-080 documented these three cases as the remaining coverage gaps.",
+    "The existing candidate already blocks allowed task-create and execute flags.",
+    "Missing target_repo is already mapped to a blocked output through required-field validation."
+  ],
+  "dod": [
+    "Block fixtures exist for builder_task_create_allowed true, builder_execute_allowed true, and missing target_repo.",
+    "tools/test-live-builder-adapter-readiness-candidate-fixtures.cjs checks the new fixtures.",
+    "node tools/test-live-builder-adapter-readiness-candidate-fixtures.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-081 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-081 --preflight",
+    "node tools/test-live-builder-adapter-readiness-candidate-fixtures.cjs",
+    "node tools/verify-task-lock.cjs BP-081 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime changes become necessary",
+    "Live Builder, Builder Task Create, auth, secrets, persistence, approval recording, DB, deploy, execute, approve, or push becomes necessary"
+  ],
+  "prior_task_findings": "BP-080 updated coverage after initial hardening and documented remaining gaps for task-create allowed, execute allowed, and target_repo clarity.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}

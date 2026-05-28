@@ -20,6 +20,9 @@ const cases = [
   ['bp079 blocked task create effect', 'BP-079.blocked-task-create-effect.input.json', 'BP-079.blocked-task-create-effect.output.json'],
   ['bp079 blocked execute effect', 'BP-079.blocked-execute-effect.input.json', 'BP-079.blocked-execute-effect.output.json'],
   ['bp079 blocked live allowed', 'BP-079.blocked-live-allowed.input.json', 'BP-079.blocked-live-allowed.output.json'],
+  ['bp081 blocked task create allowed', 'BP-081.blocked-task-create-allowed.input.json', 'BP-081.blocked-task-create-allowed.output.json'],
+  ['bp081 blocked execute allowed', 'BP-081.blocked-execute-allowed.input.json', 'BP-081.blocked-execute-allowed.output.json'],
+  ['bp081 blocked missing target repo', 'BP-081.blocked-missing-target-repo.input.json', 'BP-081.blocked-missing-target-repo.output.json'],
 ];
 
 function readFixture(fileName) {

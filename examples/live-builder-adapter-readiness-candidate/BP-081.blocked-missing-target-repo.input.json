@@ -1,0 +1,23 @@
+{
+  "live_builder_adapter_readiness_id": "BP-LIVE-BUILDER-ADAPTER-READINESS-081-MISSING-TARGET",
+  "builder_task_create_readiness": {
+    "builder_task_create_readiness_id": "BP-BUILDER-TASK-CREATE-READINESS-081-MISSING-TARGET",
+    "status": "task_create_readiness_prepared",
+    "builder_adapter_mode": "none",
+    "task_create_effect": "none",
+    "execute_effect": "none",
+    "builder_task_create_allowed": false,
+    "builder_execute_allowed": false,
+    "live_builder_call_allowed": false,
+    "blocked_reasons": [],
+    "readiness_notes": []
+  },
+  "adapter_readiness_intent": "prepare_live_builder_adapter_readiness",
+  "live_builder_target": "none",
+  "auth_posture": "none",
+  "secret_source": "none",
+  "persistence_target": "none",
+  "network_effect_requested": "none",
+  "task_create_effect_requested": "none",
+  "execute_effect_requested": "none"
+}
