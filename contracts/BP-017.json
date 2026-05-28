@@ -1,0 +1,78 @@
+{
+  "task_id": "BP-017",
+  "task_name": "Define Mock Auth Header Contract",
+  "created": "2026-05-28",
+  "scope": "bluepilot/builder-adapter/mock-auth-contract",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "medium",
+  "impact_class": "architectural",
+  "target_persona": null,
+  "goal": "Define the mock-only auth header contract before the local HTTP mock route gets any auth-gate implementation.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BUILDER_ADAPTER_AUTH_PERSISTENCE_BOUNDARY_v0.md",
+    "review-packets/BP-016.md",
+    "tools/test-builder-adapter-review-suite.cjs"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-017.json",
+    "docs/BUILDER_ADAPTER_MOCK_AUTH_HEADER_CONTRACT_v0.md",
+    "review-packets/BP-017.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**",
+    "docs/!(*BUILDER_ADAPTER_MOCK_AUTH_HEADER_CONTRACT_v0.md)"
+  ],
+  "claims": [
+    "BP-017 defines a mock-only auth header contract.",
+    "The contract forbids real tokens, cookies, secrets, login, user identity, and productive auth claims.",
+    "The contract defines allowed header name, local value, blocked responses, and tests for the implementation task."
+  ],
+  "assumptions": [
+    "Auth is a batching boundary, so implementation must wait for a separate contract-backed task.",
+    "The current mock route remains reviewable before mock-auth implementation.",
+    "No runtime, package, tool, example, or existing docs edit is required."
+  ],
+  "dod": [
+    "docs/BUILDER_ADAPTER_MOCK_AUTH_HEADER_CONTRACT_v0.md exists.",
+    "The document defines header name, allowed value, missing/wrong behavior, tests, non-goals, and BP-018 implementation boundary.",
+    "node tools/test-builder-adapter-review-suite.cjs exits 0 before the task.",
+    "node tools/verify-task-lock.cjs BP-017 --verify exits 0."
+  ],
+  "evidence_required": [
+    "diff_ref",
+    "content_check"
+  ],
+  "required_commands": [
+    "node tools/test-builder-adapter-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-017 --preflight",
+    "node tools/verify-task-lock.cjs BP-017 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Auth implementation becomes necessary",
+    "Real token, secret, cookie, login, persistence, or live Builder behavior becomes necessary"
+  ],
+  "prior_task_findings": "BP-016 added cohesive block-run rules but explicitly keeps Auth as a boundary. BP-015 requires a mock-auth-header contract before implementation.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
