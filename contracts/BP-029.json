@@ -1,0 +1,87 @@
+{
+  "task_id": "BP-029",
+  "task_name": "Rename Shared Review Suite Boundary",
+  "created": "2026-05-28",
+  "scope": "bluepilot/review-suite/naming-boundary",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "low",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Add a neutral Bluepilot review-suite entrypoint while keeping the legacy Builder adapter suite command as a compatibility wrapper.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "tools/test-builder-adapter-review-suite.cjs",
+    "tools/test-phase-scanner-fixtures.cjs",
+    "tools/test-phase-scanner-cli-errors.cjs",
+    "review-packets/BP-028.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-029.json",
+    "tools/test-bluepilot-review-suite.cjs",
+    "tools/test-builder-adapter-review-suite.cjs",
+    "review-packets/BP-029.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "docs/**",
+    "examples/**",
+    "tools/phase-scanner.cjs",
+    "tools/builder-adapter-core.cjs",
+    "tools/builder-adapter.cjs",
+    "tools/builder-live-read-probe.cjs"
+  ],
+  "claims": [
+    "BP-029 adds tools/test-bluepilot-review-suite.cjs as the neutral shared review entrypoint.",
+    "BP-029 keeps tools/test-builder-adapter-review-suite.cjs working as a compatibility wrapper.",
+    "BP-029 does not change runtime tools, fixtures, docs, package metadata, or external integration behavior."
+  ],
+  "assumptions": [
+    "The suite now covers Builder adapter, Builder read probe, and Phase Scanner checks.",
+    "Keeping the old command avoids breaking existing review habits.",
+    "No package script change is required for this block."
+  ],
+  "dod": [
+    "tools/test-bluepilot-review-suite.cjs exists and runs all existing shared checks.",
+    "tools/test-builder-adapter-review-suite.cjs delegates to the new suite.",
+    "Both old and new suite commands exit 0.",
+    "node tools/verify-task-lock.cjs BP-029 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-029 --preflight",
+    "node --check tools/test-bluepilot-review-suite.cjs",
+    "node --check tools/test-builder-adapter-review-suite.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/test-builder-adapter-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-029 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime behavior changes become necessary",
+    "Live Builder, auth, secrets, DB, deploy, or external system behavior becomes necessary"
+  ],
+  "prior_task_findings": "BP-027 and BP-028 made the old Builder adapter review suite cover Phase Scanner behavior too.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
