@@ -22,6 +22,13 @@ Grund: Das aktuelle Bluepilot-Repo nutzt fuer lokale Tools bereits `tools/*.cjs`
 - Dependency-freier `fs.watch`-Loop fuer Agent-Dateiaenderungen.
 - Debounce als v0-Form von await-write-finish.
 
+## Geprueft in BP-090
+
+- Repo-sicherer Smoke ueber `tools/council-kernel-smoke.cjs`.
+- Smoke laeuft in einem Temp-Root, nicht im committed Repo-State.
+- Smoke prueft `session_opened`, `task_started`, `task_done` und `session_closed`.
+- BP-C1 Kernel Ready Checkpoint dokumentiert in `docs/BP_C1_KERNEL_READY_CHECKPOINT_v0.md`.
+
 ## Nicht enthalten
 
 - keine BP-C2-Module,
@@ -102,3 +109,5 @@ BP-088 beweist den lokalen Council-Kernel-Mechanismus. Es beweist noch nicht, da
 Parallel-Agent-Ausfuehrung beginnt erst in spaeteren BP-C1/BP-C2-Folgetasks, nachdem dieser Kernel gruen ist.
 
 BP-089 beweist einen lokalen event-getriebenen Loop. Es startet weiterhin keine externen Agent-Prozesse und kein BP-C2-Modul.
+
+BP-090 bestaetigt BP-C1 als kernel-ready fuer BP-C2-Vorbereitung. Es startet weiterhin keine BP-C2-Implementierung.

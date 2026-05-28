@@ -1,0 +1,106 @@
+{
+  "task_id": "BP-090",
+  "task_name": "BP-C1 Kernel Ready Checkpoint",
+  "created": "2026-05-28",
+  "scope": "bluepilot/bp-c1/kernel-ready-checkpoint",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "runtime-checkpoint",
+  "target_persona": null,
+  "goal": "Add a repo-safe BP-C1 smoke command and document the BP-C1 Kernel Ready checkpoint before BP-C2 can be prepared.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BLUEPILOT_BUILD_CANVAS_DECISION_v0.md",
+    "docs/COUNCIL-SESSION-PROTOCOL-v1.1.md",
+    "docs/COUNCIL_KERNEL_RUNTIME_CONTRACT_v0.md",
+    "contracts/BP-088.json",
+    "contracts/BP-089.json",
+    "review-packets/BP-088.md",
+    "review-packets/BP-089.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-090.json",
+    "docs/BP_C1_KERNEL_READY_CHECKPOINT_v0.md",
+    "docs/COUNCIL_KERNEL_RUNTIME_CONTRACT_v0.md",
+    "tools/council-kernel-smoke.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "review-packets/BP-090.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    ".bluepilot/**",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BLUEPILOT_BUILD_CANVAS_DECISION_v0.md",
+    "docs/COUNCIL-SESSION-PROTOCOL-v1.1.md",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md"
+  ],
+  "scope_out": [
+    "No BP-C2 contract",
+    "No BP-C2 module implementation",
+    "No real repo-local .bluepilot state committed",
+    "No package dependency",
+    "No UI",
+    "No auth, secrets, DB, deploy, live Builder, AICOS write, or Soulmatch copy"
+  ],
+  "claims": [
+    "tools/council-kernel-smoke.cjs runs a deterministic Council session in a temporary directory.",
+    "The smoke covers init, watcher start, agent registration, task started, task done, event log, session completion, and no committed .bluepilot state.",
+    "docs/BP_C1_KERNEL_READY_CHECKPOINT_v0.md states BP-C1 is kernel-ready and BP-C2 may be prepared only under active Council Session rules.",
+    "The external manual smoke suggestion is corrected because plain init without a queued task cannot mark TASK_001 done."
+  ],
+  "assumptions": [
+    "A deterministic temp-directory smoke is safer than requiring manual multi-terminal repo-local state.",
+    "BP-C1 readiness means the local kernel can coordinate queued tasks by file-state changes, not that real parallel Codex processes are spawned.",
+    "BP-C2 preparation remains a new WLP task."
+  ],
+  "dod": [
+    "node --check tools/council-kernel-smoke.cjs exits 0.",
+    "node tools/council-kernel-smoke.cjs exits 0.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-090 --verify exits 0.",
+    "git diff --check exits 0.",
+    "git status --short does not contain .bluepilot."
+  ],
+  "evidence_required": [
+    "test_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-090 --preflight",
+    "node --check tools/council-kernel-smoke.cjs",
+    "node tools/council-kernel-smoke.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-090 --verify",
+    "git diff --check",
+    "git status --short"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Repo-local .bluepilot state becomes necessary",
+    "BP-C2 implementation becomes necessary",
+    "Package dependency becomes necessary",
+    "Auth, secrets, DB, deploy, live Builder, AICOS write, or Soulmatch copy becomes necessary"
+  ],
+  "prior_task_findings": "BP-089 added a dependency-free watch loop and session init. The remaining BP-C1 gate is a repo-safe smoke/checkpoint proving the kernel path.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}

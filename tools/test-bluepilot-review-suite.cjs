@@ -55,6 +55,7 @@ const commands = [
   ['syntax: council agent client', ['--check', 'tools/council-agent-client.cjs']],
   ['syntax: maya council watcher', ['--check', 'tools/maya-council-watcher.cjs']],
   ['syntax: council kernel fixture test', ['--check', 'tools/test-council-kernel-fixtures.cjs']],
+  ['syntax: council kernel smoke', ['--check', 'tools/council-kernel-smoke.cjs']],
   ['adapter fixtures', ['tools/test-builder-adapter-fixtures.cjs']],
   ['endpoint fixtures', ['tools/test-builder-adapter-endpoint-fixtures.cjs']],
   ['HTTP route fixtures', ['tools/test-builder-adapter-http-route.cjs']],
@@ -87,6 +88,7 @@ const commands = [
   ['live builder adapter readiness candidate output invariants', ['tools/test-live-builder-adapter-readiness-candidate-output-invariants.cjs']],
   ['live builder adapter readiness candidate coverage map', ['tools/test-live-builder-adapter-readiness-candidate-coverage-map.cjs']],
   ['council kernel fixtures', ['tools/test-council-kernel-fixtures.cjs']],
+  ['council kernel smoke', ['tools/council-kernel-smoke.cjs']],
 ];
 
 for (const [label, args] of commands) {
