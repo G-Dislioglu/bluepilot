@@ -1,0 +1,46 @@
+{
+  "task_id": "BP-099",
+  "title": "BP-C4 Visual Review Runtime Decision",
+  "task_type": "governance_task",
+  "phase": "BP-C4",
+  "mode": "lite",
+  "goal": "Decide the safe BP-C4 runtime boundary for DiffLens and Browser Preview before visual-review implementation continues.",
+  "council_session_required": true,
+  "allowed_files": [
+    "contracts/BP-099.json",
+    "docs/BP_C4_VISUAL_REVIEW_RUNTIME_DECISION_v0.md",
+    "review-packets/BP-099.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "src/**",
+    "app/**",
+    "components/**",
+    "package.json",
+    "package-lock.json",
+    "node_modules/**",
+    ".bluepilot/**"
+  ],
+  "evidence_required": [
+    "diff_ref",
+    "content_check",
+    "scope_check"
+  ],
+  "prior_task_findings": "BP-098 defines the BP-C4 entry gate and limits BP-C4 to DiffLens and Browser Preview.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD",
+  "success_criteria": [
+    "BP-C4 runtime boundary is documented.",
+    "DiffLens and Browser Preview responsibilities are separated.",
+    "Browser Preview does not claim browser automation before a local target exists.",
+    "BP-C5 remains blocked."
+  ],
+  "hard_stop_conditions": [
+    "Any runtime code is changed in BP-099.",
+    "Any BP-C5 integration is introduced.",
+    "Any UI evidence is claimed without an actual UI target."
+  ]
+}
