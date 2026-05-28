@@ -1,0 +1,87 @@
+{
+  "task_id": "BP-101",
+  "task_name": "BP-C4 Browser Preview Readiness",
+  "created": "2026-05-28",
+  "scope": "bluepilot/bp-c4/browser-preview-readiness",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "medium",
+  "impact_class": "phase-gate",
+  "target_persona": null,
+  "council_session_required": true,
+  "goal": "Define the first safe Browser Preview target for BP-C4 without claiming screenshot or UI review evidence prematurely.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/BP_C4_VISUAL_REVIEW_RUNTIME_DECISION_v0.md",
+    "docs/BP_C4_DIFFLENS_CONTRACT_v0.md",
+    "review-packets/BP-100.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-101.json",
+    "docs/BP_C4_BROWSER_PREVIEW_READINESS_v0.md",
+    "review-packets/BP-101.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    ".bluepilot/**",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md"
+  ],
+  "scope_out": [
+    "No runtime code",
+    "No Browser automation",
+    "No screenshot claim",
+    "No UI implementation",
+    "No BP-C5 integration"
+  ],
+  "claims": [
+    "The first Browser Preview target is a static local HTML artifact generated from DiffLens JSON.",
+    "Browser Preview automation remains a later task.",
+    "Human UI review is not claimed by this readiness block."
+  ],
+  "assumptions": [
+    "A static HTML artifact is safer than adding a web app before BP-C5.",
+    "DiffLens JSON is the correct source input for the first preview target.",
+    "The repo should avoid new browser dependencies until a real preview flow needs them."
+  ],
+  "dod": [
+    "docs/BP_C4_BROWSER_PREVIEW_READINESS_v0.md exists.",
+    "The doc defines the first preview target and non-claims.",
+    "node tools/verify-task-lock.cjs BP-101 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "diff_ref",
+    "content_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-101 --preflight",
+    "node tools/verify-task-lock.cjs BP-101 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime code becomes necessary",
+    "Browser automation becomes necessary"
+  ],
+  "prior_task_findings": "BP-100 added DiffLens JSON evidence. Browser Preview needs a local target before browser automation.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
