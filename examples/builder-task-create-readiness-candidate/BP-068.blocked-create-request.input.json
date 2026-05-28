@@ -1,0 +1,22 @@
+{
+  "builder_task_create_readiness_id": "BP-BUILDER-TASK-CREATE-READINESS-068-CREATE",
+  "auth_persistence_readiness": {
+    "auth_persistence_readiness_id": "BP-AUTH-PERSISTENCE-READINESS-063-PREPARED",
+    "status": "readiness_boundary_prepared",
+    "target_repo": "bluepilot",
+    "identity_provider": "none",
+    "persistence_target": "none",
+    "approval_record_effect": "none",
+    "identity_ready": false,
+    "persistence_ready": false,
+    "approval_record_allowed": false,
+    "builder_task_create_allowed": false,
+    "builder_execute_allowed": false,
+    "blocked_reasons": [],
+    "readiness_notes": []
+  },
+  "task_create_intent": "create_task",
+  "builder_adapter_mode": "live",
+  "task_create_effect_requested": "create_task",
+  "execute_effect_requested": "none"
+}

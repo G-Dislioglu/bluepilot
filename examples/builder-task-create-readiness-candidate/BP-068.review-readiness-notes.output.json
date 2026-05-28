@@ -1,0 +1,15 @@
+{
+  "builder_task_create_readiness_id": "BP-BUILDER-TASK-CREATE-READINESS-068-NOTES",
+  "status": "requires_human_review",
+  "target_repo": "bluepilot",
+  "builder_adapter_mode": "none",
+  "task_create_effect": "none",
+  "execute_effect": "none",
+  "builder_task_create_allowed": false,
+  "builder_execute_allowed": false,
+  "live_builder_call_allowed": false,
+  "blocked_reasons": [],
+  "readiness_notes": [
+    "Auth/Persistence Readiness notes need human review."
+  ]
+}

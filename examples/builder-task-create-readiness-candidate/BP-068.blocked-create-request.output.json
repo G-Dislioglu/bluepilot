@@ -1,0 +1,17 @@
+{
+  "builder_task_create_readiness_id": "BP-BUILDER-TASK-CREATE-READINESS-068-CREATE",
+  "status": "blocked",
+  "target_repo": "bluepilot",
+  "builder_adapter_mode": "live",
+  "task_create_effect": "none",
+  "execute_effect": "none",
+  "builder_task_create_allowed": false,
+  "builder_execute_allowed": false,
+  "live_builder_call_allowed": false,
+  "blocked_reasons": [
+    "Builder adapter mode must remain none in Builder Task Create Readiness MVP.",
+    "Task create effect requested must remain none in Builder Task Create Readiness MVP.",
+    "Task create intent create_task is not allowed for Builder Task Create Readiness MVP."
+  ],
+  "readiness_notes": []
+}

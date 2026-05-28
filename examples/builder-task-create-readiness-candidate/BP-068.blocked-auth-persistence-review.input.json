@@ -1,0 +1,24 @@
+{
+  "builder_task_create_readiness_id": "BP-BUILDER-TASK-CREATE-READINESS-068-READINESS-REVIEW",
+  "auth_persistence_readiness": {
+    "auth_persistence_readiness_id": "BP-AUTH-PERSISTENCE-READINESS-063-RISK",
+    "status": "requires_human_review",
+    "target_repo": "bluepilot",
+    "identity_provider": "none",
+    "persistence_target": "none",
+    "approval_record_effect": "none",
+    "identity_ready": false,
+    "persistence_ready": false,
+    "approval_record_allowed": false,
+    "builder_task_create_allowed": false,
+    "builder_execute_allowed": false,
+    "blocked_reasons": [],
+    "readiness_notes": [
+      "Required evidence includes risk_summary and needs human review."
+    ]
+  },
+  "task_create_intent": "prepare_builder_task_create_readiness",
+  "builder_adapter_mode": "none",
+  "task_create_effect_requested": "none",
+  "execute_effect_requested": "none"
+}

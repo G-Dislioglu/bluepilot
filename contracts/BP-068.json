@@ -1,0 +1,93 @@
+{
+  "task_id": "BP-068",
+  "task_name": "Implement Local Builder Task Create Readiness Candidate Mock",
+  "created": "2026-05-28",
+  "scope": "bluepilot/builder-task-create-readiness/local-candidate-mock",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Implement a local deterministic Builder Task Create Readiness Candidate mock that consumes the BP-067 handoff envelope and emits a local readiness output without creating tasks or calling Builder.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BUILDER_TASK_CREATE_READINESS_CONTRACT_v0.md",
+    "docs/AUTH_PERSISTENCE_READINESS_CONTRACT_v0.md",
+    "docs/AUTH_PERSISTENCE_READINESS_CANDIDATE_FIXTURE_COVERAGE_v0.md",
+    "tools/auth-persistence-readiness-candidate.cjs",
+    "tools/test-auth-persistence-readiness-candidate-fixtures.cjs",
+    "review-packets/BP-067.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-068.json",
+    "tools/builder-task-create-readiness-candidate.cjs",
+    "tools/test-builder-task-create-readiness-candidate-fixtures.cjs",
+    "examples/builder-task-create-readiness-candidate/**",
+    "review-packets/BP-068.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "docs/**",
+    "tools/builder-adapter*",
+    "tools/builder-live-read-probe.cjs",
+    "tools/mock-builder-*",
+    "tools/phase-scanner.cjs",
+    "tools/scope-resolver.cjs",
+    "tools/builder-task-candidate.cjs",
+    "tools/auth-persistence-readiness-candidate.cjs",
+    "tools/test-bluepilot-review-suite.cjs"
+  ],
+  "claims": [
+    "BP-068 implements a local Builder Task Create Readiness Candidate mock from the BP-067 handoff envelope.",
+    "BP-068 blocks task creation, execution, live Builder calls, adapter configuration, auth, secrets, persistence, and approval recording.",
+    "BP-068 does not call Builder, create tasks, execute tasks, configure auth, use secrets, use DB, persist data, or record approval."
+  ],
+  "assumptions": [
+    "The BP-067 contract is the source of truth for Builder Task Create readiness input and output envelopes.",
+    "The first task-create readiness implementation should be local and fixture-reviewed before any Builder adapter is connected.",
+    "Builder Task Create remains blocked after BP-068."
+  ],
+  "dod": [
+    "tools/builder-task-create-readiness-candidate.cjs exists and supports --input <path> and --pretty.",
+    "examples/builder-task-create-readiness-candidate contains golden input/output fixtures for prepared, review, and blocked cases.",
+    "tools/test-builder-task-create-readiness-candidate-fixtures.cjs compares CLI output against golden fixtures.",
+    "node tools/test-builder-task-create-readiness-candidate-fixtures.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-068 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-068 --preflight",
+    "node --check tools/builder-task-create-readiness-candidate.cjs",
+    "node --check tools/test-builder-task-create-readiness-candidate-fixtures.cjs",
+    "node tools/test-builder-task-create-readiness-candidate-fixtures.cjs",
+    "node tools/verify-task-lock.cjs BP-068 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Builder Task Create, live Builder access, adapter configuration, Auth, secrets, persistence, approval recording, Execute, Approve, Push, Deploy, or DB becomes necessary",
+    "Builder Task Create Readiness mock needs to write target files instead of only returning an envelope"
+  ],
+  "prior_task_findings": "BP-067 defined a document-only Builder Task Create Readiness Contract and named a local candidate mock with fixtures as the next safe step.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
