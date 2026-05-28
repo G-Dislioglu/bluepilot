@@ -42,6 +42,7 @@ const commands = [
   ['syntax: auth persistence readiness candidate', ['--check', 'tools/auth-persistence-readiness-candidate.cjs']],
   ['syntax: auth persistence readiness candidate fixture test', ['--check', 'tools/test-auth-persistence-readiness-candidate-fixtures.cjs']],
   ['syntax: auth persistence readiness candidate output invariants test', ['--check', 'tools/test-auth-persistence-readiness-candidate-output-invariants.cjs']],
+  ['syntax: auth persistence readiness candidate coverage map test', ['--check', 'tools/test-auth-persistence-readiness-candidate-coverage-map.cjs']],
   ['adapter fixtures', ['tools/test-builder-adapter-fixtures.cjs']],
   ['endpoint fixtures', ['tools/test-builder-adapter-endpoint-fixtures.cjs']],
   ['HTTP route fixtures', ['tools/test-builder-adapter-http-route.cjs']],
@@ -65,6 +66,7 @@ const commands = [
   ['approval readiness candidate coverage map', ['tools/test-approval-readiness-candidate-coverage-map.cjs']],
   ['auth persistence readiness candidate fixtures', ['tools/test-auth-persistence-readiness-candidate-fixtures.cjs']],
   ['auth persistence readiness candidate output invariants', ['tools/test-auth-persistence-readiness-candidate-output-invariants.cjs']],
+  ['auth persistence readiness candidate coverage map', ['tools/test-auth-persistence-readiness-candidate-coverage-map.cjs']],
 ];
 
 for (const [label, args] of commands) {

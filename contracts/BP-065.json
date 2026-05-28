@@ -1,0 +1,89 @@
+{
+  "task_id": "BP-065",
+  "task_name": "Add Auth Persistence Readiness Fixture Coverage Map",
+  "created": "2026-05-28",
+  "scope": "bluepilot/auth-persistence-readiness/coverage-map",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "low",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Add an Auth/Persistence Readiness Candidate fixture coverage map and a local consistency test so documented MVP cases stay aligned with golden fixtures.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/AUTH_PERSISTENCE_READINESS_CONTRACT_v0.md",
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md",
+    "tools/test-approval-readiness-candidate-coverage-map.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "examples/auth-persistence-readiness-candidate/**",
+    "review-packets/BP-064.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-065.json",
+    "docs/AUTH_PERSISTENCE_READINESS_CANDIDATE_FIXTURE_COVERAGE_v0.md",
+    "tools/test-auth-persistence-readiness-candidate-coverage-map.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "review-packets/BP-065.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "tools/auth-persistence-readiness-candidate.cjs",
+    "tools/test-auth-persistence-readiness-candidate-fixtures.cjs",
+    "tools/test-auth-persistence-readiness-candidate-output-invariants.cjs",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-065 documents current Auth/Persistence Readiness Candidate fixture coverage.",
+    "BP-065 adds a coverage-map consistency test to catch fixture/doc drift.",
+    "BP-065 does not change Auth/Persistence Readiness Candidate runtime behavior or fixtures."
+  ],
+  "assumptions": [
+    "BP-063 introduced the first Auth/Persistence Readiness Candidate golden fixtures.",
+    "BP-064 made the shared review suite cover the Auth/Persistence Readiness Candidate mock.",
+    "Coverage visibility should be added before setting the next local MVP checkpoint."
+  ],
+  "dod": [
+    "docs/AUTH_PERSISTENCE_READINESS_CANDIDATE_FIXTURE_COVERAGE_v0.md exists and lists the current fixture cases.",
+    "tools/test-auth-persistence-readiness-candidate-coverage-map.cjs verifies every documented fixture exists.",
+    "tools/test-bluepilot-review-suite.cjs runs the Auth/Persistence Readiness Candidate coverage-map test.",
+    "node tools/test-auth-persistence-readiness-candidate-coverage-map.cjs exits 0.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-065 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "content_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-065 --preflight",
+    "node --check tools/test-auth-persistence-readiness-candidate-coverage-map.cjs",
+    "node tools/test-auth-persistence-readiness-candidate-coverage-map.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-065 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Auth/Persistence Readiness Candidate runtime or fixture changes become necessary",
+    "Auth implementation, secrets, persistence, approval recording, live Builder, DB, deploy, task create, execute, approve, or push becomes necessary"
+  ],
+  "prior_task_findings": "BP-064 added Auth/Persistence Readiness Candidate review-suite checks but did not document fixture coverage or guard doc/fixture drift.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
