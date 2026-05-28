@@ -1,0 +1,86 @@
+{
+  "task_id": "BP-014",
+  "task_name": "Add Mock Route Review Suite Runner",
+  "created": "2026-05-28",
+  "scope": "bluepilot/builder-adapter/review-suite",
+  "mode": "lite",
+  "task_type": "code_task",
+  "risk_class": "low",
+  "impact_class": "functional",
+  "target_persona": null,
+  "goal": "Add one local review-suite command that verifies the full mock Builder Adapter line without package or live integration changes.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "review-packets/BP-013.md",
+    "tools/test-builder-adapter-fixtures.cjs",
+    "tools/test-builder-adapter-endpoint-fixtures.cjs",
+    "tools/test-builder-adapter-http-route.cjs"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-014.json",
+    "tools/test-builder-adapter-review-suite.cjs",
+    "review-packets/BP-014.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "docs/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**",
+    "tools/builder-adapter-core.cjs",
+    "tools/builder-adapter.cjs",
+    "tools/mock-builder-adapter-endpoint.cjs",
+    "tools/mock-builder-adapter-http-server.cjs",
+    "tools/test-builder-adapter-fixtures.cjs",
+    "tools/test-builder-adapter-endpoint-fixtures.cjs",
+    "tools/test-builder-adapter-http-route.cjs",
+    "tools/verify-task-lock.cjs",
+    "tools/phase-scanner.cjs"
+  ],
+  "claims": [
+    "A single local review-suite script runs syntax checks and all Builder Adapter fixture tests.",
+    "The suite uses existing scripts and does not change adapter behavior.",
+    "The suite adds no package script, dependency, live Builder call, or network behavior beyond the existing local HTTP test."
+  ],
+  "assumptions": [
+    "A standalone script is preferable to changing package.json for this small review helper.",
+    "Existing test scripts are the source of truth for behavior.",
+    "No adapter implementation changes are required."
+  ],
+  "dod": [
+    "node --check tools/test-builder-adapter-review-suite.cjs exits 0.",
+    "node tools/test-builder-adapter-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-014 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-014 --preflight",
+    "node --check tools/test-builder-adapter-review-suite.cjs",
+    "node tools/test-builder-adapter-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-014 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Adapter behavior change becomes necessary",
+    "Package or dependency change becomes necessary"
+  ],
+  "prior_task_findings": "BP-013 completed the local HTTP mock route and warned not to add auth, persistence, deployment, or live Builder wiring without a fresh contract.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
