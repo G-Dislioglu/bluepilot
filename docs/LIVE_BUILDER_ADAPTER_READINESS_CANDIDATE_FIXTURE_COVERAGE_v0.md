@@ -1,7 +1,7 @@
 # Live Builder Adapter Readiness Candidate Fixture Coverage v0
 
 Datum: 2026-05-28
-Status: BP-080 coverage map
+Status: BP-082 coverage map
 
 Diese Datei beschreibt die aktuell lokal getestete Live-Builder-Adapter-Readiness-Candidate-Abdeckung.
 
@@ -20,6 +20,9 @@ Der Live Builder Adapter Readiness Candidate Mock ist weiterhin lokal. Diese Cov
 | `BP-079.blocked-task-create-effect` | `examples/live-builder-adapter-readiness-candidate/BP-079.blocked-task-create-effect.input.json` | `examples/live-builder-adapter-readiness-candidate/BP-079.blocked-task-create-effect.output.json` | `blocked` | `task_create_effect` ungleich `none` wird hart blockiert |
 | `BP-079.blocked-execute-effect` | `examples/live-builder-adapter-readiness-candidate/BP-079.blocked-execute-effect.input.json` | `examples/live-builder-adapter-readiness-candidate/BP-079.blocked-execute-effect.output.json` | `blocked` | `execute_effect` ungleich `none` wird hart blockiert |
 | `BP-079.blocked-live-allowed` | `examples/live-builder-adapter-readiness-candidate/BP-079.blocked-live-allowed.input.json` | `examples/live-builder-adapter-readiness-candidate/BP-079.blocked-live-allowed.output.json` | `blocked` | `live_builder_call_allowed: true` wird hart blockiert |
+| `BP-081.blocked-task-create-allowed` | `examples/live-builder-adapter-readiness-candidate/BP-081.blocked-task-create-allowed.input.json` | `examples/live-builder-adapter-readiness-candidate/BP-081.blocked-task-create-allowed.output.json` | `blocked` | `builder_task_create_allowed: true` wird hart blockiert |
+| `BP-081.blocked-execute-allowed` | `examples/live-builder-adapter-readiness-candidate/BP-081.blocked-execute-allowed.input.json` | `examples/live-builder-adapter-readiness-candidate/BP-081.blocked-execute-allowed.output.json` | `blocked` | `builder_execute_allowed: true` wird hart blockiert |
+| `BP-081.blocked-missing-target-repo` | `examples/live-builder-adapter-readiness-candidate/BP-081.blocked-missing-target-repo.input.json` | `examples/live-builder-adapter-readiness-candidate/BP-081.blocked-missing-target-repo.output.json` | `blocked` | fehlendes `target_repo` wird hart blockiert und als Review-Notiz sichtbar |
 
 ## Gepruefte Sicherheitsinvarianten
 
@@ -34,22 +37,28 @@ Die lokale Review Suite prueft:
 - `blocked` enthaelt Blockgruende.
 - CLI-Fehlerformat ist lokal getestet.
 
-## Noch nicht abgedeckt
+## Pre-Live-Haertungsstatus
 
-Noch nicht mit eigener Fixture abgedeckt:
+Pre-Live-Haertungs-Fixture-Gaps sind lokal abgedeckt:
 
+- fehlende Pflichtfelder,
+- CLI-Fehlerformat fuer fehlenden oder unlesbaren Input,
+- `builder_adapter_mode` ungleich `none`,
+- `task_create_effect` ungleich `none`,
+- `execute_effect` ungleich `none`,
 - `builder_task_create_allowed: true`,
 - `builder_execute_allowed: true`,
-- fehlendes oder unklares `target_repo`.
+- `live_builder_call_allowed: true`,
+- fehlendes `target_repo`.
 
-Diese Luecken sind erwartbar, weil BP-078 und BP-079 nur die erste Pre-Live-Haertung ergaenzt haben.
+Keine bekannte Fixture-Luecke blockiert den lokalen Checkpoint.
 
 ## Naechste sinnvolle Fixture-Erweiterung
 
-Vor echter Live-Builder-Naehe sollten mindestens Fixtures fuer `builder_task_create_allowed: true`, `builder_execute_allowed: true` und unklares `target_repo` ergaenzt werden.
+Vor echter Live-Builder-Naehe muessen neue Fixture-Erweiterungen aus einem separaten Live-Readiness- oder Auth-/Secret-/Persistence-Contract kommen.
 
 ## Aktueller Gap-Status
 
-Dokumentierte Luecken existieren, aber keine Luecke blockiert den naechsten lokalen MVP-Ketten-Checkpoint.
+Keine bekannte Fixture-Luecke blockiert den naechsten lokalen MVP-Ketten-Checkpoint.
 
 Live Builder, Builder Task Create, Execute, Auth, Secrets, DB/Persistenz, Approval Recording, Approve, Push und Deploy bleiben weiterhin ausserhalb des erlaubten MVP-Runtimes.

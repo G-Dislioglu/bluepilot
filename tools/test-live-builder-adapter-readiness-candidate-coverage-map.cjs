@@ -20,6 +20,9 @@ const expectedCases = [
   ['BP-079.blocked-task-create-effect', 'blocked'],
   ['BP-079.blocked-execute-effect', 'blocked'],
   ['BP-079.blocked-live-allowed', 'blocked'],
+  ['BP-081.blocked-task-create-allowed', 'blocked'],
+  ['BP-081.blocked-execute-allowed', 'blocked'],
+  ['BP-081.blocked-missing-target-repo', 'blocked'],
 ];
 
 for (const [caseId, status] of expectedCases) {
@@ -40,8 +43,8 @@ const requiredStatements = [
   '`builder_execute_allowed` bleibt immer `false`',
   '`live_builder_call_allowed` bleibt immer `false`',
   'CLI-Fehlerformat ist lokal getestet',
-  'Noch nicht mit eigener Fixture abgedeckt',
-  'Dokumentierte Luecken existieren',
+  'Pre-Live-Haertungs-Fixture-Gaps sind lokal abgedeckt',
+  'Keine bekannte Fixture-Luecke blockiert den lokalen Checkpoint',
 ];
 
 for (const statement of requiredStatements) {

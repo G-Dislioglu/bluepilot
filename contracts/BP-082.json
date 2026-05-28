@@ -1,0 +1,83 @@
+{
+  "task_id": "BP-082",
+  "task_name": "Update Live Builder Adapter Readiness Remaining Hardening Coverage",
+  "created": "2026-05-28",
+  "scope": "bluepilot/live-builder-adapter-readiness/pre-live-hardening-remaining-coverage",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "low",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Update Live Builder Adapter Readiness Candidate coverage documentation and coverage-map test after BP-081 closes the remaining fixture gaps.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/LIVE_BUILDER_ADAPTER_READINESS_CANDIDATE_FIXTURE_COVERAGE_v0.md",
+    "tools/test-live-builder-adapter-readiness-candidate-coverage-map.cjs",
+    "review-packets/BP-081.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-082.json",
+    "docs/LIVE_BUILDER_ADAPTER_READINESS_CANDIDATE_FIXTURE_COVERAGE_v0.md",
+    "tools/test-live-builder-adapter-readiness-candidate-coverage-map.cjs",
+    "review-packets/BP-082.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "tools/live-builder-adapter-readiness-candidate.cjs",
+    "tools/test-live-builder-adapter-readiness-candidate-fixtures.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-082 updates coverage visibility after BP-081 closes remaining hardening fixture gaps.",
+    "BP-082 removes the prior remaining gap list for builder_task_create_allowed, builder_execute_allowed, and target_repo.",
+    "BP-082 does not change runtime behavior, fixtures, or review-suite execution."
+  ],
+  "assumptions": [
+    "BP-081 added and verified fixtures for the remaining documented gaps.",
+    "The coverage map should now describe Pre-Live Hardening fixtures as locally covered.",
+    "Further live-adapter work remains blocked by governance, auth, secrets, persistence, evidence, and approval gaps."
+  ],
+  "dod": [
+    "Coverage map documents BP-081 fixture cases.",
+    "Coverage-map test verifies BP-081 fixture cases.",
+    "Coverage map states that Pre-Live Hardening fixture gaps are locally covered.",
+    "node tools/test-live-builder-adapter-readiness-candidate-coverage-map.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-082 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "content_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-082 --preflight",
+    "node --check tools/test-live-builder-adapter-readiness-candidate-coverage-map.cjs",
+    "node tools/test-live-builder-adapter-readiness-candidate-coverage-map.cjs",
+    "node tools/verify-task-lock.cjs BP-082 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime, fixture, or review-suite changes become necessary",
+    "Live Builder, Builder Task Create, auth, secrets, persistence, approval recording, DB, deploy, execute, approve, or push becomes necessary"
+  ],
+  "prior_task_findings": "BP-081 added fixtures for the remaining Live Builder Adapter Readiness hardening gaps.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
