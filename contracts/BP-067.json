@@ -1,0 +1,82 @@
+{
+  "task_id": "BP-067",
+  "task_name": "Define Builder Task Create Readiness Contract",
+  "created": "2026-05-28",
+  "scope": "bluepilot/builder-task-create-readiness/contract",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "medium",
+  "impact_class": "architectural",
+  "target_persona": null,
+  "goal": "Define the document-only Builder Task Create Readiness Contract after Auth/Persistence Readiness without creating Builder tasks, executing Builder calls, or enabling auth, persistence, or approval records.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/MVP_CHAIN_CHECKPOINT_LOCAL_AUTH_PERSISTENCE_READINESS_v0.md",
+    "docs/AUTH_PERSISTENCE_READINESS_CONTRACT_v0.md",
+    "docs/AUTH_PERSISTENCE_READINESS_CANDIDATE_FIXTURE_COVERAGE_v0.md",
+    "docs/BUILDER_ADAPTER_CONTRACT_v0.md",
+    "docs/BUILDER_DONOR_MAP.md",
+    "review-packets/BP-066.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-067.json",
+    "docs/BUILDER_TASK_CREATE_READINESS_CONTRACT_v0.md",
+    "review-packets/BP-067.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-067 defines only a document-level Builder Task Create Readiness Contract after Auth/Persistence Readiness.",
+    "BP-067 keeps Builder Task Create, live Builder calls, execution, auth, secrets, DB, persistence, and approval recording blocked.",
+    "BP-067 does not implement UI, auth, secrets, DB, persistence, approval action, task creation, or Builder integration."
+  ],
+  "assumptions": [
+    "Auth/Persistence Readiness Candidate output is the required source for later Builder Task Create readiness input.",
+    "Task Create readiness can be assessed locally before any Builder call exists.",
+    "Actual Builder Task Create needs later explicit live-adapter, auth, persistence, approval, and evidence decisions."
+  ],
+  "dod": [
+    "docs/BUILDER_TASK_CREATE_READINESS_CONTRACT_v0.md exists.",
+    "The document defines required input, output, gates, blocked behavior, and non-goals.",
+    "The document explicitly prevents Builder Task Create, live Builder calls, Execute, Approve, Push, Deploy, auth, secrets, DB, persistence, and approval recording.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-067 --verify exits 0."
+  ],
+  "evidence_required": [
+    "content_check",
+    "test_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-067 --preflight",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-067 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime, fixture, package, or tool changes become necessary",
+    "Builder Task Create, live Builder, auth, secrets, persistence, approval recording, DB, deploy, execution, approve, or push becomes necessary"
+  ],
+  "prior_task_findings": "BP-066 identified Builder Task Create Readiness Contract as the next safe boundary after the local Auth/Persistence Readiness chain.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
