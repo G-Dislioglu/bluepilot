@@ -45,6 +45,10 @@ Die Suite prueft lokal:
 - Builder Task Candidate Syntax.
 - Builder Task Candidate Fixtures.
 - Builder Task Candidate Output Invariants.
+- Builder Task Candidate Coverage Map.
+- Human Gate Candidate Syntax.
+- Human Gate Candidate Fixtures.
+- Human Gate Candidate Output Invariants.
 
 ## Was die Suite nicht beweist
 
@@ -60,6 +64,7 @@ Die Suite beweist nicht:
 - echten Builder Scope Resolver.
 - Builder Task Create.
 - Builder Execute.
+- echte Approval-Wirkung.
 
 ## Arbeitsregel
 

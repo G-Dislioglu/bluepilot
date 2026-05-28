@@ -1,0 +1,88 @@
+{
+  "task_id": "BP-054",
+  "task_name": "Add Human Gate Candidate Review Suite Coverage",
+  "created": "2026-05-28",
+  "scope": "bluepilot/human-gate/review-suite",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "low",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Add Human Gate Candidate checks to the shared Bluepilot review suite and document the new local review coverage.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md",
+    "docs/HUMAN_GATE_HANDOFF_v0.md",
+    "tools/test-bluepilot-review-suite.cjs",
+    "tools/human-gate-candidate.cjs",
+    "tools/test-human-gate-candidate-fixtures.cjs",
+    "review-packets/BP-053.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-054.json",
+    "tools/test-bluepilot-review-suite.cjs",
+    "tools/test-human-gate-candidate-output-invariants.cjs",
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md",
+    "review-packets/BP-054.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "tools/human-gate-candidate.cjs",
+    "tools/test-human-gate-candidate-fixtures.cjs",
+    "tools/builder-task-candidate.cjs",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-054 adds Human Gate Candidate checks to the shared Bluepilot review suite.",
+    "BP-054 adds output invariant coverage that keeps approval_effect none, human_approval_recorded false, builder_task_create_allowed false, and builder_execute_allowed false.",
+    "BP-054 does not change Human Gate Candidate runtime behavior or fixtures."
+  ],
+  "assumptions": [
+    "BP-053 already introduced the local Human Gate Candidate mock and golden fixtures.",
+    "Review suite coverage should remain the shared entry point for local reviewers.",
+    "Invariant tests are needed before expanding toward any real approval or Builder adapter handoff."
+  ],
+  "dod": [
+    "tools/test-human-gate-candidate-output-invariants.cjs exists and passes.",
+    "tools/test-bluepilot-review-suite.cjs runs Human Gate Candidate syntax, fixtures, and invariant checks.",
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md mentions Human Gate Candidate coverage and limits.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-054 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-054 --preflight",
+    "node --check tools/test-human-gate-candidate-output-invariants.cjs",
+    "node tools/test-human-gate-candidate-output-invariants.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-054 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Human Gate Candidate runtime or fixture changes become necessary",
+    "Effective approval, live Builder, auth, secrets, DB, deploy, task create, execute, approve, or push becomes necessary"
+  ],
+  "prior_task_findings": "BP-053 added a local Human Gate Candidate mock but did not yet wire it into the shared Bluepilot Review Suite.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
