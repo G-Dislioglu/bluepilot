@@ -1,0 +1,83 @@
+{
+  "task_id": "BP-072",
+  "task_name": "Define Live Builder Adapter Readiness Contract",
+  "created": "2026-05-28",
+  "scope": "bluepilot/live-builder-adapter-readiness/contract",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "medium",
+  "impact_class": "architectural",
+  "target_persona": null,
+  "goal": "Define the Live Builder Adapter Readiness boundary after Builder Task Create Readiness without enabling live Builder calls, task creation, execution, auth, secrets, persistence, approval recording, DB, deploy, approve, or push.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/MVP_CHAIN_CHECKPOINT_LOCAL_BUILDER_TASK_CREATE_READINESS_v0.md",
+    "docs/BUILDER_TASK_CREATE_READINESS_CONTRACT_v0.md",
+    "docs/BUILDER_ADAPTER_CONTRACT_v0.md",
+    "docs/BUILDER_ADAPTER_AUTH_PERSISTENCE_BOUNDARY_v0.md",
+    "docs/BUILDER_ADAPTER_LIVE_READINESS_AUDIT_v0.md",
+    "docs/BUILDER_LIVE_READ_PROBE_CONTRACT_v0.md",
+    "review-packets/BP-071.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-072.json",
+    "docs/LIVE_BUILDER_ADAPTER_READINESS_CONTRACT_v0.md",
+    "review-packets/BP-072.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-072 defines a Live Builder Adapter Readiness contract.",
+    "BP-072 keeps live Builder calls, task creation, execution, auth, secrets, persistence, approval recording, DB, deploy, approve, and push blocked.",
+    "BP-072 does not change runtime behavior, fixtures, packages, app code, or external systems."
+  ],
+  "assumptions": [
+    "BP-071 documented the local MVP chain through Builder Task Create Readiness Candidate.",
+    "A Live Builder Adapter Readiness boundary is needed before any future live adapter implementation or task creation work.",
+    "The existing Builder Live Read Probe remains a mock/read-only precedent, not permission for live mutation."
+  ],
+  "dod": [
+    "docs/LIVE_BUILDER_ADAPTER_READINESS_CONTRACT_v0.md exists.",
+    "The document defines purpose, input envelope, output envelope, hard gates, LLM-free deterministic gates, human review triggers, blocked actions, fail behavior, and next safe step.",
+    "The document explicitly blocks live Builder calls, Builder Task Create, Execute, Approve, Push, Deploy, auth, secrets, persistence, approval recording, DB, UI, and target file writes.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-072 --verify exits 0."
+  ],
+  "evidence_required": [
+    "content_check",
+    "test_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-072 --preflight",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-072 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime, fixture, package, or tool changes become necessary",
+    "Live Builder access, task creation, execution, approval recording, auth implementation, secrets, persistence, DB, deploy, approve, or push becomes necessary"
+  ],
+  "prior_task_findings": "BP-071 documented the local MVP chain through Builder Task Create Readiness and recommended a Live Builder Adapter Readiness contract as the next safe boundary.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
