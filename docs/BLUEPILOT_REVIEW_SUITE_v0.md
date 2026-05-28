@@ -61,6 +61,10 @@ Die Suite prueft lokal:
 - Builder Task Create Readiness Candidate Syntax.
 - Builder Task Create Readiness Candidate Fixtures.
 - Builder Task Create Readiness Candidate Output Invariants.
+- Builder Task Create Readiness Candidate Coverage Map.
+- Live Builder Adapter Readiness Candidate Syntax.
+- Live Builder Adapter Readiness Candidate Fixtures.
+- Live Builder Adapter Readiness Candidate Output Invariants.
 
 ## Was die Suite nicht beweist
 
@@ -81,6 +85,7 @@ Die Suite beweist nicht:
 - echte Auth-/Identity- oder Persistenzgrenze.
 - echte Secrets, DB- oder Approval-Record-Speicherung.
 - echten Builder Task Create oder Live Builder Call.
+- echte Live Builder Adapter Readiness.
 
 ## Arbeitsregel
 
