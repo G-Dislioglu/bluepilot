@@ -16,6 +16,10 @@ const cases = [
   ['bp073 blocked task create readiness review', 'BP-073.blocked-task-create-readiness-review.input.json', 'BP-073.blocked-task-create-readiness-review.output.json'],
   ['bp073 blocked live target', 'BP-073.blocked-live-target.input.json', 'BP-073.blocked-live-target.output.json'],
   ['bp078 missing required', 'BP-078.missing-required.input.json', 'BP-078.missing-required.output.json'],
+  ['bp079 blocked adapter mode', 'BP-079.blocked-adapter-mode.input.json', 'BP-079.blocked-adapter-mode.output.json'],
+  ['bp079 blocked task create effect', 'BP-079.blocked-task-create-effect.input.json', 'BP-079.blocked-task-create-effect.output.json'],
+  ['bp079 blocked execute effect', 'BP-079.blocked-execute-effect.input.json', 'BP-079.blocked-execute-effect.output.json'],
+  ['bp079 blocked live allowed', 'BP-079.blocked-live-allowed.input.json', 'BP-079.blocked-live-allowed.output.json'],
 ];
 
 function readFixture(fileName) {

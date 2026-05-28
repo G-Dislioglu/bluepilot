@@ -1,0 +1,82 @@
+{
+  "task_id": "BP-079",
+  "task_name": "Add Live Builder Adapter Readiness Hard Block Fixtures",
+  "created": "2026-05-28",
+  "scope": "bluepilot/live-builder-adapter-readiness/pre-live-hardening-block-fixtures",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "low",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Add local block fixtures for Live Builder Adapter Readiness Candidate dangerous flags without changing runtime behavior or enabling live Builder, task creation, execution, auth, secrets, persistence, or approval recording.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/PRE_LIVE_HARDENING_DECISION_v0.md",
+    "tools/live-builder-adapter-readiness-candidate.cjs",
+    "tools/test-live-builder-adapter-readiness-candidate-fixtures.cjs",
+    "examples/live-builder-adapter-readiness-candidate/**",
+    "review-packets/BP-078.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-079.json",
+    "tools/test-live-builder-adapter-readiness-candidate-fixtures.cjs",
+    "examples/live-builder-adapter-readiness-candidate/**",
+    "review-packets/BP-079.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "docs/**",
+    "tools/live-builder-adapter-readiness-candidate.cjs",
+    "tools/test-bluepilot-review-suite.cjs"
+  ],
+  "claims": [
+    "BP-079 adds hard-block fixtures for adapter mode, task create effect, execute effect, and live builder allowed flag.",
+    "BP-079 keeps all blocked outputs local with network_effect, task_create_effect, and execute_effect set to none.",
+    "BP-079 does not change Live Builder Adapter Readiness Candidate runtime behavior."
+  ],
+  "assumptions": [
+    "BP-077 requires local hard-block fixtures before any live-adapter work.",
+    "The existing candidate already blocks these dangerous flags.",
+    "Fixture expansion can be done without runtime or review-suite changes."
+  ],
+  "dod": [
+    "Block fixtures exist for adapter mode, task create effect, execute effect, and live builder allowed flag.",
+    "tools/test-live-builder-adapter-readiness-candidate-fixtures.cjs checks the new fixtures.",
+    "node tools/test-live-builder-adapter-readiness-candidate-fixtures.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-079 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-079 --preflight",
+    "node tools/test-live-builder-adapter-readiness-candidate-fixtures.cjs",
+    "node tools/verify-task-lock.cjs BP-079 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime changes become necessary",
+    "Live Builder, Builder Task Create, auth, secrets, persistence, approval recording, DB, deploy, execute, approve, or push becomes necessary"
+  ],
+  "prior_task_findings": "BP-078 added missing-required-fields and CLI error hardening; BP-077 also requires dangerous-flag block fixtures before live-adapter work.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
