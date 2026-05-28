@@ -1,0 +1,90 @@
+{
+  "task_id": "BP-038",
+  "task_name": "Add Phase Scanner Broad Scope Review Fixtures",
+  "created": "2026-05-28",
+  "scope": "bluepilot/phase-scanner/broad-scope-review-fixtures",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "low",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Add Phase Scanner fixtures for wildcard and broad scope review cases and update the coverage map without changing scanner runtime behavior.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/PHASE_SCANNER_FIXTURE_COVERAGE_v0.md",
+    "tools/phase-scanner.cjs",
+    "tools/test-phase-scanner-fixtures.cjs",
+    "tools/test-phase-scanner-coverage-map.cjs",
+    "review-packets/BP-037.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-038.json",
+    "docs/PHASE_SCANNER_FIXTURE_COVERAGE_v0.md",
+    "tools/test-phase-scanner-fixtures.cjs",
+    "examples/phase-scanner/BP-038.review-wildcard-scope.input.json",
+    "examples/phase-scanner/BP-038.review-wildcard-scope.output.json",
+    "examples/phase-scanner/BP-038.review-broad-scope.input.json",
+    "examples/phase-scanner/BP-038.review-broad-scope.output.json",
+    "review-packets/BP-038.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "tools/phase-scanner.cjs",
+    "tools/test-bluepilot-review-suite.cjs"
+  ],
+  "claims": [
+    "BP-038 adds wildcard-scope and broad-scope review fixtures.",
+    "BP-038 updates the coverage map so both fixtures are visible and checked.",
+    "BP-038 does not change Phase Scanner runtime behavior or external integration behavior."
+  ],
+  "assumptions": [
+    "Existing runtime behavior already requires human review for wildcard and broad scope.",
+    "The coverage map must be updated in the same block because BP-036 enforces it.",
+    "No runtime change is required."
+  ],
+  "dod": [
+    "Wildcard-scope review fixture exists and is tested.",
+    "Broad-scope review fixture exists and is tested.",
+    "Coverage map lists the new fixtures and removes the covered gaps.",
+    "node tools/test-phase-scanner-fixtures.cjs exits 0.",
+    "node tools/test-phase-scanner-coverage-map.cjs exits 0.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-038 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "fixture_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-038 --preflight",
+    "node tools/test-phase-scanner-fixtures.cjs",
+    "node tools/test-phase-scanner-coverage-map.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-038 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime changes become necessary",
+    "Live Builder, auth, secrets, DB, deploy, or external system behavior becomes necessary"
+  ],
+  "prior_task_findings": "BP-035 documented broad scope and wildcard scope as fixture gaps; BP-036 enforces coverage-map registration.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}

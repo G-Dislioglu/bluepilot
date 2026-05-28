@@ -1,0 +1,30 @@
+{
+  "idea": "Prepare a bounded documentation update using a wildcard scope proposal.",
+  "target_repo": "bluepilot",
+  "requested_scope": [
+    "docs/*.md"
+  ],
+  "repo_context": [
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md"
+  ],
+  "known_risks": [],
+  "available_donors": [
+    "Task Evidence",
+    "Task Audit Log"
+  ],
+  "evidence_sources": [
+    "diff_ref"
+  ],
+  "tracks": [
+    {
+      "name": "wildcard-doc-update",
+      "scope": [
+        "docs/*.md"
+      ]
+    }
+  ],
+  "no_go_zones": [
+    "No auto-merge",
+    "No auto-deploy"
+  ]
+}

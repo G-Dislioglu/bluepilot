@@ -1,0 +1,39 @@
+{
+  "idea": "Update everything in the local documentation set.",
+  "target_repo": "bluepilot",
+  "requested_scope": [
+    "docs/REPO_DECISION.md",
+    "docs/BUILDER_DONOR_MAP.md",
+    "docs/MVP_SCOPE.md",
+    "docs/NO_GO_ZONES.md",
+    "docs/ADAPTER_CONTRACTS_v0.md",
+    "docs/PHASE_SCANNER_SPEC_v0.md",
+    "docs/OPEN_QUESTIONS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md"
+  ],
+  "repo_context": [
+    "docs/PHASE_SCANNER_FIXTURE_COVERAGE_v0.md"
+  ],
+  "known_risks": [],
+  "available_donors": [
+    "Task Evidence",
+    "Task Audit Log"
+  ],
+  "evidence_sources": [
+    "diff_ref"
+  ],
+  "tracks": [
+    {
+      "name": "broad-doc-update",
+      "scope": [
+        "docs/REPO_DECISION.md",
+        "docs/BUILDER_DONOR_MAP.md"
+      ]
+    }
+  ],
+  "no_go_zones": [
+    "No auto-merge",
+    "No auto-deploy"
+  ]
+}

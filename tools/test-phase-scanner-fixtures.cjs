@@ -20,6 +20,8 @@ const cases = [
   ['bp034 review overlap tracks', 'BP-034.review-overlap-tracks.input.json', 'BP-034.review-overlap-tracks.output.json'],
   ['bp034 review dependent track', 'BP-034.review-dependent-track.input.json', 'BP-034.review-dependent-track.output.json'],
   ['bp037 reject missing required', 'BP-037.reject-missing-required.input.json', 'BP-037.reject-missing-required.output.json'],
+  ['bp038 review wildcard scope', 'BP-038.review-wildcard-scope.input.json', 'BP-038.review-wildcard-scope.output.json'],
+  ['bp038 review broad scope', 'BP-038.review-broad-scope.input.json', 'BP-038.review-broad-scope.output.json'],
 ];
 
 function readFixture(fileName) {
