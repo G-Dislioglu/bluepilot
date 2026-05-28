@@ -1,0 +1,76 @@
+{
+  "task_id": "BP-012",
+  "task_name": "Define Local HTTP Mock Route Contract",
+  "created": "2026-05-28",
+  "scope": "bluepilot/builder-adapter/http-mock-contract",
+  "mode": "standard",
+  "task_type": "doc_task",
+  "risk_class": "low",
+  "impact_class": "architectural",
+  "target_persona": null,
+  "goal": "Define the local HTTP mock route contract for the Builder Adapter before any server implementation is added.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BUILDER_ADAPTER_ENDPOINT_BOUNDARY_v0.md",
+    "review-packets/BP-011.md",
+    "tools/mock-builder-adapter-endpoint.cjs"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-012.json",
+    "docs/BUILDER_ADAPTER_HTTP_MOCK_ROUTE_CONTRACT_v0.md",
+    "review-packets/BP-012.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**",
+    "docs/!(*BUILDER_ADAPTER_HTTP_MOCK_ROUTE_CONTRACT_v0.md)"
+  ],
+  "claims": [
+    "BP-012 defines server shape, auth posture, request parsing, response behavior, and no-network guarantees for a future local HTTP mock route.",
+    "BP-012 does not implement an HTTP server or route.",
+    "The contract requires reuse of BP-011 endpoint handler behavior and fixtures."
+  ],
+  "assumptions": [
+    "A document-only HTTP mock route contract is required before server code.",
+    "The first HTTP route should use Node built-ins or existing project dependencies only.",
+    "No package, tool, example, or runtime edit is required for BP-012."
+  ],
+  "dod": [
+    "docs/BUILDER_ADAPTER_HTTP_MOCK_ROUTE_CONTRACT_v0.md exists.",
+    "The document defines route shape, local-only binding, auth posture, request parsing limits, response mapping, no-network guarantee, and test requirements.",
+    "The document explicitly keeps live Builder, external network, deploy, merge, persistence, and UI out of scope.",
+    "node tools/verify-task-lock.cjs BP-012 --verify exits 0."
+  ],
+  "evidence_required": [
+    "content_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-012 --preflight",
+    "node tools/verify-task-lock.cjs BP-012 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "HTTP implementation code becomes necessary",
+    "Live Builder endpoint or network behavior becomes necessary"
+  ],
+  "prior_task_findings": "BP-011 completed a local mock endpoint handler and warned that any live HTTP route needs a fresh contract for server shape, auth posture, and no-network guarantees.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
