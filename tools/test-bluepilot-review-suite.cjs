@@ -30,6 +30,7 @@ const commands = [
   ['syntax: builder task candidate', ['--check', 'tools/builder-task-candidate.cjs']],
   ['syntax: builder task candidate fixture test', ['--check', 'tools/test-builder-task-candidate-fixtures.cjs']],
   ['syntax: builder task candidate output invariants test', ['--check', 'tools/test-builder-task-candidate-output-invariants.cjs']],
+  ['syntax: builder task candidate coverage map test', ['--check', 'tools/test-builder-task-candidate-coverage-map.cjs']],
   ['adapter fixtures', ['tools/test-builder-adapter-fixtures.cjs']],
   ['endpoint fixtures', ['tools/test-builder-adapter-endpoint-fixtures.cjs']],
   ['HTTP route fixtures', ['tools/test-builder-adapter-http-route.cjs']],
@@ -44,6 +45,7 @@ const commands = [
   ['scope resolver coverage map', ['tools/test-scope-resolver-coverage-map.cjs']],
   ['builder task candidate fixtures', ['tools/test-builder-task-candidate-fixtures.cjs']],
   ['builder task candidate output invariants', ['tools/test-builder-task-candidate-output-invariants.cjs']],
+  ['builder task candidate coverage map', ['tools/test-builder-task-candidate-coverage-map.cjs']],
 ];
 
 for (const [label, args] of commands) {

@@ -1,0 +1,89 @@
+{
+  "task_id": "BP-051",
+  "task_name": "Add Builder Task Candidate Fixture Coverage Map",
+  "created": "2026-05-28",
+  "scope": "bluepilot/builder-task-candidate/coverage-map",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "low",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Add a Builder Task Candidate fixture coverage map and a local consistency test so documented MVP cases stay aligned with golden fixtures.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BUILDER_TASK_CONTRACT_HANDOFF_v0.md",
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md",
+    "tools/test-scope-resolver-coverage-map.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "examples/builder-task-candidate/**",
+    "review-packets/BP-050.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-051.json",
+    "docs/BUILDER_TASK_CANDIDATE_FIXTURE_COVERAGE_v0.md",
+    "tools/test-builder-task-candidate-coverage-map.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "review-packets/BP-051.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "tools/builder-task-candidate.cjs",
+    "tools/test-builder-task-candidate-fixtures.cjs",
+    "tools/test-builder-task-candidate-output-invariants.cjs",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-051 documents current Builder Task Candidate fixture coverage.",
+    "BP-051 adds a coverage-map consistency test to catch fixture/doc drift.",
+    "BP-051 does not change Builder Task Candidate runtime behavior or fixtures."
+  ],
+  "assumptions": [
+    "BP-049 introduced the first Builder Task Candidate golden fixtures.",
+    "BP-050 made the shared review suite cover the candidate mock.",
+    "Coverage visibility should be added before defining Human Gate handoff."
+  ],
+  "dod": [
+    "docs/BUILDER_TASK_CANDIDATE_FIXTURE_COVERAGE_v0.md exists and lists the current fixture cases.",
+    "tools/test-builder-task-candidate-coverage-map.cjs verifies every documented fixture exists.",
+    "tools/test-bluepilot-review-suite.cjs runs the Builder Task Candidate coverage-map test.",
+    "node tools/test-builder-task-candidate-coverage-map.cjs exits 0.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-051 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "content_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-051 --preflight",
+    "node --check tools/test-builder-task-candidate-coverage-map.cjs",
+    "node tools/test-builder-task-candidate-coverage-map.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-051 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Builder Task Candidate runtime or fixture changes become necessary",
+    "Live Builder, auth, secrets, DB, deploy, task create, execute, approve, or push becomes necessary"
+  ],
+  "prior_task_findings": "BP-050 added Builder Task Candidate review-suite checks but did not document fixture coverage or guard doc/fixture drift.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
