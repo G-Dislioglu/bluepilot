@@ -1,0 +1,79 @@
+{
+  "task_id": "BP-005",
+  "task_name": "Define Builder Adapter Contract v0",
+  "created": "2026-05-28",
+  "scope": "bluepilot/builder-adapter/contract",
+  "mode": "standard",
+  "task_type": "doc_task",
+  "risk_class": "low",
+  "impact_class": "architectural",
+  "target_persona": null,
+  "goal": "Define the first Builder adapter contract as a document-only boundary before any deep Builder integration is attempted.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BUILDER_DONOR_MAP.md",
+    "docs/ADAPTER_CONTRACTS_v0.md",
+    "docs/NO_GO_ZONES.md",
+    "docs/PHASE_SCANNER_SPEC_v0.md",
+    "docs/PHASE_SCANNER_RUNTIME_DECISION_v0.md",
+    "review-packets/BP-004.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-005.json",
+    "docs/BUILDER_ADAPTER_CONTRACT_v0.md",
+    "review-packets/BP-005.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**",
+    "docs/!(*BUILDER_ADAPTER_CONTRACT_v0.md)"
+  ],
+  "claims": [
+    "BP-005 defines a Builder adapter boundary without implementing integration code.",
+    "The contract lists allowed donor surfaces, required gates, input/output envelopes, evidence, and explicit no-go paths.",
+    "The contract preserves BP-001/BP-003 Phase Scanner gating and BP-004 yellow-path product-risk handling."
+  ],
+  "assumptions": [
+    "Builder donor availability remains based on docs/BUILDER_DONOR_MAP.md and docs/ADAPTER_CONTRACTS_v0.md.",
+    "BP-005 should not edit existing donor docs or scanner tools.",
+    "A document-only adapter contract is the correct next step before code integration."
+  ],
+  "dod": [
+    "docs/BUILDER_ADAPTER_CONTRACT_v0.md exists.",
+    "The contract defines allowed operations, blocked operations, required gates, input envelope, output envelope, evidence bundle, and fail behavior.",
+    "The contract explicitly forbids Render integration, Builder Chat Fusion, Auto-Merge, Auto-Deploy, AICOS write, Maya write, and unrestricted parallel tracks.",
+    "node tools/verify-task-lock.cjs BP-005 --verify exits 0."
+  ],
+  "evidence_required": [
+    "content_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-005 --preflight",
+    "node tools/verify-task-lock.cjs BP-005 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Adapter implementation code becomes necessary",
+    "Existing donor docs or scanner tools need editing"
+  ],
+  "prior_task_findings": "BP-004 showed known-risk handling as yellow human review and warned that BP-005 should remain document-only without scanner or runtime code edits.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
