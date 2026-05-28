@@ -13,13 +13,27 @@ const cases = [
     name: 'BP-008 scope violation',
     input: 'examples/builder-adapter/BP-008.scope-violation.input.json',
     output: 'examples/builder-adapter/BP-008.scope-violation.output.json',
+    expectedStatus: 'blocked',
+    expectedBuilderTask: null,
     expectedReason: 'Scope gate violation: src/escape.js',
   },
   {
     name: 'BP-008 blocked operation',
     input: 'examples/builder-adapter/BP-008.blocked-operation.input.json',
     output: 'examples/builder-adapter/BP-008.blocked-operation.output.json',
+    expectedStatus: 'blocked',
+    expectedBuilderTask: null,
     expectedReason: 'Blocked operation requested: auto_deploy',
+  },
+  {
+    name: 'BP-009 approved human review',
+    input: 'examples/builder-adapter/BP-009.human-review-approved.input.json',
+    output: 'examples/builder-adapter/BP-009.human-review-approved.output.json',
+    expectedStatus: 'completed',
+    expectedBuilderTask: 'mock-builder-task-BP-009-HUMAN-REVIEW-APPROVED',
+    expectedReason: null,
+    expectedDecisionReady: false,
+    expectedRequiresHumanGate: true,
   },
 ];
 
@@ -50,14 +64,22 @@ for (const fixture of cases) {
   }
 
   const parsed = JSON.parse(actualText);
-  if (parsed.status !== 'blocked') {
-    fail(`${fixture.name}: expected status blocked, got ${parsed.status}.`);
+  const expectedStatus = fixture.expectedStatus || 'blocked';
+  if (parsed.status !== expectedStatus) {
+    fail(`${fixture.name}: expected status ${expectedStatus}, got ${parsed.status}.`);
   }
-  if (parsed.builder_task_id !== null) {
-    fail(`${fixture.name}: expected builder_task_id null.`);
+  const expectedBuilderTask = fixture.expectedBuilderTask === undefined ? null : fixture.expectedBuilderTask;
+  if (parsed.builder_task_id !== expectedBuilderTask) {
+    fail(`${fixture.name}: expected builder_task_id ${expectedBuilderTask}.`);
   }
-  if (!Array.isArray(parsed.blocked_reasons) || !parsed.blocked_reasons.includes(fixture.expectedReason)) {
+  if (fixture.expectedReason && (!Array.isArray(parsed.blocked_reasons) || !parsed.blocked_reasons.includes(fixture.expectedReason))) {
     fail(`${fixture.name}: expected blocked reason "${fixture.expectedReason}".`);
+  }
+  if (fixture.expectedDecisionReady !== undefined && parsed.decision_ready !== fixture.expectedDecisionReady) {
+    fail(`${fixture.name}: expected decision_ready ${fixture.expectedDecisionReady}.`);
+  }
+  if (fixture.expectedRequiresHumanGate !== undefined && parsed.requires_human_gate !== fixture.expectedRequiresHumanGate) {
+    fail(`${fixture.name}: expected requires_human_gate ${fixture.expectedRequiresHumanGate}.`);
   }
 
   console.log(`${fixture.name}: PASS`);

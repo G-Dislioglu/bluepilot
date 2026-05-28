@@ -1,0 +1,84 @@
+{
+  "task_id": "BP-009",
+  "task_name": "Add Approved Human Review Adapter Fixture",
+  "created": "2026-05-28",
+  "scope": "bluepilot/builder-adapter/human-review-fixture",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "functional",
+  "target_persona": null,
+  "goal": "Add a local fixture proving require_human_review can proceed only after explicit human approval in the mock Builder Adapter.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BUILDER_ADAPTER_CONTRACT_v0.md",
+    "review-packets/BP-008.md",
+    "tools/builder-adapter.cjs",
+    "tools/test-builder-adapter-fixtures.cjs",
+    "tools/verify-task-lock.cjs"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-009.json",
+    "tools/test-builder-adapter-fixtures.cjs",
+    "examples/builder-adapter/BP-009.human-review-approved.input.json",
+    "examples/builder-adapter/BP-009.human-review-approved.output.json",
+    "review-packets/BP-009.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "docs/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "tools/builder-adapter.cjs",
+    "tools/verify-task-lock.cjs",
+    "tools/phase-scanner.cjs"
+  ],
+  "claims": [
+    "An approved require_human_review fixture returns a completed mock adapter output.",
+    "The fixture still keeps decision_ready false and requires_human_gate true.",
+    "The local fixture test script now checks blocked and approved human-review paths."
+  ],
+  "assumptions": [
+    "No adapter implementation change is required.",
+    "Approved human review in the mock adapter still does not mean live Builder integration exists.",
+    "No package or docs edit is required."
+  ],
+  "dod": [
+    "Approved human-review input/output fixtures exist.",
+    "Approved human-review output has status completed and a mock builder_task_id.",
+    "Approved human-review output has decision_ready false and requires_human_gate true.",
+    "node tools/test-builder-adapter-fixtures.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-009 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-009 --preflight",
+    "node --check tools/test-builder-adapter-fixtures.cjs",
+    "node tools/test-builder-adapter-fixtures.cjs",
+    "node tools/verify-task-lock.cjs BP-009 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Adapter implementation changes become necessary",
+    "Real Builder endpoint or network call becomes necessary"
+  ],
+  "prior_task_findings": "BP-008 added guard fixtures and recommended either a mock-backed endpoint boundary or a CLI test for approved require_human_review after human approval. Network calls remain out of scope.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
