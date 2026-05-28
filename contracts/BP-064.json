@@ -1,0 +1,88 @@
+{
+  "task_id": "BP-064",
+  "task_name": "Add Auth Persistence Readiness Review Suite Coverage",
+  "created": "2026-05-28",
+  "scope": "bluepilot/auth-persistence-readiness/review-suite",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "low",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Add Auth/Persistence Readiness Candidate checks to the shared Bluepilot review suite and document the new local review coverage.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md",
+    "docs/AUTH_PERSISTENCE_READINESS_CONTRACT_v0.md",
+    "tools/test-bluepilot-review-suite.cjs",
+    "tools/auth-persistence-readiness-candidate.cjs",
+    "tools/test-auth-persistence-readiness-candidate-fixtures.cjs",
+    "review-packets/BP-063.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-064.json",
+    "tools/test-bluepilot-review-suite.cjs",
+    "tools/test-auth-persistence-readiness-candidate-output-invariants.cjs",
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md",
+    "review-packets/BP-064.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "tools/auth-persistence-readiness-candidate.cjs",
+    "tools/test-auth-persistence-readiness-candidate-fixtures.cjs",
+    "tools/approval-readiness-candidate.cjs",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-064 adds Auth/Persistence Readiness Candidate checks to the shared Bluepilot review suite.",
+    "BP-064 adds output invariant coverage that keeps identity_ready, persistence_ready, approval_record_allowed, builder_task_create_allowed, and builder_execute_allowed false.",
+    "BP-064 does not change Auth/Persistence Readiness Candidate runtime behavior or fixtures."
+  ],
+  "assumptions": [
+    "BP-063 already introduced the local Auth/Persistence Readiness Candidate mock and golden fixtures.",
+    "Review suite coverage should remain the shared entry point for local reviewers.",
+    "Invariant tests are needed before expanding toward any auth, DB, persistence, approval record, or Builder adapter handoff."
+  ],
+  "dod": [
+    "tools/test-auth-persistence-readiness-candidate-output-invariants.cjs exists and passes.",
+    "tools/test-bluepilot-review-suite.cjs runs Auth/Persistence Readiness Candidate syntax, fixtures, and invariant checks.",
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md mentions Auth/Persistence Readiness Candidate coverage and limits.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-064 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-064 --preflight",
+    "node --check tools/test-auth-persistence-readiness-candidate-output-invariants.cjs",
+    "node tools/test-auth-persistence-readiness-candidate-output-invariants.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-064 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Auth/Persistence Readiness Candidate runtime or fixture changes become necessary",
+    "Auth implementation, persistence, approval recording, live Builder, DB, deploy, task create, execute, approve, or push becomes necessary"
+  ],
+  "prior_task_findings": "BP-063 added a local Auth/Persistence Readiness Candidate mock but did not yet wire it into the shared Bluepilot Review Suite.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}

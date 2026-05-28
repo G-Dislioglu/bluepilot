@@ -53,6 +53,10 @@ Die Suite prueft lokal:
 - Approval Readiness Candidate Syntax.
 - Approval Readiness Candidate Fixtures.
 - Approval Readiness Candidate Output Invariants.
+- Approval Readiness Candidate Coverage Map.
+- Auth/Persistence Readiness Candidate Syntax.
+- Auth/Persistence Readiness Candidate Fixtures.
+- Auth/Persistence Readiness Candidate Output Invariants.
 
 ## Was die Suite nicht beweist
 
@@ -71,6 +75,7 @@ Die Suite beweist nicht:
 - echte Approval-Wirkung.
 - Approval Recording.
 - echte Auth-/Identity- oder Persistenzgrenze.
+- echte Secrets, DB- oder Approval-Record-Speicherung.
 
 ## Arbeitsregel
 
