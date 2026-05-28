@@ -1,0 +1,85 @@
+{
+  "task_id": "BP-026",
+  "task_name": "Add Builder Read Probe CLI Error Tests",
+  "created": "2026-05-28",
+  "scope": "bluepilot/builder-adapter/read-probe-cli-errors",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Add process-level CLI error tests for the local Builder read-probe without changing runtime behavior or enabling live Builder access.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "tools/builder-live-read-probe.cjs",
+    "tools/test-builder-live-read-probe.cjs",
+    "tools/test-builder-adapter-review-suite.cjs",
+    "review-packets/BP-025.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-026.json",
+    "tools/test-builder-live-read-probe-cli-errors.cjs",
+    "tools/test-builder-adapter-review-suite.cjs",
+    "review-packets/BP-026.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "docs/**",
+    "examples/**",
+    "tools/builder-live-read-probe.cjs",
+    "tools/test-builder-live-read-probe.cjs"
+  ],
+  "claims": [
+    "BP-026 adds CLI error tests for missing input, unknown arguments, missing file, and invalid JSON.",
+    "The tests prove CLI failures exit non-zero and print usage guidance.",
+    "No runtime, fixture, live Builder, auth, secret, DB, persistence, or write behavior is introduced."
+  ],
+  "assumptions": [
+    "Existing CLI error behavior is acceptable and only needs test coverage.",
+    "Temporary invalid JSON can be created inside the test process without committing invalid fixtures.",
+    "The adapter review suite remains the shared verification entrypoint."
+  ],
+  "dod": [
+    "tools/test-builder-live-read-probe-cli-errors.cjs exists.",
+    "The test covers missing input, unknown argument, missing file, and invalid JSON.",
+    "The adapter review suite runs the new CLI error test.",
+    "node tools/test-builder-adapter-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-026 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-026 --preflight",
+    "node --check tools/test-builder-live-read-probe-cli-errors.cjs",
+    "node tools/test-builder-live-read-probe-cli-errors.cjs",
+    "node tools/test-builder-adapter-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-026 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime changes become necessary",
+    "Live Builder call, base URL, auth, secret, DB, persistence, write, execute, approval, or deploy behavior becomes necessary"
+  ],
+  "prior_task_findings": "BP-025 added malformed input fixtures while leaving runtime unchanged.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
