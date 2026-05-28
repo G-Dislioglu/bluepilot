@@ -1,0 +1,97 @@
+{
+  "task_id": "BP-094",
+  "task_name": "BP-C2 Green Checkpoint",
+  "created": "2026-05-28",
+  "scope": "bluepilot/bp-c2/green-checkpoint",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "medium",
+  "impact_class": "phase-gate",
+  "target_persona": null,
+  "goal": "Document that BP-C2 is green after BP-091, BP-092, and BP-093, and define the safe BP-C3 entry gate without starting BP-C3 implementation.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/BLUEPILOT_BUILD_CANVAS_DECISION_v0.md",
+    "docs/BP_C1_KERNEL_READY_CHECKPOINT_v0.md",
+    "docs/BP_C2_MULTI_MODEL_POOL_CONTRACT_v0.md",
+    "docs/BP_C2_CONTEXT_BROKER_CONTRACT_v0.md",
+    "docs/BP_C2_WLP_COUNCIL_SESSION_GUARD_v0.md",
+    "review-packets/BP-091.md",
+    "review-packets/BP-092.md",
+    "review-packets/BP-093.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-094.json",
+    "docs/BP_C2_GREEN_CHECKPOINT_v0.md",
+    "review-packets/BP-094.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    ".bluepilot/**",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md"
+  ],
+  "scope_out": [
+    "No BP-C3 implementation",
+    "No tool/runtime changes",
+    "No UI",
+    "No package dependency",
+    "No AICOS write",
+    "No Soulmatch copy",
+    "No .bluepilot runtime state"
+  ],
+  "claims": [
+    "BP-C2 has three green modules: Multi-model Pool, Context Broker, and WLP Council Session Guard.",
+    "BP-C3 may be prepared only after this checkpoint and with new WLP contracts.",
+    "BP-C3 modules remain blocked from direct implementation in BP-094.",
+    "Known BP-C2 limits are documented: no provider API calls, no architecture digest, no excluded_context repulsion beyond broker path blocks."
+  ],
+  "assumptions": [
+    "BP-091, BP-092, and BP-093 are already pushed to main.",
+    "Green means local deterministic checks pass, not production/live provider readiness.",
+    "BP-C3 should start with cautious contracts because worktrees, memory, and AICOS references carry higher risk."
+  ],
+  "dod": [
+    "docs/BP_C2_GREEN_CHECKPOINT_v0.md exists.",
+    "The checkpoint lists BP-C2 green evidence and known limits.",
+    "The checkpoint blocks BP-C3 implementation without new WLP contracts.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-094 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "diff_ref",
+    "content_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-094 --preflight",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-094 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "BP-C3 implementation becomes necessary",
+    "Runtime/tool change becomes necessary"
+  ],
+  "prior_task_findings": "BP-091 added route-only Model Pool, BP-092 added read-only Context Broker, and BP-093 added optional Council Session Guard.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
