@@ -1,0 +1,81 @@
+{
+  "task_id": "BP-062",
+  "task_name": "Define Auth Persistence Readiness Contract",
+  "created": "2026-05-28",
+  "scope": "bluepilot/auth-persistence-readiness/contract",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "medium",
+  "impact_class": "architectural",
+  "target_persona": null,
+  "goal": "Define the document-only Auth/Persistence Readiness Contract after Approval Readiness without implementing auth, persistence, approval records, task creation, or Builder calls.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/MVP_CHAIN_CHECKPOINT_LOCAL_APPROVAL_READINESS_v0.md",
+    "docs/APPROVAL_READINESS_CONTRACT_v0.md",
+    "docs/APPROVAL_READINESS_CANDIDATE_FIXTURE_COVERAGE_v0.md",
+    "docs/BUILDER_ADAPTER_AUTH_PERSISTENCE_BOUNDARY_v0.md",
+    "review-packets/BP-061.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-062.json",
+    "docs/AUTH_PERSISTENCE_READINESS_CONTRACT_v0.md",
+    "review-packets/BP-062.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-062 defines only a document-level Auth/Persistence Readiness Contract after Approval Readiness.",
+    "BP-062 keeps auth implementation, identity provider integration, persistence, approval records, task creation, execution, and live Builder calls blocked.",
+    "BP-062 does not implement UI, auth, secrets, DB, persistence, approval action, or Builder integration."
+  ],
+  "assumptions": [
+    "Approval Readiness Candidate output is the required source for later Auth/Persistence Readiness input.",
+    "Auth and persistence can be assessed as boundaries before any implementation exists.",
+    "Effective approval needs later explicit identity, persistence, audit, and task-create readiness decisions."
+  ],
+  "dod": [
+    "docs/AUTH_PERSISTENCE_READINESS_CONTRACT_v0.md exists.",
+    "The document defines required input, output, gates, blocked behavior, and non-goals.",
+    "The document explicitly prevents auth implementation, persistence, approval recording, Task Create, Execute, Approve, Push, Deploy, secrets, DB, and live Builder calls.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-062 --verify exits 0."
+  ],
+  "evidence_required": [
+    "content_check",
+    "test_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-062 --preflight",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-062 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime, fixture, package, or tool changes become necessary",
+    "Auth implementation, persistence, approval recording, live Builder, DB, deploy, execution, task creation, approve, or push becomes necessary"
+  ],
+  "prior_task_findings": "BP-061 identified Auth/Persistence Readiness Contract as the next safe boundary after the local Approval Readiness chain.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
