@@ -38,6 +38,7 @@ const commands = [
   ['syntax: approval readiness candidate', ['--check', 'tools/approval-readiness-candidate.cjs']],
   ['syntax: approval readiness candidate fixture test', ['--check', 'tools/test-approval-readiness-candidate-fixtures.cjs']],
   ['syntax: approval readiness candidate output invariants test', ['--check', 'tools/test-approval-readiness-candidate-output-invariants.cjs']],
+  ['syntax: approval readiness candidate coverage map test', ['--check', 'tools/test-approval-readiness-candidate-coverage-map.cjs']],
   ['adapter fixtures', ['tools/test-builder-adapter-fixtures.cjs']],
   ['endpoint fixtures', ['tools/test-builder-adapter-endpoint-fixtures.cjs']],
   ['HTTP route fixtures', ['tools/test-builder-adapter-http-route.cjs']],
@@ -58,6 +59,7 @@ const commands = [
   ['human gate candidate coverage map', ['tools/test-human-gate-candidate-coverage-map.cjs']],
   ['approval readiness candidate fixtures', ['tools/test-approval-readiness-candidate-fixtures.cjs']],
   ['approval readiness candidate output invariants', ['tools/test-approval-readiness-candidate-output-invariants.cjs']],
+  ['approval readiness candidate coverage map', ['tools/test-approval-readiness-candidate-coverage-map.cjs']],
 ];
 
 for (const [label, args] of commands) {
