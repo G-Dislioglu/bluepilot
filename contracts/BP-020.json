@@ -1,0 +1,80 @@
+{
+  "task_id": "BP-020",
+  "task_name": "Live Builder Readiness Audit",
+  "created": "2026-05-28",
+  "scope": "bluepilot/builder-adapter/live-readiness-audit",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "medium",
+  "impact_class": "architectural",
+  "target_persona": null,
+  "goal": "Audit the next safe live Builder integration path without adding any live call, secret, persistence, or runtime integration.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BUILDER_DONOR_MAP.md",
+    "docs/ADAPTER_CONTRACTS_v0.md",
+    "docs/BUILDER_ADAPTER_PERSISTENCE_DECISION_v0.md",
+    "review-packets/BP-019.md",
+    "tools/test-builder-adapter-review-suite.cjs"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-020.json",
+    "docs/BUILDER_ADAPTER_LIVE_READINESS_AUDIT_v0.md",
+    "review-packets/BP-020.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**",
+    "docs/!(*BUILDER_ADAPTER_LIVE_READINESS_AUDIT_v0.md)"
+  ],
+  "claims": [
+    "The audit identifies the safest first live Builder path as read-only evidence/task/audit access, not execution or write.",
+    "The audit lists prerequisites before any live call can be implemented.",
+    "The audit explicitly blocks live writes, execute/run, push, merge, deploy, persistence, and secrets in the current line."
+  ],
+  "assumptions": [
+    "Donor availability is based only on existing Bluepilot donor docs, not fresh Builder repo inspection.",
+    "No live call can be added without a later contract and human review.",
+    "No runtime, package, tool, or example change is required."
+  ],
+  "dod": [
+    "docs/BUILDER_ADAPTER_LIVE_READINESS_AUDIT_v0.md exists.",
+    "The audit identifies allowed first read-only path, blocked paths, prerequisites, evidence needs, and BP-021 recommendation.",
+    "node tools/test-builder-adapter-review-suite.cjs exits 0 before the task.",
+    "node tools/verify-task-lock.cjs BP-020 --verify exits 0."
+  ],
+  "evidence_required": [
+    "diff_ref",
+    "content_check"
+  ],
+  "required_commands": [
+    "node tools/test-builder-adapter-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-020 --preflight",
+    "node tools/verify-task-lock.cjs BP-020 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Live Builder call becomes necessary",
+    "Secret, API key, persistence, execute/run, push, merge, or deploy behavior becomes necessary"
+  ],
+  "prior_task_findings": "BP-019 kept persistence disabled and recommended a live-builder-readiness audit before any live call or persistence contract.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
