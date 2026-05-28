@@ -1,0 +1,79 @@
+{
+  "task_id": "BP-030",
+  "task_name": "Document Bluepilot Review Suite Entrypoints",
+  "created": "2026-05-28",
+  "scope": "bluepilot/review-suite/usage-doc",
+  "mode": "standard",
+  "task_type": "doc_task",
+  "risk_class": "low",
+  "impact_class": "reviewability",
+  "target_persona": null,
+  "goal": "Document the neutral Bluepilot review-suite entrypoint and the legacy Builder adapter compatibility command.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "tools/test-bluepilot-review-suite.cjs",
+    "tools/test-builder-adapter-review-suite.cjs",
+    "review-packets/BP-029.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-030.json",
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md",
+    "review-packets/BP-030.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-030 documents node tools/test-bluepilot-review-suite.cjs as the preferred shared suite.",
+    "BP-030 documents node tools/test-builder-adapter-review-suite.cjs as a legacy compatibility wrapper.",
+    "BP-030 does not change code, package metadata, runtime behavior, or external integration behavior."
+  ],
+  "assumptions": [
+    "BP-029 already added the neutral suite and compatibility wrapper.",
+    "A short doc is enough to prevent future review command drift.",
+    "No package script is needed yet."
+  ],
+  "dod": [
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md exists.",
+    "The document names the preferred and legacy commands.",
+    "The document lists what the suite currently covers.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-030 --verify exits 0."
+  ],
+  "evidence_required": [
+    "content_check",
+    "test_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-030 --preflight",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-030 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Code or runtime changes become necessary",
+    "Package metadata changes become necessary"
+  ],
+  "prior_task_findings": "BP-029 introduced a neutral Bluepilot review-suite entrypoint and retained the Builder adapter suite as compatibility wrapper.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
