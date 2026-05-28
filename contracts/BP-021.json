@@ -1,0 +1,80 @@
+{
+  "task_id": "BP-021",
+  "task_name": "Define Builder Live Read Probe Contract",
+  "created": "2026-05-28",
+  "scope": "bluepilot/builder-adapter/live-read-probe-contract",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "medium",
+  "impact_class": "architectural",
+  "target_persona": null,
+  "goal": "Define a read-only Builder Live Read Probe contract with mock fallback before any live probe implementation.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BUILDER_ADAPTER_LIVE_READINESS_AUDIT_v0.md",
+    "docs/BUILDER_DONOR_MAP.md",
+    "docs/ADAPTER_CONTRACTS_v0.md",
+    "review-packets/BP-020.md",
+    "tools/test-builder-adapter-review-suite.cjs"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-021.json",
+    "docs/BUILDER_LIVE_READ_PROBE_CONTRACT_v0.md",
+    "review-packets/BP-021.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**",
+    "docs/!(*BUILDER_LIVE_READ_PROBE_CONTRACT_v0.md)"
+  ],
+  "claims": [
+    "BP-021 defines a read-only live probe contract without implementation.",
+    "The contract allows only evidence, artifacts, task audit, bridge audit, and metrics reads.",
+    "The contract requires mock fallback, no secrets in repo, no writes, no persistence, no execution, and no automatic approval."
+  ],
+  "assumptions": [
+    "Live probing is a boundary and must be contracted before code.",
+    "No live URL or secret is available in this task.",
+    "No runtime, package, tool, or example change is required."
+  ],
+  "dod": [
+    "docs/BUILDER_LIVE_READ_PROBE_CONTRACT_v0.md exists.",
+    "The document defines read-only allowlist, blocked methods, auth posture, timeout, error mapping, mock fallback, output envelope, and test requirements.",
+    "node tools/test-builder-adapter-review-suite.cjs exits 0 before the task.",
+    "node tools/verify-task-lock.cjs BP-021 --verify exits 0."
+  ],
+  "evidence_required": [
+    "diff_ref",
+    "content_check"
+  ],
+  "required_commands": [
+    "node tools/test-builder-adapter-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-021 --preflight",
+    "node tools/verify-task-lock.cjs BP-021 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Live probe implementation becomes necessary",
+    "Secret, API key, persistence, write, execution, or Builder mutation becomes necessary"
+  ],
+  "prior_task_findings": "BP-020 identified read-only Builder Evidence/Task/Audit probing as the first safe live path, but implementation must wait for this contract.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
