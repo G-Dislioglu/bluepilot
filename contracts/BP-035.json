@@ -1,0 +1,83 @@
+{
+  "task_id": "BP-035",
+  "task_name": "Document Phase Scanner Fixture Coverage",
+  "created": "2026-05-28",
+  "scope": "bluepilot/phase-scanner/fixture-coverage-doc",
+  "mode": "standard",
+  "task_type": "doc_task",
+  "risk_class": "low",
+  "impact_class": "reviewability",
+  "target_persona": null,
+  "goal": "Document the current Phase Scanner fixture coverage so reviewers can see which decisions and edge cases are already covered.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/PHASE_SCANNER_SPEC_v0.md",
+    "docs/PHASE_SCANNER_RUNTIME_DECISION_v0.md",
+    "examples/phase-scanner",
+    "tools/test-phase-scanner-fixtures.cjs",
+    "tools/test-phase-scanner-output-invariants.cjs",
+    "review-packets/BP-034.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-035.json",
+    "docs/PHASE_SCANNER_FIXTURE_COVERAGE_v0.md",
+    "review-packets/BP-035.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-035 documents every current Phase Scanner input fixture.",
+    "BP-035 identifies covered decisions, checks, and remaining gaps.",
+    "BP-035 does not change runtime code, fixtures, package metadata, or external integration behavior."
+  ],
+  "assumptions": [
+    "The fixture list in examples/phase-scanner is the current review corpus.",
+    "A human-readable coverage map is useful before adding more runtime behavior.",
+    "Machine-checking the map can follow in BP-036."
+  ],
+  "dod": [
+    "docs/PHASE_SCANNER_FIXTURE_COVERAGE_v0.md exists.",
+    "The document lists all current Phase Scanner input fixtures.",
+    "The document maps fixtures to decision values and primary checks.",
+    "The document lists known coverage gaps.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-035 --verify exits 0."
+  ],
+  "evidence_required": [
+    "content_check",
+    "test_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-035 --preflight",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-035 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime or fixture changes become necessary",
+    "Live Builder, auth, secrets, DB, deploy, or external system behavior becomes necessary"
+  ],
+  "prior_task_findings": "BP-033 and BP-034 added reject and parallel-track review fixtures, making a coverage map useful.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
