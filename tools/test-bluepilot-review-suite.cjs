@@ -69,6 +69,8 @@ const commands = [
   ['syntax: aicos query fixture test', ['--check', 'tools/test-aicos-query-fixtures.cjs']],
   ['syntax: difflens', ['--check', 'tools/difflens.cjs']],
   ['syntax: difflens fixture test', ['--check', 'tools/test-difflens-fixtures.cjs']],
+  ['syntax: browser preview', ['--check', 'tools/browser-preview.cjs']],
+  ['syntax: browser preview fixture test', ['--check', 'tools/test-browser-preview-fixtures.cjs']],
   ['adapter fixtures', ['tools/test-builder-adapter-fixtures.cjs']],
   ['endpoint fixtures', ['tools/test-builder-adapter-endpoint-fixtures.cjs']],
   ['HTTP route fixtures', ['tools/test-builder-adapter-http-route.cjs']],
@@ -109,6 +111,7 @@ const commands = [
   ['maya memory fixtures', ['tools/test-maya-memory-fixtures.cjs']],
   ['aicos query fixtures', ['tools/test-aicos-query-fixtures.cjs']],
   ['difflens fixtures', ['tools/test-difflens-fixtures.cjs']],
+  ['browser preview fixtures', ['tools/test-browser-preview-fixtures.cjs']],
 ];
 
 for (const [label, args] of commands) {
