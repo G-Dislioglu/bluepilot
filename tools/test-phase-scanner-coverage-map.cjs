@@ -20,6 +20,10 @@ const inputFixtures = fs.readdirSync(fixtureDir)
 
 assert.ok(inputFixtures.length > 0, 'phase scanner input fixtures exist');
 
+const gapsSection = coverageMap.split('## Aktuelle Luecken')[1].split('## Arbeitsregel')[0];
+assert.match(gapsSection, /Keine aktuell dokumentierte Fixture-Luecke offen\./, 'coverage map states no open documented fixture gap');
+assert.doesNotMatch(gapsSection, /^\s*-\s+/m, 'coverage map current gaps section has no bullet gaps');
+
 for (const inputFixture of inputFixtures) {
   const outputFixture = inputFixture.replace(/\.input\.json$/, '.output.json');
   const outputPath = path.join(fixtureDir, outputFixture);

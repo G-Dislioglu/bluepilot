@@ -1,0 +1,86 @@
+{
+  "task_id": "BP-042",
+  "task_name": "Harden Phase Scanner Coverage Gap Statement",
+  "created": "2026-05-28",
+  "scope": "bluepilot/phase-scanner/coverage-gap-statement-test",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "low",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Harden the Phase Scanner coverage-map consistency test so the no-open-gap statement is explicitly checked.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/PHASE_SCANNER_FIXTURE_COVERAGE_v0.md",
+    "tools/test-phase-scanner-coverage-map.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "review-packets/BP-041.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-042.json",
+    "tools/test-phase-scanner-coverage-map.cjs",
+    "review-packets/BP-042.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "docs/**",
+    "examples/**",
+    "tools/phase-scanner.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "tools/test-phase-scanner-fixtures.cjs"
+  ],
+  "claims": [
+    "BP-042 checks that the coverage map explicitly says no documented fixture gap is open.",
+    "BP-042 checks that the current gap section no longer contains bullet-list gaps.",
+    "BP-042 does not change runtime, docs, fixtures, or external integration behavior."
+  ],
+  "assumptions": [
+    "BP-041 intentionally changed the coverage map to no open documented fixture gap.",
+    "If new gaps are added later, the coverage map test should fail until that change is intentional.",
+    "No documentation change is needed in this block."
+  ],
+  "dod": [
+    "tools/test-phase-scanner-coverage-map.cjs checks the no-open-gap statement.",
+    "tools/test-phase-scanner-coverage-map.cjs rejects bullet gaps under the current gaps section.",
+    "node tools/test-phase-scanner-coverage-map.cjs exits 0.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-042 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-042 --preflight",
+    "node --check tools/test-phase-scanner-coverage-map.cjs",
+    "node tools/test-phase-scanner-coverage-map.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-042 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Coverage map content changes become necessary",
+    "Runtime or fixture changes become necessary",
+    "Live Builder, auth, secrets, DB, deploy, or external system behavior becomes necessary"
+  ],
+  "prior_task_findings": "BP-041 closed the last listed Phase Scanner coverage gap and changed the coverage map to state no documented gap is open.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
