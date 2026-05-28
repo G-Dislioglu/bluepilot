@@ -1,0 +1,81 @@
+{
+  "task_id": "BP-043",
+  "task_name": "Document Post Phase Scanner MVP Checkpoint",
+  "created": "2026-05-28",
+  "scope": "bluepilot/mvp-chain/post-phase-scanner-checkpoint",
+  "mode": "standard",
+  "task_type": "doc_task",
+  "risk_class": "low",
+  "impact_class": "planning",
+  "target_persona": null,
+  "goal": "Document the post-Phase-Scanner MVP checkpoint and identify the next non-live Scope Resolver boundary before Builder task creation.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/MVP_SCOPE.md",
+    "docs/PHASE_SCANNER_FIXTURE_COVERAGE_v0.md",
+    "docs/BUILDER_DONOR_MAP.md",
+    "docs/ADAPTER_CONTRACTS_v0.md",
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-043.json",
+    "docs/MVP_CHAIN_CHECKPOINT_POST_PHASE_SCANNER_v0.md",
+    "review-packets/BP-043.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-043 documents that Phase Scanner local deterministic review coverage is complete by current coverage map.",
+    "BP-043 identifies Scope Resolver handoff as the next MVP chain boundary.",
+    "BP-043 does not authorize live Builder calls, auth, secrets, DB, deploy, execution, or task creation."
+  ],
+  "assumptions": [
+    "The current Phase Scanner coverage map reports no documented fixture gap.",
+    "The next MVP chain step after Phase Scanner is Scope Resolver.",
+    "A planning checkpoint is safer than jumping directly to Builder task creation."
+  ],
+  "dod": [
+    "docs/MVP_CHAIN_CHECKPOINT_POST_PHASE_SCANNER_v0.md exists.",
+    "The document states what is complete, what is not complete, and the next boundary.",
+    "The document explicitly blocks live Builder, auth, secrets, DB, deploy, execution, and task creation.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-043 --verify exits 0."
+  ],
+  "evidence_required": [
+    "content_check",
+    "test_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-043 --preflight",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-043 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime, fixture, package, or tool changes become necessary",
+    "Live Builder, auth, secrets, DB, deploy, execution, or task creation becomes necessary"
+  ],
+  "prior_task_findings": "BP-041 and BP-042 closed and enforced the currently documented Phase Scanner fixture coverage gap state.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
