@@ -1,0 +1,80 @@
+{
+  "decision": "require_human_review",
+  "confidence": 0.95,
+  "stoplight": "yellow",
+  "check_results": [
+    {
+      "name": "input_schema",
+      "status": "pass",
+      "reason": "Required input fields are present."
+    },
+    {
+      "name": "scope_clarity",
+      "status": "pass",
+      "reason": "Goal, target repo, and requested scope are bounded."
+    },
+    {
+      "name": "file_risk",
+      "status": "pass",
+      "reason": "Requested scope is repo-relative and gateable."
+    },
+    {
+      "name": "no_go_zones",
+      "status": "pass",
+      "reason": "No No-Go zone matched."
+    },
+    {
+      "name": "dependency_risk",
+      "status": "pass",
+      "reason": "No blocked dependency detected."
+    },
+    {
+      "name": "runtime_deploy_risk",
+      "status": "pass",
+      "reason": "Run can be assessed without deploy or production mutation."
+    },
+    {
+      "name": "evidence_availability",
+      "status": "pass",
+      "reason": "At least one evidence source is available."
+    },
+    {
+      "name": "track_independence",
+      "status": "pass",
+      "reason": "Single-track execution only."
+    },
+    {
+      "name": "known_risks",
+      "status": "review",
+      "reason": "Known risks were provided and require visible handling."
+    },
+    {
+      "name": "human_gate",
+      "status": "pass",
+      "reason": "MVP keeps human gate required for execution."
+    },
+    {
+      "name": "council_trigger",
+      "status": "pass",
+      "reason": "No council trigger detected."
+    }
+  ],
+  "known_risks_status": "processed",
+  "risk_summary": [
+    {
+      "risk": "product decision risk: adapter boundaries must not become deep Builder integration",
+      "type": "product_decision",
+      "action": "human_review"
+    }
+  ],
+  "allowed_tracks": [],
+  "blocked_reasons": [],
+  "required_evidence": [
+    "diff_ref",
+    "content_check",
+    "task_audit",
+    "risk_summary"
+  ],
+  "human_gate_required": true,
+  "council_required": false
+}
