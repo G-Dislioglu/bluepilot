@@ -1,0 +1,71 @@
+{
+  "task_id": "BP-016",
+  "task_name": "Add Cohesive Block Run Rule",
+  "created": "2026-05-28",
+  "scope": "bluepilot/agent-workflow",
+  "mode": "lite",
+  "task_type": "governance_task",
+  "risk_class": "low",
+  "impact_class": "governance",
+  "target_persona": null,
+  "goal": "Add a working rule that related blocks should be bundled into one coherent autonomous goal-run when safe.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-016.json",
+    "AGENTS.md",
+    "review-packets/BP-016.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "docs/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**"
+  ],
+  "claims": [
+    "AGENTS.md now instructs Codex to bundle related blocks into coherent autonomous goal-runs when safe.",
+    "The rule preserves WLP, contracts, scope gates, hard stops, and review packets."
+  ],
+  "assumptions": [
+    "This is a workflow governance rule, not a product behavior change.",
+    "No runtime, tool, package, docs, or example change is needed."
+  ],
+  "dod": [
+    "AGENTS.md contains the cohesive block run rule.",
+    "node tools/verify-task-lock.cjs BP-016 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "diff_ref",
+    "content_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-016 --preflight",
+    "node tools/verify-task-lock.cjs BP-016 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Rule would weaken WLP or hard-stop behavior",
+    "Runtime or tool changes become necessary"
+  ],
+  "prior_task_findings": "User requested that related blocks be bundled and handled together instead of one tiny block at a time.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}

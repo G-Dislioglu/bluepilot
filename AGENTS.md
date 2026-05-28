@@ -57,6 +57,18 @@ Kein Zwischenfragen. Am Ende: Feature Review Packet.
 
 Ausnahme: echter `HARD STOP`.
 
+## Zusammenhaengende Block-Runs
+
+Wenn mehrere naechste Schritte sachlich zusammenhaengen, soll Codex sie als einen groesseren Goal-Run zusammenziehen und autonom abarbeiten.
+
+Regeln:
+
+- Ein zusammengezogener Run braucht ein klares gemeinsames Ziel.
+- WLP bleibt verbindlich: Contracts, Allowed/Forbidden Files, Preflight, Verify und Review Packet bleiben Pflicht.
+- Kleine Teil-Commits sind erlaubt, wenn sie Review und Ruecksprung einfacher machen.
+- Nicht zusammenziehen, wenn Auth, Secrets, DB, Deploy, Live-Builder, Scope-Ausweitung oder ein echter `HARD STOP` beruehrt wird.
+- Abschlussausgabe bleibt kurz: gemacht, verifiziert, naechster sinnvoller Schritt.
+
 ## UI Menschenfreundlichkeit
 
 Hauptscreens muessen fuer `beginner_user` und `operator_user` verstaendlich sein. Debug, Logs und Evidence gehoeren in Detailbereiche fuer `power_user`.
