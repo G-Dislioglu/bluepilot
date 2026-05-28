@@ -1,0 +1,81 @@
+{
+  "task_id": "BP-052",
+  "task_name": "Define Human Gate Handoff Boundary",
+  "created": "2026-05-28",
+  "scope": "bluepilot/human-gate/handoff-boundary",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "medium",
+  "impact_class": "architectural",
+  "target_persona": null,
+  "goal": "Define the document-only handoff boundary from Builder Task Contract Candidate output to a future Human Gate Review Candidate without approving, creating, or executing Builder tasks.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BUILDER_TASK_CONTRACT_HANDOFF_v0.md",
+    "docs/BUILDER_TASK_CANDIDATE_FIXTURE_COVERAGE_v0.md",
+    "docs/BUILDER_ADAPTER_CONTRACT_v0.md",
+    "docs/BUILDER_DONOR_MAP.md",
+    "review-packets/BP-051.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-052.json",
+    "docs/HUMAN_GATE_HANDOFF_v0.md",
+    "review-packets/BP-052.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-052 defines only a document-level handoff from Builder Task Candidate output to a future Human Gate Review Candidate.",
+    "BP-052 keeps approval, task creation, execution, and live Builder calls blocked.",
+    "BP-052 does not implement UI, auth, secrets, DB, persistence, approval action, or Builder integration."
+  ],
+  "assumptions": [
+    "Builder Task Candidate output is the required source for later Human Gate review input.",
+    "A human-review envelope is needed before any future task creation decision.",
+    "Live Builder task creation remains blocked until a separate readiness and approval task explicitly allows it."
+  ],
+  "dod": [
+    "docs/HUMAN_GATE_HANDOFF_v0.md exists.",
+    "The document defines required input, output, gates, blocked behavior, and non-goals.",
+    "The document explicitly prevents automatic approval, Task Create, Execute, Approve, Push, Deploy, auth, secrets, DB, and live Builder calls.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-052 --verify exits 0."
+  ],
+  "evidence_required": [
+    "content_check",
+    "test_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-052 --preflight",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-052 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime, fixture, package, or tool changes become necessary",
+    "Live Builder, auth, secrets, DB, deploy, execution, task creation, approve, or push becomes necessary"
+  ],
+  "prior_task_findings": "BP-051 made Builder Task Candidate fixture coverage visible and identified Human Gate Handoff as the next safe boundary.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
