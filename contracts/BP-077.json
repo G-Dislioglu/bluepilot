@@ -1,0 +1,82 @@
+{
+  "task_id": "BP-077",
+  "task_name": "Define Pre-Live Hardening Decision",
+  "created": "2026-05-28",
+  "scope": "bluepilot/pre-live-hardening/decision",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "medium",
+  "impact_class": "architectural",
+  "target_persona": null,
+  "goal": "Define the mandatory local hardening decision before any future live Builder adapter work, without enabling live Builder access, real task creation, execution, auth, secrets, persistence, approval recording, DB, deploy, approve, or push.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/MVP_CHAIN_CHECKPOINT_LOCAL_LIVE_BUILDER_ADAPTER_READINESS_v0.md",
+    "docs/LIVE_BUILDER_ADAPTER_READINESS_CONTRACT_v0.md",
+    "docs/LIVE_BUILDER_ADAPTER_READINESS_CANDIDATE_FIXTURE_COVERAGE_v0.md",
+    "docs/BUILDER_LIVE_READ_PROBE_CONTRACT_v0.md",
+    "docs/BUILDER_ADAPTER_LIVE_READINESS_AUDIT_v0.md",
+    "review-packets/BP-076.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-077.json",
+    "docs/PRE_LIVE_HARDENING_DECISION_v0.md",
+    "review-packets/BP-077.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-077 defines a document-only Pre-Live Hardening Decision.",
+    "BP-077 lists mandatory local hardening blocks before any future live Builder adapter work.",
+    "BP-077 does not implement live Builder access, task creation, execution, approval recording, auth, secrets, persistence, UI, DB, deploy, approve, or push."
+  ],
+  "assumptions": [
+    "BP-076 documented the local MVP chain through Live Builder Adapter Readiness Candidate.",
+    "The next safe step is to make fixture and governance gaps explicit before considering any live adapter implementation.",
+    "Pre-live hardening should remain local and deterministic."
+  ],
+  "dod": [
+    "docs/PRE_LIVE_HARDENING_DECISION_v0.md exists.",
+    "The document states mandatory hardening gates, blocked actions, required local fixture additions, review evidence, promotion blockers, and next safe BP steps.",
+    "The document explicitly blocks live Builder access, Builder Task Create, Execute, Approve, Push, Deploy, auth, secrets, persistence, approval recording, DB, UI, and target file writes.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-077 --verify exits 0."
+  ],
+  "evidence_required": [
+    "content_check",
+    "test_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-077 --preflight",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-077 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime, fixture, package, or tool changes become necessary",
+    "Live Builder access, task creation, execution, approval recording, auth implementation, secrets, persistence, DB, deploy, approve, or push becomes necessary"
+  ],
+  "prior_task_findings": "BP-076 made the local MVP chain through Live Builder Adapter Readiness visible and recommended a Pre-Live Hardening Decision before any live-adapter work.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
