@@ -1,0 +1,88 @@
+{
+  "task_id": "BP-040",
+  "task_name": "Add Phase Scanner Council Trigger Review Fixture",
+  "created": "2026-05-28",
+  "scope": "bluepilot/phase-scanner/council-trigger-fixture",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "low",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Add a Phase Scanner fixture for council-trigger review behavior and update the coverage map without changing scanner runtime behavior.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/PHASE_SCANNER_FIXTURE_COVERAGE_v0.md",
+    "docs/PHASE_SCANNER_RUNTIME_DECISION_v0.md",
+    "tools/phase-scanner.cjs",
+    "tools/test-phase-scanner-fixtures.cjs",
+    "tools/test-phase-scanner-coverage-map.cjs",
+    "review-packets/BP-039.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-040.json",
+    "docs/PHASE_SCANNER_FIXTURE_COVERAGE_v0.md",
+    "tools/test-phase-scanner-fixtures.cjs",
+    "examples/phase-scanner/BP-040.review-council-trigger.input.json",
+    "examples/phase-scanner/BP-040.review-council-trigger.output.json",
+    "review-packets/BP-040.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "tools/phase-scanner.cjs",
+    "tools/test-bluepilot-review-suite.cjs"
+  ],
+  "claims": [
+    "BP-040 adds a council-trigger review fixture.",
+    "BP-040 proves the MVP degrades council-trigger cases to require_human_review while setting council_required=true.",
+    "BP-040 updates the coverage map and does not change Phase Scanner runtime behavior."
+  ],
+  "assumptions": [
+    "Existing runtime behavior already marks council-trigger cases as review-only with council_required=true.",
+    "The coverage map must be updated in the same block because BP-036 enforces it.",
+    "No runtime change is required."
+  ],
+  "dod": [
+    "Council-trigger review fixture exists and is tested.",
+    "Coverage map lists the new fixture and removes the covered council gap.",
+    "node tools/test-phase-scanner-fixtures.cjs exits 0.",
+    "node tools/test-phase-scanner-coverage-map.cjs exits 0.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-040 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "fixture_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-040 --preflight",
+    "node tools/test-phase-scanner-fixtures.cjs",
+    "node tools/test-phase-scanner-coverage-map.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-040 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime changes become necessary",
+    "Live Builder, auth, secrets, DB, deploy, or external system behavior becomes necessary"
+  ],
+  "prior_task_findings": "BP-039 closed the adapter-dependency coverage gap; council-trigger review remained uncovered.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
