@@ -1,0 +1,74 @@
+{
+  "decision": "reject",
+  "confidence": 0.6,
+  "stoplight": "red",
+  "check_results": [
+    {
+      "name": "input_schema",
+      "status": "pass",
+      "reason": "Required input fields are present."
+    },
+    {
+      "name": "scope_clarity",
+      "status": "pass",
+      "reason": "Goal, target repo, and requested scope are bounded."
+    },
+    {
+      "name": "file_risk",
+      "status": "fail",
+      "reason": "Unsafe requested scope: ../outside/secret.md."
+    },
+    {
+      "name": "no_go_zones",
+      "status": "pass",
+      "reason": "No No-Go zone matched."
+    },
+    {
+      "name": "dependency_risk",
+      "status": "pass",
+      "reason": "No blocked dependency detected."
+    },
+    {
+      "name": "runtime_deploy_risk",
+      "status": "pass",
+      "reason": "Run can be assessed without deploy or production mutation."
+    },
+    {
+      "name": "evidence_availability",
+      "status": "pass",
+      "reason": "At least one evidence source is available."
+    },
+    {
+      "name": "track_independence",
+      "status": "pass",
+      "reason": "Single-track execution only."
+    },
+    {
+      "name": "known_risks",
+      "status": "pass",
+      "reason": "No known_risks were provided; output marks not_provided."
+    },
+    {
+      "name": "human_gate",
+      "status": "pass",
+      "reason": "MVP keeps human gate required for execution."
+    },
+    {
+      "name": "council_trigger",
+      "status": "pass",
+      "reason": "No council trigger detected."
+    }
+  ],
+  "known_risks_status": "not_provided",
+  "risk_summary": [],
+  "allowed_tracks": [],
+  "blocked_reasons": [
+    "Unsafe requested scope: ../outside/secret.md."
+  ],
+  "required_evidence": [
+    "diff_ref",
+    "task_audit"
+  ],
+  "human_gate_required": true,
+  "council_required": false
+}

@@ -1,0 +1,30 @@
+{
+  "idea": "Prepare a bounded local documentation update.",
+  "target_repo": "bluepilot",
+  "requested_scope": [
+    "../outside/secret.md"
+  ],
+  "repo_context": [
+    "docs/NO_GO_ZONES.md"
+  ],
+  "known_risks": [],
+  "available_donors": [
+    "Task Evidence",
+    "Task Audit Log"
+  ],
+  "evidence_sources": [
+    "diff_ref"
+  ],
+  "tracks": [
+    {
+      "name": "unsafe-scope",
+      "scope": [
+        "../outside/secret.md"
+      ]
+    }
+  ],
+  "no_go_zones": [
+    "No auto-merge",
+    "No auto-deploy"
+  ]
+}

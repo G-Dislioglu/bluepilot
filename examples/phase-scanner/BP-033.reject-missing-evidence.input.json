@@ -1,0 +1,24 @@
+{
+  "idea": "Prepare a bounded documentation update for the review suite.",
+  "target_repo": "bluepilot",
+  "requested_scope": [
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md"
+  ],
+  "repo_context": [
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md"
+  ],
+  "known_risks": [],
+  "available_donors": [],
+  "tracks": [
+    {
+      "name": "single-doc-update",
+      "scope": [
+        "docs/BLUEPILOT_REVIEW_SUITE_v0.md"
+      ]
+    }
+  ],
+  "no_go_zones": [
+    "No auto-merge",
+    "No auto-deploy"
+  ]
+}

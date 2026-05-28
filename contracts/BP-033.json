@@ -1,0 +1,89 @@
+{
+  "task_id": "BP-033",
+  "task_name": "Add Phase Scanner Reject Edge Fixtures",
+  "created": "2026-05-28",
+  "scope": "bluepilot/phase-scanner/reject-edge-fixtures",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "low",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Add Phase Scanner fixtures for missing evidence and unsafe file scope rejects without changing scanner runtime behavior.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/PHASE_SCANNER_RUNTIME_DECISION_v0.md",
+    "tools/phase-scanner.cjs",
+    "tools/test-phase-scanner-fixtures.cjs",
+    "tools/test-phase-scanner-output-invariants.cjs",
+    "review-packets/BP-032.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-033.json",
+    "tools/test-phase-scanner-fixtures.cjs",
+    "examples/phase-scanner/BP-033.reject-missing-evidence.input.json",
+    "examples/phase-scanner/BP-033.reject-missing-evidence.output.json",
+    "examples/phase-scanner/BP-033.reject-unsafe-file-scope.input.json",
+    "examples/phase-scanner/BP-033.reject-unsafe-file-scope.output.json",
+    "review-packets/BP-033.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "docs/**",
+    "tools/phase-scanner.cjs",
+    "tools/test-bluepilot-review-suite.cjs"
+  ],
+  "claims": [
+    "BP-033 adds missing-evidence and unsafe-file-scope reject fixtures.",
+    "BP-033 covers the hard confidence caps for evidence and file-risk failures.",
+    "BP-033 does not change Phase Scanner runtime behavior or external integration behavior."
+  ],
+  "assumptions": [
+    "Existing runtime behavior already rejects missing evidence and unsafe file scopes.",
+    "Golden fixtures plus existing output invariants are enough for this block.",
+    "The shared review suite will pick up invariant coverage for these new input fixtures."
+  ],
+  "dod": [
+    "Missing-evidence reject fixture exists and is tested.",
+    "Unsafe-file-scope reject fixture exists and is tested.",
+    "node tools/test-phase-scanner-fixtures.cjs exits 0.",
+    "node tools/test-phase-scanner-output-invariants.cjs exits 0.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-033 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "fixture_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-033 --preflight",
+    "node tools/test-phase-scanner-fixtures.cjs",
+    "node tools/test-phase-scanner-output-invariants.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-033 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime changes become necessary",
+    "Live Builder, auth, secrets, DB, deploy, or external system behavior becomes necessary"
+  ],
+  "prior_task_findings": "BP-032 added output invariant checks across all Phase Scanner input fixtures.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
