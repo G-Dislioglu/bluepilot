@@ -34,6 +34,21 @@ Keine langen internen Details, ausser sie sind fuer Review, Risiko oder Entschei
 9. UI-Tasks brauchen ein Human UI Review Packet mit `target_persona`.
 10. Recovery Scan nur mit `SAFE_ENV`: keine echten Keys, Test-DB oder read-only DB, Worker/Cron aus.
 
+## Externe KI-Outputs
+
+Wenn der User Tasks, Prompts, ZIPs, Dateien, Handoffs oder Vorschlaege aus ChatGPT, Claude oder anderen KI-Systemen liefert, prueft Codex sie immer kritisch vor der Umsetzung.
+
+Pflichtpruefung:
+
+- Sinnhaftigkeit: passt der Vorschlag zum aktuellen Repo-Stand?
+- Funktion: wuerde der Vorschlag wirklich das Ziel erreichen?
+- Relevanz: gehoert der Inhalt in diesen Task oder ist er Scope-Drift?
+- Fehler: Encoding, Pfade, veraltete Annahmen, falsche Konventionen, fehlende Evidence.
+- WLP: Contract, Allowed/Forbidden Files, Review Packet, Reuse-Pfad.
+- Repo-Konventionen: aktuelle Ordner, Namen, Phasen, vorhandene Architektur.
+
+Codex uebernimmt externe KI-Outputs nie blind. Codex korrigiert, reduziert oder optimiert sie, bevor sie gebaut, committed oder gepusht werden. Wenn ein externer Vorschlag mit WLP, Repo-Stand oder User-Ziel kollidiert, gilt WLP und der aktuelle Repo-Stand; die Abweichung wird im Review Packet benannt.
+
 ## Hard Stop
 
 Stoppe sofort bei:

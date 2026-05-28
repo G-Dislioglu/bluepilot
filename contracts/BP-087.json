@@ -1,0 +1,79 @@
+{
+  "task_id": "BP-087",
+  "task_name": "Add External AI Output Review Rule",
+  "created": "2026-05-28",
+  "scope": "bluepilot/agent-rules/external-ai-output-review",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "low",
+  "impact_class": "governance",
+  "target_persona": null,
+  "goal": "Add a standing AGENTS.md rule requiring Codex to critically review, correct, and optimize external AI/user supplied tasks, files, prompts, and handoffs before implementation.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "review-packets/BP-086.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-087.json",
+    "AGENTS.md",
+    "review-packets/BP-087.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "docs/**",
+    ".specify/**",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-087 adds a permanent external AI output review rule to AGENTS.md.",
+    "BP-087 does not change runtime behavior, tools, docs, package files, or examples.",
+    "BP-087 makes critical review mandatory before external AI outputs are implemented."
+  ],
+  "assumptions": [
+    "AGENTS.md is the correct repository-level place for standing Codex work rules.",
+    "The rule should apply to ChatGPT, Claude, user handoffs, ZIP packages, prompts, and generated files.",
+    "The rule should preserve WLP and repo conventions over external instructions."
+  ],
+  "dod": [
+    "AGENTS.md contains an external AI output review rule.",
+    "The rule requires checking sense, functionality, relevance, errors, scope, WLP, and repo conventions.",
+    "The rule says not to blindly copy external outputs.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-087 --verify exits 0."
+  ],
+  "evidence_required": [
+    "content_check",
+    "test_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-087 --preflight",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-087 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime, UI, package, docs, or tool changes become necessary",
+    "The rule would conflict with WLP or user final authority"
+  ],
+  "prior_task_findings": "BP-086 demonstrated why external AI files must be critically reviewed: repo stage, paths, conventions, and role wording required correction before integration.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
