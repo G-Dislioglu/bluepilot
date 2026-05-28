@@ -26,6 +26,7 @@ const commands = [
   ['syntax: scope resolver', ['--check', 'tools/scope-resolver.cjs']],
   ['syntax: scope resolver fixture test', ['--check', 'tools/test-scope-resolver-fixtures.cjs']],
   ['syntax: scope resolver output invariants test', ['--check', 'tools/test-scope-resolver-output-invariants.cjs']],
+  ['syntax: scope resolver coverage map test', ['--check', 'tools/test-scope-resolver-coverage-map.cjs']],
   ['adapter fixtures', ['tools/test-builder-adapter-fixtures.cjs']],
   ['endpoint fixtures', ['tools/test-builder-adapter-endpoint-fixtures.cjs']],
   ['HTTP route fixtures', ['tools/test-builder-adapter-http-route.cjs']],
@@ -37,6 +38,7 @@ const commands = [
   ['phase scanner coverage map', ['tools/test-phase-scanner-coverage-map.cjs']],
   ['scope resolver fixtures', ['tools/test-scope-resolver-fixtures.cjs']],
   ['scope resolver output invariants', ['tools/test-scope-resolver-output-invariants.cjs']],
+  ['scope resolver coverage map', ['tools/test-scope-resolver-coverage-map.cjs']],
 ];
 
 for (const [label, args] of commands) {

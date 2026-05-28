@@ -1,0 +1,89 @@
+{
+  "task_id": "BP-047",
+  "task_name": "Add Scope Resolver Fixture Coverage Map",
+  "created": "2026-05-28",
+  "scope": "bluepilot/scope-resolver/coverage-map",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "low",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Add a Scope Resolver fixture coverage map and a local consistency test so documented MVP cases stay aligned with golden fixtures.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/SCOPE_RESOLVER_HANDOFF_CONTRACT_v0.md",
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md",
+    "tools/test-phase-scanner-coverage-map.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "examples/scope-resolver/**",
+    "review-packets/BP-046.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-047.json",
+    "docs/SCOPE_RESOLVER_FIXTURE_COVERAGE_v0.md",
+    "tools/test-scope-resolver-coverage-map.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "review-packets/BP-047.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "tools/scope-resolver.cjs",
+    "tools/test-scope-resolver-fixtures.cjs",
+    "tools/test-scope-resolver-output-invariants.cjs",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-047 documents current Scope Resolver fixture coverage.",
+    "BP-047 adds a coverage-map consistency test to catch fixture/doc drift.",
+    "BP-047 does not change Scope Resolver runtime behavior or fixtures."
+  ],
+  "assumptions": [
+    "BP-045 introduced the first Scope Resolver golden fixtures.",
+    "BP-046 made the shared review suite the local reviewer entry point.",
+    "Coverage visibility should be added before expanding toward Builder task contracts."
+  ],
+  "dod": [
+    "docs/SCOPE_RESOLVER_FIXTURE_COVERAGE_v0.md exists and lists the current fixture cases.",
+    "tools/test-scope-resolver-coverage-map.cjs verifies every documented fixture exists.",
+    "tools/test-bluepilot-review-suite.cjs runs the Scope Resolver coverage-map test.",
+    "node tools/test-scope-resolver-coverage-map.cjs exits 0.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-047 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "content_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-047 --preflight",
+    "node --check tools/test-scope-resolver-coverage-map.cjs",
+    "node tools/test-scope-resolver-coverage-map.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-047 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Scope Resolver runtime or fixture changes become necessary",
+    "Live Builder, auth, secrets, DB, deploy, task create, execute, approve, or push becomes necessary"
+  ],
+  "prior_task_findings": "BP-046 added Scope Resolver review-suite checks but did not document fixture coverage or guard doc/fixture drift.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
