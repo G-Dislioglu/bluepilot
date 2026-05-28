@@ -57,6 +57,10 @@ Die Suite prueft lokal:
 - Auth/Persistence Readiness Candidate Syntax.
 - Auth/Persistence Readiness Candidate Fixtures.
 - Auth/Persistence Readiness Candidate Output Invariants.
+- Auth/Persistence Readiness Candidate Coverage Map.
+- Builder Task Create Readiness Candidate Syntax.
+- Builder Task Create Readiness Candidate Fixtures.
+- Builder Task Create Readiness Candidate Output Invariants.
 
 ## Was die Suite nicht beweist
 
@@ -76,6 +80,7 @@ Die Suite beweist nicht:
 - Approval Recording.
 - echte Auth-/Identity- oder Persistenzgrenze.
 - echte Secrets, DB- oder Approval-Record-Speicherung.
+- echten Builder Task Create oder Live Builder Call.
 
 ## Arbeitsregel
 
