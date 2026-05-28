@@ -1,0 +1,78 @@
+{
+  "task_id": "BP-019",
+  "task_name": "Define Persistence Decision Note",
+  "created": "2026-05-28",
+  "scope": "bluepilot/builder-adapter/persistence-decision",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "medium",
+  "impact_class": "architectural",
+  "target_persona": null,
+  "goal": "Define the persistence decision for Builder Adapter runs without adding storage code.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BUILDER_ADAPTER_AUTH_PERSISTENCE_BOUNDARY_v0.md",
+    "review-packets/BP-018.md",
+    "tools/test-builder-adapter-review-suite.cjs"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-019.json",
+    "docs/BUILDER_ADAPTER_PERSISTENCE_DECISION_v0.md",
+    "review-packets/BP-019.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**",
+    "docs/!(*BUILDER_ADAPTER_PERSISTENCE_DECISION_v0.md)"
+  ],
+  "claims": [
+    "Persistence remains disabled for the current mock Builder Adapter line.",
+    "The decision defines what must exist before any storage implementation can start.",
+    "The decision preserves Review Packets and fixtures as the current evidence path."
+  ],
+  "assumptions": [
+    "Persistence is not required for the current local mock route to be reviewable.",
+    "Adding storage before live Builder readiness would increase risk without product benefit.",
+    "No runtime, package, tool, or example change is required."
+  ],
+  "dod": [
+    "docs/BUILDER_ADAPTER_PERSISTENCE_DECISION_v0.md exists.",
+    "The document defines current no-persistence decision, future schema requirements, retention, deletion, evidence, and blocked storage types.",
+    "node tools/test-builder-adapter-review-suite.cjs exits 0 before the task.",
+    "node tools/verify-task-lock.cjs BP-019 --verify exits 0."
+  ],
+  "evidence_required": [
+    "diff_ref",
+    "content_check"
+  ],
+  "required_commands": [
+    "node tools/test-builder-adapter-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-019 --preflight",
+    "node tools/verify-task-lock.cjs BP-019 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Persistence implementation becomes necessary",
+    "Database, file storage, secrets, or live Builder behavior becomes necessary"
+  ],
+  "prior_task_findings": "BP-018 implemented only a mock-auth header gate; persistence remains separate and blocked until schema and retention rules exist.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
