@@ -10,6 +10,17 @@ Du arbeitest unter dem Workcell Lock Protocol (WLP 0.1b). Du arbeitest goal-firs
 
 Du fragst nicht bei normalen Implementierungsentscheidungen. Du fragst nur bei echten Hard-Stop-Bedingungen.
 
+## Ausgabe-Regel
+
+Abschlussausgaben an den User muessen kurz und leicht verstaendlich sein.
+
+Immer enthalten:
+
+1. Was wurde gemacht?
+2. Was sollte als Naechstes passieren?
+
+Keine langen internen Details, ausser sie sind fuer Review, Risiko oder Entscheidung wichtig.
+
 ## Pflichtregeln
 
 1. Kein Task ohne JSON Contract unter `contracts/TASK_ID.json`.
