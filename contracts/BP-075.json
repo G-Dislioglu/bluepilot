@@ -1,0 +1,89 @@
+{
+  "task_id": "BP-075",
+  "task_name": "Add Live Builder Adapter Readiness Fixture Coverage Map",
+  "created": "2026-05-28",
+  "scope": "bluepilot/live-builder-adapter-readiness/coverage-map",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "low",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Add a Live Builder Adapter Readiness Candidate fixture coverage map and a local consistency test so documented MVP cases stay aligned with golden fixtures.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/LIVE_BUILDER_ADAPTER_READINESS_CONTRACT_v0.md",
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md",
+    "tools/test-builder-task-create-readiness-candidate-coverage-map.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "examples/live-builder-adapter-readiness-candidate/**",
+    "review-packets/BP-074.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-075.json",
+    "docs/LIVE_BUILDER_ADAPTER_READINESS_CANDIDATE_FIXTURE_COVERAGE_v0.md",
+    "tools/test-live-builder-adapter-readiness-candidate-coverage-map.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "review-packets/BP-075.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "tools/live-builder-adapter-readiness-candidate.cjs",
+    "tools/test-live-builder-adapter-readiness-candidate-fixtures.cjs",
+    "tools/test-live-builder-adapter-readiness-candidate-output-invariants.cjs",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-075 documents current Live Builder Adapter Readiness Candidate fixture coverage.",
+    "BP-075 adds a coverage-map consistency test to catch fixture/doc drift.",
+    "BP-075 does not change Live Builder Adapter Readiness Candidate runtime behavior or fixtures."
+  ],
+  "assumptions": [
+    "BP-073 introduced the first Live Builder Adapter Readiness Candidate golden fixtures.",
+    "BP-074 made the shared review suite cover the Live Builder Adapter Readiness Candidate mock.",
+    "Coverage visibility should be added before setting the next local MVP checkpoint."
+  ],
+  "dod": [
+    "docs/LIVE_BUILDER_ADAPTER_READINESS_CANDIDATE_FIXTURE_COVERAGE_v0.md exists and lists the current fixture cases.",
+    "tools/test-live-builder-adapter-readiness-candidate-coverage-map.cjs verifies every documented fixture exists.",
+    "tools/test-bluepilot-review-suite.cjs runs the Live Builder Adapter Readiness Candidate coverage-map test.",
+    "node tools/test-live-builder-adapter-readiness-candidate-coverage-map.cjs exits 0.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-075 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "content_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-075 --preflight",
+    "node --check tools/test-live-builder-adapter-readiness-candidate-coverage-map.cjs",
+    "node tools/test-live-builder-adapter-readiness-candidate-coverage-map.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-075 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Live Builder Adapter Readiness Candidate runtime or fixture changes become necessary",
+    "Live Builder, Builder Task Create, auth, secrets, persistence, approval recording, DB, deploy, execute, approve, or push becomes necessary"
+  ],
+  "prior_task_findings": "BP-074 added Live Builder Adapter Readiness Candidate review-suite checks but did not document fixture coverage or guard doc/fixture drift.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}

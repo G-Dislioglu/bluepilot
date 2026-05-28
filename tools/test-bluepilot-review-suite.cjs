@@ -50,6 +50,7 @@ const commands = [
   ['syntax: live builder adapter readiness candidate', ['--check', 'tools/live-builder-adapter-readiness-candidate.cjs']],
   ['syntax: live builder adapter readiness candidate fixture test', ['--check', 'tools/test-live-builder-adapter-readiness-candidate-fixtures.cjs']],
   ['syntax: live builder adapter readiness candidate output invariants test', ['--check', 'tools/test-live-builder-adapter-readiness-candidate-output-invariants.cjs']],
+  ['syntax: live builder adapter readiness candidate coverage map test', ['--check', 'tools/test-live-builder-adapter-readiness-candidate-coverage-map.cjs']],
   ['adapter fixtures', ['tools/test-builder-adapter-fixtures.cjs']],
   ['endpoint fixtures', ['tools/test-builder-adapter-endpoint-fixtures.cjs']],
   ['HTTP route fixtures', ['tools/test-builder-adapter-http-route.cjs']],
@@ -79,6 +80,7 @@ const commands = [
   ['builder task create readiness candidate coverage map', ['tools/test-builder-task-create-readiness-candidate-coverage-map.cjs']],
   ['live builder adapter readiness candidate fixtures', ['tools/test-live-builder-adapter-readiness-candidate-fixtures.cjs']],
   ['live builder adapter readiness candidate output invariants', ['tools/test-live-builder-adapter-readiness-candidate-output-invariants.cjs']],
+  ['live builder adapter readiness candidate coverage map', ['tools/test-live-builder-adapter-readiness-candidate-coverage-map.cjs']],
 ];
 
 for (const [label, args] of commands) {
