@@ -36,6 +36,11 @@ Die Suite prueft lokal:
 - Phase Scanner Syntax.
 - Phase Scanner Fixtures.
 - Phase Scanner CLI Errors.
+- Phase Scanner Output Invariants.
+- Phase Scanner Coverage Map.
+- Scope Resolver Syntax.
+- Scope Resolver Fixtures.
+- Scope Resolver Output Invariants.
 
 ## Was die Suite nicht beweist
 
@@ -48,6 +53,8 @@ Die Suite beweist nicht:
 - Deploy-Faehigkeit.
 - Human Approval.
 - echte Maya Review UI.
+- echten Builder Scope Resolver.
+- Builder Task Create.
 
 ## Arbeitsregel
 
