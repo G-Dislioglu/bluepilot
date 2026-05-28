@@ -63,6 +63,8 @@ const commands = [
   ['syntax: verify task lock council session test', ['--check', 'tools/test-verify-task-lock-council-session.cjs']],
   ['syntax: parallel executor', ['--check', 'tools/parallel-executor.cjs']],
   ['syntax: parallel executor fixture test', ['--check', 'tools/test-parallel-executor-fixtures.cjs']],
+  ['syntax: maya memory', ['--check', 'tools/maya-memory.cjs']],
+  ['syntax: maya memory fixture test', ['--check', 'tools/test-maya-memory-fixtures.cjs']],
   ['adapter fixtures', ['tools/test-builder-adapter-fixtures.cjs']],
   ['endpoint fixtures', ['tools/test-builder-adapter-endpoint-fixtures.cjs']],
   ['HTTP route fixtures', ['tools/test-builder-adapter-http-route.cjs']],
@@ -100,6 +102,7 @@ const commands = [
   ['context broker fixtures', ['tools/test-context-broker-fixtures.cjs']],
   ['verify task lock council session fixtures', ['tools/test-verify-task-lock-council-session.cjs']],
   ['parallel executor fixtures', ['tools/test-parallel-executor-fixtures.cjs']],
+  ['maya memory fixtures', ['tools/test-maya-memory-fixtures.cjs']],
 ];
 
 for (const [label, args] of commands) {

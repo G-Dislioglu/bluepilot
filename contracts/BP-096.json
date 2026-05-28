@@ -1,0 +1,98 @@
+{
+  "task_id": "BP-096",
+  "task_name": "BP-C3 Maya Memory Local JSON Slice",
+  "created": "2026-05-28",
+  "scope": "bluepilot/bp-c3/maya-memory-local-json",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "local-state-runtime",
+  "target_persona": null,
+  "council_session_required": true,
+  "goal": "Build the first BP-C3 Maya Memory slice as bounded local JSON get/set/list storage for project and user preference keys only.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/BP_C2_GREEN_CHECKPOINT_v0.md",
+    "docs/BP_C3_PARALLEL_EXECUTOR_CONTRACT_v0.md",
+    "review-packets/BP-095.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-096.json",
+    "docs/BP_C3_MAYA_MEMORY_CONTRACT_v0.md",
+    "tools/maya-memory.cjs",
+    "tools/test-maya-memory-fixtures.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "review-packets/BP-096.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    ".bluepilot/**",
+    "tools/parallel-executor.cjs",
+    "tools/aicos-query.cjs",
+    "tools/verify-task-lock.cjs",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md"
+  ],
+  "scope_out": [
+    "No affective memory",
+    "No embeddings",
+    "No cross-session inference",
+    "No committed .bluepilot state",
+    "No UI",
+    "No DB, auth, secrets, deploy, AICOS write, or Soulmatch copy"
+  ],
+  "claims": [
+    "tools/maya-memory.cjs supports get, set, and list for bounded keys.",
+    "Only preferred_models, project_name, working_dir, and user_preferences are accepted.",
+    "Memory values are stored with proposal_only=true by default.",
+    "Tests use temporary roots and do not commit runtime memory."
+  ],
+  "assumptions": [
+    "Maya Memory v0 should be simple JSON storage.",
+    "proposal_only should be the default until a human or later governance promotes memory.",
+    "The storage path can default to .bluepilot/maya-memory.json but tests must use temp roots."
+  ],
+  "dod": [
+    "node --check tools/maya-memory.cjs exits 0.",
+    "node tools/test-maya-memory-fixtures.cjs exits 0.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-096 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-096 --preflight",
+    "node --check tools/maya-memory.cjs",
+    "node tools/test-maya-memory-fixtures.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-096 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Affective or embedding memory becomes necessary",
+    "Repo-local .bluepilot state becomes necessary"
+  ],
+  "prior_task_findings": "BP-095 added safe worktree isolation. BP-C3 Memory should stay bounded and proposal-only.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
