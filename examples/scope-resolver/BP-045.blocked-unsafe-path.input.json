@@ -1,0 +1,29 @@
+{
+  "handoff_id": "BP-SCOPE-HANDOFF-045-UNSAFE",
+  "phase_scanner": {
+    "decision": "allow_single_track",
+    "confidence": 1,
+    "stoplight": "green",
+    "allowed_tracks": [
+      {
+        "name": "single-builder-task",
+        "scope": [
+          "../outside.md"
+        ],
+        "requires_human_gate": true
+      }
+    ],
+    "required_evidence": [
+      "diff_ref"
+    ],
+    "human_gate_required": true,
+    "council_required": false
+  },
+  "target_repo": "bluepilot",
+  "requested_scope": [
+    "../outside.md"
+  ],
+  "operation_intent": "read_only_candidate",
+  "known_risks": [],
+  "no_go_zones": []
+}

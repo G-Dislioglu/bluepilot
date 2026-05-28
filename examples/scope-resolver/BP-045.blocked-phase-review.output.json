@@ -1,0 +1,22 @@
+{
+  "handoff_id": "BP-SCOPE-HANDOFF-045-PHASE-REVIEW",
+  "status": "blocked",
+  "target_repo": "bluepilot",
+  "allowed_read_paths": [],
+  "allowed_write_paths": [],
+  "blocked_paths": [
+    "docs/example.md"
+  ],
+  "scope_notes": [
+    "Phase Scanner stoplight is not green."
+  ],
+  "requires_human_gate": true,
+  "writes_allowed_now": false,
+  "task_create_allowed": false,
+  "required_evidence": [
+    "risk_summary"
+  ],
+  "blocked_reasons": [
+    "Phase Scanner decision require_human_review cannot enter Scope Resolver task preparation."
+  ]
+}

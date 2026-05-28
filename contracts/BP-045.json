@@ -1,0 +1,89 @@
+{
+  "task_id": "BP-045",
+  "task_name": "Implement Local Scope Resolver Mock",
+  "created": "2026-05-28",
+  "scope": "bluepilot/scope-resolver/local-mock",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Implement a local deterministic Scope Resolver mock that consumes the BP-044 handoff envelope and emits the agreed Scope Resolver output envelope without live Builder access.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/SCOPE_RESOLVER_HANDOFF_CONTRACT_v0.md",
+    "docs/MVP_CHAIN_CHECKPOINT_POST_PHASE_SCANNER_v0.md",
+    "tools/phase-scanner.cjs",
+    "tools/test-phase-scanner-fixtures.cjs",
+    "review-packets/BP-044.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-045.json",
+    "tools/scope-resolver.cjs",
+    "tools/test-scope-resolver-fixtures.cjs",
+    "examples/scope-resolver/**",
+    "review-packets/BP-045.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "docs/**",
+    "tools/builder-*",
+    "tools/mock-builder-*",
+    "tools/phase-scanner.cjs",
+    "tools/test-bluepilot-review-suite.cjs"
+  ],
+  "claims": [
+    "BP-045 implements a local Scope Resolver mock from the BP-044 handoff envelope.",
+    "BP-045 blocks unsafe paths, non-allowed Phase Scanner decisions, and disallowed operation intents.",
+    "BP-045 does not call Builder, create tasks, write repo files, use auth, use secrets, use DB, or deploy."
+  ],
+  "assumptions": [
+    "The BP-044 handoff contract is the source of truth for MVP Scope Resolver input and output envelopes.",
+    "The first Scope Resolver implementation should be local and fixture-reviewed before any Builder adapter is connected.",
+    "Task creation remains blocked after BP-045 because task_create_allowed must stay false."
+  ],
+  "dod": [
+    "tools/scope-resolver.cjs exists and supports --input <path> and --pretty.",
+    "examples/scope-resolver contains golden input/output fixtures for resolved, review, and blocked cases.",
+    "tools/test-scope-resolver-fixtures.cjs compares CLI output against golden fixtures.",
+    "node tools/test-scope-resolver-fixtures.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-045 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-045 --preflight",
+    "node --check tools/scope-resolver.cjs",
+    "node --check tools/test-scope-resolver-fixtures.cjs",
+    "node tools/test-scope-resolver-fixtures.cjs",
+    "node tools/verify-task-lock.cjs BP-045 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Live Builder access becomes necessary",
+    "Task Create, Execute, Approve, Push, Deploy, auth, secrets, DB, or persistence becomes necessary",
+    "Scope Resolver needs to write files instead of only returning an envelope"
+  ],
+  "prior_task_findings": "BP-044 defined the local Scope Resolver handoff and explicitly named a local mock with fixtures as the next safe step.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}

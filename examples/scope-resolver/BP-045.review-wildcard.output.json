@@ -1,0 +1,21 @@
+{
+  "handoff_id": "BP-SCOPE-HANDOFF-045-WILDCARD",
+  "status": "requires_human_review",
+  "target_repo": "bluepilot",
+  "allowed_read_paths": [
+    "docs/*.md"
+  ],
+  "allowed_write_paths": [],
+  "blocked_paths": [],
+  "scope_notes": [
+    "Wildcard scope needs human review."
+  ],
+  "requires_human_gate": true,
+  "writes_allowed_now": false,
+  "task_create_allowed": false,
+  "required_evidence": [
+    "diff_ref",
+    "risk_summary"
+  ],
+  "blocked_reasons": []
+}

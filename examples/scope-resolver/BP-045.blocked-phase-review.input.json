@@ -1,0 +1,23 @@
+{
+  "handoff_id": "BP-SCOPE-HANDOFF-045-PHASE-REVIEW",
+  "phase_scanner": {
+    "decision": "require_human_review",
+    "confidence": 0.73,
+    "stoplight": "yellow",
+    "allowed_tracks": [],
+    "required_evidence": [
+      "risk_summary"
+    ],
+    "human_gate_required": true,
+    "council_required": false
+  },
+  "target_repo": "bluepilot",
+  "requested_scope": [
+    "docs/example.md"
+  ],
+  "operation_intent": "read_write_candidate",
+  "known_risks": [
+    "runtime risk needs review"
+  ],
+  "no_go_zones": []
+}
