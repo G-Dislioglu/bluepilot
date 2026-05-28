@@ -1,0 +1,38 @@
+{
+  "live_builder_adapter_readiness_id": null,
+  "status": "blocked",
+  "target_repo": null,
+  "live_builder_target": null,
+  "auth_posture": null,
+  "secret_source": null,
+  "persistence_target": null,
+  "network_effect": "none",
+  "task_create_effect": "none",
+  "execute_effect": "none",
+  "builder_task_create_allowed": false,
+  "builder_execute_allowed": false,
+  "live_builder_call_allowed": false,
+  "blocked_reasons": [
+    "Missing required input: live_builder_adapter_readiness_id.",
+    "Missing required input: builder_task_create_readiness.builder_task_create_readiness_id.",
+    "Missing required input: builder_task_create_readiness.status.",
+    "Missing required input: builder_task_create_readiness.target_repo.",
+    "Missing required input: builder_task_create_readiness.builder_adapter_mode.",
+    "Missing required input: builder_task_create_readiness.task_create_effect.",
+    "Missing required input: builder_task_create_readiness.execute_effect.",
+    "Missing required input: builder_task_create_readiness.builder_task_create_allowed.",
+    "Missing required input: builder_task_create_readiness.builder_execute_allowed.",
+    "Missing required input: builder_task_create_readiness.live_builder_call_allowed.",
+    "Missing required input: adapter_readiness_intent.",
+    "Missing required input: live_builder_target.",
+    "Missing required input: auth_posture.",
+    "Missing required input: secret_source.",
+    "Missing required input: persistence_target.",
+    "Missing required input: network_effect_requested.",
+    "Missing required input: task_create_effect_requested.",
+    "Missing required input: execute_effect_requested."
+  ],
+  "readiness_notes": [
+    "Target repo is missing or not explicit."
+  ]
+}

@@ -15,6 +15,7 @@ const cases = [
   ['bp073 review readiness notes', 'BP-073.review-readiness-notes.input.json', 'BP-073.review-readiness-notes.output.json'],
   ['bp073 blocked task create readiness review', 'BP-073.blocked-task-create-readiness-review.input.json', 'BP-073.blocked-task-create-readiness-review.output.json'],
   ['bp073 blocked live target', 'BP-073.blocked-live-target.input.json', 'BP-073.blocked-live-target.output.json'],
+  ['bp078 missing required', 'BP-078.missing-required.input.json', 'BP-078.missing-required.output.json'],
 ];
 
 function readFixture(fileName) {

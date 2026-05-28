@@ -1,0 +1,86 @@
+{
+  "task_id": "BP-078",
+  "task_name": "Add Live Builder Adapter Readiness Missing Fields and CLI Error Tests",
+  "created": "2026-05-28",
+  "scope": "bluepilot/live-builder-adapter-readiness/pre-live-hardening-missing-fields-cli",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "low",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Add local missing-required-fields and CLI error tests for Live Builder Adapter Readiness Candidate without changing runtime behavior or enabling live Builder, auth, secrets, persistence, task creation, or execution.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/PRE_LIVE_HARDENING_DECISION_v0.md",
+    "tools/live-builder-adapter-readiness-candidate.cjs",
+    "tools/test-live-builder-adapter-readiness-candidate-fixtures.cjs",
+    "examples/live-builder-adapter-readiness-candidate/**",
+    "review-packets/BP-077.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-078.json",
+    "tools/test-live-builder-adapter-readiness-candidate-fixtures.cjs",
+    "tools/test-live-builder-adapter-readiness-candidate-cli-errors.cjs",
+    "examples/live-builder-adapter-readiness-candidate/**",
+    "review-packets/BP-078.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "docs/**",
+    "tools/live-builder-adapter-readiness-candidate.cjs",
+    "tools/test-bluepilot-review-suite.cjs"
+  ],
+  "claims": [
+    "BP-078 adds a missing-required-fields fixture for Live Builder Adapter Readiness Candidate.",
+    "BP-078 adds local CLI error tests for missing input and unreadable input.",
+    "BP-078 does not change Live Builder Adapter Readiness Candidate runtime behavior."
+  ],
+  "assumptions": [
+    "BP-077 requires missing-required-fields and CLI error hardening before any live-adapter work.",
+    "The existing candidate already maps incomplete JSON to a blocked output.",
+    "CLI errors should remain local process-level errors and should not contact external systems."
+  ],
+  "dod": [
+    "Missing-required-fields fixture exists and is checked by tools/test-live-builder-adapter-readiness-candidate-fixtures.cjs.",
+    "tools/test-live-builder-adapter-readiness-candidate-cli-errors.cjs exists and passes.",
+    "node tools/test-live-builder-adapter-readiness-candidate-fixtures.cjs exits 0.",
+    "node tools/test-live-builder-adapter-readiness-candidate-cli-errors.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-078 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-078 --preflight",
+    "node --check tools/test-live-builder-adapter-readiness-candidate-cli-errors.cjs",
+    "node tools/test-live-builder-adapter-readiness-candidate-fixtures.cjs",
+    "node tools/test-live-builder-adapter-readiness-candidate-cli-errors.cjs",
+    "node tools/verify-task-lock.cjs BP-078 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime changes become necessary",
+    "Live Builder, Builder Task Create, auth, secrets, persistence, approval recording, DB, deploy, execute, approve, or push becomes necessary"
+  ],
+  "prior_task_findings": "BP-077 named missing-required-fields and CLI error tests as mandatory local pre-live hardening.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
