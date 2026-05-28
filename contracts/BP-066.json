@@ -1,0 +1,81 @@
+{
+  "task_id": "BP-066",
+  "task_name": "Add Local MVP Chain Checkpoint Through Auth Persistence Readiness",
+  "created": "2026-05-28",
+  "scope": "bluepilot/mvp-chain/local-checkpoint-auth-persistence-readiness",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "medium",
+  "impact_class": "architectural",
+  "target_persona": null,
+  "goal": "Document the current local MVP chain through Auth/Persistence Readiness Candidate and define the next safe boundary without enabling auth, secrets, persistence, approval recording, task creation, execution, or live Builder access.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/MVP_CHAIN_CHECKPOINT_LOCAL_APPROVAL_READINESS_v0.md",
+    "docs/AUTH_PERSISTENCE_READINESS_CONTRACT_v0.md",
+    "docs/AUTH_PERSISTENCE_READINESS_CANDIDATE_FIXTURE_COVERAGE_v0.md",
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md",
+    "review-packets/BP-065.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-066.json",
+    "docs/MVP_CHAIN_CHECKPOINT_LOCAL_AUTH_PERSISTENCE_READINESS_v0.md",
+    "review-packets/BP-066.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-066 documents the local MVP chain through Auth/Persistence Readiness Candidate.",
+    "BP-066 identifies which chain stages are locally reviewable and which actions remain blocked.",
+    "BP-066 does not implement approval, auth, secrets, persistence, UI, Builder task creation, execution, DB, deploy, or live Builder access."
+  ],
+  "assumptions": [
+    "BP-065 completed fixture coverage visibility for the Auth/Persistence Readiness Candidate stage.",
+    "A checkpoint is needed before expanding toward Builder Task Create readiness or any real auth/persistence work.",
+    "The next safe step should remain a contract-only boundary."
+  ],
+  "dod": [
+    "docs/MVP_CHAIN_CHECKPOINT_LOCAL_AUTH_PERSISTENCE_READINESS_v0.md exists.",
+    "The document states the local chain stages, current review suite entry point, blocked actions, open gaps, and next safe step.",
+    "The document explicitly blocks approval effect, approval recording, auth implementation, secrets, persistence, Task Create, Execute, Approve, Push, Deploy, DB, and live Builder calls.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-066 --verify exits 0."
+  ],
+  "evidence_required": [
+    "content_check",
+    "test_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-066 --preflight",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-066 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime, fixture, package, or tool changes become necessary",
+    "Auth implementation, secrets, persistence, approval recording, live Builder, DB, deploy, execution, task creation, approve, or push becomes necessary"
+  ],
+  "prior_task_findings": "BP-065 made Auth/Persistence Readiness Candidate fixture coverage visible and cleared the way for a local MVP chain checkpoint.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
