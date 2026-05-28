@@ -1,0 +1,81 @@
+{
+  "task_id": "BP-083",
+  "task_name": "Add Local Checkpoint After Pre-Live Hardening",
+  "created": "2026-05-28",
+  "scope": "bluepilot/mvp-chain/local-checkpoint-after-pre-live-hardening",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "medium",
+  "impact_class": "architectural",
+  "target_persona": null,
+  "goal": "Document the local checkpoint after Pre-Live Hardening fixtures are covered, while keeping live Builder access, task creation, execution, auth, secrets, persistence, approval recording, DB, deploy, approve, and push blocked.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/MVP_CHAIN_CHECKPOINT_LOCAL_LIVE_BUILDER_ADAPTER_READINESS_v0.md",
+    "docs/PRE_LIVE_HARDENING_DECISION_v0.md",
+    "docs/LIVE_BUILDER_ADAPTER_READINESS_CANDIDATE_FIXTURE_COVERAGE_v0.md",
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md",
+    "review-packets/BP-082.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-083.json",
+    "docs/MVP_CHAIN_CHECKPOINT_AFTER_PRE_LIVE_HARDENING_v0.md",
+    "review-packets/BP-083.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-083 documents the local checkpoint after Pre-Live Hardening fixtures are covered.",
+    "BP-083 states that no known local fixture gap blocks the checkpoint.",
+    "BP-083 does not implement live Builder access, task creation, execution, approval recording, auth, secrets, persistence, UI, DB, deploy, approve, or push."
+  ],
+  "assumptions": [
+    "BP-082 updated coverage after BP-081 closed the remaining documented local fixture gaps.",
+    "Live Builder remains blocked by governance, auth, secrets, persistence, approval, evidence, and environment decisions.",
+    "The next safe step should define the next boundary before any new implementation."
+  ],
+  "dod": [
+    "docs/MVP_CHAIN_CHECKPOINT_AFTER_PRE_LIVE_HARDENING_v0.md exists.",
+    "The document states covered local hardening, remaining non-fixture blockers, blocked actions, and next safe step.",
+    "The document explicitly blocks live Builder access, Builder Task Create, Execute, Approve, Push, Deploy, auth, secrets, persistence, approval recording, DB, UI, and target file writes.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-083 --verify exits 0."
+  ],
+  "evidence_required": [
+    "content_check",
+    "test_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-083 --preflight",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-083 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime, fixture, package, or tool changes become necessary",
+    "Live Builder access, task creation, execution, approval recording, auth implementation, secrets, persistence, DB, deploy, approve, or push becomes necessary"
+  ],
+  "prior_task_findings": "BP-082 updated coverage after BP-081 closed the remaining Live Builder Adapter Readiness local hardening fixture gaps.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
