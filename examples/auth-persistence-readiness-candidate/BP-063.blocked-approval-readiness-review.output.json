@@ -1,0 +1,20 @@
+{
+  "auth_persistence_readiness_id": "BP-AUTH-PERSISTENCE-READINESS-063-READINESS-REVIEW",
+  "status": "blocked",
+  "target_repo": "bluepilot",
+  "identity_provider": "none",
+  "persistence_target": "none",
+  "approval_record_effect": "none",
+  "identity_ready": false,
+  "persistence_ready": false,
+  "approval_record_allowed": false,
+  "builder_task_create_allowed": false,
+  "builder_execute_allowed": false,
+  "blocked_reasons": [
+    "Approval Readiness status requires_human_review cannot prepare Auth/Persistence Readiness."
+  ],
+  "readiness_notes": [
+    "Required evidence includes risk_summary and needs human review.",
+    "Approval Readiness notes need human review."
+  ]
+}

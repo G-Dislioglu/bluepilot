@@ -1,0 +1,17 @@
+{
+  "auth_persistence_readiness_id": "BP-AUTH-PERSISTENCE-READINESS-063-PREPARED",
+  "status": "readiness_boundary_prepared",
+  "target_repo": "bluepilot",
+  "identity_provider": "none",
+  "persistence_target": "none",
+  "approval_record_effect": "none",
+  "identity_ready": false,
+  "persistence_ready": false,
+  "approval_record_allowed": false,
+  "builder_task_create_allowed": false,
+  "builder_execute_allowed": false,
+  "blocked_reasons": [],
+  "readiness_notes": [
+    "Auth and persistence are readiness boundaries only. No identity provider, DB, approval record, or Builder action is configured."
+  ]
+}

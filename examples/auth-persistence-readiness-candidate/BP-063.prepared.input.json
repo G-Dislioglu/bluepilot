@@ -1,0 +1,24 @@
+{
+  "auth_persistence_readiness_id": "BP-AUTH-PERSISTENCE-READINESS-063-PREPARED",
+  "approval_readiness": {
+    "approval_readiness_id": "BP-APPROVAL-READINESS-058-PREPARED",
+    "status": "readiness_candidate_prepared",
+    "target_repo": "bluepilot",
+    "read_scope": ["docs/example.md"],
+    "write_scope_candidate": ["docs/example.md"],
+    "required_evidence": ["diff_ref", "task_audit"],
+    "identity_boundary": "not_configured",
+    "persistence_boundary": "not_configured",
+    "approval_effect": "none",
+    "human_approval_recorded": false,
+    "approval_record_allowed": false,
+    "builder_task_create_allowed": false,
+    "builder_execute_allowed": false,
+    "blocked_reasons": [],
+    "readiness_notes": []
+  },
+  "readiness_intent": "prepare_auth_persistence_readiness",
+  "identity_provider": "none",
+  "persistence_target": "none",
+  "approval_record_effect_requested": "none"
+}

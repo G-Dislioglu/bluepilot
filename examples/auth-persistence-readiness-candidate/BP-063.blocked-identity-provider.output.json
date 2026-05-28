@@ -1,0 +1,17 @@
+{
+  "auth_persistence_readiness_id": "BP-AUTH-PERSISTENCE-READINESS-063-AUTH",
+  "status": "blocked",
+  "target_repo": "bluepilot",
+  "identity_provider": "github",
+  "persistence_target": "none",
+  "approval_record_effect": "none",
+  "identity_ready": false,
+  "persistence_ready": false,
+  "approval_record_allowed": false,
+  "builder_task_create_allowed": false,
+  "builder_execute_allowed": false,
+  "blocked_reasons": [
+    "Identity provider must remain none in Auth/Persistence Readiness MVP."
+  ],
+  "readiness_notes": []
+}

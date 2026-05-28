@@ -1,0 +1,94 @@
+{
+  "task_id": "BP-063",
+  "task_name": "Implement Local Auth Persistence Readiness Candidate Mock",
+  "created": "2026-05-28",
+  "scope": "bluepilot/auth-persistence-readiness/local-candidate-mock",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Implement a local deterministic Auth/Persistence Readiness Candidate mock that consumes the BP-062 handoff envelope and emits a local readiness output without configuring auth, persistence, approval records, or Builder task creation.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/AUTH_PERSISTENCE_READINESS_CONTRACT_v0.md",
+    "docs/APPROVAL_READINESS_CONTRACT_v0.md",
+    "docs/APPROVAL_READINESS_CANDIDATE_FIXTURE_COVERAGE_v0.md",
+    "tools/approval-readiness-candidate.cjs",
+    "tools/test-approval-readiness-candidate-fixtures.cjs",
+    "review-packets/BP-062.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-063.json",
+    "tools/auth-persistence-readiness-candidate.cjs",
+    "tools/test-auth-persistence-readiness-candidate-fixtures.cjs",
+    "examples/auth-persistence-readiness-candidate/**",
+    "review-packets/BP-063.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "docs/**",
+    "tools/builder-adapter*",
+    "tools/builder-live-read-probe.cjs",
+    "tools/mock-builder-*",
+    "tools/phase-scanner.cjs",
+    "tools/scope-resolver.cjs",
+    "tools/builder-task-candidate.cjs",
+    "tools/human-gate-candidate.cjs",
+    "tools/approval-readiness-candidate.cjs",
+    "tools/test-bluepilot-review-suite.cjs"
+  ],
+  "claims": [
+    "BP-063 implements a local Auth/Persistence Readiness Candidate mock from the BP-062 handoff envelope.",
+    "BP-063 blocks auth configuration, persistence configuration, approval recording, task creation, execution, unsafe intents, and non-prepared Approval Readiness states.",
+    "BP-063 does not call Builder, create tasks, execute tasks, configure auth, use secrets, use DB, persist data, or record approval."
+  ],
+  "assumptions": [
+    "The BP-062 contract is the source of truth for auth/persistence readiness input and output envelopes.",
+    "The first auth/persistence readiness implementation should be local and fixture-reviewed before any auth, DB, persistence, or approval action is connected.",
+    "Builder Task Create remains blocked after BP-063."
+  ],
+  "dod": [
+    "tools/auth-persistence-readiness-candidate.cjs exists and supports --input <path> and --pretty.",
+    "examples/auth-persistence-readiness-candidate contains golden input/output fixtures for prepared, review, and blocked cases.",
+    "tools/test-auth-persistence-readiness-candidate-fixtures.cjs compares CLI output against golden fixtures.",
+    "node tools/test-auth-persistence-readiness-candidate-fixtures.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-063 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-063 --preflight",
+    "node --check tools/auth-persistence-readiness-candidate.cjs",
+    "node --check tools/test-auth-persistence-readiness-candidate-fixtures.cjs",
+    "node tools/test-auth-persistence-readiness-candidate-fixtures.cjs",
+    "node tools/verify-task-lock.cjs BP-063 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Auth implementation, secrets, persistence, approval recording, live Builder access, Task Create, Execute, Approve, Push, Deploy, or DB becomes necessary",
+    "Auth/Persistence Readiness mock needs to write target files instead of only returning an envelope"
+  ],
+  "prior_task_findings": "BP-062 defined a document-only Auth/Persistence Readiness Contract and named a local candidate mock with fixtures as the next safe step.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
