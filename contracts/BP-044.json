@@ -1,0 +1,82 @@
+{
+  "task_id": "BP-044",
+  "task_name": "Define Scope Resolver Handoff Contract",
+  "created": "2026-05-28",
+  "scope": "bluepilot/scope-resolver/handoff-contract",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "medium",
+  "impact_class": "architectural",
+  "target_persona": null,
+  "goal": "Define the document-only Scope Resolver Handoff Contract between Phase Scanner output and later Builder scope resolution.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/MVP_SCOPE.md",
+    "docs/MVP_CHAIN_CHECKPOINT_POST_PHASE_SCANNER_v0.md",
+    "docs/BUILDER_DONOR_MAP.md",
+    "docs/ADAPTER_CONTRACTS_v0.md",
+    "docs/PHASE_SCANNER_RUNTIME_DECISION_v0.md",
+    "review-packets/BP-043.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-044.json",
+    "docs/SCOPE_RESOLVER_HANDOFF_CONTRACT_v0.md",
+    "review-packets/BP-044.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-044 defines the Phase Scanner to Scope Resolver handoff as a document-only contract.",
+    "BP-044 specifies required inputs, outputs, fail behavior, and blocked behavior.",
+    "BP-044 does not implement, import, or call Builder scope resolver code."
+  ],
+  "assumptions": [
+    "Builder Scope Resolver is a donor boundary but not directly available in this repo.",
+    "A contract is needed before local mock or adapter implementation.",
+    "Task creation remains blocked until Scope Resolver handoff is implemented and reviewed."
+  ],
+  "dod": [
+    "docs/SCOPE_RESOLVER_HANDOFF_CONTRACT_v0.md exists.",
+    "The document defines handoff input envelope, output envelope, required fields, fail behavior, and non-goals.",
+    "The document explicitly blocks live Builder calls, task creation, auth, secrets, DB, deploy, execute, approve, and push.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-044 --verify exits 0."
+  ],
+  "evidence_required": [
+    "content_check",
+    "test_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-044 --preflight",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-044 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime, fixture, package, or tool changes become necessary",
+    "Live Builder, auth, secrets, DB, deploy, execution, task creation, approve, or push becomes necessary"
+  ],
+  "prior_task_findings": "BP-043 identified Scope Resolver Handoff Contract as the next non-live MVP boundary after Phase Scanner.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
