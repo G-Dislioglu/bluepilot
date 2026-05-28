@@ -1,0 +1,88 @@
+{
+  "task_id": "BP-050",
+  "task_name": "Add Builder Task Candidate Review Suite Coverage",
+  "created": "2026-05-28",
+  "scope": "bluepilot/builder-task-contract/review-suite",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "low",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Add Builder Task Contract Candidate checks to the shared Bluepilot review suite and document the new local review coverage.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md",
+    "docs/BUILDER_TASK_CONTRACT_HANDOFF_v0.md",
+    "tools/test-bluepilot-review-suite.cjs",
+    "tools/builder-task-candidate.cjs",
+    "tools/test-builder-task-candidate-fixtures.cjs",
+    "review-packets/BP-049.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-050.json",
+    "tools/test-bluepilot-review-suite.cjs",
+    "tools/test-builder-task-candidate-output-invariants.cjs",
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md",
+    "review-packets/BP-050.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "tools/builder-task-candidate.cjs",
+    "tools/test-builder-task-candidate-fixtures.cjs",
+    "tools/scope-resolver.cjs",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-050 adds Builder Task Candidate checks to the shared Bluepilot review suite.",
+    "BP-050 adds output invariant coverage that keeps builder_task_create_allowed and builder_execute_allowed false.",
+    "BP-050 does not change Builder Task Candidate runtime behavior or fixtures."
+  ],
+  "assumptions": [
+    "BP-049 already introduced the local Builder Task Candidate mock and golden fixtures.",
+    "Review suite coverage should remain the shared entry point for local reviewers.",
+    "Invariant tests are needed before expanding toward any real Builder adapter handoff."
+  ],
+  "dod": [
+    "tools/test-builder-task-candidate-output-invariants.cjs exists and passes.",
+    "tools/test-bluepilot-review-suite.cjs runs Builder Task Candidate syntax, fixtures, and invariant checks.",
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md mentions Builder Task Candidate coverage and limits.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-050 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-050 --preflight",
+    "node --check tools/test-builder-task-candidate-output-invariants.cjs",
+    "node tools/test-builder-task-candidate-output-invariants.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-050 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Builder Task Candidate runtime or fixture changes become necessary",
+    "Live Builder, auth, secrets, DB, deploy, task create, execute, approve, or push becomes necessary"
+  ],
+  "prior_task_findings": "BP-049 added a local Builder Task Candidate mock but did not yet wire it into the shared Bluepilot Review Suite.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}

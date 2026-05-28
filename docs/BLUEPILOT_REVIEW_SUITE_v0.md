@@ -41,6 +41,10 @@ Die Suite prueft lokal:
 - Scope Resolver Syntax.
 - Scope Resolver Fixtures.
 - Scope Resolver Output Invariants.
+- Scope Resolver Coverage Map.
+- Builder Task Candidate Syntax.
+- Builder Task Candidate Fixtures.
+- Builder Task Candidate Output Invariants.
 
 ## Was die Suite nicht beweist
 
@@ -55,6 +59,7 @@ Die Suite beweist nicht:
 - echte Maya Review UI.
 - echten Builder Scope Resolver.
 - Builder Task Create.
+- Builder Execute.
 
 ## Arbeitsregel
 
