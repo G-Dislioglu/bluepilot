@@ -1,0 +1,92 @@
+{
+  "task_id": "BP-049",
+  "task_name": "Implement Local Builder Task Contract Candidate Mock",
+  "created": "2026-05-28",
+  "scope": "bluepilot/builder-task-contract/local-candidate-mock",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Implement a local deterministic Builder Task Contract Candidate mock that consumes the BP-048 handoff envelope and emits a local candidate output without creating or executing Builder tasks.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BUILDER_TASK_CONTRACT_HANDOFF_v0.md",
+    "docs/SCOPE_RESOLVER_HANDOFF_CONTRACT_v0.md",
+    "docs/SCOPE_RESOLVER_FIXTURE_COVERAGE_v0.md",
+    "tools/scope-resolver.cjs",
+    "tools/test-scope-resolver-fixtures.cjs",
+    "review-packets/BP-048.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-049.json",
+    "tools/builder-task-candidate.cjs",
+    "tools/test-builder-task-candidate-fixtures.cjs",
+    "examples/builder-task-candidate/**",
+    "review-packets/BP-049.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "docs/**",
+    "tools/builder-adapter*",
+    "tools/builder-live-read-probe.cjs",
+    "tools/mock-builder-*",
+    "tools/phase-scanner.cjs",
+    "tools/scope-resolver.cjs",
+    "tools/test-bluepilot-review-suite.cjs"
+  ],
+  "claims": [
+    "BP-049 implements a local Builder Task Contract Candidate mock from the BP-048 handoff envelope.",
+    "BP-049 blocks task creation, execution, unsafe intents, and non-resolved Scope Resolver states.",
+    "BP-049 does not call Builder, create tasks, execute tasks, write repo files, use auth, use secrets, use DB, or deploy."
+  ],
+  "assumptions": [
+    "The BP-048 handoff contract is the source of truth for candidate input and output envelopes.",
+    "The first candidate implementation should be local and fixture-reviewed before any Builder adapter is connected.",
+    "Builder Task Create remains blocked after BP-049."
+  ],
+  "dod": [
+    "tools/builder-task-candidate.cjs exists and supports --input <path> and --pretty.",
+    "examples/builder-task-candidate contains golden input/output fixtures for prepared, review, and blocked cases.",
+    "tools/test-builder-task-candidate-fixtures.cjs compares CLI output against golden fixtures.",
+    "node tools/test-builder-task-candidate-fixtures.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-049 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-049 --preflight",
+    "node --check tools/builder-task-candidate.cjs",
+    "node --check tools/test-builder-task-candidate-fixtures.cjs",
+    "node tools/test-builder-task-candidate-fixtures.cjs",
+    "node tools/verify-task-lock.cjs BP-049 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Live Builder access becomes necessary",
+    "Task Create, Execute, Approve, Push, Deploy, auth, secrets, DB, or persistence becomes necessary",
+    "Candidate mock needs to write target files instead of only returning an envelope"
+  ],
+  "prior_task_findings": "BP-048 defined a document-only Builder Task Contract Handoff and named a local candidate mock with fixtures as the next safe step.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}

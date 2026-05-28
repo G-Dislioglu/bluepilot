@@ -1,0 +1,21 @@
+{
+  "task_contract_candidate_id": "BP-BUILDER-TASK-CANDIDATE-049-RISK",
+  "status": "requires_human_review",
+  "target_repo": "bluepilot",
+  "read_scope": [
+    "docs/example.md"
+  ],
+  "write_scope_candidate": [],
+  "required_evidence": [
+    "diff_ref",
+    "risk_summary"
+  ],
+  "human_gate_required": true,
+  "human_gate_status": "not_requested",
+  "builder_task_create_allowed": false,
+  "builder_execute_allowed": false,
+  "blocked_reasons": [],
+  "notes": [
+    "Required evidence includes risk_summary and needs human review."
+  ]
+}

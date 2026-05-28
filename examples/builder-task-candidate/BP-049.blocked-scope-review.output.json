@@ -1,0 +1,23 @@
+{
+  "task_contract_candidate_id": "BP-BUILDER-TASK-CANDIDATE-049-SCOPE-REVIEW",
+  "status": "blocked",
+  "target_repo": "bluepilot",
+  "read_scope": [],
+  "write_scope_candidate": [],
+  "required_evidence": [
+    "diff_ref",
+    "risk_summary"
+  ],
+  "human_gate_required": true,
+  "human_gate_status": "not_requested",
+  "builder_task_create_allowed": false,
+  "builder_execute_allowed": false,
+  "blocked_reasons": [
+    "Scope Resolver status requires_human_review cannot prepare a Builder Task Contract candidate."
+  ],
+  "notes": [
+    "Requested operation appears to need writes but no write scope candidate is available.",
+    "Required evidence includes risk_summary and needs human review.",
+    "Scope Resolver notes contain review or risk signals."
+  ]
+}

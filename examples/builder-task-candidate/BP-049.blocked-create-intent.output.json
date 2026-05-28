@@ -1,0 +1,19 @@
+{
+  "task_contract_candidate_id": "BP-BUILDER-TASK-CANDIDATE-049-CREATE",
+  "status": "blocked",
+  "target_repo": "bluepilot",
+  "read_scope": [],
+  "write_scope_candidate": [],
+  "required_evidence": [
+    "diff_ref",
+    "task_audit"
+  ],
+  "human_gate_required": true,
+  "human_gate_status": "not_requested",
+  "builder_task_create_allowed": false,
+  "builder_execute_allowed": false,
+  "blocked_reasons": [
+    "Task intent create_task is not allowed for Builder Task Contract Candidate MVP."
+  ],
+  "notes": []
+}

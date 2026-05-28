@@ -1,0 +1,32 @@
+{
+  "task_contract_candidate_id": "BP-BUILDER-TASK-CANDIDATE-049-CREATE",
+  "scope_resolver": {
+    "handoff_id": "BP-SCOPE-HANDOFF-045-ALLOW",
+    "status": "resolved",
+    "target_repo": "bluepilot",
+    "allowed_read_paths": [
+      "docs/example.md"
+    ],
+    "allowed_write_paths": [
+      "docs/example.md"
+    ],
+    "blocked_paths": [],
+    "scope_notes": [
+      "Requested scope is repo-relative and single-track."
+    ],
+    "requires_human_gate": true,
+    "writes_allowed_now": false,
+    "task_create_allowed": false,
+    "required_evidence": [
+      "diff_ref",
+      "task_audit"
+    ],
+    "blocked_reasons": []
+  },
+  "task_intent": "create_task",
+  "requested_operation": "document_change_candidate",
+  "human_gate": {
+    "required": true,
+    "status": "not_requested"
+  }
+}
