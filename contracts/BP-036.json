@@ -1,0 +1,89 @@
+{
+  "task_id": "BP-036",
+  "task_name": "Add Phase Scanner Coverage Map Consistency Test",
+  "created": "2026-05-28",
+  "scope": "bluepilot/phase-scanner/coverage-map-consistency",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "low",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Add a local consistency test that verifies Phase Scanner fixture files are covered by the fixture test list and coverage map.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/PHASE_SCANNER_FIXTURE_COVERAGE_v0.md",
+    "tools/test-phase-scanner-fixtures.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "examples/phase-scanner",
+    "review-packets/BP-035.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-036.json",
+    "tools/test-phase-scanner-coverage-map.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "review-packets/BP-036.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "docs/**",
+    "examples/**",
+    "tools/phase-scanner.cjs",
+    "tools/test-phase-scanner-fixtures.cjs"
+  ],
+  "claims": [
+    "BP-036 adds a consistency test for Phase Scanner coverage documentation.",
+    "BP-036 verifies each input fixture has an output fixture, is listed in the golden fixture test, and is named in the coverage map.",
+    "BP-036 wires the consistency test into the shared Bluepilot review suite."
+  ],
+  "assumptions": [
+    "Coverage map rows mention input fixture file names exactly.",
+    "The fixture test list remains a static cases array that can be checked textually.",
+    "No runtime or fixture edits are needed for this block."
+  ],
+  "dod": [
+    "tools/test-phase-scanner-coverage-map.cjs exists.",
+    "The test checks input/output fixture pairs.",
+    "The test checks fixture test registration.",
+    "The test checks coverage-map registration.",
+    "tools/test-bluepilot-review-suite.cjs runs the new test.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-036 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-036 --preflight",
+    "node --check tools/test-phase-scanner-coverage-map.cjs",
+    "node tools/test-phase-scanner-coverage-map.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-036 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Coverage map or fixture edits become necessary",
+    "Runtime changes become necessary",
+    "Live Builder, auth, secrets, DB, deploy, or external system behavior becomes necessary"
+  ],
+  "prior_task_findings": "BP-035 documented Phase Scanner fixture coverage and explicitly required future fixtures to be listed in the coverage map.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}

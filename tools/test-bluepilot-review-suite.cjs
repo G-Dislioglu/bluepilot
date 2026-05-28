@@ -22,6 +22,7 @@ const commands = [
   ['syntax: phase scanner fixture test', ['--check', 'tools/test-phase-scanner-fixtures.cjs']],
   ['syntax: phase scanner CLI errors test', ['--check', 'tools/test-phase-scanner-cli-errors.cjs']],
   ['syntax: phase scanner output invariants test', ['--check', 'tools/test-phase-scanner-output-invariants.cjs']],
+  ['syntax: phase scanner coverage map test', ['--check', 'tools/test-phase-scanner-coverage-map.cjs']],
   ['adapter fixtures', ['tools/test-builder-adapter-fixtures.cjs']],
   ['endpoint fixtures', ['tools/test-builder-adapter-endpoint-fixtures.cjs']],
   ['HTTP route fixtures', ['tools/test-builder-adapter-http-route.cjs']],
@@ -30,6 +31,7 @@ const commands = [
   ['phase scanner fixtures', ['tools/test-phase-scanner-fixtures.cjs']],
   ['phase scanner CLI errors', ['tools/test-phase-scanner-cli-errors.cjs']],
   ['phase scanner output invariants', ['tools/test-phase-scanner-output-invariants.cjs']],
+  ['phase scanner coverage map', ['tools/test-phase-scanner-coverage-map.cjs']],
 ];
 
 for (const [label, args] of commands) {
