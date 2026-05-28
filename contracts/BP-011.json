@@ -1,0 +1,86 @@
+{
+  "task_id": "BP-011",
+  "task_name": "Implement Mock Builder Adapter Endpoint Handler",
+  "created": "2026-05-28",
+  "scope": "bluepilot/builder-adapter/mock-endpoint",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "functional",
+  "target_persona": null,
+  "goal": "Implement a local mock Builder Adapter endpoint handler that reuses existing fixtures and does not call live Builder or network systems.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BUILDER_ADAPTER_ENDPOINT_BOUNDARY_v0.md",
+    "review-packets/BP-010.md",
+    "tools/builder-adapter.cjs",
+    "tools/test-builder-adapter-fixtures.cjs",
+    "tools/verify-task-lock.cjs",
+    "examples/builder-adapter/"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-011.json",
+    "tools/mock-builder-adapter-endpoint.cjs",
+    "tools/test-builder-adapter-endpoint-fixtures.cjs",
+    "review-packets/BP-011.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "docs/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**",
+    "tools/builder-adapter.cjs",
+    "tools/verify-task-lock.cjs",
+    "tools/phase-scanner.cjs",
+    "tools/test-builder-adapter-fixtures.cjs"
+  ],
+  "claims": [
+    "The mock endpoint handler accepts local JSON input and returns the same mock response envelope as the adapter.",
+    "The endpoint fixture test reuses existing BP-007, BP-008, and BP-009 fixture expectations.",
+    "The implementation does not add live Builder, network, package, docs, or app runtime behavior."
+  ],
+  "assumptions": [
+    "A local CLI endpoint handler is sufficient for the first mock-backed endpoint implementation.",
+    "Reusing the existing adapter CLI as the local execution backend avoids duplicating adapter logic.",
+    "HTTP server, auth, persistence, and live Builder calls remain out of scope."
+  ],
+  "dod": [
+    "node --check tools/mock-builder-adapter-endpoint.cjs exits 0.",
+    "node --check tools/test-builder-adapter-endpoint-fixtures.cjs exits 0.",
+    "node tools/test-builder-adapter-endpoint-fixtures.cjs exits 0 and covers allow, reject, pending human review, scope violation, blocked operation, and approved human review.",
+    "node tools/verify-task-lock.cjs BP-011 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-011 --preflight",
+    "node --check tools/mock-builder-adapter-endpoint.cjs",
+    "node --check tools/test-builder-adapter-endpoint-fixtures.cjs",
+    "node tools/test-builder-adapter-endpoint-fixtures.cjs",
+    "node tools/verify-task-lock.cjs BP-011 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Live Builder endpoint or network behavior becomes necessary",
+    "Package, docs, existing adapter, or app runtime edits become necessary"
+  ],
+  "prior_task_findings": "BP-010 defined the mock endpoint boundary: implement only mock-backed behavior, reuse existing fixtures, keep mock=true and decision_ready=false, and avoid live Builder/network behavior.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
