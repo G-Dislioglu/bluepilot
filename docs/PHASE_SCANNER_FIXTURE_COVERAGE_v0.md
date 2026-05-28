@@ -30,13 +30,14 @@ node tools/test-bluepilot-review-suite.cjs
 | `BP-038.review-broad-scope.input.json` | `require_human_review` | `yellow` | breiter Scope |
 | `BP-039.review-adapter-dependency.input.json` | `require_human_review` | `yellow` | adapterpflichtige Dependency |
 | `BP-040.review-council-trigger.input.json` | `require_human_review` | `yellow` | Council-Trigger review-only |
+| `BP-041.review-data-auth-secret-risk.input.json` | `require_human_review` | `yellow` | Daten/Auth/Secret Known-Risk |
 
 ## Abgedeckte Decisions
 
 | Decision | Abgedeckt durch |
 |---|---|
 | `allow_single_track` | `BP-027.allow.input.json` |
-| `require_human_review` | `BP-004.input.json`, `BP-031.runtime-risk.input.json`, `BP-034.review-overlap-tracks.input.json`, `BP-034.review-dependent-track.input.json`, `BP-038.review-wildcard-scope.input.json`, `BP-038.review-broad-scope.input.json`, `BP-039.review-adapter-dependency.input.json`, `BP-040.review-council-trigger.input.json` |
+| `require_human_review` | `BP-004.input.json`, `BP-031.runtime-risk.input.json`, `BP-034.review-overlap-tracks.input.json`, `BP-034.review-dependent-track.input.json`, `BP-038.review-wildcard-scope.input.json`, `BP-038.review-broad-scope.input.json`, `BP-039.review-adapter-dependency.input.json`, `BP-040.review-council-trigger.input.json`, `BP-041.review-data-auth-secret-risk.input.json` |
 | `reject` | `BP-027.reject-no-go.input.json`, `BP-033.reject-missing-evidence.input.json`, `BP-033.reject-unsafe-file-scope.input.json`, `BP-037.reject-missing-required.input.json` |
 
 ## Abgedeckte Check-Gruppen
@@ -51,15 +52,13 @@ node tools/test-bluepilot-review-suite.cjs
 | Runtime/Deploy Risk | `BP-027.reject-no-go.input.json`, `BP-031.runtime-risk.input.json` |
 | Evidence Availability | `BP-033.reject-missing-evidence.input.json` |
 | Track Independence | `BP-034.review-overlap-tracks.input.json`, `BP-034.review-dependent-track.input.json` |
-| Known Risks | `BP-004.input.json`, `BP-031.runtime-risk.input.json` |
+| Known Risks | `BP-004.input.json`, `BP-031.runtime-risk.input.json`, `BP-041.review-data-auth-secret-risk.input.json` |
 | Human Gate | Output-Invariant-Test fuer alle Fixtures |
 | Council Trigger | `BP-040.review-council-trigger.input.json` |
 
 ## Aktuelle Luecken
 
-Noch nicht explizit als Golden Fixture abgedeckt:
-
-- Daten/Auth/Secret-Risiko als sichtbare Known-Risk-Verarbeitung.
+Keine aktuell dokumentierte Fixture-Luecke offen.
 
 ## Arbeitsregel
 

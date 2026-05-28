@@ -1,0 +1,88 @@
+{
+  "task_id": "BP-041",
+  "task_name": "Add Phase Scanner Data Auth Secret Risk Fixture",
+  "created": "2026-05-28",
+  "scope": "bluepilot/phase-scanner/data-auth-secret-risk-fixture",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "low",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Add a Phase Scanner fixture for data/auth/secret known-risk handling and update the coverage map without changing scanner runtime behavior.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/PHASE_SCANNER_FIXTURE_COVERAGE_v0.md",
+    "docs/PHASE_SCANNER_RUNTIME_DECISION_v0.md",
+    "tools/phase-scanner.cjs",
+    "tools/test-phase-scanner-fixtures.cjs",
+    "tools/test-phase-scanner-coverage-map.cjs",
+    "review-packets/BP-040.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-041.json",
+    "docs/PHASE_SCANNER_FIXTURE_COVERAGE_v0.md",
+    "tools/test-phase-scanner-fixtures.cjs",
+    "examples/phase-scanner/BP-041.review-data-auth-secret-risk.input.json",
+    "examples/phase-scanner/BP-041.review-data-auth-secret-risk.output.json",
+    "review-packets/BP-041.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "tools/phase-scanner.cjs",
+    "tools/test-bluepilot-review-suite.cjs"
+  ],
+  "claims": [
+    "BP-041 adds a data/auth/secret known-risk review fixture.",
+    "BP-041 proves the risk appears in risk_summary and required_evidence.",
+    "BP-041 updates the coverage map and does not change Phase Scanner runtime behavior."
+  ],
+  "assumptions": [
+    "Existing runtime behavior already classifies auth, secret, database, credential, or data risks as type=data.",
+    "The coverage map must be updated in the same block because BP-036 enforces it.",
+    "No runtime change is required."
+  ],
+  "dod": [
+    "Data/auth/secret known-risk fixture exists and is tested.",
+    "Coverage map lists the new fixture and removes the last documented coverage gap.",
+    "node tools/test-phase-scanner-fixtures.cjs exits 0.",
+    "node tools/test-phase-scanner-coverage-map.cjs exits 0.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-041 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "fixture_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-041 --preflight",
+    "node tools/test-phase-scanner-fixtures.cjs",
+    "node tools/test-phase-scanner-coverage-map.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-041 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime changes become necessary",
+    "Live Builder, auth, secrets, DB, deploy, or external system behavior becomes necessary"
+  ],
+  "prior_task_findings": "BP-040 left data/auth/secret known-risk handling as the last documented coverage gap.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}

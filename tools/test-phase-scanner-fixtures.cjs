@@ -24,6 +24,7 @@ const cases = [
   ['bp038 review broad scope', 'BP-038.review-broad-scope.input.json', 'BP-038.review-broad-scope.output.json'],
   ['bp039 review adapter dependency', 'BP-039.review-adapter-dependency.input.json', 'BP-039.review-adapter-dependency.output.json'],
   ['bp040 review council trigger', 'BP-040.review-council-trigger.input.json', 'BP-040.review-council-trigger.output.json'],
+  ['bp041 review data auth secret risk', 'BP-041.review-data-auth-secret-risk.input.json', 'BP-041.review-data-auth-secret-risk.output.json'],
 ];
 
 function readFixture(fileName) {
