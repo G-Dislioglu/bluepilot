@@ -1,0 +1,81 @@
+{
+  "task_id": "BP-071",
+  "task_name": "Add Local MVP Chain Checkpoint Through Builder Task Create Readiness",
+  "created": "2026-05-28",
+  "scope": "bluepilot/mvp-chain/local-checkpoint-builder-task-create-readiness",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "medium",
+  "impact_class": "architectural",
+  "target_persona": null,
+  "goal": "Document the current local MVP chain through Builder Task Create Readiness Candidate and define the next safe boundary without enabling live Builder access, real task creation, execution, auth, secrets, persistence, approval recording, DB, deploy, approve, or push.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/MVP_CHAIN_CHECKPOINT_LOCAL_AUTH_PERSISTENCE_READINESS_v0.md",
+    "docs/BUILDER_TASK_CREATE_READINESS_CONTRACT_v0.md",
+    "docs/BUILDER_TASK_CREATE_READINESS_CANDIDATE_FIXTURE_COVERAGE_v0.md",
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md",
+    "review-packets/BP-070.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-071.json",
+    "docs/MVP_CHAIN_CHECKPOINT_LOCAL_BUILDER_TASK_CREATE_READINESS_v0.md",
+    "review-packets/BP-071.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-071 documents the local MVP chain through Builder Task Create Readiness Candidate.",
+    "BP-071 identifies which chain stages are locally reviewable and which actions remain blocked.",
+    "BP-071 does not implement live Builder access, task creation, execution, approval recording, auth, secrets, persistence, UI, DB, deploy, approve, or push."
+  ],
+  "assumptions": [
+    "BP-070 completed fixture coverage visibility for the Builder Task Create Readiness Candidate stage.",
+    "A checkpoint is needed before expanding toward any Builder adapter readiness or task creation boundary.",
+    "The next safe step should remain a contract-only boundary."
+  ],
+  "dod": [
+    "docs/MVP_CHAIN_CHECKPOINT_LOCAL_BUILDER_TASK_CREATE_READINESS_v0.md exists.",
+    "The document states the local chain stages, current review suite entry point, blocked actions, open gaps, and next safe step.",
+    "The document explicitly blocks live Builder access, Builder Task Create, Execute, Approve, Push, Deploy, auth, secrets, persistence, approval recording, DB, UI, and target file writes.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-071 --verify exits 0."
+  ],
+  "evidence_required": [
+    "content_check",
+    "test_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-071 --preflight",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-071 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime, fixture, package, or tool changes become necessary",
+    "Live Builder access, task creation, execution, approval recording, auth implementation, secrets, persistence, DB, deploy, approve, or push becomes necessary"
+  ],
+  "prior_task_findings": "BP-070 made Builder Task Create Readiness Candidate fixture coverage visible and cleared the way for a local MVP chain checkpoint.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
