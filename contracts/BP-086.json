@@ -1,0 +1,102 @@
+{
+  "task_id": "BP-086",
+  "task_name": "Council Session Protocol v1.1 - Repo-aligned",
+  "created": "2026-05-28",
+  "scope": "bluepilot/docs/council-session-protocol",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "low",
+  "impact_class": "governance",
+  "target_persona": null,
+  "goal": "Council Session Protocol v1.1 aus externem Paket pruefen, Encoding korrigieren, Pfade an Repo-Konventionen anpassen und als docs/COUNCIL-SESSION-PROTOCOL-v1.1.md einfuehren.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/APP_RECOVERY_AND_FEATURE_RUN_LITE.md",
+    "docs/BLUEPILOT_BUILD_CANVAS_DECISION_v0.md",
+    ".specify/.feature-goals.md",
+    "review-packets/BP-084.md",
+    "review-packets/BP-085.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-086.json",
+    "docs/COUNCIL-SESSION-PROTOCOL-v1.1.md",
+    "review-packets/BP-086.md"
+  ],
+  "forbidden_files": [
+    "src/**",
+    "server/**",
+    "client/**",
+    "app/**",
+    "*.ts",
+    "*.tsx",
+    "*.js",
+    "*.cjs",
+    "*.mjs",
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "tsconfig.json",
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/APP_RECOVERY_AND_FEATURE_RUN_LITE.md",
+    "docs/BLUEPILOT_BUILD_CANVAS_DECISION_v0.md",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md"
+  ],
+  "scope_out": [
+    "Keine Runtime-Implementierung",
+    "Kein council-watcher Code",
+    "Keine council-agent-client Implementierung",
+    "Keine .bluepilot/council/ Verzeichnisstruktur anlegen",
+    "Keine bestehenden Docs ueberschreiben ausser docs/COUNCIL-SESSION-PROTOCOL-v1.1.md"
+  ],
+  "claims": [
+    "docs/COUNCIL-SESSION-PROTOCOL-v1.1.md existiert mit sauberem ASCII-Encoding",
+    "Alle Pfade nutzen review-packets/ statt contracts/reviews/",
+    "Dedup-Key nutzt status_revision und task_attempt statt Timestamp",
+    "directive_cursor ersetzt acknowledged_by_agent in session.json",
+    "HARD STOP Recovery Flow ist dokumentiert",
+    "Kein Runtime-Code in keiner Datei"
+  ],
+  "assumptions": [
+    "bluepilot/main ist der aktive Branch",
+    "docs/ Verzeichnis existiert bereits",
+    "review-packets/ Verzeichnis existiert bereits"
+  ],
+  "dod": [
+    "test -f docs/COUNCIL-SESSION-PROTOCOL-v1.1.md",
+    "test \"$(grep -c 'status_revision' docs/COUNCIL-SESSION-PROTOCOL-v1.1.md)\" -gt 0",
+    "test \"$(grep -c 'directive_cursor' docs/COUNCIL-SESSION-PROTOCOL-v1.1.md)\" -gt 0",
+    "test \"$(grep -c 'review-packets' docs/COUNCIL-SESSION-PROTOCOL-v1.1.md)\" -gt 0",
+    "! grep -P '[\\x80-\\xFF]' docs/COUNCIL-SESSION-PROTOCOL-v1.1.md",
+    "! git diff --name-only | grep -E '\\.(ts|tsx|js|cjs|mjs)$'",
+    "! git diff --name-only | grep -E '^(src|server|client|app)/' "
+  ],
+  "evidence_required": [
+    "content_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-086 --preflight",
+    "node tools/verify-task-lock.cjs BP-086 --verify",
+    "git diff --name-only"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Encoding-Fehler in der Ausgabedatei (non-ASCII Bytes)",
+    "Runtime-Code in irgendeiner Datei"
+  ],
+  "prior_task_findings": "BP-085: App-Goal und Feature-Goals sind nicht mehr Platzhalter. Build-Canvas-Reihenfolge ist repo-fest. Council-Kernel-Scope in .feature-goals.md definiert.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
