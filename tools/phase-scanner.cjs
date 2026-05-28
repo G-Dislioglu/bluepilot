@@ -82,6 +82,16 @@ function inputText(input) {
   ].map(normalizeText).join('\n');
 }
 
+function intentText(input) {
+  return [
+    input.idea,
+    input.target_repo,
+    ...asArray(input.requested_scope),
+    ...asArray(input.known_risks),
+    ...asArray(input.available_donors),
+  ].map(normalizeText).join('\n');
+}
+
 function result(name, status, reason) {
   return { name, status, reason };
 }
@@ -142,7 +152,7 @@ function checkFileRisk(input) {
 }
 
 function checkNoGo(input) {
-  const text = inputText(input);
+  const text = intentText(input);
   const externalNoGo = asArray(input.no_go_zones)
     .map((zone) => ({ label: String(zone), patterns: [normalizeText(zone)] }))
     .filter((zone) => zone.patterns[0]);
@@ -155,7 +165,7 @@ function checkNoGo(input) {
 }
 
 function checkDependencyRisk(input) {
-  const text = inputText(input);
+  const text = intentText(input);
   if (['builder chat fusion', 'render integration', 'aicos write', 'aicos mutation'].some((needle) => text.includes(needle))) {
     return result('dependency_risk', 'fail', 'Requested dependency touches a blocked donor or mutation path.');
   }
@@ -166,7 +176,7 @@ function checkDependencyRisk(input) {
 }
 
 function checkRuntimeRisk(input) {
-  const text = inputText(input);
+  const text = intentText(input);
   if (['auto-deploy', 'autodeploy', 'render service', 'production mutation'].some((needle) => text.includes(needle))) {
     return result('runtime_deploy_risk', 'fail', 'Run would depend on deploy or production mutation.');
   }

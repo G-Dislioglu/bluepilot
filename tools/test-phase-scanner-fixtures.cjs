@@ -14,6 +14,7 @@ const cases = [
   ['bp004 human review', 'BP-004.input.json', 'BP-004.output.json'],
   ['bp027 allow', 'BP-027.allow.input.json', 'BP-027.allow.output.json'],
   ['bp027 reject no-go', 'BP-027.reject-no-go.input.json', 'BP-027.reject-no-go.output.json'],
+  ['bp031 runtime risk', 'BP-031.runtime-risk.input.json', 'BP-031.runtime-risk.output.json'],
 ];
 
 function readFixture(fileName) {

@@ -1,0 +1,32 @@
+{
+  "idea": "Prepare a bounded local worker runtime check before any Builder execution.",
+  "target_repo": "bluepilot",
+  "requested_scope": [
+    "tools/phase-scanner.cjs"
+  ],
+  "repo_context": [
+    "docs/PHASE_SCANNER_RUNTIME_DECISION_v0.md"
+  ],
+  "known_risks": [
+    "runtime risk: worker behavior must not start automatically"
+  ],
+  "available_donors": [
+    "Task Evidence",
+    "Task Audit Log"
+  ],
+  "evidence_sources": [
+    "test_result"
+  ],
+  "tracks": [
+    {
+      "name": "single-runtime-check",
+      "scope": [
+        "tools/phase-scanner.cjs"
+      ]
+    }
+  ],
+  "no_go_zones": [
+    "No auto-deploy",
+    "No auto-merge"
+  ]
+}

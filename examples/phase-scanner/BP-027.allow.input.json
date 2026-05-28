@@ -6,6 +6,7 @@
   ],
   "repo_context": [
     "docs/PHASE_SCANNER_SPEC_v0.md",
+    "docs/PHASE_SCANNER_RUNTIME_DECISION_v0.md",
     "docs/NO_GO_ZONES.md"
   ],
   "known_risks": [],

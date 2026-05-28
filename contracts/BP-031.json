@@ -1,0 +1,89 @@
+{
+  "task_id": "BP-031",
+  "task_name": "Harden Phase Scanner Context Keyword Handling",
+  "created": "2026-05-28",
+  "scope": "bluepilot/phase-scanner/context-keyword-hardening",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Prevent Phase Scanner risk checks from treating repo_context file names as execution intent while keeping explicit idea, scope, donor, and known-risk checks active.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/PHASE_SCANNER_RUNTIME_DECISION_v0.md",
+    "tools/phase-scanner.cjs",
+    "tools/test-phase-scanner-fixtures.cjs",
+    "review-packets/BP-027.md",
+    "review-packets/BP-028.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-031.json",
+    "tools/phase-scanner.cjs",
+    "tools/test-phase-scanner-fixtures.cjs",
+    "examples/phase-scanner/BP-027.allow.input.json",
+    "examples/phase-scanner/BP-027.allow.output.json",
+    "examples/phase-scanner/BP-031.runtime-risk.input.json",
+    "examples/phase-scanner/BP-031.runtime-risk.output.json",
+    "review-packets/BP-031.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "docs/**",
+    "tools/builder-*",
+    "tools/mock-*"
+  ],
+  "claims": [
+    "BP-031 prevents repo_context file names from causing false runtime/dependency/no-go matches.",
+    "BP-031 keeps explicit runtime risk in idea, requested_scope, known_risks, and available_donors detectable.",
+    "BP-031 does not add live Builder, auth, secret, DB, deploy, or external system behavior."
+  ],
+  "assumptions": [
+    "repo_context is evidence about what was read, not by itself execution intent.",
+    "known_risks remain part of intent/risk evaluation.",
+    "Existing fixtures should remain stable after expected fixture updates."
+  ],
+  "dod": [
+    "Phase Scanner uses intent/risk text for risk checks instead of raw repo_context file names.",
+    "The BP-027 allow fixture can include PHASE_SCANNER_RUNTIME_DECISION_v0.md without becoming yellow.",
+    "A new explicit runtime-risk fixture still requires human review.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-031 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "fixture_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-031 --preflight",
+    "node --check tools/phase-scanner.cjs",
+    "node tools/test-phase-scanner-fixtures.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-031 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "A broader Phase Scanner scoring rewrite becomes necessary",
+    "Live Builder, auth, secrets, DB, deploy, or external system behavior becomes necessary"
+  ],
+  "prior_task_findings": "BP-027 showed that repo_context containing PHASE_SCANNER_RUNTIME_DECISION_v0.md could be mistaken for runtime execution risk.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
