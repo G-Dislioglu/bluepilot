@@ -1,0 +1,93 @@
+{
+  "task_id": "BP-058",
+  "task_name": "Implement Local Approval Readiness Candidate Mock",
+  "created": "2026-05-28",
+  "scope": "bluepilot/approval-readiness/local-candidate-mock",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Implement a local deterministic Approval Readiness Candidate mock that consumes the BP-057 handoff envelope and emits a local readiness output without recording approval or allowing Builder task creation.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/APPROVAL_READINESS_CONTRACT_v0.md",
+    "docs/HUMAN_GATE_HANDOFF_v0.md",
+    "docs/HUMAN_GATE_CANDIDATE_FIXTURE_COVERAGE_v0.md",
+    "tools/human-gate-candidate.cjs",
+    "tools/test-human-gate-candidate-fixtures.cjs",
+    "review-packets/BP-057.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-058.json",
+    "tools/approval-readiness-candidate.cjs",
+    "tools/test-approval-readiness-candidate-fixtures.cjs",
+    "examples/approval-readiness-candidate/**",
+    "review-packets/BP-058.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "docs/**",
+    "tools/builder-adapter*",
+    "tools/builder-live-read-probe.cjs",
+    "tools/mock-builder-*",
+    "tools/phase-scanner.cjs",
+    "tools/scope-resolver.cjs",
+    "tools/builder-task-candidate.cjs",
+    "tools/human-gate-candidate.cjs",
+    "tools/test-bluepilot-review-suite.cjs"
+  ],
+  "claims": [
+    "BP-058 implements a local Approval Readiness Candidate mock from the BP-057 handoff envelope.",
+    "BP-058 blocks effective approval, approval recording, task creation, execution, auth/persistence readiness claims, unsafe intents, and non-prepared Human Gate Candidate states.",
+    "BP-058 does not call Builder, create tasks, execute tasks, record approval, write repo files, use auth, use secrets, use DB, or deploy."
+  ],
+  "assumptions": [
+    "The BP-057 contract is the source of truth for approval-readiness candidate input and output envelopes.",
+    "The first approval-readiness implementation should be local and fixture-reviewed before any UI, auth, persistence, or approval action is connected.",
+    "Builder Task Create remains blocked after BP-058."
+  ],
+  "dod": [
+    "tools/approval-readiness-candidate.cjs exists and supports --input <path> and --pretty.",
+    "examples/approval-readiness-candidate contains golden input/output fixtures for prepared, review, and blocked cases.",
+    "tools/test-approval-readiness-candidate-fixtures.cjs compares CLI output against golden fixtures.",
+    "node tools/test-approval-readiness-candidate-fixtures.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-058 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-058 --preflight",
+    "node --check tools/approval-readiness-candidate.cjs",
+    "node --check tools/test-approval-readiness-candidate-fixtures.cjs",
+    "node tools/test-approval-readiness-candidate-fixtures.cjs",
+    "node tools/verify-task-lock.cjs BP-058 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Effective approval, auth, persistence, live Builder access, Task Create, Execute, Approve, Push, Deploy, secrets, DB, or persistence becomes necessary",
+    "Approval Readiness mock needs to write target files instead of only returning an envelope"
+  ],
+  "prior_task_findings": "BP-057 defined a document-only Approval Readiness Contract and named a local candidate mock with fixtures as the next safe step.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}

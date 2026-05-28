@@ -1,0 +1,23 @@
+{
+  "approval_readiness_id": "BP-APPROVAL-READINESS-058-APPROVAL",
+  "status": "blocked",
+  "target_repo": "bluepilot",
+  "read_scope": [],
+  "write_scope_candidate": [],
+  "required_evidence": [
+    "diff_ref",
+    "task_audit"
+  ],
+  "identity_boundary": "not_configured",
+  "persistence_boundary": "not_configured",
+  "approval_effect": "none",
+  "human_approval_recorded": false,
+  "approval_record_allowed": false,
+  "builder_task_create_allowed": false,
+  "builder_execute_allowed": false,
+  "blocked_reasons": [
+    "Approval effect requested must remain none in Approval Readiness MVP.",
+    "Readiness intent record_approval is not allowed for Approval Readiness MVP."
+  ],
+  "readiness_notes": []
+}

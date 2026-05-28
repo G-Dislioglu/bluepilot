@@ -1,0 +1,36 @@
+{
+  "approval_readiness_id": "BP-APPROVAL-READINESS-058-RISK",
+  "human_gate_candidate": {
+    "human_gate_candidate_id": "BP-HUMAN-GATE-CANDIDATE-053-RISK",
+    "status": "review_candidate_prepared",
+    "target_repo": "bluepilot",
+    "read_scope": [
+      "docs/example.md"
+    ],
+    "write_scope_candidate": [
+      "docs/example.md"
+    ],
+    "required_evidence": [
+      "diff_ref",
+      "risk_summary"
+    ],
+    "review_surface": "review_packet",
+    "approval_effect": "none",
+    "human_approval_recorded": false,
+    "builder_task_create_allowed": false,
+    "builder_execute_allowed": false,
+    "blocked_reasons": [],
+    "review_questions": [
+      "Is the scope correct?",
+      "Is the evidence sufficient?",
+      "Should a later task-create step be allowed?"
+    ],
+    "review_notes": [
+      "Required evidence includes risk_summary and needs human review."
+    ]
+  },
+  "readiness_intent": "prepare_approval_readiness",
+  "identity_boundary": "not_configured",
+  "persistence_boundary": "not_configured",
+  "approval_effect_requested": "none"
+}

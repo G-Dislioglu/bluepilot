@@ -1,0 +1,34 @@
+{
+  "approval_readiness_id": "BP-APPROVAL-READINESS-058-APPROVAL",
+  "human_gate_candidate": {
+    "human_gate_candidate_id": "BP-HUMAN-GATE-CANDIDATE-053-PREPARED",
+    "status": "review_candidate_prepared",
+    "target_repo": "bluepilot",
+    "read_scope": [
+      "docs/example.md"
+    ],
+    "write_scope_candidate": [
+      "docs/example.md"
+    ],
+    "required_evidence": [
+      "diff_ref",
+      "task_audit"
+    ],
+    "review_surface": "review_packet",
+    "approval_effect": "none",
+    "human_approval_recorded": false,
+    "builder_task_create_allowed": false,
+    "builder_execute_allowed": false,
+    "blocked_reasons": [],
+    "review_questions": [
+      "Is the scope correct?",
+      "Is the evidence sufficient?",
+      "Should a later task-create step be allowed?"
+    ],
+    "review_notes": []
+  },
+  "readiness_intent": "record_approval",
+  "identity_boundary": "not_configured",
+  "persistence_boundary": "not_configured",
+  "approval_effect_requested": "record_approval"
+}
