@@ -130,6 +130,10 @@ function validateContractFields(contract) {
   } else if (contract.target_persona !== null && contract.target_persona !== undefined) {
     failContract('target_persona darf nur fuer ui_task gesetzt sein.');
   }
+
+  if (contract.council_session_required !== undefined && typeof contract.council_session_required !== 'boolean') {
+    failContract('council_session_required muss boolean sein, wenn gesetzt.');
+  }
 }
 
 function loadContract() {
@@ -199,10 +203,54 @@ function runPreflight() {
     process.exit(2);
   }
 
+  const contract = fs.existsSync(contractPath) ? loadContract() : null;
+  if (contract && contract.council_session_required === true) {
+    assertActiveCouncilSession();
+  }
+
   console.log('');
   console.log('Working Tree clean - Task darf starten.');
   console.log(sep);
   process.exit(0);
+}
+
+function assertActiveCouncilSession() {
+  const repoRoot = path.resolve(__dirname, '..');
+  const councilRoot = process.env.BLUEPILOT_COUNCIL_ROOT
+    ? path.resolve(process.env.BLUEPILOT_COUNCIL_ROOT)
+    : repoRoot;
+  const sessionPath = path.join(councilRoot, '.bluepilot', 'council', 'session.json');
+
+  if (!fs.existsSync(sessionPath)) {
+    console.log('');
+    console.log('HARD STOP - COUNCIL SESSION REQUIRED');
+    console.log('');
+    console.log(`Session fehlt: ${sessionPath}`);
+    console.log('Starte oder uebergib eine aktive Council Session.');
+    process.exit(2);
+  }
+
+  let session;
+  try {
+    session = JSON.parse(fs.readFileSync(sessionPath, 'utf8'));
+  } catch (err) {
+    console.log('');
+    console.log('HARD STOP - COUNCIL SESSION INVALID');
+    console.log('');
+    console.log(`Session unlesbar: ${err.message}`);
+    process.exit(2);
+  }
+
+  if (!session || session.status !== 'active') {
+    console.log('');
+    console.log('HARD STOP - COUNCIL SESSION NOT ACTIVE');
+    console.log('');
+    console.log(`Session status: ${session && session.status ? session.status : '(missing)'}`);
+    process.exit(2);
+  }
+
+  console.log('');
+  console.log(`Council Session active: ${session.session_id || '(unknown)'}`);
 }
 
 function splitOutput(output) {

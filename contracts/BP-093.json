@@ -1,0 +1,99 @@
+{
+  "task_id": "BP-093",
+  "task_name": "BP-C2 WLP Council Session Guard",
+  "created": "2026-05-28",
+  "scope": "bluepilot/bp-c2/wlp-council-session-guard",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "governance-runtime",
+  "target_persona": null,
+  "goal": "Extend verify-task-lock.cjs with an optional council_session_required preflight guard and tests, without changing default task behavior.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/BP_C1_KERNEL_READY_CHECKPOINT_v0.md",
+    "docs/BLUEPILOT_BUILD_CANVAS_DECISION_v0.md",
+    "docs/BP_C2_MULTI_MODEL_POOL_CONTRACT_v0.md",
+    "docs/BP_C2_CONTEXT_BROKER_CONTRACT_v0.md",
+    "tools/verify-task-lock.cjs",
+    "review-packets/BP-091.md",
+    "review-packets/BP-092.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-093.json",
+    "docs/BP_C2_WLP_COUNCIL_SESSION_GUARD_v0.md",
+    "tools/verify-task-lock.cjs",
+    "tools/test-verify-task-lock-council-session.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "review-packets/BP-093.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    ".bluepilot/**",
+    "tools/model-pool.cjs",
+    "tools/context-broker.cjs",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md"
+  ],
+  "scope_out": [
+    "No default mandatory council check for old contracts",
+    "No .bluepilot state committed",
+    "No BP-C3",
+    "No UI",
+    "No auth, secrets, DB, deploy, live Builder, AICOS write, or Soulmatch copy"
+  ],
+  "claims": [
+    "Contracts may set council_session_required=true to require an active session before preflight.",
+    "The guard checks session.json under BLUEPILOT_COUNCIL_ROOT or repo root.",
+    "Default contracts without council_session_required remain backward compatible.",
+    "Tests cover missing session, paused session, active session, and default compatibility."
+  ],
+  "assumptions": [
+    "Council-session enforcement should be opt-in per contract first to avoid breaking legacy tasks.",
+    "Future BP-C2/BP-C3 contracts can set council_session_required=true.",
+    "Temp roots are sufficient to test guard behavior."
+  ],
+  "dod": [
+    "node --check tools/verify-task-lock.cjs exits 0.",
+    "node tools/test-verify-task-lock-council-session.cjs exits 0.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-093 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-093 --preflight",
+    "node --check tools/verify-task-lock.cjs",
+    "node tools/test-verify-task-lock-council-session.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-093 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Legacy preflight behavior breaks for contracts without council_session_required",
+    "Repo-local .bluepilot state becomes necessary"
+  ],
+  "prior_task_findings": "BP-091 and BP-092 added BP-C2 route-only model pool and read-only context broker. WLP guard should now make active Council Session enforceable for future contracts.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
