@@ -1,0 +1,100 @@
+{
+  "task_id": "BP-092",
+  "task_name": "BP-C2 Context Broker Session Start",
+  "created": "2026-05-28",
+  "scope": "bluepilot/bp-c2/context-broker-session-start",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "runtime",
+  "target_persona": null,
+  "goal": "Build a read-only Context Broker session-start tool that returns repo goal files, governance docs, task contract context, and eligible_context contents for a new task.",
+  "eligible_context": [
+    "AGENTS.md",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md",
+    "docs/BP_C1_KERNEL_READY_CHECKPOINT_v0.md",
+    "docs/BP_C2_MULTI_MODEL_POOL_CONTRACT_v0.md",
+    "tools/model-pool.cjs",
+    "review-packets/BP-091.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-092.json",
+    "docs/BP_C2_CONTEXT_BROKER_CONTRACT_v0.md",
+    "tools/context-broker.cjs",
+    "tools/test-context-broker-fixtures.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "review-packets/BP-092.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    ".bluepilot/**",
+    "tools/verify-task-lock.cjs",
+    "tools/model-pool.cjs",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md"
+  ],
+  "scope_out": [
+    "No file writes except this task scope",
+    "No AICOS write",
+    "No Soulmatch copy",
+    "No UI",
+    "No model/provider call",
+    "No BP-C3 behavior"
+  ],
+  "claims": [
+    "tools/context-broker.cjs reads repo-local eligible context and returns structured JSON.",
+    "The broker blocks .env, node_modules, .git, absolute paths, and parent traversal.",
+    "The broker can load eligible_context from contracts/TASK_ID.json.",
+    "The broker includes app and feature goals when present."
+  ],
+  "assumptions": [
+    "Context Broker v0 is read-only and local.",
+    "A future version may add indexing; v0 should use explicit path reads.",
+    "Missing optional files should be reported as missing, not crash the broker."
+  ],
+  "dod": [
+    "node --check tools/context-broker.cjs exits 0.",
+    "node tools/test-context-broker-fixtures.cjs exits 0.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-092 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node --check tools/context-broker.cjs",
+    "node tools/test-context-broker-fixtures.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-092 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Context Broker needs to write repo state",
+    "External system access becomes necessary",
+    "Secrets or .env access becomes necessary"
+  ],
+  "prior_task_findings": "BP-091 added route-only model pool metadata. BP-C2 Context Broker should remain local and read-only.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
