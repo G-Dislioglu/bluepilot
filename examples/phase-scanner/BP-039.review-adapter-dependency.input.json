@@ -1,0 +1,32 @@
+{
+  "idea": "Prepare a bounded local task that may need Maya Context and Swarm adapter review before execution.",
+  "target_repo": "bluepilot",
+  "requested_scope": [
+    "docs/ADAPTER_CONTRACTS_v0.md"
+  ],
+  "repo_context": [
+    "docs/ADAPTER_CONTRACTS_v0.md",
+    "docs/BUILDER_DONOR_MAP.md"
+  ],
+  "known_risks": [],
+  "available_donors": [
+    "Task Evidence",
+    "Task Audit Log"
+  ],
+  "evidence_sources": [
+    "diff_ref",
+    "content_check"
+  ],
+  "tracks": [
+    {
+      "name": "single-adapter-doc-review",
+      "scope": [
+        "docs/ADAPTER_CONTRACTS_v0.md"
+      ]
+    }
+  ],
+  "no_go_zones": [
+    "No auto-merge",
+    "No auto-deploy"
+  ]
+}

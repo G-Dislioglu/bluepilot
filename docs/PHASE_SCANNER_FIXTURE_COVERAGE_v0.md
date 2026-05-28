@@ -28,13 +28,14 @@ node tools/test-bluepilot-review-suite.cjs
 | `BP-037.reject-missing-required.input.json` | `reject` | `red` | fehlendes Pflichtfeld |
 | `BP-038.review-wildcard-scope.input.json` | `require_human_review` | `yellow` | Wildcard-Scope |
 | `BP-038.review-broad-scope.input.json` | `require_human_review` | `yellow` | breiter Scope |
+| `BP-039.review-adapter-dependency.input.json` | `require_human_review` | `yellow` | adapterpflichtige Dependency |
 
 ## Abgedeckte Decisions
 
 | Decision | Abgedeckt durch |
 |---|---|
 | `allow_single_track` | `BP-027.allow.input.json` |
-| `require_human_review` | `BP-004.input.json`, `BP-031.runtime-risk.input.json`, `BP-034.review-overlap-tracks.input.json`, `BP-034.review-dependent-track.input.json`, `BP-038.review-wildcard-scope.input.json`, `BP-038.review-broad-scope.input.json` |
+| `require_human_review` | `BP-004.input.json`, `BP-031.runtime-risk.input.json`, `BP-034.review-overlap-tracks.input.json`, `BP-034.review-dependent-track.input.json`, `BP-038.review-wildcard-scope.input.json`, `BP-038.review-broad-scope.input.json`, `BP-039.review-adapter-dependency.input.json` |
 | `reject` | `BP-027.reject-no-go.input.json`, `BP-033.reject-missing-evidence.input.json`, `BP-033.reject-unsafe-file-scope.input.json`, `BP-037.reject-missing-required.input.json` |
 
 ## Abgedeckte Check-Gruppen
@@ -45,7 +46,7 @@ node tools/test-bluepilot-review-suite.cjs
 | Scope Clarity | `BP-027.allow.input.json`, `BP-004.input.json`, `BP-038.review-broad-scope.input.json` |
 | File Risk | `BP-033.reject-unsafe-file-scope.input.json`, `BP-038.review-wildcard-scope.input.json` |
 | No-Go Zones | `BP-027.reject-no-go.input.json` |
-| Dependency Risk | Basis-Pass ueber alle aktuellen Fixtures |
+| Dependency Risk | `BP-039.review-adapter-dependency.input.json` |
 | Runtime/Deploy Risk | `BP-027.reject-no-go.input.json`, `BP-031.runtime-risk.input.json` |
 | Evidence Availability | `BP-033.reject-missing-evidence.input.json` |
 | Track Independence | `BP-034.review-overlap-tracks.input.json`, `BP-034.review-dependent-track.input.json` |
@@ -57,7 +58,6 @@ node tools/test-bluepilot-review-suite.cjs
 
 Noch nicht explizit als Golden Fixture abgedeckt:
 
-- adapterpflichtige Dependency-Risiken wie `maya context` oder `swarm`,
 - Council-Trigger als review-only MVP-Ausgabe,
 - Daten/Auth/Secret-Risiko als sichtbare Known-Risk-Verarbeitung.
 

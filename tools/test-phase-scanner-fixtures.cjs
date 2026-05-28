@@ -22,6 +22,7 @@ const cases = [
   ['bp037 reject missing required', 'BP-037.reject-missing-required.input.json', 'BP-037.reject-missing-required.output.json'],
   ['bp038 review wildcard scope', 'BP-038.review-wildcard-scope.input.json', 'BP-038.review-wildcard-scope.output.json'],
   ['bp038 review broad scope', 'BP-038.review-broad-scope.input.json', 'BP-038.review-broad-scope.output.json'],
+  ['bp039 review adapter dependency', 'BP-039.review-adapter-dependency.input.json', 'BP-039.review-adapter-dependency.output.json'],
 ];
 
 function readFixture(fileName) {
