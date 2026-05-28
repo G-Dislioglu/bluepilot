@@ -1,0 +1,78 @@
+{
+  "task_id": "BP-023",
+  "task_name": "Document Builder Live Read Probe Mock Usage",
+  "created": "2026-05-28",
+  "scope": "bluepilot/builder-adapter/live-read-probe-usage",
+  "mode": "standard",
+  "task_type": "doc_task",
+  "risk_class": "low",
+  "impact_class": "reviewability",
+  "target_persona": null,
+  "goal": "Document how reviewers should run and interpret the local Builder Live Read Probe mock without enabling live Builder calls.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BUILDER_LIVE_READ_PROBE_CONTRACT_v0.md",
+    "tools/builder-live-read-probe.cjs",
+    "examples/builder-live-read-probe/BP-022.mock.input.json",
+    "review-packets/BP-022.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-023.json",
+    "docs/BUILDER_LIVE_READ_PROBE_USAGE_v0.md",
+    "review-packets/BP-023.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-023 documents the mock probe command, expected interpretation, and failure behavior.",
+    "The usage note does not introduce live URL, auth, secret, DB, persistence, or Builder write behavior.",
+    "The next-code boundary remains BP-024 hardening, not live integration."
+  ],
+  "assumptions": [
+    "BP-022 is already pushed and provides the local mock probe.",
+    "A short review usage note reduces misuse risk before further implementation.",
+    "Live usage remains blocked by BP-021 and BP-022 findings."
+  ],
+  "dod": [
+    "docs/BUILDER_LIVE_READ_PROBE_USAGE_v0.md exists.",
+    "The document includes exact mock command examples.",
+    "The document explains completed vs blocked outputs.",
+    "The document explicitly says this is not live Builder access.",
+    "node tools/verify-task-lock.cjs BP-023 --verify exits 0."
+  ],
+  "evidence_required": [
+    "diff_ref",
+    "content_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-023 --preflight",
+    "node tools/test-builder-adapter-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-023 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Live Builder, auth, secret, DB, persistence, write, execute, approval, or deploy guidance becomes necessary"
+  ],
+  "prior_task_findings": "BP-022 created a local mock-only read probe and warned that real live usage remains blocked.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
