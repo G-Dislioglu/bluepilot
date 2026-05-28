@@ -1,0 +1,103 @@
+{
+  "task_id": "BP-097",
+  "task_name": "BP-C3 AICOS Auto-query Read-only Slice",
+  "created": "2026-05-28",
+  "scope": "bluepilot/bp-c3/aicos-auto-query-read-only",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "read-only-knowledge-runtime",
+  "target_persona": null,
+  "council_session_required": true,
+  "goal": "Build a read-only AICOS auto-query tool that finds relevant card IDs for a task title using local index snapshots or optional raw GitHub fetch, without writing AICOS.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/BP_C2_GREEN_CHECKPOINT_v0.md",
+    "docs/BP_C3_PARALLEL_EXECUTOR_CONTRACT_v0.md",
+    "docs/BP_C3_MAYA_MEMORY_CONTRACT_v0.md",
+    "review-packets/BP-095.md",
+    "review-packets/BP-096.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-097.json",
+    "docs/BP_C3_AICOS_AUTO_QUERY_CONTRACT_v0.md",
+    "tools/aicos-query.cjs",
+    "tools/test-aicos-query-fixtures.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "review-packets/BP-097.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    ".bluepilot/**",
+    "tools/parallel-executor.cjs",
+    "tools/maya-memory.cjs",
+    "tools/verify-task-lock.cjs",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md"
+  ],
+  "scope_out": [
+    "No AICOS write",
+    "No embeddings",
+    "No vector DB",
+    "No package dependency",
+    "No UI",
+    "No BP-C4",
+    "No committed external snapshot"
+  ],
+  "claims": [
+    "tools/aicos-query.cjs can match task text to AICOS card IDs with reasons.",
+    "The tool supports local --index fixtures and optional read-only remote fetch.",
+    "Tests run offline with local fixture data.",
+    "No AICOS file or registry write occurs."
+  ],
+  "assumptions": [
+    "AICOS INDEX.json is an array of card-like objects with id, title, token, tags, domain, and type fields.",
+    "Keyword matching is sufficient for the first BP-C3 slice.",
+    "Embedding match can come later under a separate contract."
+  ],
+  "dod": [
+    "node --check tools/aicos-query.cjs exits 0.",
+    "node tools/test-aicos-query-fixtures.cjs exits 0.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-097 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-097 --preflight",
+    "node --check tools/aicos-query.cjs",
+    "node tools/test-aicos-query-fixtures.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-097 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "AICOS write becomes necessary",
+    "Secrets or auth become necessary",
+    "Embedding infrastructure becomes necessary"
+  ],
+  "prior_task_findings": "BP-095 added worktree isolation and BP-096 added proposal-only Maya Memory. AICOS query must remain read-only.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet",
+    "aicos_card_candidate"
+  ],
+  "baseline_ref": "HEAD"
+}

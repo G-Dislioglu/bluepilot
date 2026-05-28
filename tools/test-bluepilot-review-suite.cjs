@@ -65,6 +65,8 @@ const commands = [
   ['syntax: parallel executor fixture test', ['--check', 'tools/test-parallel-executor-fixtures.cjs']],
   ['syntax: maya memory', ['--check', 'tools/maya-memory.cjs']],
   ['syntax: maya memory fixture test', ['--check', 'tools/test-maya-memory-fixtures.cjs']],
+  ['syntax: aicos query', ['--check', 'tools/aicos-query.cjs']],
+  ['syntax: aicos query fixture test', ['--check', 'tools/test-aicos-query-fixtures.cjs']],
   ['adapter fixtures', ['tools/test-builder-adapter-fixtures.cjs']],
   ['endpoint fixtures', ['tools/test-builder-adapter-endpoint-fixtures.cjs']],
   ['HTTP route fixtures', ['tools/test-builder-adapter-http-route.cjs']],
@@ -103,6 +105,7 @@ const commands = [
   ['verify task lock council session fixtures', ['tools/test-verify-task-lock-council-session.cjs']],
   ['parallel executor fixtures', ['tools/test-parallel-executor-fixtures.cjs']],
   ['maya memory fixtures', ['tools/test-maya-memory-fixtures.cjs']],
+  ['aicos query fixtures', ['tools/test-aicos-query-fixtures.cjs']],
 ];
 
 for (const [label, args] of commands) {
