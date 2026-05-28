@@ -34,6 +34,7 @@ const commands = [
   ['syntax: human gate candidate', ['--check', 'tools/human-gate-candidate.cjs']],
   ['syntax: human gate candidate fixture test', ['--check', 'tools/test-human-gate-candidate-fixtures.cjs']],
   ['syntax: human gate candidate output invariants test', ['--check', 'tools/test-human-gate-candidate-output-invariants.cjs']],
+  ['syntax: human gate candidate coverage map test', ['--check', 'tools/test-human-gate-candidate-coverage-map.cjs']],
   ['adapter fixtures', ['tools/test-builder-adapter-fixtures.cjs']],
   ['endpoint fixtures', ['tools/test-builder-adapter-endpoint-fixtures.cjs']],
   ['HTTP route fixtures', ['tools/test-builder-adapter-http-route.cjs']],
@@ -51,6 +52,7 @@ const commands = [
   ['builder task candidate coverage map', ['tools/test-builder-task-candidate-coverage-map.cjs']],
   ['human gate candidate fixtures', ['tools/test-human-gate-candidate-fixtures.cjs']],
   ['human gate candidate output invariants', ['tools/test-human-gate-candidate-output-invariants.cjs']],
+  ['human gate candidate coverage map', ['tools/test-human-gate-candidate-coverage-map.cjs']],
 ];
 
 for (const [label, args] of commands) {

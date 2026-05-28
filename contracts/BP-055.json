@@ -1,0 +1,89 @@
+{
+  "task_id": "BP-055",
+  "task_name": "Add Human Gate Candidate Fixture Coverage Map",
+  "created": "2026-05-28",
+  "scope": "bluepilot/human-gate-candidate/coverage-map",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "low",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Add a Human Gate Candidate fixture coverage map and a local consistency test so documented MVP cases stay aligned with golden fixtures.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/HUMAN_GATE_HANDOFF_v0.md",
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md",
+    "tools/test-builder-task-candidate-coverage-map.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "examples/human-gate-candidate/**",
+    "review-packets/BP-054.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-055.json",
+    "docs/HUMAN_GATE_CANDIDATE_FIXTURE_COVERAGE_v0.md",
+    "tools/test-human-gate-candidate-coverage-map.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "review-packets/BP-055.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "tools/human-gate-candidate.cjs",
+    "tools/test-human-gate-candidate-fixtures.cjs",
+    "tools/test-human-gate-candidate-output-invariants.cjs",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-055 documents current Human Gate Candidate fixture coverage.",
+    "BP-055 adds a coverage-map consistency test to catch fixture/doc drift.",
+    "BP-055 does not change Human Gate Candidate runtime behavior or fixtures."
+  ],
+  "assumptions": [
+    "BP-053 introduced the first Human Gate Candidate golden fixtures.",
+    "BP-054 made the shared review suite cover the Human Gate Candidate mock.",
+    "Coverage visibility should be added before setting the local MVP chain checkpoint."
+  ],
+  "dod": [
+    "docs/HUMAN_GATE_CANDIDATE_FIXTURE_COVERAGE_v0.md exists and lists the current fixture cases.",
+    "tools/test-human-gate-candidate-coverage-map.cjs verifies every documented fixture exists.",
+    "tools/test-bluepilot-review-suite.cjs runs the Human Gate Candidate coverage-map test.",
+    "node tools/test-human-gate-candidate-coverage-map.cjs exits 0.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-055 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "content_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-055 --preflight",
+    "node --check tools/test-human-gate-candidate-coverage-map.cjs",
+    "node tools/test-human-gate-candidate-coverage-map.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-055 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Human Gate Candidate runtime or fixture changes become necessary",
+    "Effective approval, live Builder, auth, secrets, DB, deploy, task create, execute, approve, or push becomes necessary"
+  ],
+  "prior_task_findings": "BP-054 added Human Gate Candidate review-suite checks but did not document fixture coverage or guard doc/fixture drift.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
