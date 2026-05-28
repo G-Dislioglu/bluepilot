@@ -1,0 +1,24 @@
+{
+  "live_builder_adapter_readiness_id": "BP-LIVE-BUILDER-ADAPTER-READINESS-073-LIVE",
+  "builder_task_create_readiness": {
+    "builder_task_create_readiness_id": "BP-BUILDER-TASK-CREATE-READINESS-073-LIVE",
+    "status": "task_create_readiness_prepared",
+    "target_repo": "bluepilot",
+    "builder_adapter_mode": "none",
+    "task_create_effect": "none",
+    "execute_effect": "none",
+    "builder_task_create_allowed": false,
+    "builder_execute_allowed": false,
+    "live_builder_call_allowed": false,
+    "blocked_reasons": [],
+    "readiness_notes": []
+  },
+  "adapter_readiness_intent": "live_read",
+  "live_builder_target": "https://builder.example.invalid",
+  "auth_posture": "token",
+  "secret_source": "env",
+  "persistence_target": "postgres",
+  "network_effect_requested": "read",
+  "task_create_effect_requested": "none",
+  "execute_effect_requested": "none"
+}

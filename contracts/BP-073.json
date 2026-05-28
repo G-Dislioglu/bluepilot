@@ -1,0 +1,93 @@
+{
+  "task_id": "BP-073",
+  "task_name": "Implement Local Live Builder Adapter Readiness Candidate Mock",
+  "created": "2026-05-28",
+  "scope": "bluepilot/live-builder-adapter-readiness/local-candidate-mock",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Implement a local deterministic Live Builder Adapter Readiness Candidate mock that consumes the BP-072 handoff envelope and emits a local readiness output without calling Builder, creating tasks, configuring auth, reading secrets, using persistence, or executing anything.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/LIVE_BUILDER_ADAPTER_READINESS_CONTRACT_v0.md",
+    "docs/BUILDER_TASK_CREATE_READINESS_CONTRACT_v0.md",
+    "tools/builder-task-create-readiness-candidate.cjs",
+    "tools/test-builder-task-create-readiness-candidate-fixtures.cjs",
+    "examples/builder-task-create-readiness-candidate/**",
+    "review-packets/BP-072.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-073.json",
+    "tools/live-builder-adapter-readiness-candidate.cjs",
+    "tools/test-live-builder-adapter-readiness-candidate-fixtures.cjs",
+    "examples/live-builder-adapter-readiness-candidate/**",
+    "review-packets/BP-073.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "docs/**",
+    "tools/builder-adapter*",
+    "tools/builder-live-read-probe.cjs",
+    "tools/mock-builder-*",
+    "tools/phase-scanner.cjs",
+    "tools/scope-resolver.cjs",
+    "tools/builder-task-candidate.cjs",
+    "tools/builder-task-create-readiness-candidate.cjs",
+    "tools/test-bluepilot-review-suite.cjs"
+  ],
+  "claims": [
+    "BP-073 implements a local Live Builder Adapter Readiness Candidate mock from the BP-072 handoff envelope.",
+    "BP-073 blocks live Builder calls, task creation, execution, adapter configuration, auth, secrets, persistence, and approval recording.",
+    "BP-073 does not call Builder, create tasks, execute tasks, configure auth, use secrets, use DB, persist data, or record approval."
+  ],
+  "assumptions": [
+    "The BP-072 contract is the source of truth for Live Builder Adapter Readiness input and output envelopes.",
+    "The first live-builder-adapter readiness implementation should be local and fixture-reviewed before any Builder adapter is connected.",
+    "Live Builder, Builder Task Create, and Execute remain blocked after BP-073."
+  ],
+  "dod": [
+    "tools/live-builder-adapter-readiness-candidate.cjs exists and supports --input <path> and --pretty.",
+    "examples/live-builder-adapter-readiness-candidate contains golden input/output fixtures for prepared, review, and blocked cases.",
+    "tools/test-live-builder-adapter-readiness-candidate-fixtures.cjs compares CLI output against golden fixtures.",
+    "node tools/test-live-builder-adapter-readiness-candidate-fixtures.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-073 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-073 --preflight",
+    "node --check tools/live-builder-adapter-readiness-candidate.cjs",
+    "node --check tools/test-live-builder-adapter-readiness-candidate-fixtures.cjs",
+    "node tools/test-live-builder-adapter-readiness-candidate-fixtures.cjs",
+    "node tools/verify-task-lock.cjs BP-073 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Live Builder access, Builder Task Create, adapter configuration, Auth, secrets, persistence, approval recording, Execute, Approve, Push, Deploy, or DB becomes necessary",
+    "Live Builder Adapter Readiness mock needs to write target files instead of only returning an envelope"
+  ],
+  "prior_task_findings": "BP-072 defined a document-only Live Builder Adapter Readiness Contract and named a local candidate mock with fixtures as the next safe step.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}

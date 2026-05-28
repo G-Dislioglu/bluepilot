@@ -1,0 +1,19 @@
+{
+  "live_builder_adapter_readiness_id": "BP-LIVE-BUILDER-ADAPTER-READINESS-073-PREPARED",
+  "status": "live_builder_adapter_readiness_prepared",
+  "target_repo": "bluepilot",
+  "live_builder_target": "none",
+  "auth_posture": "none",
+  "secret_source": "none",
+  "persistence_target": "none",
+  "network_effect": "none",
+  "task_create_effect": "none",
+  "execute_effect": "none",
+  "builder_task_create_allowed": false,
+  "builder_execute_allowed": false,
+  "live_builder_call_allowed": false,
+  "blocked_reasons": [],
+  "readiness_notes": [
+    "Live Builder adapter readiness is local only. Live Builder, auth, secrets, persistence, task create, approval record, and execute remain blocked."
+  ]
+}

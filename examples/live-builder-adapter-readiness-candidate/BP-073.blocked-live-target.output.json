@@ -1,0 +1,24 @@
+{
+  "live_builder_adapter_readiness_id": "BP-LIVE-BUILDER-ADAPTER-READINESS-073-LIVE",
+  "status": "blocked",
+  "target_repo": "bluepilot",
+  "live_builder_target": "https://builder.example.invalid",
+  "auth_posture": "token",
+  "secret_source": "env",
+  "persistence_target": "postgres",
+  "network_effect": "none",
+  "task_create_effect": "none",
+  "execute_effect": "none",
+  "builder_task_create_allowed": false,
+  "builder_execute_allowed": false,
+  "live_builder_call_allowed": false,
+  "blocked_reasons": [
+    "Live Builder target must remain none in Live Builder Adapter Readiness MVP.",
+    "Auth posture must remain none in Live Builder Adapter Readiness MVP.",
+    "Secret source must remain none in Live Builder Adapter Readiness MVP.",
+    "Persistence target must remain none in Live Builder Adapter Readiness MVP.",
+    "Network effect requested must remain none in Live Builder Adapter Readiness MVP.",
+    "Adapter readiness intent live_read is not allowed for Live Builder Adapter Readiness MVP."
+  ],
+  "readiness_notes": []
+}
