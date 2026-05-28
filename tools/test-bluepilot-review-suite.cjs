@@ -56,6 +56,10 @@ const commands = [
   ['syntax: maya council watcher', ['--check', 'tools/maya-council-watcher.cjs']],
   ['syntax: council kernel fixture test', ['--check', 'tools/test-council-kernel-fixtures.cjs']],
   ['syntax: council kernel smoke', ['--check', 'tools/council-kernel-smoke.cjs']],
+  ['syntax: model pool', ['--check', 'tools/model-pool.cjs']],
+  ['syntax: model pool fixture test', ['--check', 'tools/test-model-pool-fixtures.cjs']],
+  ['syntax: context broker', ['--check', 'tools/context-broker.cjs']],
+  ['syntax: context broker fixture test', ['--check', 'tools/test-context-broker-fixtures.cjs']],
   ['adapter fixtures', ['tools/test-builder-adapter-fixtures.cjs']],
   ['endpoint fixtures', ['tools/test-builder-adapter-endpoint-fixtures.cjs']],
   ['HTTP route fixtures', ['tools/test-builder-adapter-http-route.cjs']],
@@ -89,6 +93,8 @@ const commands = [
   ['live builder adapter readiness candidate coverage map', ['tools/test-live-builder-adapter-readiness-candidate-coverage-map.cjs']],
   ['council kernel fixtures', ['tools/test-council-kernel-fixtures.cjs']],
   ['council kernel smoke', ['tools/council-kernel-smoke.cjs']],
+  ['model pool fixtures', ['tools/test-model-pool-fixtures.cjs']],
+  ['context broker fixtures', ['tools/test-context-broker-fixtures.cjs']],
 ];
 
 for (const [label, args] of commands) {

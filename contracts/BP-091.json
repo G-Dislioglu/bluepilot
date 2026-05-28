@@ -1,0 +1,98 @@
+{
+  "task_id": "BP-091",
+  "task_name": "BP-C2 Multi-model Pool Contract Runtime",
+  "created": "2026-05-28",
+  "scope": "bluepilot/bp-c2/multi-model-pool",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "runtime",
+  "target_persona": null,
+  "goal": "Build the BP-C2 Multi-model Pool as deterministic provider/role routing metadata without API calls, credentials, UI, or BP-C3 behavior.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/BP_C1_KERNEL_READY_CHECKPOINT_v0.md",
+    "docs/BLUEPILOT_BUILD_CANVAS_DECISION_v0.md",
+    "docs/COUNCIL-SESSION-PROTOCOL-v1.1.md",
+    "review-packets/BP-090.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-091.json",
+    "docs/BP_C2_MULTI_MODEL_POOL_CONTRACT_v0.md",
+    "tools/model-pool.cjs",
+    "tools/test-model-pool-fixtures.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "review-packets/BP-091.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    ".bluepilot/**",
+    "tools/verify-task-lock.cjs",
+    "tools/context-broker.cjs",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md"
+  ],
+  "scope_out": [
+    "No model API calls",
+    "No secrets or provider keys",
+    "No UI",
+    "No BP-C3 parallel executor",
+    "No Context Broker implementation",
+    "No WLP verifier change"
+  ],
+  "claims": [
+    "tools/model-pool.cjs exposes deterministic provider and role routing metadata.",
+    "Supported providers are Claude, GPT, Gemini, GLM, and Kimi as route targets only.",
+    "Roles scout, worker, judge, and maya resolve to ordered candidate models.",
+    "No external network call or credential access occurs."
+  ],
+  "assumptions": [
+    "BP-C2 Multi-model Pool should start as routing metadata, not live provider execution.",
+    "Model IDs are labels and can be changed later without changing the routing API shape.",
+    "A future execution layer will call providers through separate adapters."
+  ],
+  "dod": [
+    "node --check tools/model-pool.cjs exits 0.",
+    "node tools/test-model-pool-fixtures.cjs exits 0.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-091 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-091 --preflight",
+    "node --check tools/model-pool.cjs",
+    "node tools/test-model-pool-fixtures.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-091 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Provider API call or credential handling becomes necessary",
+    "BP-C3 behavior becomes necessary"
+  ],
+  "prior_task_findings": "BP-090 marks BP-C1 kernel-ready. BP-C2 modules may now be prepared under Council Session rules.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
