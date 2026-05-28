@@ -1,0 +1,85 @@
+{
+  "task_id": "BP-028",
+  "task_name": "Add Phase Scanner CLI Error Tests",
+  "created": "2026-05-28",
+  "scope": "bluepilot/phase-scanner/cli-error-tests",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Add process-level Phase Scanner CLI error tests without changing scanner runtime behavior or enabling external system access.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "tools/phase-scanner.cjs",
+    "tools/test-phase-scanner-fixtures.cjs",
+    "tools/test-builder-adapter-review-suite.cjs",
+    "review-packets/BP-027.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-028.json",
+    "tools/test-phase-scanner-cli-errors.cjs",
+    "tools/test-builder-adapter-review-suite.cjs",
+    "review-packets/BP-028.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "docs/**",
+    "examples/**",
+    "tools/phase-scanner.cjs",
+    "tools/test-phase-scanner-fixtures.cjs"
+  ],
+  "claims": [
+    "BP-028 adds CLI error tests for missing input path, missing file, and invalid JSON.",
+    "The tests prove Phase Scanner CLI failures exit non-zero and print usage or read failure guidance.",
+    "No Phase Scanner runtime, docs, fixtures, live Builder, auth, secret, DB, deploy, or write behavior is introduced."
+  ],
+  "assumptions": [
+    "Existing Phase Scanner CLI error behavior is acceptable and only needs test coverage.",
+    "Temporary invalid JSON can be created inside the test process without committed invalid fixtures.",
+    "The shared review suite is the right verification entrypoint."
+  ],
+  "dod": [
+    "tools/test-phase-scanner-cli-errors.cjs exists.",
+    "The test covers missing input, missing file, and invalid JSON.",
+    "The shared review suite runs the new CLI error test.",
+    "node tools/test-builder-adapter-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-028 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-028 --preflight",
+    "node --check tools/test-phase-scanner-cli-errors.cjs",
+    "node tools/test-phase-scanner-cli-errors.cjs",
+    "node tools/test-builder-adapter-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-028 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime changes become necessary",
+    "Live Builder, auth, secrets, DB, deploy, or external system behavior becomes necessary"
+  ],
+  "prior_task_findings": "BP-027 added deterministic Phase Scanner fixtures and wired them into the shared review suite.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
