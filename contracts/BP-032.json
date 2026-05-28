@@ -1,0 +1,85 @@
+{
+  "task_id": "BP-032",
+  "task_name": "Add Phase Scanner Output Invariant Tests",
+  "created": "2026-05-28",
+  "scope": "bluepilot/phase-scanner/output-invariants",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "low",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Add output invariant tests for all Phase Scanner fixtures without changing scanner runtime behavior.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/PHASE_SCANNER_RUNTIME_DECISION_v0.md",
+    "tools/test-phase-scanner-fixtures.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "review-packets/BP-031.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-032.json",
+    "tools/test-phase-scanner-output-invariants.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "review-packets/BP-032.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "docs/**",
+    "examples/**",
+    "tools/phase-scanner.cjs"
+  ],
+  "claims": [
+    "BP-032 adds invariant checks for Phase Scanner output shape and decision rules.",
+    "BP-032 runs the invariant checks from the shared Bluepilot review suite.",
+    "BP-032 does not change scanner runtime, fixtures, docs, or external integration behavior."
+  ],
+  "assumptions": [
+    "Existing Phase Scanner fixtures are the current review corpus.",
+    "Invariant tests should inspect generated outputs rather than duplicate golden fixture comparisons.",
+    "No runtime change is required for this block."
+  ],
+  "dod": [
+    "tools/test-phase-scanner-output-invariants.cjs exists.",
+    "The test validates required output fields, MVP decisions, stoplights, confidence bounds, human gate, and reject behavior.",
+    "tools/test-bluepilot-review-suite.cjs runs the invariant test.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-032 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-032 --preflight",
+    "node --check tools/test-phase-scanner-output-invariants.cjs",
+    "node tools/test-phase-scanner-output-invariants.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-032 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Phase Scanner runtime changes become necessary",
+    "Fixture rewrites become necessary",
+    "Live Builder, auth, secrets, DB, deploy, or external system behavior becomes necessary"
+  ],
+  "prior_task_findings": "BP-031 hardened keyword handling while keeping deterministic output fixtures stable.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
