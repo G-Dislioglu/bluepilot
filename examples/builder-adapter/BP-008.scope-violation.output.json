@@ -1,0 +1,16 @@
+{
+  "adapter_run_id": "mock-builder-adapter-BP-008-SCOPE-VIOLATION",
+  "status": "blocked",
+  "builder_task_id": null,
+  "decision_ready": false,
+  "changed_files": [
+    "docs/example.md",
+    "src/escape.js"
+  ],
+  "evidence": {},
+  "blocked_reasons": [
+    "Scope gate violation: src/escape.js"
+  ],
+  "requires_human_gate": true,
+  "mock": true
+}

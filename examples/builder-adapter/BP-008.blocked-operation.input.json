@@ -1,0 +1,33 @@
+{
+  "run_id": "BP-008-BLOCKED-OPERATION",
+  "task_contract_ref": "contracts/BP-008.json",
+  "phase_scanner_result": {
+    "decision": "allow_single_track",
+    "confidence": 0.9,
+    "stoplight": "green",
+    "human_gate_required": true
+  },
+  "target_repo": "bluepilot",
+  "allowed_files": [
+    "docs/example.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package-lock.json"
+  ],
+  "required_evidence": [
+    "diff_ref",
+    "content_check"
+  ],
+  "human_gate": {
+    "required": true,
+    "status": "approved"
+  },
+  "requested_operations": [
+    "task_create",
+    "auto_deploy"
+  ],
+  "mock_changed_files": [
+    "docs/example.md"
+  ]
+}
