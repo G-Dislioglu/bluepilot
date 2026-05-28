@@ -1,0 +1,13 @@
+{
+  "probe_id": "BP-024-BLOCKED-LIVE-MODE",
+  "status": "blocked",
+  "source": "mock-builder-read-only",
+  "builder_refs": {},
+  "writes_attempted": false,
+  "decision_ready": false,
+  "requires_human_gate": true,
+  "mock": true,
+  "blocked_reasons": [
+    "BP-022 supports mode=mock only"
+  ]
+}

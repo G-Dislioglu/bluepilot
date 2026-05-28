@@ -1,0 +1,10 @@
+{
+  "probe_id": "BP-024-BLOCKED-LIVE-MODE",
+  "mode": "live",
+  "reads": [
+    {
+      "method": "GET",
+      "path": "/api/builder/tasks/example/evidence"
+    }
+  ]
+}

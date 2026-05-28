@@ -1,0 +1,5 @@
+{
+  "probe_id": "BP-024-BLOCKED-EMPTY-READS",
+  "mode": "mock",
+  "reads": []
+}

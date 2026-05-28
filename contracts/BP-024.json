@@ -1,0 +1,88 @@
+{
+  "task_id": "BP-024",
+  "task_name": "Harden Builder Live Read Probe Mock Validation",
+  "created": "2026-05-28",
+  "scope": "bluepilot/builder-adapter/live-read-probe-mock-hardening",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Harden the local Builder Live Read Probe mock with additional blocked fixtures and CLI golden-output checks, without enabling live Builder calls.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BUILDER_LIVE_READ_PROBE_CONTRACT_v0.md",
+    "docs/BUILDER_LIVE_READ_PROBE_USAGE_v0.md",
+    "tools/builder-live-read-probe.cjs",
+    "tools/test-builder-live-read-probe.cjs",
+    "review-packets/BP-023.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-024.json",
+    "tools/test-builder-live-read-probe.cjs",
+    "tools/test-builder-adapter-review-suite.cjs",
+    "examples/builder-live-read-probe/BP-024.blocked-live-mode.input.json",
+    "examples/builder-live-read-probe/BP-024.blocked-live-mode.output.json",
+    "examples/builder-live-read-probe/BP-024.blocked-empty-reads.input.json",
+    "examples/builder-live-read-probe/BP-024.blocked-empty-reads.output.json",
+    "review-packets/BP-024.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "docs/**",
+    "tools/builder-live-read-probe.cjs"
+  ],
+  "claims": [
+    "BP-024 adds blocked fixtures for live mode and empty reads.",
+    "BP-024 tests the CLI output against golden fixture JSON, not only the exported function.",
+    "BP-024 does not alter the probe runtime to enable live, auth, secrets, DB, persistence, or writes."
+  ],
+  "assumptions": [
+    "The BP-022 runtime already blocks live mode and empty reads.",
+    "Hardening can be achieved by tests and fixtures without runtime changes.",
+    "Review-suite integration from BP-022 remains the correct test entrypoint."
+  ],
+  "dod": [
+    "Blocked live-mode and empty-reads fixtures exist.",
+    "tools/test-builder-live-read-probe.cjs covers the new fixtures.",
+    "tools/test-builder-live-read-probe.cjs compares CLI JSON output with golden output.",
+    "tools/test-builder-adapter-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-024 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "fixture_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-024 --preflight",
+    "node --check tools/test-builder-live-read-probe.cjs",
+    "node tools/test-builder-live-read-probe.cjs",
+    "node tools/test-builder-adapter-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-024 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime changes become necessary",
+    "Live Builder call, base URL, auth, secret, DB, persistence, write, execute, approval, or deploy behavior becomes necessary"
+  ],
+  "prior_task_findings": "BP-023 identified mode=live, empty reads, and CLI golden checks as the next safe local hardening boundary.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
