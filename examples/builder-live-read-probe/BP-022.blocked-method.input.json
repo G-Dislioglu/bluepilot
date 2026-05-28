@@ -1,0 +1,10 @@
+{
+  "probe_id": "BP-022-BLOCKED-METHOD",
+  "mode": "mock",
+  "reads": [
+    {
+      "method": "POST",
+      "path": "/api/builder/tasks/example/evidence"
+    }
+  ]
+}

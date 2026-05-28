@@ -1,0 +1,91 @@
+{
+  "task_id": "BP-022",
+  "task_name": "Implement Builder Live Read Probe Mock Fallback",
+  "created": "2026-05-28",
+  "scope": "bluepilot/builder-adapter/live-read-probe-mock",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Implement the local mock fallback and allowlist validation for the Builder Live Read Probe without live Builder calls, secrets, auth, persistence, or writes.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BUILDER_LIVE_READ_PROBE_CONTRACT_v0.md",
+    "review-packets/BP-021.md",
+    "tools/test-builder-adapter-review-suite.cjs"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-022.json",
+    "tools/builder-live-read-probe.cjs",
+    "tools/test-builder-live-read-probe.cjs",
+    "tools/test-builder-adapter-review-suite.cjs",
+    "examples/builder-live-read-probe/BP-022.mock.input.json",
+    "examples/builder-live-read-probe/BP-022.mock.output.json",
+    "examples/builder-live-read-probe/BP-022.blocked-method.input.json",
+    "examples/builder-live-read-probe/BP-022.blocked-method.output.json",
+    "examples/builder-live-read-probe/BP-022.blocked-path.input.json",
+    "examples/builder-live-read-probe/BP-022.blocked-path.output.json",
+    "review-packets/BP-022.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "docs/**"
+  ],
+  "claims": [
+    "BP-022 implements only a local mock fallback for the read-only Builder probe.",
+    "The probe validates the BP-021 read allowlist and blocks non-GET or non-allowlisted reads.",
+    "The probe output always reports writes_attempted=false, decision_ready=false, and requires_human_gate=true.",
+    "The existing adapter review suite includes the new probe tests."
+  ],
+  "assumptions": [
+    "BP-021 is the governing contract for the read-only probe boundary.",
+    "No live Builder URL, secret, auth, or persistence is required for this task.",
+    "Fixture-based mock evidence is sufficient for the first reviewable probe line."
+  ],
+  "dod": [
+    "tools/builder-live-read-probe.cjs exists and supports mock mode from JSON input.",
+    "Allowed GET paths complete with stable mock refs.",
+    "Forbidden method and forbidden path inputs produce blocked outputs.",
+    "tools/test-builder-live-read-probe.cjs exits 0.",
+    "tools/test-builder-adapter-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-022 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "fixture_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-022 --preflight",
+    "node --check tools/builder-live-read-probe.cjs",
+    "node --check tools/test-builder-live-read-probe.cjs",
+    "node tools/test-builder-live-read-probe.cjs",
+    "node tools/test-builder-adapter-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-022 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Live Builder call, base URL, auth, secret, DB, persistence, write, execute, approval, or push integration becomes necessary",
+    "A broader adapter architecture change becomes necessary"
+  ],
+  "prior_task_findings": "BP-021 allows BP-022 to implement only mock fallback, envelope validation, read allowlist validation, and tests.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}

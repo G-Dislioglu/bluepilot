@@ -15,9 +15,12 @@ const commands = [
   ['syntax: adapter fixture test', ['--check', 'tools/test-builder-adapter-fixtures.cjs']],
   ['syntax: endpoint fixture test', ['--check', 'tools/test-builder-adapter-endpoint-fixtures.cjs']],
   ['syntax: HTTP route test', ['--check', 'tools/test-builder-adapter-http-route.cjs']],
+  ['syntax: live read probe', ['--check', 'tools/builder-live-read-probe.cjs']],
+  ['syntax: live read probe test', ['--check', 'tools/test-builder-live-read-probe.cjs']],
   ['adapter fixtures', ['tools/test-builder-adapter-fixtures.cjs']],
   ['endpoint fixtures', ['tools/test-builder-adapter-endpoint-fixtures.cjs']],
   ['HTTP route fixtures', ['tools/test-builder-adapter-http-route.cjs']],
+  ['live read probe fixtures', ['tools/test-builder-live-read-probe.cjs']],
 ];
 
 for (const [label, args] of commands) {

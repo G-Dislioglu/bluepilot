@@ -1,0 +1,15 @@
+{
+  "probe_id": "BP-022-MOCK",
+  "status": "completed",
+  "source": "mock-builder-read-only",
+  "builder_refs": {
+    "task_evidence_ref": "mock-builder://tasks/example/evidence",
+    "task_audit_ref": "mock-builder://tasks/example/audit",
+    "bridge_metrics_ref": "mock-builder://opus-bridge/metrics"
+  },
+  "writes_attempted": false,
+  "decision_ready": false,
+  "requires_human_gate": true,
+  "mock": true,
+  "blocked_reasons": []
+}

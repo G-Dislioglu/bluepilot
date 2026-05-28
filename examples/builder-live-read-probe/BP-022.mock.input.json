@@ -1,0 +1,18 @@
+{
+  "probe_id": "BP-022-MOCK",
+  "mode": "mock",
+  "reads": [
+    {
+      "method": "GET",
+      "path": "/api/builder/tasks/example/evidence"
+    },
+    {
+      "method": "GET",
+      "path": "/api/builder/tasks/example/audit"
+    },
+    {
+      "method": "GET",
+      "path": "/api/builder/opus-bridge/metrics"
+    }
+  ]
+}
