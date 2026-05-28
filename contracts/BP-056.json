@@ -1,0 +1,82 @@
+{
+  "task_id": "BP-056",
+  "task_name": "Add Local MVP Chain Checkpoint Through Human Gate",
+  "created": "2026-05-28",
+  "scope": "bluepilot/mvp-chain/local-checkpoint-human-gate",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "medium",
+  "impact_class": "architectural",
+  "target_persona": null,
+  "goal": "Document the current local MVP chain through Human Gate Candidate and define the next safe boundary without enabling approval, task creation, execution, or live Builder access.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/MVP_CHAIN_CHECKPOINT_POST_PHASE_SCANNER_v0.md",
+    "docs/SCOPE_RESOLVER_FIXTURE_COVERAGE_v0.md",
+    "docs/BUILDER_TASK_CANDIDATE_FIXTURE_COVERAGE_v0.md",
+    "docs/HUMAN_GATE_CANDIDATE_FIXTURE_COVERAGE_v0.md",
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md",
+    "review-packets/BP-055.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-056.json",
+    "docs/MVP_CHAIN_CHECKPOINT_LOCAL_HUMAN_GATE_v0.md",
+    "review-packets/BP-056.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-056 documents the local MVP chain through Human Gate Candidate.",
+    "BP-056 identifies which chain stages are locally reviewable and which actions remain blocked.",
+    "BP-056 does not implement approval, UI, Builder task creation, execution, auth, secrets, DB, deploy, or live Builder access."
+  ],
+  "assumptions": [
+    "BP-055 completed fixture coverage visibility for the Human Gate Candidate stage.",
+    "A checkpoint is needed before expanding toward any approval UI, Builder adapter, or task-create readiness work.",
+    "The next safe step should remain local and fixture-based unless a later explicit readiness task changes that boundary."
+  ],
+  "dod": [
+    "docs/MVP_CHAIN_CHECKPOINT_LOCAL_HUMAN_GATE_v0.md exists.",
+    "The document states the local chain stages, current review suite entry point, blocked actions, open gaps, and next safe step.",
+    "The document explicitly blocks approval effect, Task Create, Execute, Approve, Push, Deploy, auth, secrets, DB, and live Builder calls.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-056 --verify exits 0."
+  ],
+  "evidence_required": [
+    "content_check",
+    "test_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-056 --preflight",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-056 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime, fixture, package, or tool changes become necessary",
+    "Effective approval, live Builder, auth, secrets, DB, deploy, execution, task creation, approve, or push becomes necessary"
+  ],
+  "prior_task_findings": "BP-055 made Human Gate Candidate fixture coverage visible and cleared the way for a local MVP chain checkpoint.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
