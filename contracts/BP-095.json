@@ -1,0 +1,99 @@
+{
+  "task_id": "BP-095",
+  "task_name": "BP-C3 Parallel Executor Worktree Slice",
+  "created": "2026-05-28",
+  "scope": "bluepilot/bp-c3/parallel-executor-worktrees",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "git-filesystem-runtime",
+  "target_persona": null,
+  "council_session_required": true,
+  "goal": "Build the first BP-C3 Parallel Executor slice for safe git worktree list/add/remove and try/finally cleanup, without spawning agents or starting BP-C4.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/BP_C2_GREEN_CHECKPOINT_v0.md",
+    "docs/BLUEPILOT_BUILD_CANVAS_DECISION_v0.md",
+    "tools/verify-task-lock.cjs",
+    "review-packets/BP-094.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-095.json",
+    "docs/BP_C3_PARALLEL_EXECUTOR_CONTRACT_v0.md",
+    "tools/parallel-executor.cjs",
+    "tools/test-parallel-executor-fixtures.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "review-packets/BP-095.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    ".bluepilot/**",
+    "tools/model-pool.cjs",
+    "tools/context-broker.cjs",
+    "tools/verify-task-lock.cjs",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md"
+  ],
+  "scope_out": [
+    "No agent spawning",
+    "No BP-C4",
+    "No UI",
+    "No committed worktree state",
+    "No merge, push, deploy, auth, secrets, DB, AICOS write, or Soulmatch copy"
+  ],
+  "claims": [
+    "tools/parallel-executor.cjs can list, add, and remove git worktrees.",
+    "The tool returns graceful HARD STOP style failures if git commands fail.",
+    "Tests use temporary git repositories only.",
+    "Cleanup is proven when scoped work fails inside withWorktree."
+  ],
+  "assumptions": [
+    "BP-C3 Parallel Executor starts with worktree management only.",
+    "Branch naming can be deterministic and local.",
+    "Actual agent process execution belongs to a later task."
+  ],
+  "dod": [
+    "node --check tools/parallel-executor.cjs exits 0.",
+    "node tools/test-parallel-executor-fixtures.cjs exits 0.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-095 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-095 --preflight",
+    "node --check tools/parallel-executor.cjs",
+    "node tools/test-parallel-executor-fixtures.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-095 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Real repo worktree state becomes necessary for tests",
+    "Agent spawning becomes necessary",
+    "Git cleanup cannot be proven"
+  ],
+  "prior_task_findings": "BP-094 marks BP-C2 green. BP-C3 may start only with council_session_required contracts and no BP-C4 behavior.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}

@@ -61,6 +61,8 @@ const commands = [
   ['syntax: context broker', ['--check', 'tools/context-broker.cjs']],
   ['syntax: context broker fixture test', ['--check', 'tools/test-context-broker-fixtures.cjs']],
   ['syntax: verify task lock council session test', ['--check', 'tools/test-verify-task-lock-council-session.cjs']],
+  ['syntax: parallel executor', ['--check', 'tools/parallel-executor.cjs']],
+  ['syntax: parallel executor fixture test', ['--check', 'tools/test-parallel-executor-fixtures.cjs']],
   ['adapter fixtures', ['tools/test-builder-adapter-fixtures.cjs']],
   ['endpoint fixtures', ['tools/test-builder-adapter-endpoint-fixtures.cjs']],
   ['HTTP route fixtures', ['tools/test-builder-adapter-http-route.cjs']],
@@ -97,6 +99,7 @@ const commands = [
   ['model pool fixtures', ['tools/test-model-pool-fixtures.cjs']],
   ['context broker fixtures', ['tools/test-context-broker-fixtures.cjs']],
   ['verify task lock council session fixtures', ['tools/test-verify-task-lock-council-session.cjs']],
+  ['parallel executor fixtures', ['tools/test-parallel-executor-fixtures.cjs']],
 ];
 
 for (const [label, args] of commands) {
