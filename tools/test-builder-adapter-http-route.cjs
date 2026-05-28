@@ -5,7 +5,13 @@
 const fs = require('fs');
 const http = require('http');
 const path = require('path');
-const { createServer, HOST, ROUTE } = require('./mock-builder-adapter-http-server.cjs');
+const {
+  createServer,
+  HOST,
+  MOCK_AUTH_HEADER,
+  MOCK_AUTH_VALUE,
+  ROUTE,
+} = require('./mock-builder-adapter-http-server.cjs');
 
 const repoRoot = path.resolve(__dirname, '..');
 
@@ -33,6 +39,7 @@ function request(port, options) {
       headers: {
         'content-type': options.contentType || 'application/json',
         'content-length': Buffer.byteLength(body),
+        ...(options.mockAuth === false ? {} : { [MOCK_AUTH_HEADER]: options.mockAuthValue || MOCK_AUTH_VALUE }),
       },
     }, (res) => {
       const chunks = [];
@@ -91,6 +98,12 @@ async function run() {
 
     assertMockBlocked('invalid JSON', await request(port, { body: '{not-json' }), 200, 'invalid JSON');
     console.log('invalid JSON: PASS');
+
+    assertMockBlocked('missing mock auth', await request(port, { mockAuth: false, body: readRepoFile('examples/builder-adapter/BP-007.allow.input.json') }), 403, 'mock auth header missing or invalid');
+    console.log('missing mock auth: PASS');
+
+    assertMockBlocked('wrong mock auth', await request(port, { mockAuthValue: 'wrong-value', body: readRepoFile('examples/builder-adapter/BP-007.allow.input.json') }), 403, 'mock auth header missing or invalid');
+    console.log('wrong mock auth: PASS');
   } finally {
     await new Promise((resolve) => server.close(resolve));
   }

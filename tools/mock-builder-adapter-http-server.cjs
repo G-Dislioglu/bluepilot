@@ -9,6 +9,8 @@ const { blockedOutput } = require('./builder-adapter-core.cjs');
 const ROUTE = '/api/bluepilot/builder-adapter/mock-run';
 const HOST = '127.0.0.1';
 const BODY_LIMIT_BYTES = 128 * 1024;
+const MOCK_AUTH_HEADER = 'x-bluepilot-mock-auth';
+const MOCK_AUTH_VALUE = 'local-review';
 
 function mockBlocked(reason, statusCode = 200) {
   return {
@@ -29,6 +31,27 @@ function sendJson(res, statusCode, body) {
 function isJsonContentType(req) {
   const contentType = String(req.headers['content-type'] || '').toLowerCase();
   return contentType.includes('application/json');
+}
+
+function hasValidMockAuth(req) {
+  return String(req.headers[MOCK_AUTH_HEADER] || '').trim() === MOCK_AUTH_VALUE;
+}
+
+function mockAuthBlocked() {
+  return {
+    statusCode: 403,
+    body: {
+      adapter_run_id: 'mock-builder-adapter-auth-blocked',
+      status: 'blocked',
+      builder_task_id: null,
+      decision_ready: false,
+      changed_files: [],
+      evidence: {},
+      blocked_reasons: ['mock auth header missing or invalid'],
+      requires_human_gate: true,
+      mock: true,
+    },
+  };
 }
 
 function readBody(req) {
@@ -66,6 +89,12 @@ async function handleRequest(req, res) {
 
   if (!isJsonContentType(req)) {
     const blocked = mockBlocked('content-type must be application/json', 415);
+    sendJson(res, blocked.statusCode, blocked.body);
+    return;
+  }
+
+  if (!hasValidMockAuth(req)) {
+    const blocked = mockAuthBlocked();
     sendJson(res, blocked.statusCode, blocked.body);
     return;
   }
@@ -113,6 +142,8 @@ if (require.main === module) {
 module.exports = {
   BODY_LIMIT_BYTES,
   HOST,
+  MOCK_AUTH_HEADER,
+  MOCK_AUTH_VALUE,
   ROUTE,
   createServer,
 };

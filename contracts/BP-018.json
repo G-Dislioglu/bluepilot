@@ -1,0 +1,92 @@
+{
+  "task_id": "BP-018",
+  "task_name": "Implement Mock Auth Header Gate",
+  "created": "2026-05-28",
+  "scope": "bluepilot/builder-adapter/mock-auth-implementation",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "functional",
+  "target_persona": null,
+  "goal": "Implement the mock-only auth header gate on the local HTTP mock route and keep the full review suite green.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BUILDER_ADAPTER_MOCK_AUTH_HEADER_CONTRACT_v0.md",
+    "review-packets/BP-017.md",
+    "tools/mock-builder-adapter-http-server.cjs",
+    "tools/test-builder-adapter-http-route.cjs",
+    "tools/test-builder-adapter-review-suite.cjs"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-018.json",
+    "tools/mock-builder-adapter-http-server.cjs",
+    "tools/test-builder-adapter-http-route.cjs",
+    "review-packets/BP-018.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "docs/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**",
+    "tools/builder-adapter-core.cjs",
+    "tools/builder-adapter.cjs",
+    "tools/mock-builder-adapter-endpoint.cjs",
+    "tools/test-builder-adapter-review-suite.cjs",
+    "tools/test-builder-adapter-fixtures.cjs",
+    "tools/test-builder-adapter-endpoint-fixtures.cjs",
+    "tools/verify-task-lock.cjs",
+    "tools/phase-scanner.cjs"
+  ],
+  "claims": [
+    "The local HTTP mock route requires X-Bluepilot-Mock-Auth: local-review for POST JSON requests.",
+    "Missing or wrong mock auth header returns HTTP 403 with mock-safe blocked body.",
+    "Valid mock auth preserves existing mock route fixture behavior.",
+    "No real auth, token, cookie, secret, persistence, or live Builder behavior is added."
+  ],
+  "assumptions": [
+    "The mock header is not a real security mechanism.",
+    "Only the HTTP route layer needs this gate; CLI and endpoint fixture behavior remain unchanged.",
+    "The existing review suite should remain green through the HTTP route tests."
+  ],
+  "dod": [
+    "node --check tools/mock-builder-adapter-http-server.cjs exits 0.",
+    "node --check tools/test-builder-adapter-http-route.cjs exits 0.",
+    "node tools/test-builder-adapter-http-route.cjs exits 0 and covers valid, missing, and wrong mock auth header.",
+    "node tools/test-builder-adapter-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-018 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-018 --preflight",
+    "node --check tools/mock-builder-adapter-http-server.cjs",
+    "node --check tools/test-builder-adapter-http-route.cjs",
+    "node tools/test-builder-adapter-http-route.cjs",
+    "node tools/test-builder-adapter-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-018 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Real auth, token, cookie, secret, persistence, or live Builder behavior becomes necessary",
+    "Package or dependency change becomes necessary"
+  ],
+  "prior_task_findings": "BP-017 defines X-Bluepilot-Mock-Auth: local-review as a local review gate only, not real security.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
