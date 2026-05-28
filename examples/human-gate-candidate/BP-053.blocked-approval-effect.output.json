@@ -1,0 +1,21 @@
+{
+  "human_gate_candidate_id": "BP-HUMAN-GATE-CANDIDATE-053-APPROVAL",
+  "status": "blocked",
+  "target_repo": "bluepilot",
+  "read_scope": [],
+  "write_scope_candidate": [],
+  "required_evidence": [
+    "diff_ref",
+    "task_audit"
+  ],
+  "review_surface": "review_packet",
+  "approval_effect": "none",
+  "human_approval_recorded": false,
+  "builder_task_create_allowed": false,
+  "builder_execute_allowed": false,
+  "blocked_reasons": [
+    "Approval effect must remain none in the Human Gate Candidate MVP."
+  ],
+  "review_questions": [],
+  "review_notes": []
+}

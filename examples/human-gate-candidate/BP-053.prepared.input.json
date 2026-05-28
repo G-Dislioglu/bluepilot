@@ -1,0 +1,29 @@
+{
+  "human_gate_candidate_id": "BP-HUMAN-GATE-CANDIDATE-053-PREPARED",
+  "builder_task_candidate": {
+    "task_contract_candidate_id": "BP-BUILDER-TASK-CANDIDATE-049-PREPARED",
+    "status": "candidate_prepared",
+    "target_repo": "bluepilot",
+    "read_scope": [
+      "docs/example.md"
+    ],
+    "write_scope_candidate": [
+      "docs/example.md"
+    ],
+    "required_evidence": [
+      "diff_ref",
+      "task_audit"
+    ],
+    "human_gate_required": true,
+    "human_gate_status": "not_requested",
+    "builder_task_create_allowed": false,
+    "builder_execute_allowed": false,
+    "blocked_reasons": [],
+    "notes": [
+      "Candidate is local only. Builder Task Create remains blocked."
+    ]
+  },
+  "review_intent": "prepare_human_review_candidate",
+  "review_surface": "review_packet",
+  "approval_effect": "none"
+}

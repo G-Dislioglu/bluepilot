@@ -1,0 +1,93 @@
+{
+  "task_id": "BP-053",
+  "task_name": "Implement Local Human Gate Candidate Mock",
+  "created": "2026-05-28",
+  "scope": "bluepilot/human-gate/local-candidate-mock",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Implement a local deterministic Human Gate Candidate mock that consumes the BP-052 handoff envelope and emits a local review candidate output without recording approval or allowing Builder task creation.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/HUMAN_GATE_HANDOFF_v0.md",
+    "docs/BUILDER_TASK_CONTRACT_HANDOFF_v0.md",
+    "docs/BUILDER_TASK_CANDIDATE_FIXTURE_COVERAGE_v0.md",
+    "tools/builder-task-candidate.cjs",
+    "tools/test-builder-task-candidate-fixtures.cjs",
+    "review-packets/BP-052.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-053.json",
+    "tools/human-gate-candidate.cjs",
+    "tools/test-human-gate-candidate-fixtures.cjs",
+    "examples/human-gate-candidate/**",
+    "review-packets/BP-053.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "docs/**",
+    "tools/builder-adapter*",
+    "tools/builder-live-read-probe.cjs",
+    "tools/mock-builder-*",
+    "tools/phase-scanner.cjs",
+    "tools/scope-resolver.cjs",
+    "tools/builder-task-candidate.cjs",
+    "tools/test-bluepilot-review-suite.cjs"
+  ],
+  "claims": [
+    "BP-053 implements a local Human Gate Candidate mock from the BP-052 handoff envelope.",
+    "BP-053 blocks effective approval, task creation, execution, unsafe intents, and non-prepared Builder Task Candidate states.",
+    "BP-053 does not call Builder, create tasks, execute tasks, record approval, write repo files, use auth, use secrets, use DB, or deploy."
+  ],
+  "assumptions": [
+    "The BP-052 handoff contract is the source of truth for human-gate candidate input and output envelopes.",
+    "The first human-gate implementation should be local and fixture-reviewed before any UI or approval action is connected.",
+    "Builder Task Create remains blocked after BP-053."
+  ],
+  "dod": [
+    "tools/human-gate-candidate.cjs exists and supports --input <path> and --pretty.",
+    "examples/human-gate-candidate contains golden input/output fixtures for prepared, review, and blocked cases.",
+    "tools/test-human-gate-candidate-fixtures.cjs compares CLI output against golden fixtures.",
+    "node tools/test-human-gate-candidate-fixtures.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-053 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-053 --preflight",
+    "node --check tools/human-gate-candidate.cjs",
+    "node --check tools/test-human-gate-candidate-fixtures.cjs",
+    "node tools/test-human-gate-candidate-fixtures.cjs",
+    "node tools/verify-task-lock.cjs BP-053 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Live Builder access becomes necessary",
+    "Effective approval, Task Create, Execute, Approve, Push, Deploy, auth, secrets, DB, or persistence becomes necessary",
+    "Human Gate mock needs to write target files instead of only returning an envelope"
+  ],
+  "prior_task_findings": "BP-052 defined a document-only Human Gate Handoff and named a local candidate mock with fixtures as the next safe step.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}

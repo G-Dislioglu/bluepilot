@@ -1,0 +1,25 @@
+{
+  "human_gate_candidate_id": "BP-HUMAN-GATE-CANDIDATE-053-CANDIDATE-REVIEW",
+  "status": "blocked",
+  "target_repo": "bluepilot",
+  "read_scope": [],
+  "write_scope_candidate": [],
+  "required_evidence": [
+    "diff_ref",
+    "risk_summary"
+  ],
+  "review_surface": "review_packet",
+  "approval_effect": "none",
+  "human_approval_recorded": false,
+  "builder_task_create_allowed": false,
+  "builder_execute_allowed": false,
+  "blocked_reasons": [
+    "Builder Task Candidate status requires_human_review cannot prepare a Human Gate review candidate."
+  ],
+  "review_questions": [],
+  "review_notes": [
+    "Write scope candidate is empty and needs human review.",
+    "Required evidence includes risk_summary and needs human review.",
+    "Builder Task Candidate notes contain review or risk signals."
+  ]
+}
