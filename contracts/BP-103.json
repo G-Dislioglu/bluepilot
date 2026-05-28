@@ -1,0 +1,89 @@
+{
+  "task_id": "BP-103",
+  "task_name": "BP-C4 Browser Smoke Protocol",
+  "created": "2026-05-28",
+  "scope": "bluepilot/bp-c4/browser-smoke-protocol",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "medium",
+  "impact_class": "phase-gate",
+  "target_persona": null,
+  "council_session_required": true,
+  "goal": "Define the BP-C4 smoke levels for preview HTML so DOM checks, browser automation, screenshots, and human review cannot be confused.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/BP_C4_BROWSER_PREVIEW_READINESS_v0.md",
+    "docs/BP_C4_BROWSER_PREVIEW_HTML_TARGET_CONTRACT_v0.md",
+    "review-packets/BP-102.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-103.json",
+    "docs/BP_C4_BROWSER_SMOKE_PROTOCOL_v0.md",
+    "review-packets/BP-103.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "output/**",
+    ".bluepilot/**",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md"
+  ],
+  "scope_out": [
+    "No runtime code",
+    "No screenshots",
+    "No browser launch",
+    "No package dependency",
+    "No BP-C5 integration"
+  ],
+  "claims": [
+    "BP-C4 smoke levels are defined.",
+    "DOM smoke is explicitly not the same as browser automation.",
+    "Screenshot and human UI review remain separate gates."
+  ],
+  "assumptions": [
+    "A deterministic DOM smoke should run before browser automation.",
+    "Playwright CLI is available in the local Codex environment but should not become a repo dependency in this block.",
+    "Preview artifacts should remain local evidence unless a later contract explicitly allows committed artifacts."
+  ],
+  "dod": [
+    "docs/BP_C4_BROWSER_SMOKE_PROTOCOL_v0.md exists.",
+    "The protocol separates DOM smoke, browser smoke, screenshot check, and human UI review.",
+    "node tools/verify-task-lock.cjs BP-103 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "diff_ref",
+    "content_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-103 --preflight",
+    "node tools/verify-task-lock.cjs BP-103 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime code becomes necessary",
+    "Screenshot artifact becomes necessary",
+    "Browser automation becomes necessary"
+  ],
+  "prior_task_findings": "BP-102 added a static HTML preview target but did not claim browser or screenshot evidence.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
