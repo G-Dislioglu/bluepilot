@@ -52,6 +52,9 @@ const commands = [
   ['syntax: live builder adapter readiness candidate CLI errors test', ['--check', 'tools/test-live-builder-adapter-readiness-candidate-cli-errors.cjs']],
   ['syntax: live builder adapter readiness candidate output invariants test', ['--check', 'tools/test-live-builder-adapter-readiness-candidate-output-invariants.cjs']],
   ['syntax: live builder adapter readiness candidate coverage map test', ['--check', 'tools/test-live-builder-adapter-readiness-candidate-coverage-map.cjs']],
+  ['syntax: council agent client', ['--check', 'tools/council-agent-client.cjs']],
+  ['syntax: maya council watcher', ['--check', 'tools/maya-council-watcher.cjs']],
+  ['syntax: council kernel fixture test', ['--check', 'tools/test-council-kernel-fixtures.cjs']],
   ['adapter fixtures', ['tools/test-builder-adapter-fixtures.cjs']],
   ['endpoint fixtures', ['tools/test-builder-adapter-endpoint-fixtures.cjs']],
   ['HTTP route fixtures', ['tools/test-builder-adapter-http-route.cjs']],
@@ -83,6 +86,7 @@ const commands = [
   ['live builder adapter readiness candidate CLI errors', ['tools/test-live-builder-adapter-readiness-candidate-cli-errors.cjs']],
   ['live builder adapter readiness candidate output invariants', ['tools/test-live-builder-adapter-readiness-candidate-output-invariants.cjs']],
   ['live builder adapter readiness candidate coverage map', ['tools/test-live-builder-adapter-readiness-candidate-coverage-map.cjs']],
+  ['council kernel fixtures', ['tools/test-council-kernel-fixtures.cjs']],
 ];
 
 for (const [label, args] of commands) {

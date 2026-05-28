@@ -1,0 +1,105 @@
+{
+  "task_id": "BP-088",
+  "task_name": "BP-C1 Council Kernel Minimal Runtime",
+  "created": "2026-05-28",
+  "scope": "bluepilot/bp-c1/council-kernel-minimal-runtime",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "runtime",
+  "target_persona": null,
+  "goal": "Build the first BP-C1 Council Kernel slice as local deterministic Node runtime tools: a council agent client and a Maya council watcher that follow Council Session Protocol v1.1 without starting BP-C2 modules.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BLUEPILOT_BUILD_CANVAS_DECISION_v0.md",
+    "docs/COUNCIL-SESSION-PROTOCOL-v1.1.md",
+    ".specify/.feature-goals.md",
+    "review-packets/BP-086.md",
+    "review-packets/BP-087.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-088.json",
+    "docs/COUNCIL_KERNEL_RUNTIME_CONTRACT_v0.md",
+    "tools/council-agent-client.cjs",
+    "tools/maya-council-watcher.cjs",
+    "tools/test-council-kernel-fixtures.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "review-packets/BP-088.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    ".bluepilot/**",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BLUEPILOT_BUILD_CANVAS_DECISION_v0.md",
+    "docs/COUNCIL-SESSION-PROTOCOL-v1.1.md",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md"
+  ],
+  "scope_out": [
+    "No BP-C2 module implementation",
+    "No actual multi-agent process spawning",
+    "No UI",
+    "No auth, secrets, DB, deploy, live Builder, AICOS write, or Soulmatch copy",
+    "No creation of real .bluepilot runtime state in the repo"
+  ],
+  "claims": [
+    "tools/council-agent-client.cjs can register an agent, acknowledge directives, read next directives, and report started, done, or hard_stop status using atomic JSON writes.",
+    "tools/maya-council-watcher.cjs can process agent state, deduplicate status events, mark tasks done, pause on hard_stop, assign dependency-ready queued tasks to idle agents, and append JSONL events.",
+    "BP-C1 runtime state path remains configurable and tests use temporary directories, not committed .bluepilot state.",
+    "No BP-C2 module starts or is implemented."
+  ],
+  "assumptions": [
+    "Bluepilot runtime tools should use the repo's current Node CJS pattern rather than introducing TypeScript setup.",
+    "The first BP-C1 slice should be deterministic and locally testable before long-running watch mode is added.",
+    "Council Session Protocol v1.1 is the source contract for file ownership, directive_cursor, dedup, and HARD STOP behavior."
+  ],
+  "dod": [
+    "node --check tools/council-agent-client.cjs exits 0.",
+    "node --check tools/maya-council-watcher.cjs exits 0.",
+    "node tools/test-council-kernel-fixtures.cjs exits 0.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-088 --verify exits 0.",
+    "git diff --check exits 0.",
+    "git diff --name-only contains only allowed files."
+  ],
+  "evidence_required": [
+    "test_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-088 --preflight",
+    "node --check tools/council-agent-client.cjs",
+    "node --check tools/maya-council-watcher.cjs",
+    "node tools/test-council-kernel-fixtures.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-088 --verify",
+    "git diff --check",
+    "git diff --name-only"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "BP-C2 module implementation becomes necessary",
+    "Auth, secrets, DB, deploy, live Builder, AICOS write, or Soulmatch copy becomes necessary",
+    "Runtime requires package or lockfile changes"
+  ],
+  "prior_task_findings": "BP-086 made Council Session Protocol v1.1 the ready spec for BP-C1. BP-087 added the standing rule to critically review external AI output before implementation.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
