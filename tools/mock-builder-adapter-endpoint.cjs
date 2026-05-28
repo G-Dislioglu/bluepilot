@@ -2,11 +2,9 @@
 
 'use strict';
 
-const { execFileSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
-
-const repoRoot = path.resolve(__dirname, '..');
+const { blockedOutput, runAdapter } = require('./builder-adapter-core.cjs');
 
 function usage(message) {
   if (message) console.error(message);
@@ -20,12 +18,6 @@ function readJson(filePath) {
   } catch (err) {
     usage(`Input konnte nicht gelesen werden: ${err.message}`);
   }
-}
-
-function runMockAdapter(inputPath, pretty) {
-  const args = ['tools/builder-adapter.cjs', '--input', inputPath];
-  if (pretty) args.push('--pretty');
-  return execFileSync(process.execPath, args, { cwd: repoRoot, encoding: 'utf-8' });
 }
 
 function validateEndpointResponse(response) {
@@ -47,37 +39,26 @@ function validateEndpointResponse(response) {
   return errors;
 }
 
-function handleMockRun(inputPath, pretty) {
-  readJson(inputPath);
-  const adapterText = runMockAdapter(inputPath, pretty);
-  const response = JSON.parse(adapterText);
+function handleMockRun(input) {
+  const response = runAdapter(input);
   const errors = validateEndpointResponse(response);
+  return errors.length > 0 ? blockedOutput(input, response.adapter_run_id || 'mock-builder-adapter-invalid', errors) : response;
+}
 
-  if (errors.length > 0) {
-    return {
-      adapter_run_id: response.adapter_run_id || 'mock-builder-adapter-invalid',
-      status: 'blocked',
-      builder_task_id: null,
-      decision_ready: false,
-      changed_files: response.changed_files || [],
-      evidence: {},
-      blocked_reasons: errors,
-      requires_human_gate: true,
-      mock: true,
-    };
+if (require.main === module) {
+  const args = process.argv.slice(2);
+  const inputIndex = args.indexOf('--input');
+  const pretty = args.includes('--pretty');
+
+  if (inputIndex === -1 || !args[inputIndex + 1] || args[inputIndex + 1].startsWith('--')) {
+    usage();
   }
 
-  return response;
+  const output = handleMockRun(readJson(args[inputIndex + 1]));
+  process.stdout.write(JSON.stringify(output, null, pretty ? 2 : 0));
+  process.stdout.write('\n');
 }
 
-const args = process.argv.slice(2);
-const inputIndex = args.indexOf('--input');
-const pretty = args.includes('--pretty');
-
-if (inputIndex === -1 || !args[inputIndex + 1] || args[inputIndex + 1].startsWith('--')) {
-  usage();
-}
-
-const output = handleMockRun(args[inputIndex + 1], pretty);
-process.stdout.write(JSON.stringify(output, null, pretty ? 2 : 0));
-process.stdout.write('\n');
+module.exports = {
+  handleMockRun,
+};

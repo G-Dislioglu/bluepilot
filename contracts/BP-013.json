@@ -1,0 +1,93 @@
+{
+  "task_id": "BP-013",
+  "task_name": "Implement Local HTTP Mock Builder Adapter Route",
+  "created": "2026-05-28",
+  "scope": "bluepilot/builder-adapter/http-mock-route",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "functional",
+  "target_persona": null,
+  "goal": "Implement the local HTTP mock Builder Adapter route using Node built-ins, existing fixtures, and no live Builder or external network behavior.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BUILDER_ADAPTER_HTTP_MOCK_ROUTE_CONTRACT_v0.md",
+    "review-packets/BP-012.md",
+    "tools/builder-adapter.cjs",
+    "tools/mock-builder-adapter-endpoint.cjs",
+    "tools/test-builder-adapter-endpoint-fixtures.cjs",
+    "examples/builder-adapter/"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-013.json",
+    "tools/builder-adapter-core.cjs",
+    "tools/builder-adapter.cjs",
+    "tools/mock-builder-adapter-endpoint.cjs",
+    "tools/mock-builder-adapter-http-server.cjs",
+    "tools/test-builder-adapter-http-route.cjs",
+    "review-packets/BP-013.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "docs/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**",
+    "tools/verify-task-lock.cjs",
+    "tools/phase-scanner.cjs"
+  ],
+  "claims": [
+    "The local HTTP mock route binds to 127.0.0.1 and handles only POST /api/bluepilot/builder-adapter/mock-run.",
+    "The route reuses local adapter core logic and existing fixtures.",
+    "The route blocks non-POST requests, non-JSON requests, invalid JSON, scope violations, blocked operations, reject, and pending human review.",
+    "The implementation adds no live Builder, external network, package, docs, examples, app, API, or frontend changes."
+  ],
+  "assumptions": [
+    "Node built-in http is sufficient for the local mock route.",
+    "Refactoring adapter logic into a local core module is required to avoid temporary request files and logic duplication.",
+    "Binding to 127.0.0.1 for test execution satisfies the local-only contract."
+  ],
+  "dod": [
+    "node --check tools/builder-adapter-core.cjs exits 0.",
+    "node --check tools/mock-builder-adapter-http-server.cjs exits 0.",
+    "node --check tools/test-builder-adapter-http-route.cjs exits 0.",
+    "Existing CLI fixture tests still pass.",
+    "HTTP route fixture tests pass for six fixture cases plus non-POST, non-JSON, and invalid JSON.",
+    "node tools/verify-task-lock.cjs BP-013 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-013 --preflight",
+    "node --check tools/builder-adapter-core.cjs",
+    "node --check tools/mock-builder-adapter-http-server.cjs",
+    "node --check tools/test-builder-adapter-http-route.cjs",
+    "node tools/test-builder-adapter-fixtures.cjs",
+    "node tools/test-builder-adapter-endpoint-fixtures.cjs",
+    "node tools/test-builder-adapter-http-route.cjs",
+    "node tools/verify-task-lock.cjs BP-013 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Package dependency or package script becomes necessary",
+    "Live Builder endpoint or external network behavior becomes necessary"
+  ],
+  "prior_task_findings": "BP-012 contracted a local HTTP mock route: bind locally, reuse existing fixtures, keep mock=true and decision_ready=false, and do not add live Builder/network behavior.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
