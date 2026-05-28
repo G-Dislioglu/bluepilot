@@ -1,0 +1,76 @@
+{
+  "task_id": "BP-015",
+  "task_name": "Define Auth and Persistence Boundary",
+  "created": "2026-05-28",
+  "scope": "bluepilot/builder-adapter/auth-persistence-boundary",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "low",
+  "impact_class": "architectural",
+  "target_persona": null,
+  "goal": "Define the auth and persistence boundary before the mock Builder Adapter route gets any approval, storage, or live integration behavior.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BUILDER_ADAPTER_HTTP_MOCK_ROUTE_CONTRACT_v0.md",
+    "review-packets/BP-014.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-015.json",
+    "docs/BUILDER_ADAPTER_AUTH_PERSISTENCE_BOUNDARY_v0.md",
+    "review-packets/BP-015.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**",
+    "docs/!(*BUILDER_ADAPTER_AUTH_PERSISTENCE_BOUNDARY_v0.md)"
+  ],
+  "claims": [
+    "Auth and persistence are explicitly separated into future contracts.",
+    "The next safe auth step is mock-only and must not use real tokens or secrets.",
+    "Persistence remains prohibited until a storage contract defines schema, retention, and evidence rules."
+  ],
+  "assumptions": [
+    "The current mock HTTP route is reviewable without auth or persistence.",
+    "A governance boundary should come before any auth or storage code.",
+    "No runtime, package, tool, or example change is required."
+  ],
+  "dod": [
+    "docs/BUILDER_ADAPTER_AUTH_PERSISTENCE_BOUNDARY_v0.md exists.",
+    "The document separates auth, persistence, live Builder integration, and local mock behavior.",
+    "The document defines allowed next steps and blocked steps.",
+    "node tools/verify-task-lock.cjs BP-015 --verify exits 0."
+  ],
+  "evidence_required": [
+    "diff_ref",
+    "content_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-015 --preflight",
+    "node tools/verify-task-lock.cjs BP-015 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Auth or persistence implementation becomes necessary",
+    "Secret, database, or live Builder configuration becomes necessary"
+  ],
+  "prior_task_findings": "BP-014 added a local review-suite command and identified auth, persistence, deployment, and live Builder wiring as requiring fresh contracts.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
