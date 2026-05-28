@@ -49,6 +49,10 @@ Die Suite prueft lokal:
 - Human Gate Candidate Syntax.
 - Human Gate Candidate Fixtures.
 - Human Gate Candidate Output Invariants.
+- Human Gate Candidate Coverage Map.
+- Approval Readiness Candidate Syntax.
+- Approval Readiness Candidate Fixtures.
+- Approval Readiness Candidate Output Invariants.
 
 ## Was die Suite nicht beweist
 
@@ -65,6 +69,8 @@ Die Suite beweist nicht:
 - Builder Task Create.
 - Builder Execute.
 - echte Approval-Wirkung.
+- Approval Recording.
+- echte Auth-/Identity- oder Persistenzgrenze.
 
 ## Arbeitsregel
 

@@ -1,0 +1,88 @@
+{
+  "task_id": "BP-059",
+  "task_name": "Add Approval Readiness Review Suite Coverage",
+  "created": "2026-05-28",
+  "scope": "bluepilot/approval-readiness/review-suite",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "low",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Add Approval Readiness Candidate checks to the shared Bluepilot review suite and document the new local review coverage.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md",
+    "docs/APPROVAL_READINESS_CONTRACT_v0.md",
+    "tools/test-bluepilot-review-suite.cjs",
+    "tools/approval-readiness-candidate.cjs",
+    "tools/test-approval-readiness-candidate-fixtures.cjs",
+    "review-packets/BP-058.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-059.json",
+    "tools/test-bluepilot-review-suite.cjs",
+    "tools/test-approval-readiness-candidate-output-invariants.cjs",
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md",
+    "review-packets/BP-059.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "tools/approval-readiness-candidate.cjs",
+    "tools/test-approval-readiness-candidate-fixtures.cjs",
+    "tools/human-gate-candidate.cjs",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-059 adds Approval Readiness Candidate checks to the shared Bluepilot review suite.",
+    "BP-059 adds output invariant coverage that keeps approval_effect none, human_approval_recorded false, approval_record_allowed false, builder_task_create_allowed false, and builder_execute_allowed false.",
+    "BP-059 does not change Approval Readiness Candidate runtime behavior or fixtures."
+  ],
+  "assumptions": [
+    "BP-058 already introduced the local Approval Readiness Candidate mock and golden fixtures.",
+    "Review suite coverage should remain the shared entry point for local reviewers.",
+    "Invariant tests are needed before expanding toward any auth, persistence, approval record, or Builder adapter handoff."
+  ],
+  "dod": [
+    "tools/test-approval-readiness-candidate-output-invariants.cjs exists and passes.",
+    "tools/test-bluepilot-review-suite.cjs runs Approval Readiness Candidate syntax, fixtures, and invariant checks.",
+    "docs/BLUEPILOT_REVIEW_SUITE_v0.md mentions Approval Readiness Candidate coverage and limits.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-059 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-059 --preflight",
+    "node --check tools/test-approval-readiness-candidate-output-invariants.cjs",
+    "node tools/test-approval-readiness-candidate-output-invariants.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-059 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Approval Readiness Candidate runtime or fixture changes become necessary",
+    "Effective approval, auth, persistence, live Builder, DB, deploy, task create, execute, approve, or push becomes necessary"
+  ],
+  "prior_task_findings": "BP-058 added a local Approval Readiness Candidate mock but did not yet wire it into the shared Bluepilot Review Suite.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
