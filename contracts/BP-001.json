@@ -1,0 +1,85 @@
+{
+  "task_id": "BP-001",
+  "task_name": "Phase Scanner Runtime Decision",
+  "created": "2026-05-28",
+  "scope": "bluepilot/governance/phase-scanner",
+  "mode": "lite",
+  "task_type": "governance_task",
+  "risk_class": "low",
+  "impact_class": "governance",
+  "target_persona": null,
+  "goal": "Close the Phase Scanner runtime decision so implementation can start from explicit deterministic and LLM-supported boundaries.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/TASK_CONTRACT_TEMPLATE.md",
+    "docs/REVIEW_PACKET_TEMPLATE.md",
+    "docs/TASK_REUSE_PROTOCOL.md",
+    "docs/PHASE_SCANNER_SPEC_v0.md",
+    "docs/OPEN_QUESTIONS.md",
+    "docs/NO_GO_ZONES.md",
+    "docs/BUILDER_DONOR_MAP.md",
+    "docs/ADAPTER_CONTRACTS_v0.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-001.json",
+    "docs/PHASE_SCANNER_RUNTIME_DECISION_v0.md",
+    "review-packets/BP-001.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "contracts/!(*BP-001.json)",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/PHASE_SCANNER_SPEC_v0.md",
+    "docs/OPEN_QUESTIONS.md"
+  ],
+  "claims": [
+    "BP-001 records Phase Scanner v0 as a hybrid runtime decision.",
+    "BP-001 defines deterministic gates, LLM-supported sections, confidence calculation, known_risks handling, MVP outputs, and fail behavior.",
+    "BP-001 creates a review packet with typed WLP evidence."
+  ],
+  "assumptions": [
+    "BP-001 is a governance decision task, not a runtime implementation task.",
+    "The current Phase Scanner spec remains the canonical check taxonomy for this task.",
+    "No package, verifier, source, or runtime file change is required for BP-001."
+  ],
+  "dod": [
+    "contracts/BP-001.json exists and constrains this task to exactly the BP-001 governance artifacts.",
+    "docs/PHASE_SCANNER_RUNTIME_DECISION_v0.md answers the seven runtime decision questions listed in the handoff.",
+    "review-packets/BP-001.md records preflight, changed files, DoD, claims, assumptions, evidence, drift, auditor findings, self-score, decision, and reuse note.",
+    "node tools/verify-task-lock.cjs BP-001 --verify exits 0 with all changed files inside ALLOWED_FILES."
+  ],
+  "evidence_required": [
+    "diff_ref",
+    "content_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-001 --preflight",
+    "node tools/verify-task-lock.cjs BP-001 --verify",
+    "git diff --name-only",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "A Phase Scanner implementation is needed to complete the task",
+    "A package, verifier, source, runtime, or existing spec edit becomes necessary"
+  ],
+  "prior_task_findings": "Bootstrap kept the hardened verifier instead of overwriting it with older package material; BP-001 must preserve WLP scope discipline and not start implementation.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
