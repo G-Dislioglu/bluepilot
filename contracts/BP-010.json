@@ -1,0 +1,77 @@
+{
+  "task_id": "BP-010",
+  "task_name": "Define Mock Builder Adapter Endpoint Boundary",
+  "created": "2026-05-28",
+  "scope": "bluepilot/builder-adapter/endpoint-boundary",
+  "mode": "standard",
+  "task_type": "doc_task",
+  "risk_class": "low",
+  "impact_class": "architectural",
+  "target_persona": null,
+  "goal": "Define the mock-backed Builder Adapter endpoint boundary before any live Builder endpoint is introduced.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BUILDER_ADAPTER_CONTRACT_v0.md",
+    "review-packets/BP-009.md",
+    "tools/builder-adapter.cjs",
+    "tools/test-builder-adapter-fixtures.cjs"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-010.json",
+    "docs/BUILDER_ADAPTER_ENDPOINT_BOUNDARY_v0.md",
+    "review-packets/BP-010.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "examples/**",
+    "docs/!(*BUILDER_ADAPTER_ENDPOINT_BOUNDARY_v0.md)"
+  ],
+  "claims": [
+    "BP-010 defines a mock-backed endpoint boundary without adding a runtime endpoint.",
+    "The boundary specifies request shape, response shape, blocked behavior, and fixture-based verification.",
+    "The boundary explicitly keeps live Builder, network calls, deploy, merge, AICOS write, and Maya write out of scope."
+  ],
+  "assumptions": [
+    "A document-only endpoint boundary is the correct next step before implementation.",
+    "Existing mock CLI fixtures are the evidence basis for endpoint behavior.",
+    "No package, tool, example, or runtime edit is required."
+  ],
+  "dod": [
+    "docs/BUILDER_ADAPTER_ENDPOINT_BOUNDARY_v0.md exists.",
+    "The document defines endpoint purpose, route shape, request envelope, response envelope, blocking rules, fixture mapping, and non-goals.",
+    "The document explicitly forbids live Builder calls and network behavior in the mock endpoint phase.",
+    "node tools/verify-task-lock.cjs BP-010 --verify exits 0."
+  ],
+  "evidence_required": [
+    "content_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-010 --preflight",
+    "node tools/verify-task-lock.cjs BP-010 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Endpoint implementation code becomes necessary",
+    "Live Builder endpoint or network call becomes necessary"
+  ],
+  "prior_task_findings": "BP-009 proved approved human-review can proceed in the mock adapter while decision_ready remains false; BP-010 should define endpoint shape before live Builder integration.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
