@@ -1,0 +1,80 @@
+{
+  "task_id": "BP-084",
+  "task_name": "Document Bluepilot Build Canvas Decision",
+  "created": "2026-05-28",
+  "scope": "bluepilot/build-canvas/governance-decision",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "low",
+  "impact_class": "governance",
+  "target_persona": null,
+  "goal": "Document the supplied Bluepilot build canvas as current governance guidance: absolute phase order, Council Session wrapper, phase-local parallelism, module prompt map, and BP-C5 integration semantics.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/MVP_CHAIN_CHECKPOINT_AFTER_PRE_LIVE_HARDENING_v0.md",
+    "C:/Users/guerc/Downloads/bluepilot_build_canvas.svg"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-084.json",
+    "docs/BLUEPILOT_BUILD_CANVAS_DECISION_v0.md",
+    "review-packets/BP-084.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    ".specify/**",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-084 documents the supplied build canvas without importing stale BP-C0 files.",
+    "BP-084 makes BP-C1 the absolute gate before BP-C2.",
+    "BP-084 documents that BP-C5 is integration, not an independent build phase."
+  ],
+  "assumptions": [
+    "The SVG canvas is an external planning input, not a file that must be committed as-is.",
+    "The current Bluepilot repo history remains authoritative; stale BP-C0 package paths are not copied blindly.",
+    "The next useful step after BP-084 is to update .specify app and feature goals under a separate WLP task."
+  ],
+  "dod": [
+    "docs/BLUEPILOT_BUILD_CANVAS_DECISION_v0.md exists.",
+    "The document states absolute phase order, Council Session wrapper rule, phase-local parallelism rule, BP-C5 integration semantics, and module prompt map.",
+    "The document explicitly says stale BP-C0 files are not imported 1:1.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-084 --verify exits 0."
+  ],
+  "evidence_required": [
+    "content_check",
+    "test_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-084 --preflight",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-084 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime, UI, package, or tool changes become necessary",
+    "Stale BP-C0 files need to overwrite current repo history",
+    "Live Builder, Auth, Secrets, DB, Deploy, Task Create, Execute, Approve, or Push becomes necessary"
+  ],
+  "prior_task_findings": "External ZIP and SVG inputs describe a Council Kernel roadmap, but BP-C0 is stale relative to the current BP-083 repo state and must be translated, not copied blindly.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
