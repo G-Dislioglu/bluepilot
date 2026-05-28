@@ -1,0 +1,10 @@
+{
+  "probe_id": "BP-025-BLOCKED-RELATIVE-PATH",
+  "mode": "mock",
+  "reads": [
+    {
+      "method": "GET",
+      "path": "api/builder/tasks/example/evidence"
+    }
+  ]
+}

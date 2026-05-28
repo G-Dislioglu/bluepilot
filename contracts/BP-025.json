@@ -1,0 +1,88 @@
+{
+  "task_id": "BP-025",
+  "task_name": "Add Builder Read Probe Schema Block Fixtures",
+  "created": "2026-05-28",
+  "scope": "bluepilot/builder-adapter/read-probe-schema-fixtures",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Add local schema-block fixtures for malformed Builder read-probe inputs without changing runtime behavior or enabling live Builder access.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BUILDER_LIVE_READ_PROBE_CONTRACT_v0.md",
+    "docs/BUILDER_LIVE_READ_PROBE_USAGE_v0.md",
+    "tools/builder-live-read-probe.cjs",
+    "tools/test-builder-live-read-probe.cjs",
+    "review-packets/BP-024.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-025.json",
+    "tools/test-builder-live-read-probe.cjs",
+    "examples/builder-live-read-probe/BP-025.blocked-read-not-object.input.json",
+    "examples/builder-live-read-probe/BP-025.blocked-read-not-object.output.json",
+    "examples/builder-live-read-probe/BP-025.blocked-missing-method.input.json",
+    "examples/builder-live-read-probe/BP-025.blocked-missing-method.output.json",
+    "examples/builder-live-read-probe/BP-025.blocked-relative-path.input.json",
+    "examples/builder-live-read-probe/BP-025.blocked-relative-path.output.json",
+    "review-packets/BP-025.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "docs/**",
+    "tools/builder-live-read-probe.cjs"
+  ],
+  "claims": [
+    "BP-025 adds malformed-read schema fixtures for local probe review.",
+    "The existing runtime already blocks these cases; BP-025 only records and tests them.",
+    "No live Builder call, auth, secret, DB, persistence, or write behavior is introduced."
+  ],
+  "assumptions": [
+    "The BP-022/BP-024 runtime behavior is correct for malformed reads.",
+    "Adding golden fixtures is sufficient hardening for this block.",
+    "The adapter review suite remains the shared verification entrypoint."
+  ],
+  "dod": [
+    "Fixtures exist for read-not-object, missing-method, and relative-path inputs.",
+    "tools/test-builder-live-read-probe.cjs covers the new fixtures via function and CLI output.",
+    "node tools/test-builder-adapter-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-025 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "fixture_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-025 --preflight",
+    "node --check tools/test-builder-live-read-probe.cjs",
+    "node tools/test-builder-live-read-probe.cjs",
+    "node tools/test-builder-adapter-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-025 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime changes become necessary",
+    "Live Builder call, base URL, auth, secret, DB, persistence, write, execute, approval, or deploy behavior becomes necessary"
+  ],
+  "prior_task_findings": "BP-024 added local blocked-mode and empty-read coverage plus CLI golden checks.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}

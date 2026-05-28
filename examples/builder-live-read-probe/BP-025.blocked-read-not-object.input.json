@@ -1,0 +1,7 @@
+{
+  "probe_id": "BP-025-BLOCKED-READ-NOT-OBJECT",
+  "mode": "mock",
+  "reads": [
+    "not-an-object"
+  ]
+}

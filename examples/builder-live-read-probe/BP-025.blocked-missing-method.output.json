@@ -1,0 +1,13 @@
+{
+  "probe_id": "BP-025-BLOCKED-MISSING-METHOD",
+  "status": "blocked",
+  "source": "mock-builder-read-only",
+  "builder_refs": {},
+  "writes_attempted": false,
+  "decision_ready": false,
+  "requires_human_gate": true,
+  "mock": true,
+  "blocked_reasons": [
+    "reads[0].method is required"
+  ]
+}

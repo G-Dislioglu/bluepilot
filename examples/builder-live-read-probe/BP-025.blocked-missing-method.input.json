@@ -1,0 +1,9 @@
+{
+  "probe_id": "BP-025-BLOCKED-MISSING-METHOD",
+  "mode": "mock",
+  "reads": [
+    {
+      "path": "/api/builder/tasks/example/evidence"
+    }
+  ]
+}

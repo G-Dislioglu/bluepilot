@@ -18,6 +18,9 @@ const cases = [
   ['blocked path', 'BP-022.blocked-path.input.json', 'BP-022.blocked-path.output.json'],
   ['blocked live mode', 'BP-024.blocked-live-mode.input.json', 'BP-024.blocked-live-mode.output.json'],
   ['blocked empty reads', 'BP-024.blocked-empty-reads.input.json', 'BP-024.blocked-empty-reads.output.json'],
+  ['blocked read not object', 'BP-025.blocked-read-not-object.input.json', 'BP-025.blocked-read-not-object.output.json'],
+  ['blocked missing method', 'BP-025.blocked-missing-method.input.json', 'BP-025.blocked-missing-method.output.json'],
+  ['blocked relative path', 'BP-025.blocked-relative-path.input.json', 'BP-025.blocked-relative-path.output.json'],
 ];
 
 function readFixture(fileName) {
