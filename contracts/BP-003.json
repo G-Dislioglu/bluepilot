@@ -1,0 +1,82 @@
+{
+  "task_id": "BP-003",
+  "task_name": "Add Deterministic Phase Scanner MVP",
+  "created": "2026-05-28",
+  "scope": "bluepilot/phase-scanner/mvp",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "functional",
+  "target_persona": null,
+  "goal": "Add a deterministic Phase Scanner MVP CLI that turns bounded JSON intake into the BP-001 scanner output without starting Builder automation.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/PHASE_SCANNER_SPEC_v0.md",
+    "docs/PHASE_SCANNER_RUNTIME_DECISION_v0.md",
+    "docs/NO_GO_ZONES.md",
+    "review-packets/BP-002.md",
+    "tools/verify-task-lock.cjs"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-003.json",
+    "tools/phase-scanner.cjs",
+    "review-packets/BP-003.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "tools/verify-task-lock.cjs",
+    "docs/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**"
+  ],
+  "claims": [
+    "The Phase Scanner CLI accepts a JSON input file and emits BP-001 compatible JSON output.",
+    "The scanner computes confidence deterministically from visible check statuses.",
+    "The scanner processes known_risks visibly in risk_summary, required_evidence, human_gate_required, or blocked_reasons.",
+    "The scanner never starts Builder, Swarm, Council, Merge, Deploy, AICOS write, or Maya write automation."
+  ],
+  "assumptions": [
+    "BP-003 is a local deterministic CLI only.",
+    "LLM-supported explanation is out of scope for BP-003.",
+    "Sample scanner inputs can be created in a temporary directory for tests instead of being committed."
+  ],
+  "dod": [
+    "node --check tools/phase-scanner.cjs exits 0.",
+    "A bounded sample input returns decision allow_single_track with green stoplight.",
+    "A no-go sample input returns decision reject with red stoplight and blocked_reasons.",
+    "A known_risks sample input visibly processes risks and returns require_human_review or reject.",
+    "node tools/verify-task-lock.cjs BP-003 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-003 --preflight",
+    "node --check tools/phase-scanner.cjs",
+    "node tools/phase-scanner.cjs --input <temp-file>",
+    "node tools/verify-task-lock.cjs BP-003 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Builder integration becomes necessary",
+    "LLM call or external service becomes necessary",
+    "Docs or package changes become necessary"
+  ],
+  "prior_task_findings": "BP-002 requires valid task_type, reuse_target, and evidence declarations; BP-003 must keep its own input/output validation separate from WLP contract validation.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
