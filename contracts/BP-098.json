@@ -1,0 +1,97 @@
+{
+  "task_id": "BP-098",
+  "task_name": "BP-C3 Green Checkpoint",
+  "created": "2026-05-28",
+  "scope": "bluepilot/bp-c3/green-checkpoint",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "medium",
+  "impact_class": "phase-gate",
+  "target_persona": null,
+  "goal": "Document that BP-C3 is green after BP-095, BP-096, and BP-097, and define the BP-C4 entry gate without starting BP-C4 implementation.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/BLUEPILOT_BUILD_CANVAS_DECISION_v0.md",
+    "docs/BP_C2_GREEN_CHECKPOINT_v0.md",
+    "docs/BP_C3_PARALLEL_EXECUTOR_CONTRACT_v0.md",
+    "docs/BP_C3_MAYA_MEMORY_CONTRACT_v0.md",
+    "docs/BP_C3_AICOS_AUTO_QUERY_CONTRACT_v0.md",
+    "review-packets/BP-095.md",
+    "review-packets/BP-096.md",
+    "review-packets/BP-097.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-098.json",
+    "docs/BP_C3_GREEN_CHECKPOINT_v0.md",
+    "review-packets/BP-098.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    ".bluepilot/**",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md"
+  ],
+  "scope_out": [
+    "No BP-C4 implementation",
+    "No UI",
+    "No tool/runtime changes",
+    "No package dependency",
+    "No worktree creation",
+    "No AICOS write",
+    "No .bluepilot runtime state"
+  ],
+  "claims": [
+    "BP-C3 has three green modules: Parallel Executor, Maya Memory, and AICOS Auto-query.",
+    "BP-C4 may be prepared only after this checkpoint and with new WLP contracts.",
+    "Known BP-C3 limits are documented.",
+    "BP-C4 entry gate requires DiffLens and Browser Preview contracts with council_session_required=true."
+  ],
+  "assumptions": [
+    "BP-095, BP-096, and BP-097 are already pushed to main.",
+    "Green means local deterministic checks pass, not production UI readiness.",
+    "BP-C4 will introduce UI/visual verification and should not be mixed into BP-C3 checkpoint."
+  ],
+  "dod": [
+    "docs/BP_C3_GREEN_CHECKPOINT_v0.md exists.",
+    "The checkpoint lists BP-C3 green evidence and known limits.",
+    "The checkpoint blocks BP-C4 implementation without new WLP contracts.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-098 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "diff_ref",
+    "content_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-098 --preflight",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-098 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "BP-C4 implementation becomes necessary",
+    "Runtime/tool change becomes necessary"
+  ],
+  "prior_task_findings": "BP-095 added worktree isolation, BP-096 added proposal-only Maya Memory, and BP-097 added read-only AICOS card query.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
