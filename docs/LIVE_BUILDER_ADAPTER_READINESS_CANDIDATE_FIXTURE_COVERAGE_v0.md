@@ -1,7 +1,7 @@
 # Live Builder Adapter Readiness Candidate Fixture Coverage v0
 
 Datum: 2026-05-28
-Status: BP-075 coverage map
+Status: BP-080 coverage map
 
 Diese Datei beschreibt die aktuell lokal getestete Live-Builder-Adapter-Readiness-Candidate-Abdeckung.
 
@@ -15,6 +15,11 @@ Der Live Builder Adapter Readiness Candidate Mock ist weiterhin lokal. Diese Cov
 | `BP-073.review-readiness-notes` | `examples/live-builder-adapter-readiness-candidate/BP-073.review-readiness-notes.input.json` | `examples/live-builder-adapter-readiness-candidate/BP-073.review-readiness-notes.output.json` | `requires_human_review` | Readiness Notes verhindern stille Live-Builder-Adapter-Readiness-Freigabe |
 | `BP-073.blocked-task-create-readiness-review` | `examples/live-builder-adapter-readiness-candidate/BP-073.blocked-task-create-readiness-review.input.json` | `examples/live-builder-adapter-readiness-candidate/BP-073.blocked-task-create-readiness-review.output.json` | `blocked` | non-prepared Builder Task Create Readiness Candidate wird hart blockiert |
 | `BP-073.blocked-live-target` | `examples/live-builder-adapter-readiness-candidate/BP-073.blocked-live-target.input.json` | `examples/live-builder-adapter-readiness-candidate/BP-073.blocked-live-target.output.json` | `blocked` | konkreter Live-Builder-Target-, Auth-, Secret-, Persistence- oder Network-Request wird hart blockiert |
+| `BP-078.missing-required` | `examples/live-builder-adapter-readiness-candidate/BP-078.missing-required.input.json` | `examples/live-builder-adapter-readiness-candidate/BP-078.missing-required.output.json` | `blocked` | fehlende Pflichtfelder werden als blockierter lokaler Output sichtbar |
+| `BP-079.blocked-adapter-mode` | `examples/live-builder-adapter-readiness-candidate/BP-079.blocked-adapter-mode.input.json` | `examples/live-builder-adapter-readiness-candidate/BP-079.blocked-adapter-mode.output.json` | `blocked` | `builder_adapter_mode` ungleich `none` wird hart blockiert |
+| `BP-079.blocked-task-create-effect` | `examples/live-builder-adapter-readiness-candidate/BP-079.blocked-task-create-effect.input.json` | `examples/live-builder-adapter-readiness-candidate/BP-079.blocked-task-create-effect.output.json` | `blocked` | `task_create_effect` ungleich `none` wird hart blockiert |
+| `BP-079.blocked-execute-effect` | `examples/live-builder-adapter-readiness-candidate/BP-079.blocked-execute-effect.input.json` | `examples/live-builder-adapter-readiness-candidate/BP-079.blocked-execute-effect.output.json` | `blocked` | `execute_effect` ungleich `none` wird hart blockiert |
+| `BP-079.blocked-live-allowed` | `examples/live-builder-adapter-readiness-candidate/BP-079.blocked-live-allowed.input.json` | `examples/live-builder-adapter-readiness-candidate/BP-079.blocked-live-allowed.output.json` | `blocked` | `live_builder_call_allowed: true` wird hart blockiert |
 
 ## Gepruefte Sicherheitsinvarianten
 
@@ -27,25 +32,21 @@ Die lokale Review Suite prueft:
 - `builder_execute_allowed` bleibt immer `false`,
 - `live_builder_call_allowed` bleibt immer `false`,
 - `blocked` enthaelt Blockgruende.
+- CLI-Fehlerformat ist lokal getestet.
 
 ## Noch nicht abgedeckt
 
 Noch nicht mit eigener Fixture abgedeckt:
 
-- fehlende Pflichtfelder,
-- `builder_adapter_mode` ungleich `none`,
-- `task_create_effect` ungleich `none`,
-- `execute_effect` ungleich `none`,
 - `builder_task_create_allowed: true`,
 - `builder_execute_allowed: true`,
-- `live_builder_call_allowed: true`,
 - fehlendes oder unklares `target_repo`.
 
-Diese Luecken sind erwartbar, weil BP-073 nur die erste lokale Live-Builder-Adapter-Readiness-Kette beweisen sollte.
+Diese Luecken sind erwartbar, weil BP-078 und BP-079 nur die erste Pre-Live-Haertung ergaenzt haben.
 
 ## Naechste sinnvolle Fixture-Erweiterung
 
-Vor echter Live-Builder-Naehe sollte mindestens eine Fixture fuer `live_builder_call_allowed: true` oder `builder_adapter_mode: "live"` ergaenzt werden.
+Vor echter Live-Builder-Naehe sollten mindestens Fixtures fuer `builder_task_create_allowed: true`, `builder_execute_allowed: true` und unklares `target_repo` ergaenzt werden.
 
 ## Aktueller Gap-Status
 

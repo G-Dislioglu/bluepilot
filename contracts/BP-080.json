@@ -1,0 +1,88 @@
+{
+  "task_id": "BP-080",
+  "task_name": "Update Live Builder Adapter Readiness Hardening Coverage",
+  "created": "2026-05-28",
+  "scope": "bluepilot/live-builder-adapter-readiness/pre-live-hardening-coverage",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "low",
+  "impact_class": "tooling",
+  "target_persona": null,
+  "goal": "Update Live Builder Adapter Readiness Candidate coverage documentation, coverage-map test, and review suite after BP-078 and BP-079 local hardening.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/PRE_LIVE_HARDENING_DECISION_v0.md",
+    "docs/LIVE_BUILDER_ADAPTER_READINESS_CANDIDATE_FIXTURE_COVERAGE_v0.md",
+    "tools/test-live-builder-adapter-readiness-candidate-coverage-map.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "review-packets/BP-078.md",
+    "review-packets/BP-079.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-080.json",
+    "docs/LIVE_BUILDER_ADAPTER_READINESS_CANDIDATE_FIXTURE_COVERAGE_v0.md",
+    "tools/test-live-builder-adapter-readiness-candidate-coverage-map.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "review-packets/BP-080.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "tools/live-builder-adapter-readiness-candidate.cjs",
+    "tools/test-live-builder-adapter-readiness-candidate-fixtures.cjs",
+    "tools/test-live-builder-adapter-readiness-candidate-output-invariants.cjs",
+    "examples/**"
+  ],
+  "claims": [
+    "BP-080 updates coverage visibility after BP-078 and BP-079 hardening.",
+    "BP-080 wires the Live Builder Adapter Readiness CLI error test into the shared review suite.",
+    "BP-080 does not change Live Builder Adapter Readiness Candidate runtime behavior or fixtures."
+  ],
+  "assumptions": [
+    "BP-078 added missing-required-fields and CLI error hardening.",
+    "BP-079 added hard-block fixtures for adapter mode, task create effect, execute effect, and live call flag.",
+    "Coverage documentation should be updated immediately after hardening fixtures land."
+  ],
+  "dod": [
+    "Coverage map documents BP-078 and BP-079 fixture cases.",
+    "Coverage-map test verifies BP-078 and BP-079 fixture cases.",
+    "Bluepilot Review Suite runs the Live Builder Adapter Readiness CLI error test.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-080 --verify exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "content_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-080 --preflight",
+    "node --check tools/test-live-builder-adapter-readiness-candidate-coverage-map.cjs",
+    "node tools/test-live-builder-adapter-readiness-candidate-coverage-map.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-080 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime or fixture changes become necessary",
+    "Live Builder, Builder Task Create, auth, secrets, persistence, approval recording, DB, deploy, execute, approve, or push becomes necessary"
+  ],
+  "prior_task_findings": "BP-078 and BP-079 added local hardening fixtures and CLI error tests; coverage documentation and review-suite entry need to catch up.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}

@@ -15,6 +15,11 @@ const expectedCases = [
   ['BP-073.review-readiness-notes', 'requires_human_review'],
   ['BP-073.blocked-task-create-readiness-review', 'blocked'],
   ['BP-073.blocked-live-target', 'blocked'],
+  ['BP-078.missing-required', 'blocked'],
+  ['BP-079.blocked-adapter-mode', 'blocked'],
+  ['BP-079.blocked-task-create-effect', 'blocked'],
+  ['BP-079.blocked-execute-effect', 'blocked'],
+  ['BP-079.blocked-live-allowed', 'blocked'],
 ];
 
 for (const [caseId, status] of expectedCases) {
@@ -34,6 +39,7 @@ const requiredStatements = [
   '`builder_task_create_allowed` bleibt immer `false`',
   '`builder_execute_allowed` bleibt immer `false`',
   '`live_builder_call_allowed` bleibt immer `false`',
+  'CLI-Fehlerformat ist lokal getestet',
   'Noch nicht mit eigener Fixture abgedeckt',
   'Dokumentierte Luecken existieren',
 ];
