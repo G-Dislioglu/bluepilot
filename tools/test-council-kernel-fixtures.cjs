@@ -18,7 +18,12 @@ const {
   reportStarted,
   writeAtomicJson,
 } = require('./council-agent-client.cjs');
-const { processAgent } = require('./maya-council-watcher.cjs');
+const {
+  agentIdFromFileName,
+  createSession,
+  processAgent,
+  watchAgents,
+} = require('./maya-council-watcher.cjs');
 
 function makeRoot(name) {
   return fs.mkdtempSync(path.join(os.tmpdir(), `bluepilot-${name}-`));
@@ -94,6 +99,10 @@ function eventLines(rootDir) {
   return fs.readFileSync(eventsFile, 'utf8').trim().split('\n').filter(Boolean).map((line) => JSON.parse(line));
 }
 
+function wait(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 function testDirectiveCursorAndDoneFlow() {
   const root = makeRoot('council-done');
   seedSession(root);
@@ -153,8 +162,72 @@ function testHardStopPausesSession() {
   assert(session.directives.some((item) => item.type === 'broadcast' && item.target === 'all'));
 }
 
-testDirectiveCursorAndDoneFlow();
-testDedupDoesNotReprocess();
-testHardStopPausesSession();
+function testSessionInit() {
+  const root = makeRoot('council-init');
+  const session = createSession(root, {
+    sessionId: 'cs-init-001',
+    tasks: [
+      {
+        task_id: 'TASK_INIT',
+        title: 'Init task',
+        contract_path: 'contracts/TASK_INIT.json'
+      }
+    ]
+  });
 
-console.log('council kernel fixtures: PASS');
+  assert.strictEqual(session.session_id, 'cs-init-001');
+  assert.strictEqual(session.status, 'active');
+  assert.strictEqual(readSession(root).task_queue.length, 1);
+  assert.strictEqual(readDedup(root).processed_events.length, 0);
+  assert(eventLines(root).some((event) => event.type === 'session_opened'));
+  assert.throws(() => createSession(root), /already exists/);
+}
+
+async function testWatchLoopProcessesAgentChange() {
+  const root = makeRoot('council-watch');
+  seedSession(root);
+  registerAgent(root, { agentId: 'agent-1' });
+
+  const processed = [];
+  const errors = [];
+  const handle = watchAgents(root, {
+    debounceMs: 25,
+    onProcessed(result) {
+      processed.push(result);
+    },
+    onError(err) {
+      errors.push(err);
+    }
+  });
+
+  reportDone(root, 'agent-1', 'TASK_001', { review_packet_path: 'review-packets/TASK_001.md' });
+  await wait(250);
+  handle.close();
+
+  assert.deepStrictEqual(errors, []);
+  assert(processed.some((result) => result.outcome === 'processed'));
+  assert.strictEqual(readSession(root).task_queue[0].status, 'done');
+}
+
+function testAgentFileFilter() {
+  assert.strictEqual(agentIdFromFileName('agent-1.json'), 'agent-1');
+  assert.strictEqual(agentIdFromFileName('agent-1.json.tmp'), null);
+  assert.strictEqual(agentIdFromFileName('nested/agent-1.json'), null);
+  assert.strictEqual(agentIdFromFileName('notes.txt'), null);
+}
+
+async function main() {
+  testDirectiveCursorAndDoneFlow();
+  testDedupDoesNotReprocess();
+  testHardStopPausesSession();
+  testSessionInit();
+  testAgentFileFilter();
+  await testWatchLoopProcessesAgentChange();
+
+  console.log('council kernel fixtures: PASS');
+}
+
+main().catch((err) => {
+  console.error(err);
+  process.exitCode = 1;
+});

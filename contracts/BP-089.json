@@ -1,0 +1,103 @@
+{
+  "task_id": "BP-089",
+  "task_name": "BP-C1 Council Watch Loop And Init",
+  "created": "2026-05-28",
+  "scope": "bluepilot/bp-c1/council-watch-loop-init",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "runtime",
+  "target_persona": null,
+  "goal": "Extend the BP-C1 Council Kernel with a local dependency-free watch loop and session init sequence, without starting BP-C2 modules or adding package dependencies.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BLUEPILOT_BUILD_CANVAS_DECISION_v0.md",
+    "docs/COUNCIL-SESSION-PROTOCOL-v1.1.md",
+    "docs/COUNCIL_KERNEL_RUNTIME_CONTRACT_v0.md",
+    "contracts/BP-088.json",
+    "review-packets/BP-088.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-089.json",
+    "docs/COUNCIL_KERNEL_RUNTIME_CONTRACT_v0.md",
+    "tools/maya-council-watcher.cjs",
+    "tools/test-council-kernel-fixtures.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "review-packets/BP-089.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    ".bluepilot/**",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/BLUEPILOT_BUILD_CANVAS_DECISION_v0.md",
+    "docs/COUNCIL-SESSION-PROTOCOL-v1.1.md",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md"
+  ],
+  "scope_out": [
+    "No chokidar or package dependency",
+    "No BP-C2 module implementation",
+    "No actual Agent process spawning",
+    "No UI",
+    "No auth, secrets, DB, deploy, live Builder, AICOS write, or Soulmatch copy",
+    "No committed .bluepilot runtime state"
+  ],
+  "claims": [
+    "tools/maya-council-watcher.cjs can initialize a Council session with queued tasks and empty dedup state.",
+    "tools/maya-council-watcher.cjs can watch the agents directory with fs.watch, debounce writes, and process changed agent JSON files.",
+    "The watch loop ignores temp files and does not require new dependencies.",
+    "Tests cover session init and event-driven processing through the watch loop."
+  ],
+  "assumptions": [
+    "A dependency-free fs.watch loop is sufficient for the first BP-C1 local runtime slice.",
+    "await-write-finish can be represented in v0 by a debounce delay before processing the changed file.",
+    "Long-running process orchestration and child-agent spawning remain later tasks."
+  ],
+  "dod": [
+    "node --check tools/maya-council-watcher.cjs exits 0.",
+    "node tools/test-council-kernel-fixtures.cjs exits 0.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-089 --verify exits 0.",
+    "git diff --check exits 0.",
+    "git diff --name-only contains only allowed files."
+  ],
+  "evidence_required": [
+    "test_result",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-089 --preflight",
+    "node --check tools/maya-council-watcher.cjs",
+    "node tools/test-council-kernel-fixtures.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-089 --verify",
+    "git diff --check",
+    "git diff --name-only"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "New package dependency becomes necessary",
+    "BP-C2 module implementation becomes necessary",
+    "Auth, secrets, DB, deploy, live Builder, AICOS write, or Soulmatch copy becomes necessary"
+  ],
+  "prior_task_findings": "BP-088 built callable Council Kernel functions. The missing BP-C1 piece is a local watch loop and session init, while BP-C2 remains blocked.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}

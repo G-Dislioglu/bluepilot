@@ -16,6 +16,12 @@ Grund: Das aktuelle Bluepilot-Repo nutzt fuer lokale Tools bereits `tools/*.cjs`
 - `tools/maya-council-watcher.cjs`
 - `tools/test-council-kernel-fixtures.cjs`
 
+## Ergaenzt in BP-089
+
+- Session-Init-Sequenz fuer lokale Council-Sessions.
+- Dependency-freier `fs.watch`-Loop fuer Agent-Dateiaenderungen.
+- Debounce als v0-Form von await-write-finish.
+
 ## Nicht enthalten
 
 - keine BP-C2-Module,
@@ -67,8 +73,32 @@ Der Watcher muss im ersten Slice koennen:
 - Events nach `events.jsonl` append-only schreiben,
 - `dedup.json` atomar aktualisieren.
 
+## Watch-Loop Pflichtfaehigkeiten
+
+Der Watch-Loop muss:
+
+- `agents/` beobachten,
+- nur `.json` Agent-Dateien verarbeiten,
+- `.tmp` Dateien ignorieren,
+- Schreibvorgaenge per Debounce stabilisieren,
+- bei Dateiwechsel `processAgent(rootDir, agentId)` ausloesen,
+- einen `close()`-Handle zur kontrollierten Beendigung liefern,
+- ohne neue Package-Dependency laufen.
+
+## Session-Init Pflichtfaehigkeiten
+
+Die Init-Sequenz muss:
+
+- `.bluepilot/council/` lokal anlegen,
+- `session.json` atomar schreiben,
+- `dedup.json` mit leerem Register anlegen,
+- `events.jsonl` mit `session_opened` starten,
+- vorhandene Runtime-Dateien nur mit expliziter `force`-Option ueberschreiben.
+
 ## Harte Grenze
 
 BP-088 beweist den lokalen Council-Kernel-Mechanismus. Es beweist noch nicht, dass mehrere echte Codex-Prozesse parallel arbeiten.
 
 Parallel-Agent-Ausfuehrung beginnt erst in spaeteren BP-C1/BP-C2-Folgetasks, nachdem dieser Kernel gruen ist.
+
+BP-089 beweist einen lokalen event-getriebenen Loop. Es startet weiterhin keine externen Agent-Prozesse und kein BP-C2-Modul.

@@ -7,6 +7,7 @@ const path = require('path');
 const {
   appendEvent,
   ensureCouncilDirs,
+  getCouncilPaths,
   readJson,
   writeAtomicJson,
 } = require('./council-agent-client.cjs');
@@ -22,6 +23,56 @@ function listAgents(rootDir) {
     .filter((file) => file.endsWith('.json'))
     .map((file) => readJson(path.join(paths.agentsDir, file), null))
     .filter(Boolean);
+}
+
+function createSession(rootDir, options = {}) {
+  const paths = ensureCouncilDirs(rootDir);
+  const force = options.force === true;
+
+  if (!force && fs.existsSync(paths.sessionFile)) {
+    throw new Error('Council session.json already exists. Use force to overwrite.');
+  }
+
+  const sessionId = options.sessionId || `cs-${nowIso().replace(/[-:.]/g, '').slice(0, 15)}`;
+  const tasks = (options.tasks || []).map((task, index) => {
+    return {
+      task_id: task.task_id,
+      title: task.title || task.task_id,
+      contract_path: task.contract_path || null,
+      status: task.status || 'queued',
+      assigned_to: task.assigned_to || null,
+      assigned_at: task.assigned_at || null,
+      depends_on: task.depends_on || [],
+      priority: task.priority || index + 1,
+    };
+  });
+
+  const session = {
+    session_id: sessionId,
+    opened_at: nowIso(),
+    closed_at: null,
+    goal_ref: options.goalRef || '.specify/.app-goal.md',
+    status: 'active',
+    agents_registered: options.agentsRegistered || [],
+    task_queue: tasks,
+    directives: [],
+    hard_stop_log: [],
+    session_summary: null,
+  };
+
+  writeAtomicJson(paths.sessionFile, session);
+  writeAtomicJson(paths.dedupFile, {
+    session_id: session.session_id,
+    processed_events: [],
+    last_updated: nowIso(),
+  });
+
+  if (!fs.existsSync(paths.eventsFile) || force) {
+    fs.writeFileSync(paths.eventsFile, '', 'utf8');
+  }
+  appendEvent(rootDir, 'maya', 'session_opened', { session_id: session.session_id });
+
+  return session;
 }
 
 function loadCouncilState(rootDir) {
@@ -246,18 +297,81 @@ function runOnce(rootDir) {
   return agents.map((agent) => processAgent(rootDir, agent.agent_id));
 }
 
+function agentIdFromFileName(fileName) {
+  if (!fileName || path.basename(fileName) !== fileName) return null;
+  if (!fileName.endsWith('.json')) return null;
+  if (fileName.endsWith('.tmp')) return null;
+  return fileName.slice(0, -'.json'.length);
+}
+
+function watchAgents(rootDir, options = {}) {
+  const paths = ensureCouncilDirs(rootDir);
+  const debounceMs = Number.isInteger(options.debounceMs) ? options.debounceMs : 100;
+  const onProcessed = typeof options.onProcessed === 'function' ? options.onProcessed : null;
+  const onError = typeof options.onError === 'function' ? options.onError : null;
+  const timers = new Map();
+
+  function schedule(fileName) {
+    const agentId = agentIdFromFileName(fileName);
+    if (!agentId) return;
+    if (timers.has(agentId)) clearTimeout(timers.get(agentId));
+
+    timers.set(agentId, setTimeout(() => {
+      timers.delete(agentId);
+      try {
+        const result = processAgent(rootDir, agentId);
+        if (onProcessed) onProcessed(result);
+      } catch (err) {
+        if (onError) {
+          onError(err);
+        } else {
+          console.error(err.message);
+        }
+      }
+    }, debounceMs));
+  }
+
+  const watcher = fs.watch(paths.agentsDir, (eventType, fileName) => {
+    if (eventType !== 'change' && eventType !== 'rename') return;
+    schedule(fileName ? fileName.toString() : null);
+  });
+
+  return {
+    close() {
+      watcher.close();
+      for (const timer of timers.values()) clearTimeout(timer);
+      timers.clear();
+    },
+    processExisting() {
+      for (const agent of listAgents(rootDir)) {
+        schedule(`${agent.agent_id}.json`);
+      }
+    },
+  };
+}
+
 function printUsage() {
   console.log('Usage: node tools/maya-council-watcher.cjs <command> <root> [agent-id]');
   console.log('');
   console.log('Commands:');
+  console.log('  init <root> [session-id]');
   console.log('  process-agent <root> <agent-id>');
   console.log('  run-once <root>');
+  console.log('  watch <root>');
 }
 
 function runCli(argv) {
   const [command, rootDir, agentId] = argv;
   if (!command || command === '--help' || command === '-h') {
     printUsage();
+    return 0;
+  }
+
+  if (command === 'init') {
+    console.log(JSON.stringify(createSession(rootDir || process.cwd(), {
+      sessionId: agentId || undefined,
+      force: false,
+    }), null, 2));
     return 0;
   }
 
@@ -269,6 +383,19 @@ function runCli(argv) {
   if (command === 'run-once') {
     console.log(JSON.stringify(runOnce(rootDir || process.cwd()), null, 2));
     return 0;
+  }
+
+  if (command === 'watch') {
+    const activeRoot = rootDir || process.cwd();
+    const paths = getCouncilPaths(activeRoot);
+    console.log(`Watching ${paths.agentsDir}`);
+    const handle = watchAgents(activeRoot);
+    handle.processExisting();
+    process.on('SIGINT', () => {
+      handle.close();
+      process.exit(0);
+    });
+    return undefined;
   }
 
   throw new Error(`Unknown command: ${command}`);
@@ -286,9 +413,12 @@ if (require.main === module) {
 module.exports = {
   addDirective,
   assignReadyTasks,
+  agentIdFromFileName,
   buildDedupKey,
+  createSession,
   listAgents,
   loadCouncilState,
   processAgent,
   runOnce,
+  watchAgents,
 };
