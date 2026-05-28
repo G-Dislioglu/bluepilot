@@ -1,0 +1,35 @@
+{
+  "idea": "Create a bounded documentation update for the Phase Scanner usage note.",
+  "target_repo": "bluepilot",
+  "requested_scope": [
+    "docs/PHASE_SCANNER_USAGE_v0.md"
+  ],
+  "repo_context": [
+    "docs/PHASE_SCANNER_SPEC_v0.md",
+    "docs/NO_GO_ZONES.md"
+  ],
+  "known_risks": [],
+  "available_donors": [
+    "Task Evidence",
+    "Task Audit Log"
+  ],
+  "evidence_sources": [
+    "diff_ref",
+    "content_check"
+  ],
+  "tracks": [
+    {
+      "name": "single-doc-update",
+      "scope": [
+        "docs/PHASE_SCANNER_USAGE_v0.md"
+      ]
+    }
+  ],
+  "no_go_zones": [
+    "No auto-merge",
+    "No auto-deploy",
+    "No Builder Chat Fusion",
+    "No AICOS mutation",
+    "No Maya write in MVP"
+  ]
+}

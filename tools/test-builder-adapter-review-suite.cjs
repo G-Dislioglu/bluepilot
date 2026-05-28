@@ -18,11 +18,14 @@ const commands = [
   ['syntax: live read probe', ['--check', 'tools/builder-live-read-probe.cjs']],
   ['syntax: live read probe test', ['--check', 'tools/test-builder-live-read-probe.cjs']],
   ['syntax: live read probe CLI errors test', ['--check', 'tools/test-builder-live-read-probe-cli-errors.cjs']],
+  ['syntax: phase scanner', ['--check', 'tools/phase-scanner.cjs']],
+  ['syntax: phase scanner fixture test', ['--check', 'tools/test-phase-scanner-fixtures.cjs']],
   ['adapter fixtures', ['tools/test-builder-adapter-fixtures.cjs']],
   ['endpoint fixtures', ['tools/test-builder-adapter-endpoint-fixtures.cjs']],
   ['HTTP route fixtures', ['tools/test-builder-adapter-http-route.cjs']],
   ['live read probe fixtures', ['tools/test-builder-live-read-probe.cjs']],
   ['live read probe CLI errors', ['tools/test-builder-live-read-probe-cli-errors.cjs']],
+  ['phase scanner fixtures', ['tools/test-phase-scanner-fixtures.cjs']],
 ];
 
 for (const [label, args] of commands) {

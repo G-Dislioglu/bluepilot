@@ -1,0 +1,26 @@
+{
+  "idea": "Auto-deploy the app and mark the work implemented without repo evidence.",
+  "target_repo": "bluepilot",
+  "requested_scope": [
+    "docs/PHASE_SCANNER_USAGE_v0.md"
+  ],
+  "repo_context": [
+    "docs/NO_GO_ZONES.md"
+  ],
+  "known_risks": [],
+  "available_donors": [
+    "Task Audit Log"
+  ],
+  "tracks": [
+    {
+      "name": "unsafe-deploy",
+      "scope": [
+        "docs/PHASE_SCANNER_USAGE_v0.md"
+      ]
+    }
+  ],
+  "no_go_zones": [
+    "No auto-deploy",
+    "No implemented claim without repo evidence"
+  ]
+}
