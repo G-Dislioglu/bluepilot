@@ -81,6 +81,57 @@ function assertStringArray(contract, field) {
   }
 }
 
+function failContract(message) {
+  console.error(`Ungueltiger Contract: ${message}`);
+  process.exit(1);
+}
+
+function includesAny(values, candidates) {
+  return candidates.some((candidate) => values.includes(candidate));
+}
+
+function validateContractFields(contract) {
+  const validTaskTypes = new Set(['code_task', 'doc_task', 'ui_task', 'config_task', 'governance_task']);
+  if (!validTaskTypes.has(contract.task_type)) {
+    failContract(`task_type muss einer von ${[...validTaskTypes].join(', ')} sein.`);
+  }
+
+  if (!Array.isArray(contract.reuse_target) || contract.reuse_target.length === 0) {
+    failContract('reuse_target muss mindestens einen benannten Reuse-Pfad enthalten.');
+  }
+
+  const validReuseTargets = new Set(['next_task_pre_lock', 'session_log', 'aicos_card_candidate', 'review_packet']);
+  for (const target of contract.reuse_target) {
+    if (typeof target !== 'string' || !validReuseTargets.has(target)) {
+      failContract(`ungueltiger reuse_target: ${target}`);
+    }
+  }
+
+  assertStringArray(contract, 'evidence_required');
+
+  const evidence = contract.evidence_required;
+  const evidenceRules = {
+    code_task: () => includesAny(evidence, ['test_result', 'runtime_check']),
+    doc_task: () => includesAny(evidence, ['content_check', 'link_check']),
+    ui_task: () => ['screenshot_check', 'playwright_flow', 'human_ui_review'].every((item) => evidence.includes(item)),
+    config_task: () => evidence.includes('diff_ref') && includesAny(evidence, ['build_result', 'lint_result']),
+    governance_task: () => evidence.includes('diff_ref') && evidence.includes('content_check'),
+  };
+
+  if (!evidenceRules[contract.task_type]()) {
+    failContract(`evidence_required passt nicht zu task_type "${contract.task_type}".`);
+  }
+
+  const validUiPersonas = new Set(['beginner_user', 'operator_user', 'power_user']);
+  if (contract.task_type === 'ui_task') {
+    if (!validUiPersonas.has(contract.target_persona)) {
+      failContract('ui_task braucht target_persona: beginner_user, operator_user oder power_user.');
+    }
+  } else if (contract.target_persona !== null && contract.target_persona !== undefined) {
+    failContract('target_persona darf nur fuer ui_task gesetzt sein.');
+  }
+}
+
 function loadContract() {
   if (!fs.existsSync(contractPath)) {
     console.error(`Contract nicht gefunden: ${contractPath}`);
@@ -117,6 +168,7 @@ function loadContract() {
 
   assertStringArray(contract, 'allowed_files');
   assertStringArray(contract, 'forbidden_files');
+  validateContractFields(contract);
 
   return contract;
 }
@@ -181,11 +233,65 @@ function getChangedFiles(baselineRef) {
 }
 
 function matchesAnyPattern(file, patterns) {
-  const picomatch = require('picomatch');
+  let picomatch;
+  try {
+    picomatch = require('picomatch');
+  } catch (err) {
+    picomatch = null;
+  }
+
   for (const pattern of patterns) {
-    if (picomatch(pattern, { dot: true })(file)) return pattern;
+    if (picomatch) {
+      if (picomatch(pattern, { dot: true })(file)) return pattern;
+    } else if (matchesFallbackPattern(file, pattern)) {
+      return pattern;
+    }
   }
   return null;
+}
+
+function escapeRegex(value) {
+  return value.replace(/[|\\{}()[\]^$+?.]/g, '\\$&');
+}
+
+function patternToRegex(pattern) {
+  const normalizedPattern = normalizeRepoPath(pattern);
+  let source = '';
+
+  for (let index = 0; index < normalizedPattern.length; index += 1) {
+    const char = normalizedPattern[index];
+    const next = normalizedPattern[index + 1];
+
+    if (char === '*' && next === '*') {
+      source += '.*';
+      index += 1;
+      continue;
+    }
+
+    if (char === '*') {
+      source += '[^/]*';
+      continue;
+    }
+
+    source += escapeRegex(char);
+  }
+
+  return new RegExp(`^${source}$`);
+}
+
+function matchesFallbackPattern(file, pattern) {
+  const normalizedFile = normalizeRepoPath(file);
+  const normalizedPattern = normalizeRepoPath(pattern);
+  const negativeExtglob = normalizedPattern.match(/^(.*)!\(\*([^)]*)\)(.*)$/);
+
+  if (negativeExtglob) {
+    const [, prefix, forbiddenSuffix, suffix] = negativeExtglob;
+    return normalizedFile.startsWith(prefix)
+      && normalizedFile.endsWith(suffix)
+      && !normalizedFile.endsWith(`${forbiddenSuffix}${suffix}`);
+  }
+
+  return patternToRegex(normalizedPattern).test(normalizedFile);
 }
 
 function checkForbidden(changedFiles, contract) {

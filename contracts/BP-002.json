@@ -1,0 +1,80 @@
+{
+  "task_id": "BP-002",
+  "task_name": "Harden Task Lock Verifier Metadata Checks",
+  "created": "2026-05-28",
+  "scope": "bluepilot/wlp/verifier",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "governance",
+  "target_persona": null,
+  "goal": "Harden the WLP verifier so invalid task metadata and evidence contracts fail before downstream tasks rely on them.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/TASK_CONTRACT_TEMPLATE.md",
+    "docs/REVIEW_PACKET_TEMPLATE.md",
+    "docs/TASK_REUSE_PROTOCOL.md",
+    "docs/PHASE_SCANNER_RUNTIME_DECISION_v0.md",
+    "review-packets/BP-001.md",
+    "tools/verify-task-lock.cjs",
+    "package.json"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-002.json",
+    "tools/verify-task-lock.cjs",
+    "review-packets/BP-002.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "docs/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "tools/phase-scanner.cjs"
+  ],
+  "claims": [
+    "The verifier validates task_type against the WLP task type set.",
+    "The verifier validates evidence_required against task_type requirements.",
+    "The verifier validates reuse_target and ui_task target_persona.",
+    "The verifier remains compatible with the BP-002 contract under active task changes."
+  ],
+  "assumptions": [
+    "BP-002 does not require package.json or dependency changes.",
+    "BP-002 should not implement the Phase Scanner runtime.",
+    "The WLP evidence matrix in docs/WORKCELL_LOCK_PROTOCOL.md is the source for required evidence groups."
+  ],
+  "dod": [
+    "node --check tools/verify-task-lock.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-002 --verify exits 0.",
+    "Invalid contracts for bad task_type, missing reuse_target, bad ui_task target_persona, and missing required evidence fail with exit 1."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-002 --preflight",
+    "node --check tools/verify-task-lock.cjs",
+    "node tools/verify-task-lock.cjs BP-002 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Verifier hardening requires package.json or docs changes",
+    "Phase Scanner runtime implementation becomes necessary"
+  ],
+  "prior_task_findings": "BP-001 decided Phase Scanner v0 is hybrid but keeps hard gates and confidence deterministic; BP-002 must preserve that boundary and only harden WLP contract verification.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
