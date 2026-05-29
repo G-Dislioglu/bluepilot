@@ -81,6 +81,8 @@ const commands = [
   ['syntax: review pipeline fixture test', ['--check', 'tools/test-review-pipeline-fixtures.cjs']],
   ['syntax: pipeline evidence bridge', ['--check', 'tools/pipeline-evidence-bridge.cjs']],
   ['syntax: pipeline evidence bridge fixture test', ['--check', 'tools/test-pipeline-evidence-bridge-fixtures.cjs']],
+  ['syntax: council evidence assignment', ['--check', 'tools/council-evidence-assignment.cjs']],
+  ['syntax: council evidence assignment fixture test', ['--check', 'tools/test-council-evidence-assignment-fixtures.cjs']],
   ['adapter fixtures', ['tools/test-builder-adapter-fixtures.cjs']],
   ['endpoint fixtures', ['tools/test-builder-adapter-endpoint-fixtures.cjs']],
   ['HTTP route fixtures', ['tools/test-builder-adapter-http-route.cjs']],
@@ -127,6 +129,7 @@ const commands = [
   ['browser screenshot check fixtures', ['tools/test-browser-screenshot-check-fixtures.cjs']],
   ['review pipeline fixtures', ['tools/test-review-pipeline-fixtures.cjs']],
   ['pipeline evidence bridge fixtures', ['tools/test-pipeline-evidence-bridge-fixtures.cjs']],
+  ['council evidence assignment fixtures', ['tools/test-council-evidence-assignment-fixtures.cjs']],
 ];
 
 for (const [label, args] of commands) {
