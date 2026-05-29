@@ -1,0 +1,107 @@
+{
+  "task_id": "BP-106",
+  "task_name": "BP-C4 Screenshot Check",
+  "created": "2026-05-29",
+  "scope": "bluepilot/bp-c4/screenshot-check",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "visual-review-foundation",
+  "target_persona": null,
+  "council_session_required": true,
+  "goal": "Build a local screenshot check that opens Browser Preview HTML in a real headless browser, writes a PNG screenshot, validates it, and emits JSON evidence without claiming human review.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/BP_C4_BROWSER_SMOKE_PROTOCOL_v0.md",
+    "docs/BP_C4_BROWSER_AUTOMATION_SMOKE_CONTRACT_v0.md",
+    "tools/browser-automation-smoke.cjs",
+    "tools/browser-preview.cjs",
+    "review-packets/BP-105.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-106.json",
+    "docs/BP_C4_SCREENSHOT_CHECK_CONTRACT_v0.md",
+    "tools/browser-screenshot-check.cjs",
+    "tools/test-browser-screenshot-check-fixtures.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "review-packets/BP-106.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "output/**",
+    ".bluepilot/**",
+    "tools/browser-automation-smoke.cjs",
+    "tools/browser-preview.cjs",
+    "tools/browser-preview-smoke.cjs",
+    "tools/difflens.cjs",
+    "tools/verify-task-lock.cjs",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md"
+  ],
+  "scope_out": [
+    "No committed screenshot artifact",
+    "No Playwright package dependency",
+    "No UI framework",
+    "No Human UI Review claim",
+    "No BP-C5 integration"
+  ],
+  "claims": [
+    "tools/browser-screenshot-check.cjs launches an available local Chromium-family browser in headless mode.",
+    "The tool writes a PNG screenshot to a caller-provided path.",
+    "The tool validates PNG signature and minimum size.",
+    "The output states browser_automation=true, screenshot_check=true, and human_ui_review=false.",
+    "Fixture tests cover argument generation, PNG validation, no-browser behavior, and real screenshot flow when a browser is available."
+  ],
+  "assumptions": [
+    "A local Edge or Chrome binary is acceptable for the first screenshot check.",
+    "Screenshot artifacts are generated in temp or caller-controlled paths and are not committed.",
+    "Human UI Review remains a separate BP-C4 task."
+  ],
+  "dod": [
+    "node --check tools/browser-screenshot-check.cjs exits 0.",
+    "node tools/test-browser-screenshot-check-fixtures.cjs exits 0.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-106 --verify exits 0.",
+    "A local pipeline smoke generates and validates a PNG screenshot when a browser is available.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check",
+    "screenshot_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-106 --preflight",
+    "node --check tools/browser-screenshot-check.cjs",
+    "node tools/test-browser-screenshot-check-fixtures.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-106 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Committed screenshot artifact becomes necessary",
+    "Package dependency becomes necessary",
+    "Human UI Review claim becomes necessary"
+  ],
+  "prior_task_findings": "BP-105 added real browser automation but explicitly did not claim screenshot or human UI review evidence.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
