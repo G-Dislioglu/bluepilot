@@ -1,0 +1,89 @@
+{
+  "task_id": "BP-107",
+  "task_name": "BP-C4 Human UI Review Gate",
+  "created": "2026-05-29",
+  "scope": "bluepilot/bp-c4/human-ui-review-gate",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "medium",
+  "impact_class": "phase-gate",
+  "target_persona": null,
+  "council_session_required": true,
+  "goal": "Define the human UI review gate for BP-C4 so technical browser, DOM, and screenshot evidence cannot be mistaken for human approval.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/BP_C4_BROWSER_SMOKE_PROTOCOL_v0.md",
+    "docs/BP_C4_SCREENSHOT_CHECK_CONTRACT_v0.md",
+    "review-packets/BP-106.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-107.json",
+    "docs/BP_C4_HUMAN_UI_REVIEW_GATE_v0.md",
+    "review-packets/BP-107.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "output/**",
+    ".bluepilot/**",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md"
+  ],
+  "scope_out": [
+    "No runtime code",
+    "No screenshot artifact",
+    "No browser launch",
+    "No human approval claim",
+    "No BP-C5 integration"
+  ],
+  "claims": [
+    "BP-C4 human UI review requirements are defined.",
+    "Technical evidence is separated from human approval.",
+    "A review checklist is provided without claiming it is completed."
+  ],
+  "assumptions": [
+    "Human review cannot be automated by Codex.",
+    "BP-C4 can have a technical checkpoint while human review remains open.",
+    "A later task can record a human decision if the user performs it."
+  ],
+  "dod": [
+    "docs/BP_C4_HUMAN_UI_REVIEW_GATE_v0.md exists.",
+    "The document lists required reviewer inputs, pass criteria, fail criteria, and non-claims.",
+    "node tools/verify-task-lock.cjs BP-107 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "diff_ref",
+    "content_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-107 --preflight",
+    "node tools/verify-task-lock.cjs BP-107 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime code becomes necessary",
+    "Human approval would need to be claimed",
+    "BP-C5 integration becomes necessary"
+  ],
+  "prior_task_findings": "BP-106 added screenshot check evidence but explicitly left Human UI Review false.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
