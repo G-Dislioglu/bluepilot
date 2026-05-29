@@ -1,0 +1,105 @@
+{
+  "task_id": "BP-115",
+  "task_name": "BP-C5 Council Evidence Readiness List",
+  "created": "2026-05-29",
+  "scope": "bluepilot/bp-c5/council-evidence-readiness-list",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "integration",
+  "target_persona": null,
+  "council_session_required": true,
+  "goal": "List task-level Council evidence readiness from session.json without changing session state or starting agents.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/BP_C5_COUNCIL_EVIDENCE_ASSIGNMENT_CONTRACT_v0.md",
+    "tools/council-evidence-assignment.cjs",
+    "tools/council-agent-client.cjs",
+    "review-packets/BP-114.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-115.json",
+    "docs/BP_C5_COUNCIL_EVIDENCE_READINESS_CONTRACT_v0.md",
+    "tools/council-evidence-readiness.cjs",
+    "tools/test-council-evidence-readiness-fixtures.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "review-packets/BP-115.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "output/**",
+    ".bluepilot/**",
+    "review-packets/BP-110-artifacts/**",
+    "tools/council-evidence-assignment.cjs",
+    "tools/council-agent-client.cjs",
+    "tools/maya-council-watcher.cjs",
+    "tools/verify-task-lock.cjs",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md"
+  ],
+  "scope_out": [
+    "No session mutation",
+    "No event append",
+    "No task status change",
+    "No directive creation",
+    "No agent spawning",
+    "No web UI",
+    "No Human UI Review claim"
+  ],
+  "claims": [
+    "tools/council-evidence-readiness.cjs reads Council session tasks and reports evidence readiness.",
+    "The tool is read-only and does not write session.json or events.jsonl.",
+    "Fixture tests cover ready, missing, incomplete, and human-review-open tasks."
+  ],
+  "assumptions": [
+    "Task evidence_refs are written by BP-114's council-evidence-assignment tool.",
+    "Technical readiness requires pipeline_passed, browser_automation, and screenshot_check.",
+    "Human UI Review remains separate and is reported, not inferred."
+  ],
+  "dod": [
+    "node --check tools/council-evidence-readiness.cjs exits 0.",
+    "node tools/test-council-evidence-readiness-fixtures.cjs exits 0.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-115 --verify exits 0.",
+    "A local runtime smoke lists readiness from a temp Council session and exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-115 --preflight",
+    "node --check tools/council-evidence-readiness.cjs",
+    "node tools/test-council-evidence-readiness-fixtures.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-115 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Session mutation becomes necessary",
+    "Agent spawning becomes necessary",
+    "UI implementation becomes necessary"
+  ],
+  "prior_task_findings": "BP-114 assigned evidence_refs to Council tasks without changing task status or creating directives.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
