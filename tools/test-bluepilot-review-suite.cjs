@@ -77,6 +77,8 @@ const commands = [
   ['syntax: browser automation smoke fixture test', ['--check', 'tools/test-browser-automation-smoke-fixtures.cjs']],
   ['syntax: browser screenshot check', ['--check', 'tools/browser-screenshot-check.cjs']],
   ['syntax: browser screenshot check fixture test', ['--check', 'tools/test-browser-screenshot-check-fixtures.cjs']],
+  ['syntax: review pipeline', ['--check', 'tools/review-pipeline.cjs']],
+  ['syntax: review pipeline fixture test', ['--check', 'tools/test-review-pipeline-fixtures.cjs']],
   ['adapter fixtures', ['tools/test-builder-adapter-fixtures.cjs']],
   ['endpoint fixtures', ['tools/test-builder-adapter-endpoint-fixtures.cjs']],
   ['HTTP route fixtures', ['tools/test-builder-adapter-http-route.cjs']],
@@ -121,6 +123,7 @@ const commands = [
   ['browser preview smoke fixtures', ['tools/test-browser-preview-smoke-fixtures.cjs']],
   ['browser automation smoke fixtures', ['tools/test-browser-automation-smoke-fixtures.cjs']],
   ['browser screenshot check fixtures', ['tools/test-browser-screenshot-check-fixtures.cjs']],
+  ['review pipeline fixtures', ['tools/test-review-pipeline-fixtures.cjs']],
 ];
 
 for (const [label, args] of commands) {

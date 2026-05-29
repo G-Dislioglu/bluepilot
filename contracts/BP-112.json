@@ -1,0 +1,112 @@
+{
+  "task_id": "BP-112",
+  "task_name": "BP-C5 Local Review Pipeline Orchestrator",
+  "created": "2026-05-29",
+  "scope": "bluepilot/bp-c5/local-review-pipeline-orchestrator",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "integration",
+  "target_persona": null,
+  "council_session_required": true,
+  "goal": "Build the first BP-C5 integration slice by orchestrating the existing BP-C4 review tools into one local CLI pipeline.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/BP_C5_ENTRY_DECISION_v0.md",
+    "tools/difflens.cjs",
+    "tools/browser-preview.cjs",
+    "tools/browser-preview-smoke.cjs",
+    "tools/browser-automation-smoke.cjs",
+    "tools/browser-screenshot-check.cjs",
+    "review-packets/BP-110.md",
+    "review-packets/BP-111.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-112.json",
+    "docs/BP_C5_REVIEW_PIPELINE_ORCHESTRATOR_CONTRACT_v0.md",
+    "tools/review-pipeline.cjs",
+    "tools/test-review-pipeline-fixtures.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "review-packets/BP-112.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "output/**",
+    ".bluepilot/**",
+    "review-packets/BP-110-artifacts/**",
+    "tools/difflens.cjs",
+    "tools/browser-preview.cjs",
+    "tools/browser-preview-smoke.cjs",
+    "tools/browser-automation-smoke.cjs",
+    "tools/browser-screenshot-check.cjs",
+    "tools/verify-task-lock.cjs",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md"
+  ],
+  "scope_out": [
+    "No web UI",
+    "No accept/reject/merge workflow",
+    "No deploy",
+    "No AICOS write",
+    "No live Builder mutation",
+    "No Human UI Review claim",
+    "No committed generated artifacts"
+  ],
+  "claims": [
+    "tools/review-pipeline.cjs runs DiffLens, HTML preview, DOM smoke, browser smoke, and screenshot check in one local command.",
+    "The orchestrator writes artifacts only to an explicit output directory.",
+    "The orchestrator produces pipeline-summary.json.",
+    "Fixture tests cover diff input, generated files, summary shape, and no human-review claim."
+  ],
+  "assumptions": [
+    "A local Chromium-family browser is available on this machine for full browser/screenshot checks.",
+    "Generated artifacts are runtime outputs and should not be committed by BP-112.",
+    "Human UI Review remains a separate human decision even when the pipeline passes."
+  ],
+  "dod": [
+    "node --check tools/review-pipeline.cjs exits 0.",
+    "node tools/test-review-pipeline-fixtures.cjs exits 0.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-112 --verify exits 0.",
+    "A local runtime smoke writes artifacts to a temp output directory and exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-112 --preflight",
+    "node --check tools/review-pipeline.cjs",
+    "node tools/test-review-pipeline-fixtures.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-112 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Package dependency becomes necessary",
+    "Generated artifacts need to be committed",
+    "Human UI Review would need to be claimed"
+  ],
+  "prior_task_findings": "BP-111 released BP-C5 entry after BP-110 human review approval.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
