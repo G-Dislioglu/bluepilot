@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bluepilot DiffLens Preview</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f7f7f2;
+      --panel: #ffffff;
+      --ink: #1c2321;
+      --muted: #66716d;
+      --line: #d8ddd6;
+      --accent: #146b68;
+      --warn: #9a4d00;
+      --add: #136f3d;
+      --del: #9d2b2b;
+    }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.45;
+    }
+    main {
+      width: min(1120px, calc(100% - 32px));
+      margin: 24px auto;
+    }
+    header {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 16px;
+      margin-bottom: 18px;
+    }
+    h1 {
+      font-size: 28px;
+      margin: 0 0 8px;
+      letter-spacing: 0;
+    }
+    h2 {
+      font-size: 18px;
+      margin: 0 0 12px;
+      letter-spacing: 0;
+    }
+    .meta {
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .metric, section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+    }
+    .metric strong {
+      display: block;
+      font-size: 24px;
+      color: var(--accent);
+    }
+    .status {
+      border-left: 4px solid var(--warn);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      color: var(--muted);
+      font-weight: 600;
+    }
+    code {
+      font-family: Consolas, Monaco, monospace;
+      font-size: 0.95em;
+    }
+    .additions { color: var(--add); }
+    .deletions { color: var(--del); }
+    section + section { margin-top: 14px; }
+    ul { margin: 0; padding-left: 22px; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Bluepilot DiffLens Preview</h1>
+      <div class="meta">Generated from DiffLens evidence. This is a local preview target, not a completed UI review.</div>
+    </header>
+
+    <div class="summary">
+      <div class="metric"><span>Files</span><strong>20</strong></div>
+      <div class="metric"><span>Hunks</span><strong>21</strong></div>
+      <div class="metric"><span>Additions</span><strong>+1819</strong></div>
+      <div class="metric"><span>Deletions</span><strong>-0</strong></div>
+      <div class="metric"><span>Binary Files</span><strong>0</strong></div>
+    </div>
+
+    <section class="status">
+      <h2>Review Gate</h2>
+      <p>Human gate required: <strong>yes</strong></p>
+      <p>Visual review required: <strong>yes</strong></p>
+    </section>
+
+    <section>
+      <h2>Changed Files</h2>
+      <table>
+        <thead>
+          <tr><th>File</th><th>Hunks</th><th>Add</th><th>Delete</th><th>Binary</th><th>Flags</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>contracts/BP-105.json</td><td>1</td><td class="additions">+104</td><td class="deletions">-0</td><td>no</td><td>-</td></tr>
+<tr><td>contracts/BP-106.json</td><td>1</td><td class="additions">+107</td><td class="deletions">-0</td><td>no</td><td>-</td></tr>
+<tr><td>contracts/BP-107.json</td><td>1</td><td class="additions">+89</td><td class="deletions">-0</td><td>no</td><td>-</td></tr>
+<tr><td>contracts/BP-108.json</td><td>1</td><td class="additions">+98</td><td class="deletions">-0</td><td>no</td><td>-</td></tr>
+<tr><td>contracts/BP-109.json</td><td>1</td><td class="additions">+98</td><td class="deletions">-0</td><td>no</td><td>-</td></tr>
+<tr><td>docs/BP_C4_BROWSER_AUTOMATION_SMOKE_CONTRACT_v0.md</td><td>1</td><td class="additions">+76</td><td class="deletions">-0</td><td>no</td><td>-</td></tr>
+<tr><td>docs/BP_C4_HUMAN_UI_REVIEW_GATE_v0.md</td><td>1</td><td class="additions">+98</td><td class="deletions">-0</td><td>no</td><td>-</td></tr>
+<tr><td>docs/BP_C4_SCREENSHOT_CHECK_CONTRACT_v0.md</td><td>1</td><td class="additions">+71</td><td class="deletions">-0</td><td>no</td><td>-</td></tr>
+<tr><td>docs/BP_C4_TECHNICAL_GREEN_CHECKPOINT_v0.md</td><td>1</td><td class="additions">+73</td><td class="deletions">-0</td><td>no</td><td>-</td></tr>
+<tr><td>docs/BP_C5_ENTRY_DECISION_v0.md</td><td>1</td><td class="additions">+132</td><td class="deletions">-0</td><td>no</td><td>-</td></tr>
+<tr><td>review-packets/BP-105.md</td><td>1</td><td class="additions">+59</td><td class="deletions">-0</td><td>no</td><td>-</td></tr>
+<tr><td>review-packets/BP-106.md</td><td>1</td><td class="additions">+59</td><td class="deletions">-0</td><td>no</td><td>-</td></tr>
+<tr><td>review-packets/BP-107.md</td><td>1</td><td class="additions">+49</td><td class="deletions">-0</td><td>no</td><td>-</td></tr>
+<tr><td>review-packets/BP-108.md</td><td>1</td><td class="additions">+53</td><td class="deletions">-0</td><td>no</td><td>-</td></tr>
+<tr><td>review-packets/BP-109.md</td><td>1</td><td class="additions">+51</td><td class="deletions">-0</td><td>no</td><td>-</td></tr>
+<tr><td>tools/browser-automation-smoke.cjs</td><td>1</td><td class="additions">+219</td><td class="deletions">-0</td><td>no</td><td>runtime_path</td></tr>
+<tr><td>tools/browser-screenshot-check.cjs</td><td>1</td><td class="additions">+203</td><td class="deletions">-0</td><td>no</td><td>runtime_path</td></tr>
+<tr><td>tools/test-bluepilot-review-suite.cjs</td><td>2</td><td class="additions">+6</td><td class="deletions">-0</td><td>no</td><td>runtime_path</td></tr>
+<tr><td>tools/test-browser-automation-smoke-fixtures.cjs</td><td>1</td><td class="additions">+87</td><td class="deletions">-0</td><td>no</td><td>runtime_path</td></tr>
+<tr><td>tools/test-browser-screenshot-check-fixtures.cjs</td><td>1</td><td class="additions">+87</td><td class="deletions">-0</td><td>no</td><td>runtime_path</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Risk Flags</h2>
+      <ul>
+        <li><strong>runtime_path</strong> in <code>tools/browser-automation-smoke.cjs</code>: Runtime path changes affect behavior.</li>
+<li><strong>runtime_path</strong> in <code>tools/browser-screenshot-check.cjs</code>: Runtime path changes affect behavior.</li>
+<li><strong>runtime_path</strong> in <code>tools/test-bluepilot-review-suite.cjs</code>: Runtime path changes affect behavior.</li>
+<li><strong>runtime_path</strong> in <code>tools/test-browser-automation-smoke-fixtures.cjs</code>: Runtime path changes affect behavior.</li>
+<li><strong>runtime_path</strong> in <code>tools/test-browser-screenshot-check-fixtures.cjs</code>: Runtime path changes affect behavior.</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

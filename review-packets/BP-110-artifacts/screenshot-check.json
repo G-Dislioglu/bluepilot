@@ -1,0 +1,36 @@
+﻿{
+  "tool": "browser-screenshot-check",
+  "version": "0.1.0",
+  "passed": true,
+  "reason": null,
+  "browser": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
+  "url": "file:///C:/temp/bluepilot/review-packets/BP-110-artifacts/preview.html",
+  "exit_status": 0,
+  "screenshot_path": "C:\\temp\\bluepilot\\review-packets\\BP-110-artifacts\\preview.png",
+  "screenshot_bytes": 56159,
+  "checks": [
+    {
+      "name": "browser_exit_zero",
+      "passed": true,
+      "detail": "Browser exited with status 0."
+    },
+    {
+      "name": "screenshot_exists",
+      "passed": true,
+      "detail": "Screenshot file exists."
+    },
+    {
+      "name": "png_signature",
+      "passed": true,
+      "detail": "Screenshot PNG signature is present."
+    },
+    {
+      "name": "minimum_size",
+      "passed": true,
+      "detail": "Screenshot is at least 1024 bytes."
+    }
+  ],
+  "browser_automation": true,
+  "screenshot_check": true,
+  "human_ui_review": false
+}

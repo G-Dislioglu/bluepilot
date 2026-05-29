@@ -1,0 +1,272 @@
+﻿{
+  "tool": "difflens",
+  "version": "0.1.0",
+  "summary": {
+    "files": 20,
+    "hunks": 21,
+    "additions": 1819,
+    "deletions": 0,
+    "binary_files": 0
+  },
+  "files": [
+    {
+      "file_path": "contracts/BP-105.json",
+      "old_path": "/dev/null",
+      "new_path": "contracts/BP-105.json",
+      "hunks": 1,
+      "additions": 104,
+      "deletions": 0,
+      "changed_lines": 104,
+      "binary": false,
+      "flags": []
+    },
+    {
+      "file_path": "contracts/BP-106.json",
+      "old_path": "/dev/null",
+      "new_path": "contracts/BP-106.json",
+      "hunks": 1,
+      "additions": 107,
+      "deletions": 0,
+      "changed_lines": 107,
+      "binary": false,
+      "flags": []
+    },
+    {
+      "file_path": "contracts/BP-107.json",
+      "old_path": "/dev/null",
+      "new_path": "contracts/BP-107.json",
+      "hunks": 1,
+      "additions": 89,
+      "deletions": 0,
+      "changed_lines": 89,
+      "binary": false,
+      "flags": []
+    },
+    {
+      "file_path": "contracts/BP-108.json",
+      "old_path": "/dev/null",
+      "new_path": "contracts/BP-108.json",
+      "hunks": 1,
+      "additions": 98,
+      "deletions": 0,
+      "changed_lines": 98,
+      "binary": false,
+      "flags": []
+    },
+    {
+      "file_path": "contracts/BP-109.json",
+      "old_path": "/dev/null",
+      "new_path": "contracts/BP-109.json",
+      "hunks": 1,
+      "additions": 98,
+      "deletions": 0,
+      "changed_lines": 98,
+      "binary": false,
+      "flags": []
+    },
+    {
+      "file_path": "docs/BP_C4_BROWSER_AUTOMATION_SMOKE_CONTRACT_v0.md",
+      "old_path": "/dev/null",
+      "new_path": "docs/BP_C4_BROWSER_AUTOMATION_SMOKE_CONTRACT_v0.md",
+      "hunks": 1,
+      "additions": 76,
+      "deletions": 0,
+      "changed_lines": 76,
+      "binary": false,
+      "flags": []
+    },
+    {
+      "file_path": "docs/BP_C4_HUMAN_UI_REVIEW_GATE_v0.md",
+      "old_path": "/dev/null",
+      "new_path": "docs/BP_C4_HUMAN_UI_REVIEW_GATE_v0.md",
+      "hunks": 1,
+      "additions": 98,
+      "deletions": 0,
+      "changed_lines": 98,
+      "binary": false,
+      "flags": []
+    },
+    {
+      "file_path": "docs/BP_C4_SCREENSHOT_CHECK_CONTRACT_v0.md",
+      "old_path": "/dev/null",
+      "new_path": "docs/BP_C4_SCREENSHOT_CHECK_CONTRACT_v0.md",
+      "hunks": 1,
+      "additions": 71,
+      "deletions": 0,
+      "changed_lines": 71,
+      "binary": false,
+      "flags": []
+    },
+    {
+      "file_path": "docs/BP_C4_TECHNICAL_GREEN_CHECKPOINT_v0.md",
+      "old_path": "/dev/null",
+      "new_path": "docs/BP_C4_TECHNICAL_GREEN_CHECKPOINT_v0.md",
+      "hunks": 1,
+      "additions": 73,
+      "deletions": 0,
+      "changed_lines": 73,
+      "binary": false,
+      "flags": []
+    },
+    {
+      "file_path": "docs/BP_C5_ENTRY_DECISION_v0.md",
+      "old_path": "/dev/null",
+      "new_path": "docs/BP_C5_ENTRY_DECISION_v0.md",
+      "hunks": 1,
+      "additions": 132,
+      "deletions": 0,
+      "changed_lines": 132,
+      "binary": false,
+      "flags": []
+    },
+    {
+      "file_path": "review-packets/BP-105.md",
+      "old_path": "/dev/null",
+      "new_path": "review-packets/BP-105.md",
+      "hunks": 1,
+      "additions": 59,
+      "deletions": 0,
+      "changed_lines": 59,
+      "binary": false,
+      "flags": []
+    },
+    {
+      "file_path": "review-packets/BP-106.md",
+      "old_path": "/dev/null",
+      "new_path": "review-packets/BP-106.md",
+      "hunks": 1,
+      "additions": 59,
+      "deletions": 0,
+      "changed_lines": 59,
+      "binary": false,
+      "flags": []
+    },
+    {
+      "file_path": "review-packets/BP-107.md",
+      "old_path": "/dev/null",
+      "new_path": "review-packets/BP-107.md",
+      "hunks": 1,
+      "additions": 49,
+      "deletions": 0,
+      "changed_lines": 49,
+      "binary": false,
+      "flags": []
+    },
+    {
+      "file_path": "review-packets/BP-108.md",
+      "old_path": "/dev/null",
+      "new_path": "review-packets/BP-108.md",
+      "hunks": 1,
+      "additions": 53,
+      "deletions": 0,
+      "changed_lines": 53,
+      "binary": false,
+      "flags": []
+    },
+    {
+      "file_path": "review-packets/BP-109.md",
+      "old_path": "/dev/null",
+      "new_path": "review-packets/BP-109.md",
+      "hunks": 1,
+      "additions": 51,
+      "deletions": 0,
+      "changed_lines": 51,
+      "binary": false,
+      "flags": []
+    },
+    {
+      "file_path": "tools/browser-automation-smoke.cjs",
+      "old_path": "/dev/null",
+      "new_path": "tools/browser-automation-smoke.cjs",
+      "hunks": 1,
+      "additions": 219,
+      "deletions": 0,
+      "changed_lines": 219,
+      "binary": false,
+      "flags": [
+        "runtime_path"
+      ]
+    },
+    {
+      "file_path": "tools/browser-screenshot-check.cjs",
+      "old_path": "/dev/null",
+      "new_path": "tools/browser-screenshot-check.cjs",
+      "hunks": 1,
+      "additions": 203,
+      "deletions": 0,
+      "changed_lines": 203,
+      "binary": false,
+      "flags": [
+        "runtime_path"
+      ]
+    },
+    {
+      "file_path": "tools/test-bluepilot-review-suite.cjs",
+      "old_path": "tools/test-bluepilot-review-suite.cjs",
+      "new_path": "tools/test-bluepilot-review-suite.cjs",
+      "hunks": 2,
+      "additions": 6,
+      "deletions": 0,
+      "changed_lines": 6,
+      "binary": false,
+      "flags": [
+        "runtime_path"
+      ]
+    },
+    {
+      "file_path": "tools/test-browser-automation-smoke-fixtures.cjs",
+      "old_path": "/dev/null",
+      "new_path": "tools/test-browser-automation-smoke-fixtures.cjs",
+      "hunks": 1,
+      "additions": 87,
+      "deletions": 0,
+      "changed_lines": 87,
+      "binary": false,
+      "flags": [
+        "runtime_path"
+      ]
+    },
+    {
+      "file_path": "tools/test-browser-screenshot-check-fixtures.cjs",
+      "old_path": "/dev/null",
+      "new_path": "tools/test-browser-screenshot-check-fixtures.cjs",
+      "hunks": 1,
+      "additions": 87,
+      "deletions": 0,
+      "changed_lines": 87,
+      "binary": false,
+      "flags": [
+        "runtime_path"
+      ]
+    }
+  ],
+  "risk_flags": [
+    {
+      "code": "runtime_path",
+      "file_path": "tools/browser-automation-smoke.cjs",
+      "reason": "Runtime path changes affect behavior."
+    },
+    {
+      "code": "runtime_path",
+      "file_path": "tools/browser-screenshot-check.cjs",
+      "reason": "Runtime path changes affect behavior."
+    },
+    {
+      "code": "runtime_path",
+      "file_path": "tools/test-bluepilot-review-suite.cjs",
+      "reason": "Runtime path changes affect behavior."
+    },
+    {
+      "code": "runtime_path",
+      "file_path": "tools/test-browser-automation-smoke-fixtures.cjs",
+      "reason": "Runtime path changes affect behavior."
+    },
+    {
+      "code": "runtime_path",
+      "file_path": "tools/test-browser-screenshot-check-fixtures.cjs",
+      "reason": "Runtime path changes affect behavior."
+    }
+  ],
+  "human_gate_required": true,
+  "visual_review_required": true
+}

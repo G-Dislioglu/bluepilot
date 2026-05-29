@@ -1,0 +1,1951 @@
+diff --git a/contracts/BP-105.json b/contracts/BP-105.json
+new file mode 100644
+index 0000000..0f54376
+--- /dev/null
++++ b/contracts/BP-105.json
+@@ -0,0 +1,104 @@
++{
++  "task_id": "BP-105",
++  "task_name": "BP-C4 Browser Automation Smoke",
++  "created": "2026-05-29",
++  "scope": "bluepilot/bp-c4/browser-automation-smoke",
++  "mode": "standard",
++  "task_type": "code_task",
++  "risk_class": "medium",
++  "impact_class": "visual-review-foundation",
++  "target_persona": null,
++  "council_session_required": true,
++  "goal": "Build a local browser automation smoke that opens Browser Preview HTML in a real headless browser and emits JSON evidence without screenshot or human-review claims.",
++  "eligible_context": [
++    "AGENTS.md",
++    "docs/BP_C4_BROWSER_SMOKE_PROTOCOL_v0.md",
++    "docs/BP_C4_BROWSER_PREVIEW_DOM_SMOKE_CONTRACT_v0.md",
++    "tools/browser-preview.cjs",
++    "tools/browser-preview-smoke.cjs",
++    "review-packets/BP-104.md"
++  ],
++  "excluded_context": [
++    ".env*",
++    "node_modules/**",
++    ".git/**",
++    "C:/Users/**"
++  ],
++  "allowed_files": [
++    "contracts/BP-105.json",
++    "docs/BP_C4_BROWSER_AUTOMATION_SMOKE_CONTRACT_v0.md",
++    "tools/browser-automation-smoke.cjs",
++    "tools/test-browser-automation-smoke-fixtures.cjs",
++    "tools/test-bluepilot-review-suite.cjs",
++    "review-packets/BP-105.md"
++  ],
++  "forbidden_files": [
++    ".env*",
++    "package.json",
++    "package-lock.json",
++    "pnpm-lock.yaml",
++    "src/**",
++    "app/**",
++    "api/**",
++    "frontend/**",
++    "output/**",
++    ".bluepilot/**",
++    "tools/browser-preview.cjs",
++    "tools/browser-preview-smoke.cjs",
++    "tools/difflens.cjs",
++    "tools/verify-task-lock.cjs",
++    ".specify/.app-goal.md",
++    ".specify/.feature-goals.md"
++  ],
++  "scope_out": [
++    "No screenshot artifact",
++    "No Playwright package dependency",
++    "No UI framework",
++    "No Human UI Review claim",
++    "No BP-C5 integration"
++  ],
++  "claims": [
++    "tools/browser-automation-smoke.cjs launches an available local Chromium-family browser in headless mode.",
++    "The tool loads the preview HTML through a file URL and verifies browser DOM output.",
++    "The output states browser_automation=true and screenshot_check=false.",
++    "Fixture tests cover browser discovery, URL conversion, marker checks, and no-browser graceful behavior."
++  ],
++  "assumptions": [
++    "A local Edge or Chrome binary is acceptable for the first browser automation smoke.",
++    "Screenshots remain a separate BP-C4 task.",
++    "The tool should not add npm dependencies or modify package.json."
++  ],
++  "dod": [
++    "node --check tools/browser-automation-smoke.cjs exits 0.",
++    "node tools/test-browser-automation-smoke-fixtures.cjs exits 0.",
++    "node tools/test-bluepilot-review-suite.cjs exits 0.",
++    "node tools/verify-task-lock.cjs BP-105 --verify exits 0.",
++    "A local pipeline smoke against generated HTML exits 0 when a browser is available.",
++    "git diff --check exits 0."
++  ],
++  "evidence_required": [
++    "test_result",
++    "runtime_check",
++    "diff_ref"
++  ],
++  "required_commands": [
++    "node tools/verify-task-lock.cjs BP-105 --preflight",
++    "node --check tools/browser-automation-smoke.cjs",
++    "node tools/test-browser-automation-smoke-fixtures.cjs",
++    "node tools/test-bluepilot-review-suite.cjs",
++    "node tools/verify-task-lock.cjs BP-105 --verify",
++    "git diff --check"
++  ],
++  "stop_conditions": [
++    "FORBIDDEN_FILES verletzt",
++    "Screenshot artifact becomes necessary",
++    "Package dependency becomes necessary",
++    "Human UI Review claim becomes necessary"
++  ],
++  "prior_task_findings": "BP-104 added deterministic DOM smoke but explicitly did not claim browser automation or screenshot evidence.",
++  "reuse_target": [
++    "next_task_pre_lock",
++    "review_packet"
++  ],
++  "baseline_ref": "HEAD"
++}
+diff --git a/contracts/BP-106.json b/contracts/BP-106.json
+new file mode 100644
+index 0000000..9fdea9b
+--- /dev/null
++++ b/contracts/BP-106.json
+@@ -0,0 +1,107 @@
++{
++  "task_id": "BP-106",
++  "task_name": "BP-C4 Screenshot Check",
++  "created": "2026-05-29",
++  "scope": "bluepilot/bp-c4/screenshot-check",
++  "mode": "standard",
++  "task_type": "code_task",
++  "risk_class": "medium",
++  "impact_class": "visual-review-foundation",
++  "target_persona": null,
++  "council_session_required": true,
++  "goal": "Build a local screenshot check that opens Browser Preview HTML in a real headless browser, writes a PNG screenshot, validates it, and emits JSON evidence without claiming human review.",
++  "eligible_context": [
++    "AGENTS.md",
++    "docs/BP_C4_BROWSER_SMOKE_PROTOCOL_v0.md",
++    "docs/BP_C4_BROWSER_AUTOMATION_SMOKE_CONTRACT_v0.md",
++    "tools/browser-automation-smoke.cjs",
++    "tools/browser-preview.cjs",
++    "review-packets/BP-105.md"
++  ],
++  "excluded_context": [
++    ".env*",
++    "node_modules/**",
++    ".git/**",
++    "C:/Users/**"
++  ],
++  "allowed_files": [
++    "contracts/BP-106.json",
++    "docs/BP_C4_SCREENSHOT_CHECK_CONTRACT_v0.md",
++    "tools/browser-screenshot-check.cjs",
++    "tools/test-browser-screenshot-check-fixtures.cjs",
++    "tools/test-bluepilot-review-suite.cjs",
++    "review-packets/BP-106.md"
++  ],
++  "forbidden_files": [
++    ".env*",
++    "package.json",
++    "package-lock.json",
++    "pnpm-lock.yaml",
++    "src/**",
++    "app/**",
++    "api/**",
++    "frontend/**",
++    "output/**",
++    ".bluepilot/**",
++    "tools/browser-automation-smoke.cjs",
++    "tools/browser-preview.cjs",
++    "tools/browser-preview-smoke.cjs",
++    "tools/difflens.cjs",
++    "tools/verify-task-lock.cjs",
++    ".specify/.app-goal.md",
++    ".specify/.feature-goals.md"
++  ],
++  "scope_out": [
++    "No committed screenshot artifact",
++    "No Playwright package dependency",
++    "No UI framework",
++    "No Human UI Review claim",
++    "No BP-C5 integration"
++  ],
++  "claims": [
++    "tools/browser-screenshot-check.cjs launches an available local Chromium-family browser in headless mode.",
++    "The tool writes a PNG screenshot to a caller-provided path.",
++    "The tool validates PNG signature and minimum size.",
++    "The output states browser_automation=true, screenshot_check=true, and human_ui_review=false.",
++    "Fixture tests cover argument generation, PNG validation, no-browser behavior, and real screenshot flow when a browser is available."
++  ],
++  "assumptions": [
++    "A local Edge or Chrome binary is acceptable for the first screenshot check.",
++    "Screenshot artifacts are generated in temp or caller-controlled paths and are not committed.",
++    "Human UI Review remains a separate BP-C4 task."
++  ],
++  "dod": [
++    "node --check tools/browser-screenshot-check.cjs exits 0.",
++    "node tools/test-browser-screenshot-check-fixtures.cjs exits 0.",
++    "node tools/test-bluepilot-review-suite.cjs exits 0.",
++    "node tools/verify-task-lock.cjs BP-106 --verify exits 0.",
++    "A local pipeline smoke generates and validates a PNG screenshot when a browser is available.",
++    "git diff --check exits 0."
++  ],
++  "evidence_required": [
++    "test_result",
++    "runtime_check",
++    "screenshot_check",
++    "diff_ref"
++  ],
++  "required_commands": [
++    "node tools/verify-task-lock.cjs BP-106 --preflight",
++    "node --check tools/browser-screenshot-check.cjs",
++    "node tools/test-browser-screenshot-check-fixtures.cjs",
++    "node tools/test-bluepilot-review-suite.cjs",
++    "node tools/verify-task-lock.cjs BP-106 --verify",
++    "git diff --check"
++  ],
++  "stop_conditions": [
++    "FORBIDDEN_FILES verletzt",
++    "Committed screenshot artifact becomes necessary",
++    "Package dependency becomes necessary",
++    "Human UI Review claim becomes necessary"
++  ],
++  "prior_task_findings": "BP-105 added real browser automation but explicitly did not claim screenshot or human UI review evidence.",
++  "reuse_target": [
++    "next_task_pre_lock",
++    "review_packet"
++  ],
++  "baseline_ref": "HEAD"
++}
+diff --git a/contracts/BP-107.json b/contracts/BP-107.json
+new file mode 100644
+index 0000000..a442309
+--- /dev/null
++++ b/contracts/BP-107.json
+@@ -0,0 +1,89 @@
++{
++  "task_id": "BP-107",
++  "task_name": "BP-C4 Human UI Review Gate",
++  "created": "2026-05-29",
++  "scope": "bluepilot/bp-c4/human-ui-review-gate",
++  "mode": "standard",
++  "task_type": "governance_task",
++  "risk_class": "medium",
++  "impact_class": "phase-gate",
++  "target_persona": null,
++  "council_session_required": true,
++  "goal": "Define the human UI review gate for BP-C4 so technical browser, DOM, and screenshot evidence cannot be mistaken for human approval.",
++  "eligible_context": [
++    "AGENTS.md",
++    "docs/BP_C4_BROWSER_SMOKE_PROTOCOL_v0.md",
++    "docs/BP_C4_SCREENSHOT_CHECK_CONTRACT_v0.md",
++    "review-packets/BP-106.md"
++  ],
++  "excluded_context": [
++    ".env*",
++    "node_modules/**",
++    ".git/**",
++    "C:/Users/**"
++  ],
++  "allowed_files": [
++    "contracts/BP-107.json",
++    "docs/BP_C4_HUMAN_UI_REVIEW_GATE_v0.md",
++    "review-packets/BP-107.md"
++  ],
++  "forbidden_files": [
++    ".env*",
++    "package.json",
++    "package-lock.json",
++    "pnpm-lock.yaml",
++    "tools/**",
++    "src/**",
++    "app/**",
++    "api/**",
++    "frontend/**",
++    "output/**",
++    ".bluepilot/**",
++    ".specify/.app-goal.md",
++    ".specify/.feature-goals.md"
++  ],
++  "scope_out": [
++    "No runtime code",
++    "No screenshot artifact",
++    "No browser launch",
++    "No human approval claim",
++    "No BP-C5 integration"
++  ],
++  "claims": [
++    "BP-C4 human UI review requirements are defined.",
++    "Technical evidence is separated from human approval.",
++    "A review checklist is provided without claiming it is completed."
++  ],
++  "assumptions": [
++    "Human review cannot be automated by Codex.",
++    "BP-C4 can have a technical checkpoint while human review remains open.",
++    "A later task can record a human decision if the user performs it."
++  ],
++  "dod": [
++    "docs/BP_C4_HUMAN_UI_REVIEW_GATE_v0.md exists.",
++    "The document lists required reviewer inputs, pass criteria, fail criteria, and non-claims.",
++    "node tools/verify-task-lock.cjs BP-107 --verify exits 0.",
++    "git diff --check exits 0."
++  ],
++  "evidence_required": [
++    "diff_ref",
++    "content_check"
++  ],
++  "required_commands": [
++    "node tools/verify-task-lock.cjs BP-107 --preflight",
++    "node tools/verify-task-lock.cjs BP-107 --verify",
++    "git diff --check"
++  ],
++  "stop_conditions": [
++    "FORBIDDEN_FILES verletzt",
++    "Runtime code becomes necessary",
++    "Human approval would need to be claimed",
++    "BP-C5 integration becomes necessary"
++  ],
++  "prior_task_findings": "BP-106 added screenshot check evidence but explicitly left Human UI Review false.",
++  "reuse_target": [
++    "next_task_pre_lock",
++    "review_packet"
++  ],
++  "baseline_ref": "HEAD"
++}
+diff --git a/contracts/BP-108.json b/contracts/BP-108.json
+new file mode 100644
+index 0000000..dd7cf16
+--- /dev/null
++++ b/contracts/BP-108.json
+@@ -0,0 +1,98 @@
++{
++  "task_id": "BP-108",
++  "task_name": "BP-C4 Technical Green Checkpoint",
++  "created": "2026-05-29",
++  "scope": "bluepilot/bp-c4/technical-green-checkpoint",
++  "mode": "standard",
++  "task_type": "governance_task",
++  "risk_class": "medium",
++  "impact_class": "phase-gate",
++  "target_persona": null,
++  "council_session_required": true,
++  "goal": "Document that BP-C4 technical visual-review evidence is green while Human UI Review and BP-C5 remain explicitly open.",
++  "eligible_context": [
++    "AGENTS.md",
++    "docs/BP_C4_VISUAL_REVIEW_RUNTIME_DECISION_v0.md",
++    "docs/BP_C4_BROWSER_SMOKE_PROTOCOL_v0.md",
++    "docs/BP_C4_HUMAN_UI_REVIEW_GATE_v0.md",
++    "review-packets/BP-100.md",
++    "review-packets/BP-102.md",
++    "review-packets/BP-104.md",
++    "review-packets/BP-105.md",
++    "review-packets/BP-106.md",
++    "review-packets/BP-107.md"
++  ],
++  "excluded_context": [
++    ".env*",
++    "node_modules/**",
++    ".git/**",
++    "C:/Users/**"
++  ],
++  "allowed_files": [
++    "contracts/BP-108.json",
++    "docs/BP_C4_TECHNICAL_GREEN_CHECKPOINT_v0.md",
++    "review-packets/BP-108.md"
++  ],
++  "forbidden_files": [
++    ".env*",
++    "package.json",
++    "package-lock.json",
++    "pnpm-lock.yaml",
++    "tools/**",
++    "src/**",
++    "app/**",
++    "api/**",
++    "frontend/**",
++    "output/**",
++    ".bluepilot/**",
++    ".specify/.app-goal.md",
++    ".specify/.feature-goals.md"
++  ],
++  "scope_out": [
++    "No runtime code",
++    "No screenshot artifact",
++    "No browser launch in this checkpoint",
++    "No Human UI Review claim",
++    "No BP-C5 implementation"
++  ],
++  "claims": [
++    "BP-C4 technical evidence chain is green through screenshot check.",
++    "Human UI Review remains open.",
++    "BP-C5 remains blocked until a later explicit phase gate."
++  ],
++  "assumptions": [
++    "BP-100 through BP-106 are already pushed to main.",
++    "Technical green means machine evidence only.",
++    "Human review can be recorded later under a separate WLP task."
++  ],
++  "dod": [
++    "docs/BP_C4_TECHNICAL_GREEN_CHECKPOINT_v0.md exists.",
++    "The checkpoint lists technical evidence modules and open human-review gate.",
++    "node tools/test-bluepilot-review-suite.cjs exits 0.",
++    "node tools/verify-task-lock.cjs BP-108 --verify exits 0.",
++    "git diff --check exits 0."
++  ],
++  "evidence_required": [
++    "diff_ref",
++    "content_check",
++    "test_result"
++  ],
++  "required_commands": [
++    "node tools/verify-task-lock.cjs BP-108 --preflight",
++    "node tools/test-bluepilot-review-suite.cjs",
++    "node tools/verify-task-lock.cjs BP-108 --verify",
++    "git diff --check"
++  ],
++  "stop_conditions": [
++    "FORBIDDEN_FILES verletzt",
++    "Runtime code becomes necessary",
++    "Human UI Review would need to be claimed",
++    "BP-C5 implementation becomes necessary"
++  ],
++  "prior_task_findings": "BP-107 defined Human UI Review as a separate human gate that cannot be replaced by technical evidence.",
++  "reuse_target": [
++    "next_task_pre_lock",
++    "review_packet"
++  ],
++  "baseline_ref": "HEAD"
++}
+diff --git a/contracts/BP-109.json b/contracts/BP-109.json
+new file mode 100644
+index 0000000..fabe1a1
+--- /dev/null
++++ b/contracts/BP-109.json
+@@ -0,0 +1,98 @@
++{
++  "task_id": "BP-109",
++  "task_name": "BP-C5 Entry Decision",
++  "created": "2026-05-29",
++  "scope": "bluepilot/bp-c5/entry-decision",
++  "mode": "standard",
++  "task_type": "governance_task",
++  "risk_class": "medium",
++  "impact_class": "phase-gate",
++  "target_persona": null,
++  "council_session_required": true,
++  "goal": "Define what BP-C5 may integrate from BP-C4 and which gates must remain closed until explicit contracts open them.",
++  "eligible_context": [
++    "AGENTS.md",
++    "docs/BP_C4_TECHNICAL_GREEN_CHECKPOINT_v0.md",
++    "docs/BP_C4_HUMAN_UI_REVIEW_GATE_v0.md",
++    "docs/BP_C4_VISUAL_REVIEW_RUNTIME_DECISION_v0.md",
++    "review-packets/BP-100.md",
++    "review-packets/BP-102.md",
++    "review-packets/BP-104.md",
++    "review-packets/BP-105.md",
++    "review-packets/BP-106.md",
++    "review-packets/BP-108.md"
++  ],
++  "excluded_context": [
++    ".env*",
++    "node_modules/**",
++    ".git/**",
++    "C:/Users/**"
++  ],
++  "allowed_files": [
++    "contracts/BP-109.json",
++    "docs/BP_C5_ENTRY_DECISION_v0.md",
++    "review-packets/BP-109.md"
++  ],
++  "forbidden_files": [
++    ".env*",
++    "package.json",
++    "package-lock.json",
++    "pnpm-lock.yaml",
++    "tools/**",
++    "src/**",
++    "app/**",
++    "api/**",
++    "frontend/**",
++    "output/**",
++    ".bluepilot/**",
++    ".specify/.app-goal.md",
++    ".specify/.feature-goals.md"
++  ],
++  "scope_out": [
++    "No BP-C5 implementation",
++    "No runtime code",
++    "No UI code",
++    "No browser launch",
++    "No screenshot artifact",
++    "No Human UI Review claim"
++  ],
++  "claims": [
++    "BP-C5 entry criteria are defined.",
++    "BP-C4 tools that may be reused are listed.",
++    "CLI-only boundaries are listed.",
++    "Human UI Review remains a gate where applicable.",
++    "BP-C5 is prepared but not started."
++  ],
++  "assumptions": [
++    "BP-C4 technical checkpoint BP-108 is already pushed to main.",
++    "BP-C5 integrates previous modules rather than creating an unrelated build.",
++    "Human UI Review can remain open unless BP-C5 claims user-facing UI readiness."
++  ],
++  "dod": [
++    "docs/BP_C5_ENTRY_DECISION_v0.md exists.",
++    "The decision lists allowed integrations, blocked integrations, required gates, and first BP-C5 slice recommendation.",
++    "node tools/verify-task-lock.cjs BP-109 --verify exits 0.",
++    "git diff --check exits 0."
++  ],
++  "evidence_required": [
++    "diff_ref",
++    "content_check"
++  ],
++  "required_commands": [
++    "node tools/verify-task-lock.cjs BP-109 --preflight",
++    "node tools/verify-task-lock.cjs BP-109 --verify",
++    "git diff --check"
++  ],
++  "stop_conditions": [
++    "FORBIDDEN_FILES verletzt",
++    "BP-C5 implementation becomes necessary",
++    "Runtime code becomes necessary",
++    "Human UI Review would need to be claimed"
++  ],
++  "prior_task_findings": "BP-108 marked BP-C4 technically green but left Human UI Review and BP-C5 integration open.",
++  "reuse_target": [
++    "next_task_pre_lock",
++    "review_packet"
++  ],
++  "baseline_ref": "HEAD"
++}
+diff --git a/docs/BP_C4_BROWSER_AUTOMATION_SMOKE_CONTRACT_v0.md b/docs/BP_C4_BROWSER_AUTOMATION_SMOKE_CONTRACT_v0.md
+new file mode 100644
+index 0000000..4e37eb1
+--- /dev/null
++++ b/docs/BP_C4_BROWSER_AUTOMATION_SMOKE_CONTRACT_v0.md
+@@ -0,0 +1,76 @@
++# BP-C4 Browser Automation Smoke Contract v0
++
++Datum: 2026-05-29
++Status: BP-105 implementation contract
++Phase: BP-C4
++
++## Ziel
++
++Browser Automation Smoke oeffnet die lokale Browser-Preview-HTML in einem echten headless Browser und prueft, ob die erwartete Review-Struktur im Browser-DOM sichtbar ist.
++
++## Input
++
++Erlaubt:
++
++- `--html <path>` liest eine lokale HTML-Preview.
++- `--manifest <path>` liest optional das Preview-Manifest.
++- `--browser <path>` kann einen konkreten Browser erzwingen.
++
++Ohne `--browser` sucht das Tool lokale Chromium-Familien-Browser wie Edge oder Chrome.
++
++## Output
++
++Das Tool gibt JSON aus:
++
++- `tool`: `browser-automation-smoke`
++- `passed`
++- `browser`
++- `url`
++- `checks`
++- `browser_automation`: true
++- `screenshot_check`: false
++- `human_ui_review`: false
++
++## Pflichtchecks
++
++Der Browser-DOM muss enthalten:
++
++- `Bluepilot DiffLens Preview`
++- `Review Gate`
++- `Changed Files`
++- `Risk Flags`
++- `Human gate required`
++- `Visual review required`
++
++Wenn ein Manifest angegeben ist:
++
++- Manifest-Tool ist `browser-preview`.
++- Manifest passt als Preview-Metadatenquelle.
++
++## Grenzen
++
++Dieser Smoke ist echte Browser-Automation.
++
++Er ist nicht:
++
++- Screenshot Check,
++- Human UI Review,
++- BP-C4 Green Checkpoint,
++- BP-C5 Integration.
++
++## Fail-Verhalten
++
++Wenn kein Browser gefunden wird:
++
++- exit code 2,
++- JSON mit `reason: "no_browser"`,
++- keine Datei wird veraendert.
++
++Wenn Browser-DOM-Checks fehlschlagen:
++
++- exit code 1,
++- JSON mit fehlgeschlagenen Checks.
++
++## Naechster Schritt
++
++BP-106 kann Screenshot Check als separaten BP-C4-Slice bauen.
+diff --git a/docs/BP_C4_HUMAN_UI_REVIEW_GATE_v0.md b/docs/BP_C4_HUMAN_UI_REVIEW_GATE_v0.md
+new file mode 100644
+index 0000000..45d03eb
+--- /dev/null
++++ b/docs/BP_C4_HUMAN_UI_REVIEW_GATE_v0.md
+@@ -0,0 +1,98 @@
++# BP-C4 Human UI Review Gate v0
++
++Datum: 2026-05-29
++Status: BP-107 gate
++Phase: BP-C4
++
++## Entscheidung
++
++Human UI Review bleibt ein menschliches Gate.
++
++DOM Smoke, Browser Automation Smoke und Screenshot Check koennen das Gate vorbereiten, aber nicht ersetzen.
++
++## Was zaehlt als Human UI Review?
++
++Human UI Review zaehlt nur, wenn ein Mensch die erzeugte Preview ansieht und eine Entscheidung dokumentiert.
++
++Erforderlich:
++
++- reviewer,
++- Datum,
++- Preview-Target oder Screenshot-Pfad,
++- getestete Persona,
++- Entscheidung,
++- kurze Begruendung,
++- offene Risiken.
++
++## Erlaubte Entscheidungen
++
++- `pass`: Preview ist fuer den aktuellen Zweck ausreichend.
++- `pass_with_notes`: Preview ist ausreichend, aber es gibt Hinweise.
++- `fail`: Preview ist nicht ausreichend.
++- `not_reviewed`: Menschliches Review wurde noch nicht gemacht.
++
++## Mindestfragen
++
++Der Reviewer muss beantworten:
++
++1. Ist klar, worum es in der Preview geht?
++2. Sind Summary, Dateien und Risk Flags lesbar?
++3. Ist erkennbar, ob ein Human Gate noetig ist?
++4. Gibt es offensichtliche Layout- oder Lesbarkeitsprobleme?
++5. Fehlt eine Evidence-Stufe, bevor BP-C4 als vollstaendig gelten darf?
++
++## Nicht-Claims
++
++Folgendes ist kein Human UI Review:
++
++- DOM Smoke,
++- Browser Automation Smoke,
++- Screenshot Check,
++- Codex-Zusammenfassung,
++- LLM-Begruendung,
++- bestandene Test-Suite.
++
++## Human Review Record Template
++
++```md
++# BP-C4 Human UI Review Record
++
++Reviewer:
++Datum:
++Persona: power_user
++Preview Target:
++Screenshot Path:
++Decision: not_reviewed
++
++## Antworten
++
++1. Ist klar, worum es in der Preview geht?
++2. Sind Summary, Dateien und Risk Flags lesbar?
++3. Ist erkennbar, ob ein Human Gate noetig ist?
++4. Gibt es offensichtliche Layout- oder Lesbarkeitsprobleme?
++5. Fehlt eine Evidence-Stufe, bevor BP-C4 als vollstaendig gelten darf?
++
++## Notes
++
++## Open Risks
++```
++
++## BP-C4 Status-Regel
++
++BP-C4 darf technisch gruen sein, wenn alle maschinellen Evidence-Stufen gruen sind:
++
++- DiffLens,
++- HTML Preview,
++- DOM Smoke,
++- Browser Automation Smoke,
++- Screenshot Check.
++
++BP-C4 darf erst vollstaendig gruen sein, wenn Human UI Review dokumentiert ist oder der konkrete Task kein Human UI Review verlangt.
++
++## Naechster Schritt
++
++Ein technischer BP-C4-Checkpoint darf gesetzt werden, wenn er klar sagt:
++
++- technische Evidence gruen,
++- Human UI Review offen,
++- BP-C5 noch blockiert.
+diff --git a/docs/BP_C4_SCREENSHOT_CHECK_CONTRACT_v0.md b/docs/BP_C4_SCREENSHOT_CHECK_CONTRACT_v0.md
+new file mode 100644
+index 0000000..989d30a
+--- /dev/null
++++ b/docs/BP_C4_SCREENSHOT_CHECK_CONTRACT_v0.md
+@@ -0,0 +1,71 @@
++# BP-C4 Screenshot Check Contract v0
++
++Datum: 2026-05-29
++Status: BP-106 implementation contract
++Phase: BP-C4
++
++## Ziel
++
++Screenshot Check oeffnet die lokale Browser-Preview-HTML in einem echten headless Browser, erzeugt ein PNG und prueft, ob das Artefakt technisch brauchbar ist.
++
++## Input
++
++Erlaubt:
++
++- `--html <path>` liest eine lokale HTML-Preview.
++- `--out <path>` schreibt den Screenshot.
++- `--browser <path>` kann einen konkreten Browser erzwingen.
++
++Ohne `--browser` sucht das Tool lokale Chromium-Familien-Browser wie Edge oder Chrome.
++
++## Output
++
++Das Tool gibt JSON aus:
++
++- `tool`: `browser-screenshot-check`
++- `passed`
++- `browser`
++- `url`
++- `screenshot_path`
++- `screenshot_bytes`
++- `checks`
++- `browser_automation`: true
++- `screenshot_check`: true
++- `human_ui_review`: false
++
++## Pflichtchecks
++
++Der Screenshot muss:
++
++- existieren,
++- eine PNG-Signatur haben,
++- groesser als ein Mindestwert sein.
++
++## Grenzen
++
++Dieser Slice ist ein Screenshot Check.
++
++Er ist nicht:
++
++- Human UI Review,
++- BP-C4 Green Checkpoint,
++- BP-C5 Integration.
++
++Screenshots bleiben lokal, ausser ein spaeterer WLP-Contract erlaubt committed Evidence.
++
++## Fail-Verhalten
++
++Wenn kein Browser gefunden wird:
++
++- exit code 2,
++- JSON mit `reason: "no_browser"`,
++- kein Screenshot-Claim.
++
++Wenn der Screenshot technisch unbrauchbar ist:
++
++- exit code 1,
++- JSON mit fehlgeschlagenen Checks.
++
++## Naechster Schritt
++
++BP-107 kann Human UI Review Readiness oder BP-C4 Green Checkpoint vorbereiten, je nachdem ob menschliches Review bereits erfolgen soll.
+diff --git a/docs/BP_C4_TECHNICAL_GREEN_CHECKPOINT_v0.md b/docs/BP_C4_TECHNICAL_GREEN_CHECKPOINT_v0.md
+new file mode 100644
+index 0000000..d0a50f8
+--- /dev/null
++++ b/docs/BP_C4_TECHNICAL_GREEN_CHECKPOINT_v0.md
+@@ -0,0 +1,73 @@
++# BP-C4 Technical Green Checkpoint v0
++
++Datum: 2026-05-29
++Status: BP-108 checkpoint
++Phase: BP-C4
++
++## Entscheidung
++
++BP-C4 ist technisch gruen.
++
++Das bedeutet:
++
++- Die maschinelle Visual-Review-Evidence-Kette ist lokal vorhanden und getestet.
++- Human UI Review ist nicht erledigt.
++- BP-C5 bleibt blockiert.
++
++## Gruene technische Kette
++
++| Stufe | Task | Ergebnis |
++|---|---|---|
++| DiffLens Evidence | BP-100 | Unified Diff wird in JSON-Evidence umgewandelt. |
++| Browser Preview Target | BP-102 | DiffLens JSON wird als lokale HTML-Preview gerendert. |
++| DOM Smoke | BP-104 | HTML Preview und Manifest werden strukturell geprueft. |
++| Browser Automation Smoke | BP-105 | Lokale HTML Preview wird in einem echten headless Browser geladen. |
++| Screenshot Check | BP-106 | Browser erzeugt PNG-Screenshot, Signatur und Mindestgroesse werden geprueft. |
++| Human UI Review Gate | BP-107 | Menschliches Review ist definiert, aber noch nicht durchgefuehrt. |
++
++## Evidence
++
++Vor diesem Checkpoint wurden die jeweiligen Tasks mit WLP verifiziert.
++
++Zusätzlich fuer diesen Checkpoint auszufuehren:
++
++- `node tools/test-bluepilot-review-suite.cjs`
++- `node tools/verify-task-lock.cjs BP-108 --verify`
++- `git diff --check`
++
++## Was technisch jetzt moeglich ist
++
++Ein lokaler Review-Lauf kann:
++
++1. `git diff` in DiffLens JSON umwandeln.
++2. daraus eine HTML-Preview erzeugen.
++3. die HTML-Preview strukturell pruefen.
++4. sie in einem echten Browser laden.
++5. einen Screenshot erzeugen und technisch validieren.
++
++## Was noch nicht behauptet wird
++
++Nicht behauptet:
++
++- Human UI Review abgeschlossen,
++- Produkt-UI gebaut,
++- BP-C5 gestartet,
++- Accept-/Reject-Workflow vorhanden,
++- persistente Review-Oberflaeche vorhanden.
++
++## BP-C5 Blocker
++
++BP-C5 bleibt blockiert, solange mindestens einer dieser Punkte offen ist:
++
++- Human UI Review wurde nicht dokumentiert.
++- Es gibt noch keinen Integrationsvertrag fuer BP-C5.
++- DiffLens, Browser Preview und Screenshot Check sind noch CLI-/lokale Evidence-Tools, keine integrierte Web-Oberflaeche.
++
++## Naechster sinnvoller Schritt
++
++BP-109 sollte eine BP-C5 Entry Decision vorbereiten:
++
++- Was darf in BP-C5 integriert werden?
++- Welche technischen BP-C4-Tools werden wiederverwendet?
++- Was bleibt CLI-only?
++- Wann braucht es Human UI Review Record?
+diff --git a/docs/BP_C5_ENTRY_DECISION_v0.md b/docs/BP_C5_ENTRY_DECISION_v0.md
+new file mode 100644
+index 0000000..7b5ce56
+--- /dev/null
++++ b/docs/BP_C5_ENTRY_DECISION_v0.md
+@@ -0,0 +1,132 @@
++# BP-C5 Entry Decision v0
++
++Datum: 2026-05-29
++Status: BP-109 decision
++Phase: BP-C5 entry
++
++## Entscheidung
++
++BP-C5 darf vorbereitet werden, aber noch nicht als Integration gestartet werden.
++
++BP-C5 ist die Integrationsphase. Sie darf nur vorhandene, gruene Bausteine zusammenfuehren und keine neue grosse Oberflaeche oder freien Runtime-Pfade erfinden.
++
++## BP-C5 darf aus BP-C4 integrieren
++
++Erlaubt als wiederverwendbare technische Bausteine:
++
++- `tools/difflens.cjs`
++- `tools/browser-preview.cjs`
++- `tools/browser-preview-smoke.cjs`
++- `tools/browser-automation-smoke.cjs`
++- `tools/browser-screenshot-check.cjs`
++
++Erlaubte Evidence-Kette:
++
++1. Diff wird zu DiffLens JSON.
++2. DiffLens JSON wird zu HTML Preview.
++3. HTML Preview wird per DOM Smoke geprueft.
++4. HTML Preview wird in echtem Browser geladen.
++5. Screenshot wird erzeugt und technisch validiert.
++
++## BP-C5 darf aus frueheren Phasen integrieren
++
++Erlaubt als Integrationsanker:
++
++- Council Kernel aus BP-C1.
++- Model Pool aus BP-C2.
++- Context Broker aus BP-C2.
++- Council Session Guard aus BP-C2.
++- Parallel Executor aus BP-C3.
++- Maya Memory aus BP-C3.
++- AICOS Auto-query aus BP-C3.
++
++Diese Bausteine duerfen nur ueber eigene BP-C5-Contracts verbunden werden.
++
++## BP-C5 darf nicht integrieren
++
++Nicht erlaubt ohne separaten Contract:
++
++- freie Produkt-Web-UI,
++- Accept-/Reject-/Merge-Workflow,
++- Deploy,
++- Push-/Merge-Automation,
++- AICOS Write,
++- Live-Builder-Mutation,
++- Human UI Review Claim,
++- ungegrenzter Council,
++- Agent-Spawning mit echten Modellen,
++- Secrets, Auth oder DB-Zugriff.
++
++## CLI-only Grenzen
++
++Folgende BP-C4-Tools bleiben zunaechst CLI-only:
++
++- DiffLens,
++- Browser Preview Generator,
++- DOM Smoke,
++- Browser Automation Smoke,
++- Screenshot Check.
++
++BP-C5 darf sie orchestrieren, aber nicht so tun, als seien sie bereits eine persistente Web-Oberflaeche.
++
++## Human UI Review Gate
++
++Human UI Review bleibt offen.
++
++BP-C5 darf technische Integration bauen, solange sie keine Aussage trifft wie:
++
++- UI ist menschlich freigegeben,
++- Preview ist produktionsreif,
++- menschliches Review wurde erledigt.
++
++Sobald BP-C5 eine user-facing UI-Readiness behauptet, muss vorher oder im selben Task ein Human UI Review Record vorliegen.
++
++## Entry Criteria fuer ersten BP-C5-Slice
++
++Der erste BP-C5-Slice muss:
++
++- eigenen WLP-Contract haben,
++- `council_session_required: true` setzen,
++- BP-C5 als Integration, nicht Neubau, behandeln,
++- genau eine Integrationsnaht verbinden,
++- technische Evidence ausfuehren,
++- Human UI Review nicht behaupten.
++
++## Empfohlener erster BP-C5-Slice
++
++BP-110 sollte ein lokaler Review Pipeline Orchestrator sein.
++
++Ziel:
++
++- vorhandene BP-C4-Tools in einem CLI-Befehl ausfuehren,
++- JSON-Evidence, HTML Preview, DOM Smoke, Browser Smoke und Screenshot Check koordinieren,
++- lokale Artefakte in einem explizit angegebenen Output-Verzeichnis schreiben,
++- keine Artefakte committen,
++- kein UI bauen.
++
++Warum:
++
++- Es integriert BP-C4 wirklich.
++- Es bleibt kleiner als eine Web-UI.
++- Es erzeugt eine klare Naht fuer spaetere UI-Integration.
++- Es vermeidet BP-C5-Overbuild.
++
++## BP-C5 Green Definition
++
++BP-C5 ist nicht gruen, nur weil BP-C4 technisch gruen ist.
++
++BP-C5 wird schrittweise gruen:
++
++1. Pipeline Orchestrator gruen.
++2. Council-/Context-Einbindung gruen.
++3. Parallel-Executor-Einbindung gruen.
++4. UI- oder Human-Gate nur mit eigenem Review Record.
++
++## Fail-Verhalten
++
++Wenn eine BP-C5-Integration eine fehlende Evidence-Stufe entdeckt:
++
++- kein stilles Ueberspringen,
++- JSON-Evidence mit Fail-Grund,
++- Review Packet benennt die blockierende Stufe,
++- kein BP-C5-Green-Claim.
+diff --git a/review-packets/BP-105.md b/review-packets/BP-105.md
+new file mode 100644
+index 0000000..0696377
+--- /dev/null
++++ b/review-packets/BP-105.md
+@@ -0,0 +1,59 @@
++# Review Packet - BP-105
++
++## Task
++
++BP-C4 Browser Automation Smoke
++
++## Was wurde gemacht?
++
++Ein echter Browser-Automation-Smoke wurde gebaut:
++
++- findet lokale Edge-/Chrome-Browser,
++- oeffnet die HTML-Preview als `file://` Target,
++- nutzt headless Browser-DOM-Dump,
++- prueft zentrale Review-Marker,
++- gibt JSON-Evidence aus,
++- behauptet keinen Screenshot und kein Human UI Review.
++
++## Scope Check
++
++Geaendert:
++
++- `contracts/BP-105.json`
++- `docs/BP_C4_BROWSER_AUTOMATION_SMOKE_CONTRACT_v0.md`
++- `tools/browser-automation-smoke.cjs`
++- `tools/test-browser-automation-smoke-fixtures.cjs`
++- `tools/test-bluepilot-review-suite.cjs`
++- `review-packets/BP-105.md`
++
++Nicht geaendert:
++
++- kein `package.json`,
++- kein Lockfile,
++- kein Screenshot-Artefakt,
++- kein UI-Framework,
++- kein BP-C5.
++
++## Evidence
++
++Geplant:
++
++- `node tools/verify-task-lock.cjs BP-105 --preflight`
++- `node --check tools/browser-automation-smoke.cjs`
++- `node tools/test-browser-automation-smoke-fixtures.cjs`
++- `node tools/test-bluepilot-review-suite.cjs`
++- lokaler Pipeline-Smoke: DiffLens -> Browser Preview -> Browser Automation Smoke
++- `node tools/verify-task-lock.cjs BP-105 --verify`
++- `git diff --check`
++
++## Review Notes
++
++Dieser Slice ist echte Browser-Automation, aber noch kein Screenshot Check. Das ist bewusst getrennt, damit BP-C4-Evidence nicht ueberverkauft wird.
++
++## Hat sich durch meine Änderung etwas SICHTBAR für den User verändert?
++
++Ja. Ein User kann die lokale HTML-Preview jetzt in einem echten headless Browser pruefen lassen und JSON-Evidence erhalten.
++
++## Naechster Schritt
++
++BP-106: Screenshot Check als separater Slice.
+diff --git a/review-packets/BP-106.md b/review-packets/BP-106.md
+new file mode 100644
+index 0000000..e88f994
+--- /dev/null
++++ b/review-packets/BP-106.md
+@@ -0,0 +1,59 @@
++# Review Packet - BP-106
++
++## Task
++
++BP-C4 Screenshot Check
++
++## Was wurde gemacht?
++
++Ein eigener Screenshot-Check wurde gebaut:
++
++- findet lokale Edge-/Chrome-Browser,
++- oeffnet die HTML-Preview als `file://` Target,
++- erzeugt einen PNG-Screenshot an einem angegebenen lokalen Pfad,
++- prueft PNG-Signatur und Mindestgroesse,
++- gibt JSON-Evidence aus,
++- behauptet kein Human UI Review.
++
++## Scope Check
++
++Geaendert:
++
++- `contracts/BP-106.json`
++- `docs/BP_C4_SCREENSHOT_CHECK_CONTRACT_v0.md`
++- `tools/browser-screenshot-check.cjs`
++- `tools/test-browser-screenshot-check-fixtures.cjs`
++- `tools/test-bluepilot-review-suite.cjs`
++- `review-packets/BP-106.md`
++
++Nicht geaendert:
++
++- kein `package.json`,
++- kein Lockfile,
++- kein committed Screenshot-Artefakt,
++- kein UI-Framework,
++- kein BP-C5.
++
++## Evidence
++
++Geplant:
++
++- `node tools/verify-task-lock.cjs BP-106 --preflight`
++- `node --check tools/browser-screenshot-check.cjs`
++- `node tools/test-browser-screenshot-check-fixtures.cjs`
++- `node tools/test-bluepilot-review-suite.cjs`
++- lokaler Pipeline-Smoke: DiffLens -> Browser Preview -> Screenshot Check
++- `node tools/verify-task-lock.cjs BP-106 --verify`
++- `git diff --check`
++
++## Review Notes
++
++Der Screenshot ist technische Evidence. Er ersetzt kein menschliches UI-Review.
++
++## Hat sich durch meine Änderung etwas SICHTBAR für den User verändert?
++
++Ja. Ein User kann jetzt aus einer lokalen HTML-Preview einen echten Screenshot erzeugen und technisch pruefen lassen.
++
++## Naechster Schritt
++
++BP-107: Human UI Review Readiness oder BP-C4 Green Checkpoint vorbereiten.
+diff --git a/review-packets/BP-107.md b/review-packets/BP-107.md
+new file mode 100644
+index 0000000..2a95082
+--- /dev/null
++++ b/review-packets/BP-107.md
+@@ -0,0 +1,49 @@
++# Review Packet - BP-107
++
++## Task
++
++BP-C4 Human UI Review Gate
++
++## Was wurde gemacht?
++
++Das Human-UI-Review-Gate wurde definiert:
++
++- technische Evidence ersetzt kein menschliches Review,
++- erlaubte Entscheidungen sind festgelegt,
++- Mindestfragen und Record-Template sind dokumentiert,
++- Human Review bleibt offen.
++
++## Scope Check
++
++Geaendert:
++
++- `contracts/BP-107.json`
++- `docs/BP_C4_HUMAN_UI_REVIEW_GATE_v0.md`
++- `review-packets/BP-107.md`
++
++Nicht geaendert:
++
++- keine Tools,
++- kein Browserlauf,
++- keine Screenshots,
++- kein BP-C5.
++
++## Evidence
++
++Geplant:
++
++- `node tools/verify-task-lock.cjs BP-107 --preflight`
++- `node tools/verify-task-lock.cjs BP-107 --verify`
++- `git diff --check`
++
++## Review Notes
++
++Dieser Block behauptet kein Human Review. Er definiert nur das Gate, damit BP-C4 technisch sauber checkpointed werden kann.
++
++## Hat sich durch meine Änderung etwas SICHTBAR für den User verändert?
++
++Nein. Das ist ein Gate-/Governance-Block. Sichtbar ist die Klarheit, dass Human Review noch offen ist.
++
++## Naechster Schritt
++
++BP-108: BP-C4 Technical Green Checkpoint setzen, ohne Human Review zu faken.
+diff --git a/review-packets/BP-108.md b/review-packets/BP-108.md
+new file mode 100644
+index 0000000..53a5477
+--- /dev/null
++++ b/review-packets/BP-108.md
+@@ -0,0 +1,53 @@
++# Review Packet - BP-108
++
++## Task
++
++BP-C4 Technical Green Checkpoint
++
++## Was wurde gemacht?
++
++BP-C4 wurde als technisch gruen dokumentiert:
++
++- DiffLens Evidence gruen,
++- HTML Preview Target gruen,
++- DOM Smoke gruen,
++- Browser Automation Smoke gruen,
++- Screenshot Check gruen,
++- Human UI Review Gate definiert, aber offen.
++
++## Scope Check
++
++Geaendert:
++
++- `contracts/BP-108.json`
++- `docs/BP_C4_TECHNICAL_GREEN_CHECKPOINT_v0.md`
++- `review-packets/BP-108.md`
++
++Nicht geaendert:
++
++- keine Tools,
++- kein Browserlauf in diesem Checkpoint,
++- keine Screenshots,
++- kein Human Review Claim,
++- kein BP-C5.
++
++## Evidence
++
++Geplant:
++
++- `node tools/verify-task-lock.cjs BP-108 --preflight`
++- `node tools/test-bluepilot-review-suite.cjs`
++- `node tools/verify-task-lock.cjs BP-108 --verify`
++- `git diff --check`
++
++## Review Notes
++
++Der Checkpoint ist absichtlich praezise: technisch gruen heisst nicht vollstaendig menschlich freigegeben.
++
++## Hat sich durch meine Änderung etwas SICHTBAR für den User verändert?
++
++Nein, nicht als neue Runtime. Sichtbar ist die klare Phasenlage: BP-C4 technische Kette ist fertig, Human Review bleibt offen.
++
++## Naechster Schritt
++
++BP-109: BP-C5 Entry Decision vorbereiten.
+diff --git a/review-packets/BP-109.md b/review-packets/BP-109.md
+new file mode 100644
+index 0000000..372f5e9
+--- /dev/null
++++ b/review-packets/BP-109.md
+@@ -0,0 +1,51 @@
++# Review Packet - BP-109
++
++## Task
++
++BP-C5 Entry Decision
++
++## Was wurde gemacht?
++
++BP-C5 wurde als Integrationsphase vorbereitet:
++
++- erlaubte BP-C4-Bausteine gelistet,
++- erlaubte fruehere Phasenanker gelistet,
++- verbotene Integrationen festgelegt,
++- Human UI Review Gate beibehalten,
++- erster sinnvoller BP-C5-Slice empfohlen.
++
++## Scope Check
++
++Geaendert:
++
++- `contracts/BP-109.json`
++- `docs/BP_C5_ENTRY_DECISION_v0.md`
++- `review-packets/BP-109.md`
++
++Nicht geaendert:
++
++- keine Tools,
++- kein UI-Code,
++- kein Browserlauf,
++- keine Screenshots,
++- kein BP-C5-Code.
++
++## Evidence
++
++Geplant:
++
++- `node tools/verify-task-lock.cjs BP-109 --preflight`
++- `node tools/verify-task-lock.cjs BP-109 --verify`
++- `git diff --check`
++
++## Review Notes
++
++BP-C5 ist vorbereitet, aber nicht gestartet. Der empfohlene erste Slice ist ein lokaler Review Pipeline Orchestrator, nicht direkt eine Web-UI.
++
++## Hat sich durch meine Änderung etwas SICHTBAR für den User verändert?
++
++Nein. Das war ein Entscheidungsblock. Sichtbar ist die klare Grenze fuer BP-C5.
++
++## Naechster Schritt
++
++BP-110: lokaler Review Pipeline Orchestrator.
+diff --git a/tools/browser-automation-smoke.cjs b/tools/browser-automation-smoke.cjs
+new file mode 100644
+index 0000000..1748b8c
+--- /dev/null
++++ b/tools/browser-automation-smoke.cjs
+@@ -0,0 +1,219 @@
++#!/usr/bin/env node
++
++'use strict';
++
++const fs = require('fs');
++const os = require('os');
++const path = require('path');
++const { pathToFileURL } = require('url');
++const { spawnSync } = require('child_process');
++
++const VERSION = '0.1.0';
++
++const REQUIRED_MARKERS = [
++  'Bluepilot DiffLens Preview',
++  'Review Gate',
++  'Changed Files',
++  'Risk Flags',
++  'Human gate required',
++  'Visual review required',
++];
++
++const WINDOWS_BROWSER_CANDIDATES = [
++  'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',
++  'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe',
++  'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
++  'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
++];
++
++const POSIX_BROWSER_CANDIDATES = [
++  '/usr/bin/google-chrome',
++  '/usr/bin/google-chrome-stable',
++  '/usr/bin/chromium',
++  '/usr/bin/chromium-browser',
++  '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
++  '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge',
++];
++
++function readJson(filePath) {
++  return JSON.parse(fs.readFileSync(path.resolve(filePath), 'utf8').replace(/^\uFEFF/, ''));
++}
++
++function filePathToUrl(filePath) {
++  return pathToFileURL(path.resolve(filePath)).href;
++}
++
++function discoverBrowser(extraCandidate = null) {
++  const candidates = [];
++  if (extraCandidate) candidates.push(extraCandidate);
++  if (process.env.BLUEPILOT_BROWSER) candidates.push(process.env.BLUEPILOT_BROWSER);
++  candidates.push(...(process.platform === 'win32' ? WINDOWS_BROWSER_CANDIDATES : POSIX_BROWSER_CANDIDATES));
++
++  for (const candidate of candidates) {
++    if (candidate && fs.existsSync(candidate)) return path.resolve(candidate);
++  }
++  return null;
++}
++
++function makeCheck(name, passed, detail) {
++  return { name, passed: Boolean(passed), detail };
++}
++
++function buildBrowserArgs(url, userDataDir) {
++  return [
++    '--headless=new',
++    '--disable-gpu',
++    '--disable-extensions',
++    '--no-first-run',
++    '--no-default-browser-check',
++    `--user-data-dir=${userDataDir}`,
++    '--dump-dom',
++    url,
++  ];
++}
++
++function checkDom(dom, manifest = null) {
++  const checks = REQUIRED_MARKERS.map((marker) => {
++    return makeCheck(`marker:${marker}`, dom.includes(marker), `Browser DOM contains "${marker}".`);
++  });
++
++  if (manifest) {
++    checks.push(makeCheck('manifest_tool', manifest.tool === 'browser-preview', 'Manifest tool is browser-preview.'));
++    checks.push(makeCheck('manifest_summary', Boolean(manifest.summary && typeof manifest.summary === 'object'), 'Manifest summary exists.'));
++  }
++
++  return checks;
++}
++
++function runBrowserSmoke(options) {
++  const htmlPath = path.resolve(options.htmlPath);
++  const browserPath = discoverBrowser(options.browserPath);
++  const url = filePathToUrl(htmlPath);
++  const manifest = options.manifestPath ? readJson(options.manifestPath) : null;
++
++  if (!fs.existsSync(htmlPath)) {
++    return {
++      tool: 'browser-automation-smoke',
++      version: VERSION,
++      passed: false,
++      reason: 'missing_html',
++      browser: null,
++      url,
++      checks: [],
++      browser_automation: false,
++      screenshot_check: false,
++      human_ui_review: false,
++    };
++  }
++
++  if (!browserPath) {
++    return {
++      tool: 'browser-automation-smoke',
++      version: VERSION,
++      passed: false,
++      reason: 'no_browser',
++      browser: null,
++      url,
++      checks: [],
++      browser_automation: false,
++      screenshot_check: false,
++      human_ui_review: false,
++    };
++  }
++
++  const userDataDir = fs.mkdtempSync(path.join(os.tmpdir(), 'bluepilot-browser-smoke-'));
++  try {
++    const result = spawnSync(browserPath, buildBrowserArgs(url, userDataDir), {
++      encoding: 'utf8',
++      maxBuffer: 1024 * 1024 * 20,
++      timeout: options.timeoutMs || 15000,
++    });
++
++    if (result.error) {
++      return {
++        tool: 'browser-automation-smoke',
++        version: VERSION,
++        passed: false,
++        reason: 'browser_launch_failed',
++        error: result.error.message,
++        browser: browserPath,
++        url,
++        checks: [],
++        browser_automation: true,
++        screenshot_check: false,
++        human_ui_review: false,
++      };
++    }
++
++    const dom = String(result.stdout || '');
++    const checks = checkDom(dom, manifest);
++    const passed = result.status === 0 && checks.every((check) => check.passed);
++    return {
++      tool: 'browser-automation-smoke',
++      version: VERSION,
++      passed,
++      reason: passed ? null : 'browser_dom_check_failed',
++      browser: browserPath,
++      url,
++      exit_status: result.status,
++      checks,
++      browser_automation: true,
++      screenshot_check: false,
++      human_ui_review: false,
++    };
++  } finally {
++    fs.rmSync(userDataDir, { recursive: true, force: true });
++  }
++}
++
++function usage() {
++  return [
++    'Usage:',
++    '  node tools/browser-automation-smoke.cjs --html preview.html [--manifest preview.manifest.json] [--browser browser.exe]',
++  ].join('\n');
++}
++
++function getArg(argv, name) {
++  const index = argv.indexOf(name);
++  if (index === -1) return null;
++  return argv[index + 1] || null;
++}
++
++function runCli(argv) {
++  if (argv.includes('--help') || argv.includes('-h')) {
++    process.stdout.write(`${usage()}\n`);
++    return 0;
++  }
++
++  const htmlPath = getArg(argv, '--html');
++  const manifestPath = getArg(argv, '--manifest');
++  const browserPath = getArg(argv, '--browser');
++  if (!htmlPath) throw new Error('Missing required --html path.');
++  if (argv.includes('--manifest') && !manifestPath) throw new Error('Missing path after --manifest.');
++  if (argv.includes('--browser') && !browserPath) throw new Error('Missing path after --browser.');
++
++  const result = runBrowserSmoke({ htmlPath, manifestPath, browserPath });
++  process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
++  if (result.passed) return 0;
++  if (result.reason === 'no_browser') return 2;
++  return 1;
++}
++
++if (require.main === module) {
++  try {
++    process.exitCode = runCli(process.argv.slice(2));
++  } catch (err) {
++    process.stderr.write(`${err.message}\n`);
++    process.exitCode = 1;
++  }
++}
++
++module.exports = {
++  VERSION,
++  REQUIRED_MARKERS,
++  buildBrowserArgs,
++  checkDom,
++  discoverBrowser,
++  filePathToUrl,
++  runBrowserSmoke,
++};
+diff --git a/tools/browser-screenshot-check.cjs b/tools/browser-screenshot-check.cjs
+new file mode 100644
+index 0000000..79264a8
+--- /dev/null
++++ b/tools/browser-screenshot-check.cjs
+@@ -0,0 +1,203 @@
++#!/usr/bin/env node
++
++'use strict';
++
++const fs = require('fs');
++const os = require('os');
++const path = require('path');
++const { spawnSync } = require('child_process');
++const {
++  discoverBrowser,
++  filePathToUrl,
++} = require('./browser-automation-smoke.cjs');
++
++const VERSION = '0.1.0';
++const MIN_SCREENSHOT_BYTES = 1024;
++const PNG_SIGNATURE = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
++
++function makeCheck(name, passed, detail) {
++  return { name, passed: Boolean(passed), detail };
++}
++
++function buildScreenshotArgs(url, outPath, userDataDir) {
++  return [
++    '--headless=new',
++    '--disable-gpu',
++    '--disable-extensions',
++    '--no-first-run',
++    '--no-default-browser-check',
++    '--window-size=1280,900',
++    `--user-data-dir=${userDataDir}`,
++    `--screenshot=${outPath}`,
++    url,
++  ];
++}
++
++function validatePng(filePath, minBytes = MIN_SCREENSHOT_BYTES) {
++  const checks = [];
++  const resolved = path.resolve(filePath);
++  const exists = fs.existsSync(resolved);
++  checks.push(makeCheck('screenshot_exists', exists, 'Screenshot file exists.'));
++
++  if (!exists) {
++    checks.push(makeCheck('png_signature', false, 'Screenshot PNG signature is present.'));
++    checks.push(makeCheck('minimum_size', false, `Screenshot is at least ${minBytes} bytes.`));
++    return { passed: false, bytes: 0, checks };
++  }
++
++  const buffer = fs.readFileSync(resolved);
++  const signatureOk = buffer.length >= PNG_SIGNATURE.length && PNG_SIGNATURE.equals(buffer.subarray(0, PNG_SIGNATURE.length));
++  checks.push(makeCheck('png_signature', signatureOk, 'Screenshot PNG signature is present.'));
++  checks.push(makeCheck('minimum_size', buffer.length >= minBytes, `Screenshot is at least ${minBytes} bytes.`));
++
++  return {
++    passed: checks.every((check) => check.passed),
++    bytes: buffer.length,
++    checks,
++  };
++}
++
++function runScreenshotCheck(options) {
++  const htmlPath = path.resolve(options.htmlPath);
++  const outPath = path.resolve(options.outPath);
++  const browserPath = discoverBrowser(options.browserPath);
++  const url = filePathToUrl(htmlPath);
++
++  if (!fs.existsSync(htmlPath)) {
++    return {
++      tool: 'browser-screenshot-check',
++      version: VERSION,
++      passed: false,
++      reason: 'missing_html',
++      browser: null,
++      url,
++      screenshot_path: outPath,
++      screenshot_bytes: 0,
++      checks: [],
++      browser_automation: false,
++      screenshot_check: false,
++      human_ui_review: false,
++    };
++  }
++
++  if (!browserPath) {
++    return {
++      tool: 'browser-screenshot-check',
++      version: VERSION,
++      passed: false,
++      reason: 'no_browser',
++      browser: null,
++      url,
++      screenshot_path: outPath,
++      screenshot_bytes: 0,
++      checks: [],
++      browser_automation: false,
++      screenshot_check: false,
++      human_ui_review: false,
++    };
++  }
++
++  fs.mkdirSync(path.dirname(outPath), { recursive: true });
++  if (fs.existsSync(outPath)) fs.rmSync(outPath, { force: true });
++
++  const userDataDir = fs.mkdtempSync(path.join(os.tmpdir(), 'bluepilot-screenshot-check-'));
++  try {
++    const result = spawnSync(browserPath, buildScreenshotArgs(url, outPath, userDataDir), {
++      encoding: 'utf8',
++      maxBuffer: 1024 * 1024 * 20,
++      timeout: options.timeoutMs || 15000,
++    });
++
++    if (result.error) {
++      return {
++        tool: 'browser-screenshot-check',
++        version: VERSION,
++        passed: false,
++        reason: 'browser_launch_failed',
++        error: result.error.message,
++        browser: browserPath,
++        url,
++        screenshot_path: outPath,
++        screenshot_bytes: 0,
++        checks: [],
++        browser_automation: true,
++        screenshot_check: false,
++        human_ui_review: false,
++      };
++    }
++
++    const validation = validatePng(outPath, options.minBytes || MIN_SCREENSHOT_BYTES);
++    const exitCheck = makeCheck('browser_exit_zero', result.status === 0, 'Browser exited with status 0.');
++    const checks = [exitCheck, ...validation.checks];
++    const passed = checks.every((check) => check.passed);
++
++    return {
++      tool: 'browser-screenshot-check',
++      version: VERSION,
++      passed,
++      reason: passed ? null : 'screenshot_check_failed',
++      browser: browserPath,
++      url,
++      exit_status: result.status,
++      screenshot_path: outPath,
++      screenshot_bytes: validation.bytes,
++      checks,
++      browser_automation: true,
++      screenshot_check: passed,
++      human_ui_review: false,
++    };
++  } finally {
++    fs.rmSync(userDataDir, { recursive: true, force: true });
++  }
++}
++
++function usage() {
++  return [
++    'Usage:',
++    '  node tools/browser-screenshot-check.cjs --html preview.html --out preview.png [--browser browser.exe]',
++  ].join('\n');
++}
++
++function getArg(argv, name) {
++  const index = argv.indexOf(name);
++  if (index === -1) return null;
++  return argv[index + 1] || null;
++}
++
++function runCli(argv) {
++  if (argv.includes('--help') || argv.includes('-h')) {
++    process.stdout.write(`${usage()}\n`);
++    return 0;
++  }
++
++  const htmlPath = getArg(argv, '--html');
++  const outPath = getArg(argv, '--out');
++  const browserPath = getArg(argv, '--browser');
++  if (!htmlPath) throw new Error('Missing required --html path.');
++  if (!outPath) throw new Error('Missing required --out path.');
++  if (argv.includes('--browser') && !browserPath) throw new Error('Missing path after --browser.');
++
++  const result = runScreenshotCheck({ htmlPath, outPath, browserPath });
++  process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
++  if (result.passed) return 0;
++  if (result.reason === 'no_browser') return 2;
++  return 1;
++}
++
++if (require.main === module) {
++  try {
++    process.exitCode = runCli(process.argv.slice(2));
++  } catch (err) {
++    process.stderr.write(`${err.message}\n`);
++    process.exitCode = 1;
++  }
++}
++
++module.exports = {
++  VERSION,
++  MIN_SCREENSHOT_BYTES,
++  PNG_SIGNATURE,
++  buildScreenshotArgs,
++  runScreenshotCheck,
++  validatePng,
++};
+diff --git a/tools/test-bluepilot-review-suite.cjs b/tools/test-bluepilot-review-suite.cjs
+index 6a6895d..8bfb17f 100644
+--- a/tools/test-bluepilot-review-suite.cjs
++++ b/tools/test-bluepilot-review-suite.cjs
+@@ -73,6 +73,10 @@ const commands = [
+   ['syntax: browser preview fixture test', ['--check', 'tools/test-browser-preview-fixtures.cjs']],
+   ['syntax: browser preview smoke', ['--check', 'tools/browser-preview-smoke.cjs']],
+   ['syntax: browser preview smoke fixture test', ['--check', 'tools/test-browser-preview-smoke-fixtures.cjs']],
++  ['syntax: browser automation smoke', ['--check', 'tools/browser-automation-smoke.cjs']],
++  ['syntax: browser automation smoke fixture test', ['--check', 'tools/test-browser-automation-smoke-fixtures.cjs']],
++  ['syntax: browser screenshot check', ['--check', 'tools/browser-screenshot-check.cjs']],
++  ['syntax: browser screenshot check fixture test', ['--check', 'tools/test-browser-screenshot-check-fixtures.cjs']],
+   ['adapter fixtures', ['tools/test-builder-adapter-fixtures.cjs']],
+   ['endpoint fixtures', ['tools/test-builder-adapter-endpoint-fixtures.cjs']],
+   ['HTTP route fixtures', ['tools/test-builder-adapter-http-route.cjs']],
+@@ -115,6 +119,8 @@ const commands = [
+   ['difflens fixtures', ['tools/test-difflens-fixtures.cjs']],
+   ['browser preview fixtures', ['tools/test-browser-preview-fixtures.cjs']],
+   ['browser preview smoke fixtures', ['tools/test-browser-preview-smoke-fixtures.cjs']],
++  ['browser automation smoke fixtures', ['tools/test-browser-automation-smoke-fixtures.cjs']],
++  ['browser screenshot check fixtures', ['tools/test-browser-screenshot-check-fixtures.cjs']],
+ ];
+ 
+ for (const [label, args] of commands) {
+diff --git a/tools/test-browser-automation-smoke-fixtures.cjs b/tools/test-browser-automation-smoke-fixtures.cjs
+new file mode 100644
+index 0000000..0e3bd80
+--- /dev/null
++++ b/tools/test-browser-automation-smoke-fixtures.cjs
+@@ -0,0 +1,87 @@
++#!/usr/bin/env node
++
++'use strict';
++
++const assert = require('assert');
++const fs = require('fs');
++const os = require('os');
++const path = require('path');
++const {
++  REQUIRED_MARKERS,
++  buildBrowserArgs,
++  checkDom,
++  discoverBrowser,
++  filePathToUrl,
++  runBrowserSmoke,
++} = require('./browser-automation-smoke.cjs');
++const { renderPreviewHtml, createManifest } = require('./browser-preview.cjs');
++
++const evidence = {
++  tool: 'difflens',
++  version: '0.1.0',
++  summary: {
++    files: 1,
++    hunks: 1,
++    additions: 2,
++    deletions: 1,
++    binary_files: 0,
++  },
++  files: [
++    {
++      file_path: 'tools/example.cjs',
++      hunks: 1,
++      additions: 2,
++      deletions: 1,
++      binary: false,
++      flags: ['runtime_path'],
++    },
++  ],
++  risk_flags: [
++    {
++      code: 'runtime_path',
++      file_path: 'tools/example.cjs',
++      reason: 'Runtime path changes affect behavior.',
++    },
++  ],
++  human_gate_required: true,
++  visual_review_required: true,
++};
++
++const html = renderPreviewHtml(evidence);
++const manifest = createManifest(evidence, { htmlPath: 'preview.html', source: 'fixture' });
++
++assert(filePathToUrl('preview.html').startsWith('file:///'));
++assert(buildBrowserArgs('file:///tmp/preview.html', 'profile-dir').includes('--dump-dom'));
++
++const checks = checkDom(html, manifest);
++assert.strictEqual(checks.every((check) => check.passed), true);
++for (const marker of REQUIRED_MARKERS) {
++  assert(checks.some((check) => check.name === `marker:${marker}` && check.passed));
++}
++
++const failedChecks = checkDom('<html><body>empty</body></html>');
++assert(failedChecks.some((check) => check.name === 'marker:Review Gate' && !check.passed));
++
++const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'bluepilot-browser-automation-'));
++const htmlPath = path.join(tmpDir, 'preview.html');
++const manifestPath = path.join(tmpDir, 'preview.manifest.json');
++fs.writeFileSync(htmlPath, html, 'utf8');
++fs.writeFileSync(manifestPath, JSON.stringify(manifest), 'utf8');
++
++const browserPath = discoverBrowser();
++if (browserPath) {
++  const result = runBrowserSmoke({ htmlPath, manifestPath, browserPath, timeoutMs: 15000 });
++  assert.strictEqual(result.passed, true);
++  assert.strictEqual(result.browser_automation, true);
++  assert.strictEqual(result.screenshot_check, false);
++  assert.strictEqual(result.human_ui_review, false);
++} else {
++  const result = runBrowserSmoke({ htmlPath, manifestPath, browserPath: path.join(tmpDir, 'missing-browser') });
++  assert.strictEqual(result.passed, false);
++  assert.strictEqual(result.reason, 'no_browser');
++  assert.strictEqual(result.browser_automation, false);
++}
++
++fs.rmSync(tmpDir, { recursive: true, force: true });
++
++console.log('browser automation smoke fixtures: PASS');
+diff --git a/tools/test-browser-screenshot-check-fixtures.cjs b/tools/test-browser-screenshot-check-fixtures.cjs
+new file mode 100644
+index 0000000..0595a25
+--- /dev/null
++++ b/tools/test-browser-screenshot-check-fixtures.cjs
+@@ -0,0 +1,87 @@
++#!/usr/bin/env node
++
++'use strict';
++
++const assert = require('assert');
++const fs = require('fs');
++const os = require('os');
++const path = require('path');
++const {
++  PNG_SIGNATURE,
++  buildScreenshotArgs,
++  runScreenshotCheck,
++  validatePng,
++} = require('./browser-screenshot-check.cjs');
++const { discoverBrowser } = require('./browser-automation-smoke.cjs');
++const { renderPreviewHtml } = require('./browser-preview.cjs');
++
++const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'bluepilot-screenshot-check-'));
++const pngPath = path.join(tmpDir, 'valid.png');
++const smallPngPath = path.join(tmpDir, 'small.png');
++const htmlPath = path.join(tmpDir, 'preview.html');
++const screenshotPath = path.join(tmpDir, 'preview.png');
++
++fs.writeFileSync(pngPath, Buffer.concat([PNG_SIGNATURE, Buffer.alloc(2048, 1)]));
++fs.writeFileSync(smallPngPath, PNG_SIGNATURE);
++
++assert.strictEqual(validatePng(pngPath).passed, true);
++assert.strictEqual(validatePng(smallPngPath).passed, false);
++assert.strictEqual(validatePng(path.join(tmpDir, 'missing.png')).passed, false);
++
++const args = buildScreenshotArgs('file:///tmp/preview.html', screenshotPath, 'profile-dir');
++assert(args.includes('--headless=new'));
++assert(args.includes('--window-size=1280,900'));
++assert(args.includes(`--screenshot=${screenshotPath}`));
++
++const evidence = {
++  tool: 'difflens',
++  version: '0.1.0',
++  summary: {
++    files: 1,
++    hunks: 1,
++    additions: 2,
++    deletions: 1,
++    binary_files: 0,
++  },
++  files: [
++    {
++      file_path: 'tools/example.cjs',
++      hunks: 1,
++      additions: 2,
++      deletions: 1,
++      binary: false,
++      flags: ['runtime_path'],
++    },
++  ],
++  risk_flags: [
++    {
++      code: 'runtime_path',
++      file_path: 'tools/example.cjs',
++      reason: 'Runtime path changes affect behavior.',
++    },
++  ],
++  human_gate_required: true,
++  visual_review_required: true,
++};
++
++fs.writeFileSync(htmlPath, renderPreviewHtml(evidence), 'utf8');
++
++const browserPath = discoverBrowser();
++if (browserPath) {
++  const result = runScreenshotCheck({ htmlPath, outPath: screenshotPath, browserPath, timeoutMs: 15000 });
++  assert.strictEqual(result.passed, true);
++  assert.strictEqual(result.browser_automation, true);
++  assert.strictEqual(result.screenshot_check, true);
++  assert.strictEqual(result.human_ui_review, false);
++  assert(result.screenshot_bytes > 1024);
++  assert(fs.existsSync(screenshotPath));
++} else {
++  const result = runScreenshotCheck({ htmlPath, outPath: screenshotPath, browserPath: path.join(tmpDir, 'missing-browser') });
++  assert.strictEqual(result.passed, false);
++  assert.strictEqual(result.reason, 'no_browser');
++  assert.strictEqual(result.screenshot_check, false);
++}
++
++fs.rmSync(tmpDir, { recursive: true, force: true });
++
++console.log('browser screenshot check fixtures: PASS');
