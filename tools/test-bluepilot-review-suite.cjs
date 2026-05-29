@@ -91,6 +91,12 @@ const commands = [
   ['syntax: council session report markdown fixture test', ['--check', 'tools/test-council-session-report-markdown-fixtures.cjs']],
   ['syntax: council session report bundle', ['--check', 'tools/council-session-report-bundle.cjs']],
   ['syntax: council session report bundle fixture test', ['--check', 'tools/test-council-session-report-bundle-fixtures.cjs']],
+  ['syntax: council closeout candidate', ['--check', 'tools/council-closeout-candidate.cjs']],
+  ['syntax: council closeout candidate fixture test', ['--check', 'tools/test-council-closeout-candidate-fixtures.cjs']],
+  ['syntax: operator handoff', ['--check', 'tools/operator-handoff.cjs']],
+  ['syntax: operator handoff fixture test', ['--check', 'tools/test-operator-handoff-fixtures.cjs']],
+  ['syntax: council closeout bundle', ['--check', 'tools/council-closeout-bundle.cjs']],
+  ['syntax: council closeout bundle fixture test', ['--check', 'tools/test-council-closeout-bundle-fixtures.cjs']],
   ['adapter fixtures', ['tools/test-builder-adapter-fixtures.cjs']],
   ['endpoint fixtures', ['tools/test-builder-adapter-endpoint-fixtures.cjs']],
   ['HTTP route fixtures', ['tools/test-builder-adapter-http-route.cjs']],
@@ -142,6 +148,9 @@ const commands = [
   ['council session report fixtures', ['tools/test-council-session-report-fixtures.cjs']],
   ['council session report markdown fixtures', ['tools/test-council-session-report-markdown-fixtures.cjs']],
   ['council session report bundle fixtures', ['tools/test-council-session-report-bundle-fixtures.cjs']],
+  ['council closeout candidate fixtures', ['tools/test-council-closeout-candidate-fixtures.cjs']],
+  ['operator handoff fixtures', ['tools/test-operator-handoff-fixtures.cjs']],
+  ['council closeout bundle fixtures', ['tools/test-council-closeout-bundle-fixtures.cjs']],
 ];
 
 for (const [label, args] of commands) {

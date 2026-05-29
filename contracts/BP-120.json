@@ -1,0 +1,96 @@
+{
+  "task_id": "BP-120",
+  "task_name": "BP-C5 Operator Handoff",
+  "created": "2026-05-29",
+  "scope": "bluepilot/bp-c5/operator-handoff",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "low",
+  "impact_class": "integration",
+  "target_persona": null,
+  "council_session_required": true,
+  "goal": "Render a Council Session Report and Closeout Candidate into a concise Markdown operator handoff.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/BP_C5_COUNCIL_CLOSEOUT_CANDIDATE_CONTRACT_v0.md",
+    "tools/council-closeout-candidate.cjs",
+    "review-packets/BP-119.md"
+  ],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**"],
+  "allowed_files": [
+    "contracts/BP-119.json",
+    "contracts/BP-120.json",
+    "contracts/BP-121.json",
+    "docs/BP_C5_COUNCIL_CLOSEOUT_CANDIDATE_CONTRACT_v0.md",
+    "docs/BP_C5_OPERATOR_HANDOFF_CONTRACT_v0.md",
+    "docs/BP_C5_COUNCIL_CLOSEOUT_BUNDLE_CONTRACT_v0.md",
+    "tools/council-closeout-candidate.cjs",
+    "tools/operator-handoff.cjs",
+    "tools/council-closeout-bundle.cjs",
+    "tools/test-council-closeout-candidate-fixtures.cjs",
+    "tools/test-operator-handoff-fixtures.cjs",
+    "tools/test-council-closeout-bundle-fixtures.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "review-packets/BP-119.md",
+    "review-packets/BP-120.md",
+    "review-packets/BP-121.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "output/**",
+    ".bluepilot/**",
+    "review-packets/BP-110-artifacts/**",
+    "tools/council-agent-client.cjs",
+    "tools/maya-council-watcher.cjs",
+    "tools/verify-task-lock.cjs",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md"
+  ],
+  "scope_out": [
+    "No session mutation",
+    "No event append",
+    "No HTML UI",
+    "No automatic closeout",
+    "No Human decision claim"
+  ],
+  "claims": [
+    "tools/operator-handoff.cjs renders a Markdown operator handoff.",
+    "The handoff keeps human decision as a separate required gate.",
+    "The handoff is a review artifact, not product UI."
+  ],
+  "assumptions": [
+    "Input report and candidate are generated locally.",
+    "Markdown handoff is not committed as runtime artifact."
+  ],
+  "dod": [
+    "node --check tools/operator-handoff.cjs exits 0.",
+    "node tools/test-operator-handoff-fixtures.cjs exits 0.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-120 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": ["test_result", "runtime_check", "diff_ref"],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-120 --preflight",
+    "node --check tools/operator-handoff.cjs",
+    "node tools/test-operator-handoff-fixtures.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-120 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Council runtime write becomes necessary",
+    "HTML/Web UI implementation becomes necessary"
+  ],
+  "prior_task_findings": "BP-119 creates a read-only closeout candidate.",
+  "reuse_target": ["next_task_pre_lock", "review_packet"],
+  "baseline_ref": "HEAD"
+}

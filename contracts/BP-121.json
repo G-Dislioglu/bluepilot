@@ -1,0 +1,102 @@
+{
+  "task_id": "BP-121",
+  "task_name": "BP-C5 Council Closeout Bundle",
+  "created": "2026-05-29",
+  "scope": "bluepilot/bp-c5/council-closeout-bundle",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "integration",
+  "target_persona": null,
+  "council_session_required": true,
+  "goal": "Provide one CLI command that writes report, closeout candidate, operator handoff, and bundle summary artifacts.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/BP_C5_COUNCIL_CLOSEOUT_CANDIDATE_CONTRACT_v0.md",
+    "docs/BP_C5_OPERATOR_HANDOFF_CONTRACT_v0.md",
+    "tools/council-closeout-candidate.cjs",
+    "tools/operator-handoff.cjs",
+    "review-packets/BP-119.md",
+    "review-packets/BP-120.md"
+  ],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**"],
+  "allowed_files": [
+    "contracts/BP-119.json",
+    "contracts/BP-120.json",
+    "contracts/BP-121.json",
+    "docs/BP_C5_COUNCIL_CLOSEOUT_CANDIDATE_CONTRACT_v0.md",
+    "docs/BP_C5_OPERATOR_HANDOFF_CONTRACT_v0.md",
+    "docs/BP_C5_COUNCIL_CLOSEOUT_BUNDLE_CONTRACT_v0.md",
+    "tools/council-closeout-candidate.cjs",
+    "tools/operator-handoff.cjs",
+    "tools/council-closeout-bundle.cjs",
+    "tools/test-council-closeout-candidate-fixtures.cjs",
+    "tools/test-operator-handoff-fixtures.cjs",
+    "tools/test-council-closeout-bundle-fixtures.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "review-packets/BP-119.md",
+    "review-packets/BP-120.md",
+    "review-packets/BP-121.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "output/**",
+    ".bluepilot/**",
+    "review-packets/BP-110-artifacts/**",
+    "tools/council-agent-client.cjs",
+    "tools/maya-council-watcher.cjs",
+    "tools/verify-task-lock.cjs",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md"
+  ],
+  "scope_out": [
+    "No session mutation",
+    "No event append",
+    "No task status change",
+    "No automatic closeout",
+    "No agent spawning",
+    "No web UI",
+    "No artifact auto-commit"
+  ],
+  "claims": [
+    "tools/council-closeout-bundle.cjs writes all closeout review artifacts to --out.",
+    "The bundle composes BP-118, BP-119, and BP-120.",
+    "The bundle does not close or mutate Council runtime state."
+  ],
+  "assumptions": [
+    "Closeout artifacts are local review outputs.",
+    "Final closeout decision remains manual."
+  ],
+  "dod": [
+    "node --check tools/council-closeout-bundle.cjs exits 0.",
+    "node tools/test-council-closeout-bundle-fixtures.cjs exits 0.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-121 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": ["test_result", "runtime_check", "diff_ref"],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-121 --preflight",
+    "node --check tools/council-closeout-bundle.cjs",
+    "node tools/test-council-closeout-bundle-fixtures.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-121 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Session mutation becomes necessary",
+    "Automatic closeout becomes necessary",
+    "UI implementation becomes necessary"
+  ],
+  "prior_task_findings": "BP-119 and BP-120 create closeout candidate and operator handoff separately.",
+  "reuse_target": ["next_task_pre_lock", "review_packet"],
+  "baseline_ref": "HEAD"
+}

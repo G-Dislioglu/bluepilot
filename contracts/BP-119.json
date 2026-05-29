@@ -1,0 +1,98 @@
+{
+  "task_id": "BP-119",
+  "task_name": "BP-C5 Council Closeout Candidate",
+  "created": "2026-05-29",
+  "scope": "bluepilot/bp-c5/council-closeout-candidate",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "integration",
+  "target_persona": null,
+  "council_session_required": true,
+  "goal": "Create a read-only closeout candidate from a Council Session Report without closing or mutating the session.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/BP_C5_COUNCIL_SESSION_REPORT_CONTRACT_v0.md",
+    "tools/council-session-report.cjs",
+    "review-packets/BP-118.md"
+  ],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**"],
+  "allowed_files": [
+    "contracts/BP-119.json",
+    "contracts/BP-120.json",
+    "contracts/BP-121.json",
+    "docs/BP_C5_COUNCIL_CLOSEOUT_CANDIDATE_CONTRACT_v0.md",
+    "docs/BP_C5_OPERATOR_HANDOFF_CONTRACT_v0.md",
+    "docs/BP_C5_COUNCIL_CLOSEOUT_BUNDLE_CONTRACT_v0.md",
+    "tools/council-closeout-candidate.cjs",
+    "tools/operator-handoff.cjs",
+    "tools/council-closeout-bundle.cjs",
+    "tools/test-council-closeout-candidate-fixtures.cjs",
+    "tools/test-operator-handoff-fixtures.cjs",
+    "tools/test-council-closeout-bundle-fixtures.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "review-packets/BP-119.md",
+    "review-packets/BP-120.md",
+    "review-packets/BP-121.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "output/**",
+    ".bluepilot/**",
+    "review-packets/BP-110-artifacts/**",
+    "tools/council-agent-client.cjs",
+    "tools/maya-council-watcher.cjs",
+    "tools/verify-task-lock.cjs",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md"
+  ],
+  "scope_out": [
+    "No session mutation",
+    "No event append",
+    "No automatic closeout",
+    "No agent spawning",
+    "No web UI",
+    "No Human decision claim"
+  ],
+  "claims": [
+    "tools/council-closeout-candidate.cjs creates a read-only closeout candidate.",
+    "can_auto_close is always false.",
+    "Blocking reasons and review reasons are separated."
+  ],
+  "assumptions": [
+    "Council Session Report is the input source of truth.",
+    "Human UI Review and final closeout remain manual gates."
+  ],
+  "dod": [
+    "node --check tools/council-closeout-candidate.cjs exits 0.",
+    "node tools/test-council-closeout-candidate-fixtures.cjs exits 0.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-119 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": ["test_result", "runtime_check", "diff_ref"],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-119 --preflight",
+    "node --check tools/council-closeout-candidate.cjs",
+    "node tools/test-council-closeout-candidate-fixtures.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-119 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Session mutation becomes necessary",
+    "Automatic closeout becomes necessary",
+    "UI implementation becomes necessary"
+  ],
+  "prior_task_findings": "BP-118 can write JSON and Markdown Council Session Report artifacts.",
+  "reuse_target": ["next_task_pre_lock", "review_packet"],
+  "baseline_ref": "HEAD"
+}
