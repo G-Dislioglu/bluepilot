@@ -1,0 +1,115 @@
+{
+  "task_id": "BP-118",
+  "task_name": "BP-C5 Council Session Report Bundle Runner",
+  "created": "2026-05-29",
+  "scope": "bluepilot/bp-c5/council-session-report-bundle",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "integration",
+  "target_persona": null,
+  "council_session_required": true,
+  "goal": "Provide one CLI command that writes both BP-116 JSON and BP-117 Markdown Council Session Report artifacts into an explicit local output directory.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/BP_C5_COUNCIL_SESSION_REPORT_CONTRACT_v0.md",
+    "docs/BP_C5_COUNCIL_SESSION_REPORT_MARKDOWN_CONTRACT_v0.md",
+    "tools/council-session-report.cjs",
+    "tools/council-session-report-markdown.cjs",
+    "review-packets/BP-116.md",
+    "review-packets/BP-117.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-116.json",
+    "contracts/BP-117.json",
+    "contracts/BP-118.json",
+    "docs/BP_C5_COUNCIL_SESSION_REPORT_CONTRACT_v0.md",
+    "docs/BP_C5_COUNCIL_SESSION_REPORT_MARKDOWN_CONTRACT_v0.md",
+    "docs/BP_C5_COUNCIL_SESSION_REPORT_BUNDLE_CONTRACT_v0.md",
+    "tools/council-session-report.cjs",
+    "tools/council-session-report-markdown.cjs",
+    "tools/council-session-report-bundle.cjs",
+    "tools/test-council-session-report-fixtures.cjs",
+    "tools/test-council-session-report-markdown-fixtures.cjs",
+    "tools/test-council-session-report-bundle-fixtures.cjs",
+    "tools/test-bluepilot-review-suite.cjs",
+    "review-packets/BP-116.md",
+    "review-packets/BP-117.md",
+    "review-packets/BP-118.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "output/**",
+    ".bluepilot/**",
+    "review-packets/BP-110-artifacts/**",
+    "tools/council-agent-client.cjs",
+    "tools/maya-council-watcher.cjs",
+    "tools/verify-task-lock.cjs",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md"
+  ],
+  "scope_out": [
+    "No session mutation",
+    "No event append",
+    "No task status change",
+    "No directive creation",
+    "No agent spawning",
+    "No web UI",
+    "No artifact auto-commit",
+    "No Human UI Review claim"
+  ],
+  "claims": [
+    "tools/council-session-report-bundle.cjs writes JSON, Markdown, and bundle summary artifacts to --out.",
+    "The bundle runner composes BP-116 and BP-117 without changing Council state.",
+    "The bundle summary records artifact paths and report gate status."
+  ],
+  "assumptions": [
+    "Local report artifacts are disposable review outputs and are not committed.",
+    "BP-116 and BP-117 remain the source modules for report generation and rendering."
+  ],
+  "dod": [
+    "node --check tools/council-session-report-bundle.cjs exits 0.",
+    "node tools/test-council-session-report-bundle-fixtures.cjs exits 0.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-118 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-118 --preflight",
+    "node --check tools/council-session-report-bundle.cjs",
+    "node tools/test-council-session-report-bundle-fixtures.cjs",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-118 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Session mutation becomes necessary",
+    "Web UI implementation becomes necessary",
+    "Artifact auto-commit becomes necessary"
+  ],
+  "prior_task_findings": "BP-116 and BP-117 create machine and human-readable Council Session Reports separately.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}

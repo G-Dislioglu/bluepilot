@@ -85,6 +85,12 @@ const commands = [
   ['syntax: council evidence assignment fixture test', ['--check', 'tools/test-council-evidence-assignment-fixtures.cjs']],
   ['syntax: council evidence readiness', ['--check', 'tools/council-evidence-readiness.cjs']],
   ['syntax: council evidence readiness fixture test', ['--check', 'tools/test-council-evidence-readiness-fixtures.cjs']],
+  ['syntax: council session report', ['--check', 'tools/council-session-report.cjs']],
+  ['syntax: council session report fixture test', ['--check', 'tools/test-council-session-report-fixtures.cjs']],
+  ['syntax: council session report markdown', ['--check', 'tools/council-session-report-markdown.cjs']],
+  ['syntax: council session report markdown fixture test', ['--check', 'tools/test-council-session-report-markdown-fixtures.cjs']],
+  ['syntax: council session report bundle', ['--check', 'tools/council-session-report-bundle.cjs']],
+  ['syntax: council session report bundle fixture test', ['--check', 'tools/test-council-session-report-bundle-fixtures.cjs']],
   ['adapter fixtures', ['tools/test-builder-adapter-fixtures.cjs']],
   ['endpoint fixtures', ['tools/test-builder-adapter-endpoint-fixtures.cjs']],
   ['HTTP route fixtures', ['tools/test-builder-adapter-http-route.cjs']],
@@ -133,6 +139,9 @@ const commands = [
   ['pipeline evidence bridge fixtures', ['tools/test-pipeline-evidence-bridge-fixtures.cjs']],
   ['council evidence assignment fixtures', ['tools/test-council-evidence-assignment-fixtures.cjs']],
   ['council evidence readiness fixtures', ['tools/test-council-evidence-readiness-fixtures.cjs']],
+  ['council session report fixtures', ['tools/test-council-session-report-fixtures.cjs']],
+  ['council session report markdown fixtures', ['tools/test-council-session-report-markdown-fixtures.cjs']],
+  ['council session report bundle fixtures', ['tools/test-council-session-report-bundle-fixtures.cjs']],
 ];
 
 for (const [label, args] of commands) {
