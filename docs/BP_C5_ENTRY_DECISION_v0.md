@@ -1,14 +1,25 @@
 # BP-C5 Entry Decision v0
 
 Datum: 2026-05-29
-Status: BP-109 decision
+Status: BP-111 entry released
 Phase: BP-C5 entry
 
 ## Entscheidung
 
-BP-C5 darf vorbereitet werden, aber noch nicht als Integration gestartet werden.
+BP-C5 Entry ist freigegeben.
 
 BP-C5 ist die Integrationsphase. Sie darf nur vorhandene, gruene Bausteine zusammenfuehren und keine neue grosse Oberflaeche oder freien Runtime-Pfade erfinden.
+
+## Entry Release Update
+
+BP-110 Human Review ist abgeschlossen.
+
+- Reviewer: Guercan
+- Datum: 2026-05-29
+- Decision: APPROVED
+- Ergebnis: BP-C5 Integration darf unter eigenem WLP-Contract starten.
+
+Diese Freigabe startet noch keinen BP-C5-Code. Sie erlaubt den naechsten BP-C5-Integrationsauftrag.
 
 ## BP-C5 darf aus BP-C4 integrieren
 
@@ -71,15 +82,15 @@ BP-C5 darf sie orchestrieren, aber nicht so tun, als seien sie bereits eine pers
 
 ## Human UI Review Gate
 
-Human UI Review bleibt offen.
+Human UI Review fuer BP-110 ist abgeschlossen und approved.
 
-BP-C5 darf technische Integration bauen, solange sie keine Aussage trifft wie:
+BP-C5 darf technische Integration bauen, solange sie keine neue Aussage trifft wie:
 
 - UI ist menschlich freigegeben,
 - Preview ist produktionsreif,
-- menschliches Review wurde erledigt.
+- menschliches Review fuer neue UI-Claims wurde erledigt.
 
-Sobald BP-C5 eine user-facing UI-Readiness behauptet, muss vorher oder im selben Task ein Human UI Review Record vorliegen.
+Sobald BP-C5 eine neue user-facing UI-Readiness behauptet, muss vorher oder im selben Task ein Human UI Review Record fuer diesen neuen Claim vorliegen.
 
 ## Entry Criteria fuer ersten BP-C5-Slice
 

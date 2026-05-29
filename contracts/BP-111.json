@@ -1,0 +1,93 @@
+{
+  "task_id": "BP-111",
+  "task_name": "BP-C5 Entry Release After Human Review",
+  "created": "2026-05-29",
+  "scope": "bluepilot/bp-c5/entry-release",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "medium",
+  "impact_class": "phase-gate",
+  "target_persona": null,
+  "council_session_required": true,
+  "goal": "Record the completed BP-110 human review and release BP-C5 entry without starting BP-C5 implementation.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/BP_C5_ENTRY_DECISION_v0.md",
+    "review-packets/BP-110.md",
+    "review-packets/BP-110-artifacts/preview.html",
+    "review-packets/BP-110-artifacts/preview.png"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-111.json",
+    "docs/BP_C5_ENTRY_DECISION_v0.md",
+    "review-packets/BP-110.md",
+    "review-packets/BP-111.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "output/**",
+    ".bluepilot/**",
+    "review-packets/BP-110-artifacts/**",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md"
+  ],
+  "scope_out": [
+    "No runtime code",
+    "No new artifact generation",
+    "No BP-C5 implementation",
+    "No UI framework",
+    "No deploy",
+    "No accept/reject workflow"
+  ],
+  "claims": [
+    "BP-110 human review is recorded as approved by Guercan on 2026-05-29.",
+    "BP-C5 entry is released for the next contracted integration task.",
+    "No BP-C5 implementation is started in this task."
+  ],
+  "assumptions": [
+    "The user-provided human review decision is authoritative for BP-110.",
+    "BP-C5 entry release means the next BP-C5 integration task may start under its own WLP contract.",
+    "Existing BP-110 artifacts remain unchanged."
+  ],
+  "dod": [
+    "review-packets/BP-110.md contains DECISION: COMPLETE.",
+    "review-packets/BP-110.md records Human review: APPROVED by Guercan 2026-05-29.",
+    "docs/BP_C5_ENTRY_DECISION_v0.md records BP-C5 entry as released after BP-110.",
+    "node tools/verify-task-lock.cjs BP-111 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "diff_ref",
+    "content_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-111 --preflight",
+    "node tools/verify-task-lock.cjs BP-111 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "BP-C5 implementation becomes necessary",
+    "BP-110 artifacts would need to be regenerated"
+  ],
+  "prior_task_findings": "BP-110 generated and opened local review artifacts. User reported Human gate APPROVED after browser review.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
