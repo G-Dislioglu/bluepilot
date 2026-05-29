@@ -73,6 +73,8 @@ const commands = [
   ['syntax: browser preview fixture test', ['--check', 'tools/test-browser-preview-fixtures.cjs']],
   ['syntax: browser preview smoke', ['--check', 'tools/browser-preview-smoke.cjs']],
   ['syntax: browser preview smoke fixture test', ['--check', 'tools/test-browser-preview-smoke-fixtures.cjs']],
+  ['syntax: browser automation smoke', ['--check', 'tools/browser-automation-smoke.cjs']],
+  ['syntax: browser automation smoke fixture test', ['--check', 'tools/test-browser-automation-smoke-fixtures.cjs']],
   ['adapter fixtures', ['tools/test-builder-adapter-fixtures.cjs']],
   ['endpoint fixtures', ['tools/test-builder-adapter-endpoint-fixtures.cjs']],
   ['HTTP route fixtures', ['tools/test-builder-adapter-http-route.cjs']],
@@ -115,6 +117,7 @@ const commands = [
   ['difflens fixtures', ['tools/test-difflens-fixtures.cjs']],
   ['browser preview fixtures', ['tools/test-browser-preview-fixtures.cjs']],
   ['browser preview smoke fixtures', ['tools/test-browser-preview-smoke-fixtures.cjs']],
+  ['browser automation smoke fixtures', ['tools/test-browser-automation-smoke-fixtures.cjs']],
 ];
 
 for (const [label, args] of commands) {
