@@ -1,0 +1,98 @@
+{
+  "task_id": "BP-109",
+  "task_name": "BP-C5 Entry Decision",
+  "created": "2026-05-29",
+  "scope": "bluepilot/bp-c5/entry-decision",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "medium",
+  "impact_class": "phase-gate",
+  "target_persona": null,
+  "council_session_required": true,
+  "goal": "Define what BP-C5 may integrate from BP-C4 and which gates must remain closed until explicit contracts open them.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/BP_C4_TECHNICAL_GREEN_CHECKPOINT_v0.md",
+    "docs/BP_C4_HUMAN_UI_REVIEW_GATE_v0.md",
+    "docs/BP_C4_VISUAL_REVIEW_RUNTIME_DECISION_v0.md",
+    "review-packets/BP-100.md",
+    "review-packets/BP-102.md",
+    "review-packets/BP-104.md",
+    "review-packets/BP-105.md",
+    "review-packets/BP-106.md",
+    "review-packets/BP-108.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-109.json",
+    "docs/BP_C5_ENTRY_DECISION_v0.md",
+    "review-packets/BP-109.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "output/**",
+    ".bluepilot/**",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md"
+  ],
+  "scope_out": [
+    "No BP-C5 implementation",
+    "No runtime code",
+    "No UI code",
+    "No browser launch",
+    "No screenshot artifact",
+    "No Human UI Review claim"
+  ],
+  "claims": [
+    "BP-C5 entry criteria are defined.",
+    "BP-C4 tools that may be reused are listed.",
+    "CLI-only boundaries are listed.",
+    "Human UI Review remains a gate where applicable.",
+    "BP-C5 is prepared but not started."
+  ],
+  "assumptions": [
+    "BP-C4 technical checkpoint BP-108 is already pushed to main.",
+    "BP-C5 integrates previous modules rather than creating an unrelated build.",
+    "Human UI Review can remain open unless BP-C5 claims user-facing UI readiness."
+  ],
+  "dod": [
+    "docs/BP_C5_ENTRY_DECISION_v0.md exists.",
+    "The decision lists allowed integrations, blocked integrations, required gates, and first BP-C5 slice recommendation.",
+    "node tools/verify-task-lock.cjs BP-109 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "diff_ref",
+    "content_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-109 --preflight",
+    "node tools/verify-task-lock.cjs BP-109 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "BP-C5 implementation becomes necessary",
+    "Runtime code becomes necessary",
+    "Human UI Review would need to be claimed"
+  ],
+  "prior_task_findings": "BP-108 marked BP-C4 technically green but left Human UI Review and BP-C5 integration open.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
