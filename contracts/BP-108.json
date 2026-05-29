@@ -1,0 +1,98 @@
+{
+  "task_id": "BP-108",
+  "task_name": "BP-C4 Technical Green Checkpoint",
+  "created": "2026-05-29",
+  "scope": "bluepilot/bp-c4/technical-green-checkpoint",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "medium",
+  "impact_class": "phase-gate",
+  "target_persona": null,
+  "council_session_required": true,
+  "goal": "Document that BP-C4 technical visual-review evidence is green while Human UI Review and BP-C5 remain explicitly open.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/BP_C4_VISUAL_REVIEW_RUNTIME_DECISION_v0.md",
+    "docs/BP_C4_BROWSER_SMOKE_PROTOCOL_v0.md",
+    "docs/BP_C4_HUMAN_UI_REVIEW_GATE_v0.md",
+    "review-packets/BP-100.md",
+    "review-packets/BP-102.md",
+    "review-packets/BP-104.md",
+    "review-packets/BP-105.md",
+    "review-packets/BP-106.md",
+    "review-packets/BP-107.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-108.json",
+    "docs/BP_C4_TECHNICAL_GREEN_CHECKPOINT_v0.md",
+    "review-packets/BP-108.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    "package.json",
+    "package-lock.json",
+    "pnpm-lock.yaml",
+    "tools/**",
+    "src/**",
+    "app/**",
+    "api/**",
+    "frontend/**",
+    "output/**",
+    ".bluepilot/**",
+    ".specify/.app-goal.md",
+    ".specify/.feature-goals.md"
+  ],
+  "scope_out": [
+    "No runtime code",
+    "No screenshot artifact",
+    "No browser launch in this checkpoint",
+    "No Human UI Review claim",
+    "No BP-C5 implementation"
+  ],
+  "claims": [
+    "BP-C4 technical evidence chain is green through screenshot check.",
+    "Human UI Review remains open.",
+    "BP-C5 remains blocked until a later explicit phase gate."
+  ],
+  "assumptions": [
+    "BP-100 through BP-106 are already pushed to main.",
+    "Technical green means machine evidence only.",
+    "Human review can be recorded later under a separate WLP task."
+  ],
+  "dod": [
+    "docs/BP_C4_TECHNICAL_GREEN_CHECKPOINT_v0.md exists.",
+    "The checkpoint lists technical evidence modules and open human-review gate.",
+    "node tools/test-bluepilot-review-suite.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-108 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "diff_ref",
+    "content_check",
+    "test_result"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-108 --preflight",
+    "node tools/test-bluepilot-review-suite.cjs",
+    "node tools/verify-task-lock.cjs BP-108 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Runtime code becomes necessary",
+    "Human UI Review would need to be claimed",
+    "BP-C5 implementation becomes necessary"
+  ],
+  "prior_task_findings": "BP-107 defined Human UI Review as a separate human gate that cannot be replaced by technical evidence.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
