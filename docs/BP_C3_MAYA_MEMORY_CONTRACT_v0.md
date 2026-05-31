@@ -39,6 +39,11 @@ Er nutzt:
 Wenn der Remote-Pfad nicht erreichbar ist, darf Bluepilot lokal weiterarbeiten, aber nicht so tun,
 als sei der Eintrag im gemeinsamen Speicher gelandet.
 
+Ab BP-124 akzeptiert `maya-core` fuer `/api/maya/memory` denselben bestehenden Gate-Auth-Pfad wie
+die Builder-Gates: `x-maya-core-gate-token` oder `Authorization: Bearer ...` gegen
+`MAYA_CORE_GATE_TOKEN` oder `MAYA_BUILDER_GATE_TOKEN`. Die normale Maya-Session-Auth bleibt als
+Fallback intakt; fehlende oder falsche Gate-Tokens werden ohne gueltige Session weiter geblockt.
+
 ## Erlaubte Keys
 
 - `preferred_models`
