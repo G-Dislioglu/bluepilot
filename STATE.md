@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bp-129-builder-provider-write-path`.
+- Aktueller Arbeitsbranch: `bp-130-builder-orchestrator-tip`.
 - Nach Abschluss von BP-126 enthaelt Bluepilot ein separates TypeScript-Subpackage unter
   `builder/`.
 - BP-127 migriert die erste echte Builder-Code-Welle: 14 pure-logic Module unter `builder/src/`.
@@ -21,6 +21,8 @@
   Env-Var `BLUEPILOT_BUILDER_DATABASE_URL`, plus `poolState` und `builderApprovalArtifacts`.
 - BP-129 migriert Provider/Gate/Write-Pfad-Module: 9 Module inklusive `mayaBuilderGateClient`,
   ohne Orchestrator/Pipeline/Judge/Architect.
+- BP-130 migriert die Builder-Spitze: Orchestrator, Pipeline, Architect, Judge, RenderBridge,
+  SelfTest, ScopeResolver, ControlPlane und `devLogger`.
 
 ## Phasen
 
@@ -32,7 +34,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-129.
+- Hoechster Contract: BP-130.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -45,6 +47,8 @@
   Env-Var vorbereitet, nur die zwei DB-only Module mitgenommen.
 - BP-129: Provider-, Gate- und Write-Pfad-Welle; 9 Module inklusive maya-core Gate-Client und
   kanonischem Smart-Push-Pfad, ohne Spitze.
+- BP-130: Orchestrator-Tip-Closure; 9 Module, inklusive `devLogger` aus soulmatch `server/src`,
+  ohne `builderGithubBridge` oder `builderExecutor`.
 
 ## Maya-Anbindung
 
@@ -67,9 +71,8 @@
 
 Nach BP-125 ist das Anker-Projekt abgeschlossen. Danach gibt es zwei saubere Optionen:
 
-1. BP-129 reviewen/mergen: Provider/Gate/Write-Pfad-Welle bestaetigen.
-2. Danach BP-130 separat schneiden: Orchestrator/Pipeline/Judge/Architect-Spitze erst nach neuer
-   Import-Closure-Pruefung.
+1. BP-130 reviewen/mergen: Builder-Spitze bestaetigen.
+2. Danach BP-131 separat schneiden: erster echter End-to-End-Probelauf im Bluepilot-Builder.
 3. Alternativ Bluepilot weiterbauen: echten "Maya Review"-Sprechort fuer die MVP-Kette schaffen.
 
 Nicht beides still zusammenziehen, wenn Auth, Deploy, Live-Builder oder globale Steuerung beruehrt

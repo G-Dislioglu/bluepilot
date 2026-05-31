@@ -5,6 +5,19 @@
 
 ---
 
+## 2026-05-31 - Builder Spitze / Orchestrator-Tip (BP-130)
+
+- Gebaut: die bestaetigte 9-Modul-Closure der Builder-Spitze nach `builder/src/` migriert:
+  Orchestrator, Build-Pipeline, Architect, Judge, RenderBridge, SelfTest, ScopeResolver,
+  ControlPlane und `devLogger`.
+- Ergebnis: Keine zehnte Datei, kein `builderGithubBridge`, kein `builderExecutor`, keine
+  Dependency-Aenderung. Die Spitze nutzt den bereits migrierten Smart-Push-Pfad.
+- Beweis: Import-Smoke plus drei echte Spitzen-Tests (`architectPhase1`, `opusJudge`,
+  `opusTaskOrchestratorScopeProposal`) laufen ohne Live-API-Keys, ohne Live-DB und ohne
+  erreichbares maya-core. Typecheck ist gruen.
+- Roter Faden weiter: Nach BP-130 keinen stillen Umzug mehr. Naechster sinnvoller Block ist ein
+  expliziter End-to-End-Probelauf im Bluepilot-Builder und erst danach Anbindung/Abriss.
+
 ## 2026-05-31 - Builder Provider/Gate/Write-Pfad (BP-129)
 
 - Gebaut: 9 Module der Provider-, Gate- und Write-Pfad-Welle nach `builder/src/` migriert,
