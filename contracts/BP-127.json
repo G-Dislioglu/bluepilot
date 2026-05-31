@@ -1,0 +1,147 @@
+{
+  "task_id": "BP-127",
+  "task_name": "Builder migration wave 1: pure logic closure",
+  "created": "2026-05-31",
+  "scope": "bluepilot/builder/migration-wave-1",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "migration",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Migrate the first pure-logic Builder module wave into bluepilot/builder/src: 14 machine-verified modules with no orchestrator, DB, network, provider, or write-path dependency. Copy source modules verbatim from soulmatch, add migration proof tests, and leave soulmatch unchanged.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "docs/BUILDER_MIGRATION_MATRIX.md",
+    "builder/package.json",
+    "builder/tsconfig.json",
+    "C:/Users/guerc/OneDrive/Desktop/soulmatch/soulmatch/server/src/lib"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BP-127.json",
+    "builder/src/builderAnalysisOutput.ts",
+    "builder/src/builderRecommendationOutput.ts",
+    "builder/src/builderRelatedFiles.ts",
+    "builder/src/builderSafetyPolicy.ts",
+    "builder/src/builderSideEffects.ts",
+    "builder/src/builderTargetProfiles.ts",
+    "builder/src/builderWorkflowSimulation.ts",
+    "builder/src/opusAnchorPaths.ts",
+    "builder/src/opusBridgeConfig.ts",
+    "builder/src/opusChangeRouter.ts",
+    "builder/src/opusClaimGate.ts",
+    "builder/src/opusEnvelopeValidator.ts",
+    "builder/src/opusWorkerRegistry.ts",
+    "builder/src/specHardening.ts",
+    "builder/tests/opusEnvelopeValidator.test.ts",
+    "builder/tests/migration-wave-1-imports.test.ts",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BP-127.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "contracts/BP-0*.json",
+    "contracts/BP-1[0-1][0-9].json",
+    "contracts/BP-12[0-6].json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/tsconfig.json",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusBuildPipeline.ts",
+    "builder/src/architectPhase1.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/opusPatchMode.ts",
+    "builder/src/opusJudge.ts",
+    "builder/src/providers.ts",
+    "builder/src/outboundHttp.ts",
+    "builder/src/pushResultWaiter.ts",
+    "builder/src/builderApprovalArtifacts.ts",
+    "builder/src/opusErrorLearning.ts"
+  ],
+  "module_manifest": [
+    "builderAnalysisOutput",
+    "builderRecommendationOutput",
+    "builderRelatedFiles",
+    "builderSafetyPolicy",
+    "builderSideEffects",
+    "builderTargetProfiles",
+    "builderWorkflowSimulation",
+    "opusAnchorPaths",
+    "opusBridgeConfig",
+    "opusChangeRouter",
+    "opusClaimGate",
+    "opusEnvelopeValidator",
+    "opusWorkerRegistry",
+    "specHardening"
+  ],
+  "scope_out": [
+    "Do not migrate opusBuildPipeline, opusTaskOrchestrator, architectPhase1, opusSmartPush, opusPatchMode, opusJudge, providers, outboundHttp, pushResultWaiter, or DB-backed modules.",
+    "Do not change Builder logic while copying source modules.",
+    "Do not modify soulmatch.",
+    "Do not touch Bluepilot root package.json, tools/*.cjs, or the builder package configuration.",
+    "Do not add provider, network, database, GitHub, maya-core, or write-path runtime behavior."
+  ],
+  "claims": [
+    "The 14 source modules form a recursive local import closure against the soulmatch Builder lib directory.",
+    "The source modules import no Builder file outside the manifest and no non-Builder local utility.",
+    "The source modules may use Node built-ins already available in the Builder subpackage.",
+    "The one direct existing logic test for this wave, opusEnvelopeValidator.test.ts, is migrated with only the relative import path adjusted for the new tests directory.",
+    "The import smoke test imports all 14 migrated modules as an arrival proof.",
+    "Git history is not carried cross-repo; provenance is recorded with git log --follow counts and latest source commits."
+  ],
+  "assumptions": [
+    "Cross-repo history preservation is not worth the operational risk for this wave if provenance is explicit.",
+    "Module-level behavior is preserved by verbatim source copies plus TypeScript compile and import checks.",
+    "Deeper behavioral tests for the other logic leaves can be added in later Bluepilot-native test blocks."
+  ],
+  "dod": [
+    "All 14 manifest modules exist under builder/src.",
+    "All 14 source modules are byte-for-byte equal to their soulmatch counterparts.",
+    "builder/tests/opusEnvelopeValidator.test.ts passes under node:test/tsx after import path relocation.",
+    "builder/tests/migration-wave-1-imports.test.ts imports all 14 modules and passes.",
+    "npm test in builder/ passes.",
+    "npm run typecheck in builder/ passes.",
+    "node tools/verify-task-lock.cjs BP-127 --verify exits 0.",
+    "git diff --check exits 0.",
+    "review-packets/BP-127.md contains the provenance table and command evidence.",
+    "soulmatch remains unchanged."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-127 --preflight",
+    "npm test",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BP-127 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "A copied module imports a local file outside the 14-module manifest.",
+    "A copied module needs DB, provider, network, write-path, GitHub, or maya-core runtime dependencies.",
+    "A logic change becomes necessary to compile.",
+    "A root governance or builder package configuration change becomes necessary.",
+    "soulmatch would need to be changed."
+  ],
+  "prior_task_findings": "BP-126 created the TypeScript ESM Builder subpackage. Follow-up analysis corrected the first wave from an estimated 17 modules to a verified 14-module recursive closure and removed opusBuildPipeline from the leaf wave.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "session_log",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
