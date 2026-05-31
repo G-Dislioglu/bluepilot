@@ -1,0 +1,97 @@
+{
+  "task_id": "BP-131",
+  "task_name": "Builder Neon database infrastructure",
+  "created": "2026-05-31",
+  "scope": "bluepilot/builder/neon-db-infra",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "medium",
+  "impact_class": "infra",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Create a dedicated Neon Postgres database foundation for the Bluepilot Builder, apply the already migrated 15-table Builder schema, verify the tables exist, and document the required Render environment variable without committing secrets.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/schema/builder.ts",
+    "builder/.env.example",
+    "review-packets/BP-130.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BP-131.json",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BP-131.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/**",
+    "builder/tests/**",
+    "builder/.env.example",
+    "contracts/BP-0*.json",
+    "contracts/BP-1[0-2][0-9].json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md"
+  ],
+  "scope_out": [
+    "Do not change Builder code or tests.",
+    "Do not commit database URLs or secrets.",
+    "Do not modify soulmatch.",
+    "Do not configure Render directly in this task unless a separate approved deploy tool is available.",
+    "Do not run a live Builder task; this task only creates and verifies the database schema."
+  ],
+  "claims": [
+    "A dedicated Neon project/database is created for Bluepilot Builder.",
+    "The database schema contains the 15 tables from builder/src/schema/builder.ts.",
+    "The connection string is retrieved for operator use but not committed.",
+    "The required Render variable is BLUEPILOT_BUILDER_DATABASE_URL."
+  ],
+  "assumptions": [
+    "The Neon plugin is authorized for the user's account.",
+    "Creating a new Neon project is acceptable for the Builder DB foundation.",
+    "The schema is empty; no data migration is part of BP-131."
+  ],
+  "dod": [
+    "A Neon project for Bluepilot Builder exists.",
+    "The 15 Builder tables exist in the Neon database.",
+    "A table-count verification query returns 15 for the Builder table set.",
+    "A connection string is obtained but not stored in the repo.",
+    "review-packets/BP-131.md records the project ID, database/branch details, schema verification, and redacted env-var instructions.",
+    "STATE.md and docs/SESSION-LOG.md are updated.",
+    "node tools/verify-task-lock.cjs BP-131 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "diff_ref",
+    "content_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-131 --preflight",
+    "node tools/verify-task-lock.cjs BP-131 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "Neon project creation fails.",
+    "Schema application fails and cannot be retried safely.",
+    "A secret would need to be committed to proceed.",
+    "Builder code changes become necessary."
+  ],
+  "prior_task_findings": "BP-130 completed the Builder core migration into bluepilot/builder. BP-128 prepared the code-level DB foundation using BLUEPILOT_BUILDER_DATABASE_URL, but no live Neon database was created then.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "session_log",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
