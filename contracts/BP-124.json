@@ -1,0 +1,93 @@
+{
+  "task_id": "BP-124",
+  "task_name": "Maya Memory Server-to-Server Auth",
+  "created": "2026-05-31",
+  "scope": "bluepilot/maya/memory-auth",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "integration",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Verify and secure the server-to-server auth path used by bluepilot when calling maya-core Block-2 memory.",
+  "eligible_context": [
+    "contracts/BP-123.json",
+    "docs/BP_C3_MAYA_MEMORY_CONTRACT_v0.md",
+    "review-packets/BP-123.md",
+    "tools/maya-memory-remote-client.cjs",
+    "C:/Users/guerc/OneDrive/Desktop/aicos-registry/maya-core/app/api/maya/memory/route.ts",
+    "C:/Users/guerc/OneDrive/Desktop/aicos-registry/maya-core/lib/builder/builderGateAuth.ts",
+    "C:/Users/guerc/OneDrive/Desktop/aicos-registry/maya-core/__tests__/lib/maya-memory-block2.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BP-124.json",
+    "docs/BP_C3_MAYA_MEMORY_CONTRACT_v0.md",
+    "review-packets/BP-124.md"
+  ],
+  "forbidden_files": [
+    "contracts/BP-0*.json",
+    "contracts/BP-1[0-2][0-3].json",
+    "tools/council-*.cjs",
+    "tools/verify-task-lock.cjs",
+    "examples/**",
+    ".specify/**",
+    "package.json"
+  ],
+  "external_allowed_files": [
+    "C:/Users/guerc/OneDrive/Desktop/aicos-registry/maya-core/app/api/maya/memory/route.ts",
+    "C:/Users/guerc/OneDrive/Desktop/aicos-registry/maya-core/__tests__/lib/maya-memory-block2.test.ts"
+  ],
+  "scope_out": [
+    "Do not copy or fork maya-core auth logic.",
+    "Do not change bluepilot's local JSON fallback.",
+    "Do not bind persona, voice, or ethics in this task.",
+    "Do not allow bluepilot to write confirmed memory directly."
+  ],
+  "claims": [
+    "maya-core /api/maya/memory accepts the configured gate token for server-to-server GET and POST.",
+    "maya-core /api/maya/memory continues to accept existing Maya session auth.",
+    "missing or wrong server-to-server tokens remain blocked when no valid Maya session is present.",
+    "bluepilot's existing remote client header matches the accepted maya-core auth path."
+  ],
+  "assumptions": [
+    "maya-core's builder gate auth is the canonical server-to-server auth helper for MAYA_CORE_GATE_TOKEN and MAYA_BUILDER_GATE_TOKEN.",
+    "bluepilot already sends x-maya-core-gate-token from MAYA_CORE_GATE_TOKEN or MAYA_BUILDER_GATE_TOKEN.",
+    "The BP-124 implementation may touch maya-core files outside the bluepilot repository, with evidence recorded in the review packet."
+  ],
+  "dod": [
+    "maya-core memory route uses existing builder gate auth instead of duplicating token checks.",
+    "tests cover valid gate token, missing/wrong token rejection, and existing Maya auth fallback for GET and POST.",
+    "docs/BP_C3_MAYA_MEMORY_CONTRACT_v0.md states that maya-core memory accepts the shared gate auth path.",
+    "review-packets/BP-124.md records external maya-core changes and verification evidence.",
+    "node tools/verify-task-lock.cjs BP-124 --verify exits 0.",
+    "git diff --check exits 0 in both touched repos."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-124 --preflight",
+    "npm test -- --run __tests__/lib/maya-memory-block2.test.ts",
+    "node tools/verify-task-lock.cjs BP-124 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "A second auth implementation becomes necessary.",
+    "Changing bluepilot runtime memory behavior becomes necessary.",
+    "Persona, voice, or ethics binding becomes necessary.",
+    "Existing Maya session auth would be weakened."
+  ],
+  "prior_task_findings": "BP-123 sends x-maya-core-gate-token, but maya-core memory still used the normal Maya request auth directly. Real deployment requires the memory route to accept the existing server-to-server gate token path.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
