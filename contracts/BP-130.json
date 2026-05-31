@@ -1,0 +1,149 @@
+{
+  "task_id": "BP-130",
+  "task_name": "Builder migration wave 4: orchestrator tip closure",
+  "created": "2026-05-31",
+  "scope": "bluepilot/builder/migration-wave-4-orchestrator",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "migration",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Migrate the Builder orchestrator tip into bluepilot/builder verbatim (only relative import paths relocated): the Codex-confirmed nine-module closure of opusTaskOrchestrator and opusBuildPipeline, green without real API keys, without a live database, and without a reachable maya-core.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "docs/BUILDER_MIGRATION_MATRIX.md",
+    "builder/package.json",
+    "builder/tsconfig.json",
+    "builder/src/",
+    "C:/Users/guerc/OneDrive/Desktop/soulmatch/soulmatch/server/src/lib/opusTaskOrchestrator.ts",
+    "C:/Users/guerc/OneDrive/Desktop/soulmatch/soulmatch/server/src/lib/opusBuildPipeline.ts",
+    "C:/Users/guerc/OneDrive/Desktop/soulmatch/soulmatch/server/src/lib/architectPhase1.ts",
+    "C:/Users/guerc/OneDrive/Desktop/soulmatch/soulmatch/server/src/lib/opusJudge.ts",
+    "C:/Users/guerc/OneDrive/Desktop/soulmatch/soulmatch/server/src/lib/opusRenderBridge.ts",
+    "C:/Users/guerc/OneDrive/Desktop/soulmatch/soulmatch/server/src/lib/opusSelfTest.ts",
+    "C:/Users/guerc/OneDrive/Desktop/soulmatch/soulmatch/server/src/lib/builderScopeResolver.ts",
+    "C:/Users/guerc/OneDrive/Desktop/soulmatch/soulmatch/server/src/lib/builderControlPlane.ts",
+    "C:/Users/guerc/OneDrive/Desktop/soulmatch/soulmatch/server/src/devLogger.ts",
+    "C:/Users/guerc/OneDrive/Desktop/soulmatch/soulmatch/server/src/lib/architectPhase1.test.ts",
+    "C:/Users/guerc/OneDrive/Desktop/soulmatch/soulmatch/server/src/lib/opusJudge.test.ts",
+    "C:/Users/guerc/OneDrive/Desktop/soulmatch/soulmatch/server/src/lib/opusTaskOrchestratorScopeProposal.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BP-130.json",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusBuildPipeline.ts",
+    "builder/src/architectPhase1.ts",
+    "builder/src/opusJudge.ts",
+    "builder/src/opusRenderBridge.ts",
+    "builder/src/opusSelfTest.ts",
+    "builder/src/builderScopeResolver.ts",
+    "builder/src/builderControlPlane.ts",
+    "builder/src/devLogger.ts",
+    "builder/tests/migration-wave-4-imports.test.ts",
+    "builder/tests/architectPhase1.test.ts",
+    "builder/tests/opusJudge.test.ts",
+    "builder/tests/opusTaskOrchestratorScopeProposal.test.ts",
+    "builder/.env.example",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BP-130.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "contracts/BP-0*.json",
+    "contracts/BP-1[0-2][0-9].json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "builder/tsconfig.json",
+    "builder/src/builderGithubBridge.ts",
+    "builder/src/builderExecutor.ts"
+  ],
+  "scope_out": [
+    "Do not migrate builderGithubBridge or builderExecutor; the canonical write path is smartPush, confirmed by opusTaskOrchestrator importing smartPush, not builderExecutor.",
+    "Do not add a tenth module; Codex confirmed the closure terminates at nine.",
+    "Do not add or change dependencies; BP-130 needs none, so builder/package.json and builder/package-lock.json stay untouched.",
+    "Do not require real API keys, a live database, or a reachable maya-core for tests.",
+    "Do not modify soulmatch.",
+    "Do not change root governance, root package.json, or builder/tsconfig.json.",
+    "Do not start the end-to-end probe or the soulmatch teardown in this task; those are later steps."
+  ],
+  "claims": [
+    "The orchestrator-tip closure is migrated as exactly nine modules: opusTaskOrchestrator, opusBuildPipeline, architectPhase1, opusJudge, opusRenderBridge, opusSelfTest, builderScopeResolver, builderControlPlane, devLogger.",
+    "Each migrated module is content-identical to its soulmatch source except for relocated relative import paths.",
+    "opusTaskOrchestrator relocates ../devLogger.js to ./devLogger.js because devLogger comes from soulmatch server/src/devLogger.ts (one level above lib) into the flat builder/src layout.",
+    "architectPhase1 relocates ../db.js to ./db.js and ../schema/builder.js to ./schema/builder.js.",
+    "All other tip imports resolve to one of the nine modules or to modules already present in builder/src from BP-127/128/129.",
+    "builderScopeResolver, builderControlPlane and devLogger pull no further local modules, so the closure terminates at nine (Codex-confirmed at the real local state).",
+    "No builderGithubBridge and no builderExecutor is migrated; opusTaskOrchestrator writes via smartPush.",
+    "No dependency is added; builder/package.json and builder/package-lock.json are unchanged."
+  ],
+  "assumptions": [
+    "Codex confirmed this nine-module closure, the devLogger location, the two relocations, and the absence of a tenth module at the real local state before this contract was finalized.",
+    "Builder dependencies from BP-129 (incl. undici) are already installed locally, so no npm install step is needed for this wave.",
+    "The three existing tip tests are migrated only if they run without live infra; otherwise their exclusion is documented."
+  ],
+  "dod": [
+    "builder/src contains exactly the nine listed tip modules added by this task and no builderGithubBridge or builderExecutor.",
+    "A byte-level diff of each migrated module against its soulmatch source shows only relocated relative import paths.",
+    "opusTaskOrchestrator imports ./devLogger.js (relocated from ../devLogger.js).",
+    "architectPhase1 imports ./db.js and ./schema/builder.js.",
+    "builder/tests/migration-wave-4-imports.test.ts imports all nine modules and passes.",
+    "architectPhase1.test.ts, opusJudge.test.ts and opusTaskOrchestratorScopeProposal.test.ts are each migrated with import paths adjusted to ../src/ AND passing without live infra; any test that needs real keys/DB/maya-core is instead omitted, with the reason recorded in review-packets/BP-130.md.",
+    "npm test in builder/ passes without real API keys, without a live database, and without a reachable maya-core.",
+    "npm run typecheck in builder/ passes.",
+    "builder/package.json and builder/package-lock.json are unchanged (no diff).",
+    "node tools/verify-task-lock.cjs BP-130 --verify exits 0.",
+    "git diff --check exits 0.",
+    "review-packets/BP-130.md records provenance, the confirmed nine-module closure, the devLogger relocation, the test-migration decisions, and confirms no bridge/executor was pulled.",
+    "soulmatch remains unchanged."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-130 --preflight",
+    "npm test",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BP-130 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "The build would add a module beyond the nine, or remove one of them.",
+    "Any tip module needs real API keys, a live database, or a reachable maya-core to pass tests.",
+    "A migrated tip module imports builderGithubBridge or builderExecutor.",
+    "A dependency, root governance, root package, or builder/tsconfig change becomes necessary.",
+    "soulmatch would need to be changed."
+  ],
+  "prior_task_findings": "BP-129 migrated the nine network/provider/write-path modules; VAL-K2 confirmed byte-identity vs soulmatch-main and green tests without keys/DB/maya-core. For BP-130, a Claude clone trace proposed a nine-module tip closure (six tip modules plus builderScopeResolver, builderControlPlane and devLogger, the last located at server/src/devLogger.ts). Codex then confirmed this exact closure at the real local state: builderScopeResolver is pulled by opusTaskOrchestrator, builderControlPlane by architectPhase1, devLogger sits outside lib, opusSelfTest has no relative imports, the three extra leaves pull nothing further, and there is no builderGithubBridge, no builderExecutor and no tenth file. Two relocations are required: opusTaskOrchestrator ../devLogger.js to ./devLogger.js, architectPhase1 ../db.js to ./db.js and ../schema/builder.js to ./schema/builder.js. Three existing tip tests (architectPhase1.test.ts, opusJudge.test.ts, opusTaskOrchestratorScopeProposal.test.ts) look import-clean and should be brought if runnable without live infra.",
+  "module_manifest": [
+    "opusTaskOrchestrator",
+    "opusBuildPipeline",
+    "architectPhase1",
+    "opusJudge",
+    "opusRenderBridge",
+    "opusSelfTest",
+    "builderScopeResolver",
+    "builderControlPlane",
+    "devLogger"
+  ],
+  "reuse_target": [
+    "next_task_pre_lock",
+    "session_log",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
