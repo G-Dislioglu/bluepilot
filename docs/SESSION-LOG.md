@@ -5,6 +5,19 @@
 
 ---
 
+## 2026-05-31 - Builder TypeScript-Fundament (BP-126)
+
+- Gebaut: `builder/` als eigenes TypeScript-Subpackage mit `package.json`, `tsconfig.json`,
+  `tsx`/`typescript`, Smoke-Modul und Smoke-Test.
+- Ergebnis: Bluepilots Root bleibt CJS/WLP-Governance; der kommende Builder bekommt ein eigenes
+  TS-Stockwerk. Es wurde noch kein soulmatch-Builder-Modul kopiert oder bewegt.
+- Korrektur am Claude-Paket: Der gelieferte Contract hatte noch keine gueltigen WLP-Felder
+  `reuse_target` und `evidence_required`; die Matrix hatte Encoding-Mojibake und zu starke
+  Aussagen zum geschlossenen Tier-1-Kern. BP-126 setzt beides korrigiert um.
+- Roter Faden weiter: Vor dem ersten echten Modul-Umzug muss die Tier-1-Import-Closure weiter
+  maschinell gegen den lokalen soulmatch-Code geprueft werden. Danach zuerst Logik-Blaetter,
+  nicht Orchestrator-Spitze, migrieren.
+
 ## 2026-05-31 - Anker und Leseregel (BP-125)
 
 - Gebaut: `docs/SESSION-LOG.md`, `STATE.md`, `docs/DEPLOY_MAYA_CORE_BINDING.md` und eine

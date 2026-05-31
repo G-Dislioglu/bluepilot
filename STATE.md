@@ -12,7 +12,10 @@
   - `cbaed5a` - BP-124 Contract
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
-- Nach Abschluss dieses Tasks enthaelt `main` zusaetzlich die BP-125-Anker und Leseregel.
+  - `70894f0` - BP-125 Anker und Leseregel
+- Aktueller Arbeitsbranch: `bp-126-builder-ts-foundation`.
+- Nach Abschluss von BP-126 enthaelt Bluepilot zusaetzlich ein separates TypeScript-Subpackage
+  unter `builder/`.
 
 ## Phasen
 
@@ -24,11 +27,13 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-125.
+- Hoechster Contract: BP-126.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
 - BP-125: Bluepilot-Anker komplettiert und Pflicht-Lesereihenfolge in `AGENTS.md` ergaenzt.
+- BP-126: TypeScript-Fundament fuer den Builder-Umzug unter `builder/`, ohne soulmatch-Module
+  zu bewegen.
 
 ## Maya-Anbindung
 
@@ -51,8 +56,10 @@
 
 Nach BP-125 ist das Anker-Projekt abgeschlossen. Danach gibt es zwei saubere Optionen:
 
-1. Bluepilot weiterbauen: echten "Maya Review"-Sprechort fuer die MVP-Kette schaffen.
-2. Builder-Umzug nach Bluepilot vorbereiten, aber erst mit eigenem Contract und engem Scope.
+1. BP-126 reviewen/mergen: TypeScript-Fundament fuer den Builder bestaetigen.
+2. Danach den ersten echten Builder-Umzugsblock schneiden: zuerst reine Logik-Blaetter aus der
+   maschinell geprueften Tier-1-Closure, nicht die Orchestrator-Spitze.
+3. Alternativ Bluepilot weiterbauen: echten "Maya Review"-Sprechort fuer die MVP-Kette schaffen.
 
 Nicht beides still zusammenziehen, wenn Auth, Deploy, Live-Builder oder globale Steuerung beruehrt
 werden.

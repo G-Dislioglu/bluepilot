@@ -1,0 +1,16 @@
+{
+  "name": "@bluepilot/builder",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "TypeScript home for the staged Bluepilot Builder migration.",
+  "scripts": {
+    "test": "tsx --test tests/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  }
+}
