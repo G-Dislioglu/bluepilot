@@ -5,6 +5,17 @@
 
 ---
 
+## 2026-05-31 - Builder Umzugswelle 1: Logik-Closure (BP-127)
+
+- Gebaut: 14 maschinell gepruefte pure-logic Builder-Module aus soulmatch wurden nach
+  `builder/src/` kopiert. Die Moduldateien sind bytegleich mit den soulmatch-Quellen.
+- Ergebnis: Kein Orchestrator, keine DB, kein Provider, kein Netz und kein Write-Pfad wurden
+  migriert. `opusBuildPipeline` bleibt bewusst draussen.
+- Beweis: `npm test` und `npm run typecheck` in `builder/` sind gruen. Der Import-Smoke-Test
+  laedt alle 14 Module; `opusEnvelopeValidator.test.ts` ist als vorhandener Logiktest mitgezogen.
+- Roter Faden weiter: Naechste Welle separat schneiden. Vorher wieder Import-Closure pruefen und
+  nicht still Richtung Orchestrator, DB oder Write-Pfad wachsen lassen.
+
 ## 2026-05-31 - Builder TypeScript-Fundament (BP-126)
 
 - Gebaut: `builder/` als eigenes TypeScript-Subpackage mit `package.json`, `tsconfig.json`,
