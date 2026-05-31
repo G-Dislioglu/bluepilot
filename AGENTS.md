@@ -21,6 +21,31 @@ Immer enthalten:
 
 Keine langen internen Details, ausser sie sind fuer Review, Risiko oder Entscheidung wichtig.
 
+## Pflicht-Lesereihenfolge (ANKER-REGEL)
+
+Vor jedem Bluepilot-Block zuerst lesen, in dieser Reihenfolge. Erst danach handeln.
+
+1. `docs/CLAUDE-CONTEXT.md` - der rote Faden: Zweck, MVP-Kette, WLP-Regeln, Phasenstand,
+   offene Punkte, Maya-Anbindungsplan.
+2. `docs/SESSION-LOG.md` - was zuletzt entschieden oder gebaut wurde, neueste Eintraege oben.
+3. `STATE.md` - Momentaufnahme: wo `main` jetzt steht, was als Naechstes dran ist.
+4. Danach: der Task-Contract unter `contracts/BP-XXX.json`, dann die fuer den Block
+   relevanten Code-, Tool- und Review-Packet-Dateien.
+
+Diese Reihenfolge folgt dem bewaehrten Muster aus `soulmatch/AGENTS.md` und
+`maya-core/AGENTS.md`. Sie ist kein Freibrief fuer implizite Architekturentscheidungen:
+Wenn Code, Dokumentation und Nutzerwunsch auseinanderlaufen, muss der Widerspruch sichtbar
+gemacht werden (`HARD STOP` bzw. `GOAL_DELTA_PROPOSAL`, siehe WLP).
+
+### Read -> Act -> Sync (kurz)
+
+- Read: Was ist repo-sichtbare Wahrheit, was nur Ableitung? Welche Dateien tragen die aktuelle
+  Laufzeitwahrheit? Ist der naechste Block eng genug, um in einem Satz formulierbar zu sein?
+  Beruehrt er Geld, irreversible Writes, Provider oder globale Steuerung?
+- Act: Nur innerhalb des Contracts. Kein stilles Ausweiten.
+- Sync: Nach dem Block `docs/SESSION-LOG.md` und `STATE.md` aktuell halten, damit der rote
+  Faden nicht verwaist.
+
 ## Pflichtregeln
 
 1. Kein Task ohne JSON Contract unter `contracts/TASK_ID.json`.
