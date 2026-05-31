@@ -5,6 +5,23 @@
 
 ---
 
+## 2026-05-31 - Builder Live-Deploy-Anker (BP-133)
+
+- Gebaut: `docs/BUILDER_RENDER_DEPLOY_STATE.md` haelt den ersten Live-Deploy des
+  Bluepilot-Builder-Dienstes fest: Render-Service, Public URL, Branch, Root, Build-/Start-Command
+  und Health-Pfad.
+- Ergebnis: `GET /health` liefert live HTTP 200 mit `status: ok`; `GET /health/db` liefert live
+  HTTP 200 mit `status: reachable`. Die gesetzte DB-Variable wird nur als Name dokumentiert.
+- Korrektur am Claude-Paket: Der Ansatz war richtig. Zusaetzlich wurden alte konkrete
+  DB-Ressourcenkennungen aus den geaenderten Ankerdateien neutralisiert, damit der
+  No-Identifier-Scan fuer BP-133 wirklich greift.
+- Beweis: Live-Curl gegen `https://bluepilot-builder.onrender.com` bestaetigt beide Routen.
+  Geaenderte BP-133-Dateien enthalten keine Connection Strings, Hosts, Projekt-/Branch-IDs,
+  Rollen oder konkreten DB-Namen.
+- Roter Faden weiter: Als naechstes Maya-Gate-Infra angehen, nicht sofort E2E. Erst wenn
+  maya-core erreichbar ist und Token gesetzt sind, kann der Builder kontrolliert erlauben statt
+  nur fail-closed zu blocken.
+
 ## 2026-05-31 - Builder Runtime Health Entry (BP-132)
 
 - Gebaut: `builder/src/server.ts` startet einen minimalen HTTP-Prozess ueber Node `http`.
@@ -24,14 +41,13 @@
 ## 2026-05-31 - Builder Neon-DB-Infra (BP-131)
 
 - Gebaut: Das bestehende Neon-Projekt `bluepilot-builder` wurde als Live-DB-Fundament fuer den
-  migrierten Builder verwendet. In `neondb` wurden die 15 Tabellen aus
+  migrierten Builder verwendet. In der dedizierten Builder-Datenbank wurden die 15 Tabellen aus
   `builder/src/schema/builder.ts` leer angelegt.
 - Ergebnis: Die Datenbank ist separat von soulmatch, nutzt das Bluepilot-Ziel
   `BLUEPILOT_BUILDER_DATABASE_URL` und enthaelt keine Datenmigration. Secrets wurden nicht ins
   Repo geschrieben.
-- Korrektur waehrend der Ausfuehrung: Der Screenshot zeigte noch die `soulmatch`-Projektseite
-  (`floral-hat-29593725`), aber der Neon-Search fand `bluepilot-builder` als eigenes Projekt
-  `polished-king-49081538`. Dieses bestehende Projekt wurde verwendet.
+- Korrektur waehrend der Ausfuehrung: Der Screenshot zeigte noch die alte soulmatch-DB-Seite,
+  aber das bestehende Builder-DB-Projekt wurde als Ziel bestaetigt und verwendet.
 - Beweis: Neon listet 15 Builder-Tabellen; die Tabellenzaehlung fuer das definierte Builder-Set
   gibt `15` zurueck, und die erwarteten FKs zeigen auf `builder_tasks`.
 - Roter Faden weiter: Nach Merge BP-131 kann der erste echte End-to-End-Probelauf mit gesetzter

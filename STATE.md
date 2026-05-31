@@ -24,10 +24,12 @@
 - BP-130 migriert die Builder-Spitze: Orchestrator, Pipeline, Architect, Judge, RenderBridge,
   SelfTest, ScopeResolver, ControlPlane und `devLogger`.
 - BP-131 richtet die echte Neon-DB-Grundlage fuer den Bluepilot-Builder ein: bestehendes
-  Neon-Projekt `bluepilot-builder`, Datenbank `neondb`, 15 Builder-Tabellen angewendet und
-  verifiziert. Secrets bleiben ausserhalb des Repos.
+  Builder-DB-Projekt, 15 Builder-Tabellen angewendet und verifiziert. Secrets und
+  Ressourcenkennungen bleiben ausserhalb der Ankerdateien.
 - BP-132 ergaenzt den minimalen Builder-Runtime-Einstieg fuer Render: `npm start` startet einen
   HTTP-Prozess mit `/health` und `/health/db`, ohne Build-Ausfuehrungsroute.
+- BP-133 verankert den Live-Deploy: Render-Service `bluepilot-builder`, Public URL, Health- und
+  DB-Readiness-Beweise, ohne Secret- oder DB-Ressourcenkennungen.
 
 ## Phasen
 
@@ -39,7 +41,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-132.
+- Hoechster Contract: BP-133.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -56,10 +58,12 @@
   ohne `builderGithubBridge` oder `builderExecutor`.
 - BP-131: Live-Infra-Fundament; bestehendes Neon-Projekt `bluepilot-builder` mit den 15
   Builder-Tabellen aus `builder/src/schema/builder.ts`, Env-Var-Ziel
-  `BLUEPILOT_BUILDER_DATABASE_URL`.
+  `BLUEPILOT_BUILDER_DATABASE_URL`, ohne Secret- oder Ressourcenkennungen in den Ankern.
 - BP-132: Runtime-Health-Einstieg; `builder/src/server.ts` und `builder/src/health.ts` liefern
   Liveness und DB-Readiness fuer Render, ohne Orchestrator, Pipeline, Builder-Executor oder
   Maya-Gate zu importieren.
+- BP-133: Live-Deploy-Anker; `docs/BUILDER_RENDER_DEPLOY_STATE.md` haelt Render-URL,
+  Build-/Start-Einstellungen und Health-Beweise fest, ohne Secrets.
 
 ## Maya-Anbindung
 
@@ -74,9 +78,11 @@
 - Bluepilot braucht `MAYA_CORE_URL`.
 - Bluepilot braucht `MAYA_CORE_GATE_TOKEN` oder `MAYA_BUILDER_GATE_TOKEN`.
 - Fuer den migrierten Builder braucht Bluepilot zusaetzlich
-  `BLUEPILOT_BUILDER_DATABASE_URL` aus dem Neon-Projekt `bluepilot-builder`.
+  `BLUEPILOT_BUILDER_DATABASE_URL` aus der dedizierten Builder-Datenbank.
 - Der spaetere Render-Service fuer den Builder soll `builder/` als Root Directory nutzen:
   Build `npm install && npm run typecheck && npm test`, Start `npm start`.
+- Der Builder-Render-Service ist live unter `https://bluepilot-builder.onrender.com`; Details
+  stehen in `docs/BUILDER_RENDER_DEPLOY_STATE.md`.
 - maya-core muss die Gate-Auth fuer `/api/maya/memory` enthalten und deployt haben.
 - Ohne diese Variablen oder ohne deployten maya-core-Auth-Pfad arbeitet Bluepilot korrekt, aber
   lokal im Offline-Fallback.
@@ -86,8 +92,9 @@
 
 Nach BP-125 ist das Anker-Projekt abgeschlossen. Danach gibt es zwei saubere Optionen:
 
-1. BP-132 reviewen/mergen: Runtime-Health-Einstieg bestaetigen.
-2. Danach Render-Service fuer `builder/` anlegen und `BLUEPILOT_BUILDER_DATABASE_URL` setzen.
+1. BP-133 reviewen/mergen: Live-Deploy-Anker bestaetigen.
+2. Danach Maya-Gate-Infra planen: `MAYA_CORE_URL` und Gate-Token in Bluepilot setzen, nachdem
+   maya-core mit BP-124-Auth deployt ist.
 3. Danach erster echter End-to-End-Probelauf im Bluepilot-Builder.
 4. Alternativ Bluepilot weiterbauen: echten "Maya Review"-Sprechort fuer die MVP-Kette schaffen.
 
