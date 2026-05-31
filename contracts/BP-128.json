@@ -1,0 +1,125 @@
+{
+  "task_id": "BP-128",
+  "task_name": "Builder migration wave 2: own database foundation",
+  "created": "2026-05-31",
+  "scope": "bluepilot/builder/migration-wave-2-db",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "migration",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Give the Bluepilot Builder its own database foundation before migrating provider/network modules. Migrate the full Builder schema, add a builder-local database access layer with a dedicated environment variable, and migrate only the two DB-only modules poolState and builderApprovalArtifacts. Tests must pass without a live database.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "docs/BUILDER_MIGRATION_MATRIX.md",
+    "builder/package.json",
+    "builder/tsconfig.json",
+    "C:/Users/guerc/OneDrive/Desktop/soulmatch/soulmatch/server/src/schema/builder.ts",
+    "C:/Users/guerc/OneDrive/Desktop/soulmatch/soulmatch/server/src/lib/poolState.ts",
+    "C:/Users/guerc/OneDrive/Desktop/soulmatch/soulmatch/server/src/lib/builderApprovalArtifacts.ts",
+    "C:/Users/guerc/OneDrive/Desktop/soulmatch/soulmatch/server/src/db.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BP-128.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/schema/builder.ts",
+    "builder/src/db.ts",
+    "builder/src/poolState.ts",
+    "builder/src/builderApprovalArtifacts.ts",
+    "builder/tests/migration-wave-2-db.test.ts",
+    "builder/.env.example",
+    "builder/README.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BP-128.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "contracts/BP-0*.json",
+    "contracts/BP-1[0-1][0-9].json",
+    "contracts/BP-12[0-7].json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "builder/tsconfig.json",
+    "builder/src/opusErrorLearning.ts",
+    "builder/src/providers.ts",
+    "builder/src/premiumModelGate.ts",
+    "builder/src/mayaBuilderGateClient.ts",
+    "builder/src/outboundHttp.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusBuildPipeline.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/opusPatchMode.ts"
+  ],
+  "scope_out": [
+    "Do not migrate opusErrorLearning because it imports providers and belongs to the later provider wave.",
+    "Do not migrate providers, premiumModelGate, mayaBuilderGateClient, outboundHttp, write-path modules, or orchestrator/pipeline modules.",
+    "Do not use generic DATABASE_URL for Bluepilot Builder runtime access.",
+    "Do not require a live database for tests.",
+    "Do not modify soulmatch."
+  ],
+  "claims": [
+    "builder/src/schema/builder.ts is copied byte-for-byte from soulmatch's Builder schema and contains 15 tables.",
+    "builder/src/db.ts mirrors the soulmatch Neon/Drizzle access pattern but uses BLUEPILOT_BUILDER_DATABASE_URL.",
+    "Missing BLUEPILOT_BUILDER_DATABASE_URL fails with a clear error.",
+    "poolState and builderApprovalArtifacts are migrated with only relative import paths adjusted for the new builder/src layout.",
+    "No provider, network, write-path, or orchestrator module is migrated in BP-128.",
+    "The real database instance and schema push remain documented operator infrastructure steps."
+  ],
+  "assumptions": [
+    "Migrating the complete empty Builder schema now is operationally cleaner than repeated schema fragments in later waves.",
+    "The schema is not copied because every table shares a builder_tasks FK; several tables are independent.",
+    "A live database URL is intentionally absent in local verification."
+  ],
+  "dod": [
+    "builder/src/schema/builder.ts exists and is byte-for-byte equal to soulmatch/server/src/schema/builder.ts.",
+    "builder/src/db.ts exports getDb() using BLUEPILOT_BUILDER_DATABASE_URL and throws a clear error if it is missing.",
+    "builder/src/poolState.ts and builder/src/builderApprovalArtifacts.ts exist with only import path relocation changes from their soulmatch sources.",
+    "builder/package.json and builder/package-lock.json include the needed Drizzle/Neon dependencies.",
+    "builder/.env.example documents BLUEPILOT_BUILDER_DATABASE_URL.",
+    "builder/tests/migration-wave-2-db.test.ts imports the schema and DB modules and verifies missing URL behavior without a live database.",
+    "npm test in builder/ passes without a live database.",
+    "npm run typecheck in builder/ passes.",
+    "node tools/verify-task-lock.cjs BP-128 --verify exits 0.",
+    "git diff --check exits 0.",
+    "review-packets/BP-128.md contains provenance and an infra step for later DB creation/schema push.",
+    "soulmatch remains unchanged."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-128 --preflight",
+    "npm install",
+    "npm test",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BP-128 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "poolState or builderApprovalArtifacts require provider, network, write-path, or orchestrator modules.",
+    "A live database becomes necessary for tests.",
+    "A root governance or root package change becomes necessary.",
+    "soulmatch would need to be changed."
+  ],
+  "prior_task_findings": "BP-127 migrated the first 14 pure-logic modules. Follow-up closure analysis showed providers depends on premiumModelGate -> poolState -> db, so the database foundation must precede provider/network migration. opusErrorLearning is not DB-only because it imports providers.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "session_log",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
