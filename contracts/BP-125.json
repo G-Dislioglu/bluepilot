@@ -1,0 +1,93 @@
+{
+  "task_id": "BP-125",
+  "task_name": "Bluepilot anchors and read-order rule",
+  "created": "2026-05-31",
+  "scope": "bluepilot/docs/anchor-completion",
+  "mode": "standard",
+  "task_type": "doc_task",
+  "risk_class": "low",
+  "impact_class": "docs",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Complete Bluepilot's anchor documents and add the mandatory read-order rule to AGENTS.md, adapted from the proven soulmatch/maya-core pattern and the Claude package supplied on 2026-05-31.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "contracts/BP-124.json",
+    "review-packets/BP-124.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-125.json",
+    "AGENTS.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "docs/DEPLOY_MAYA_CORE_BINDING.md",
+    "review-packets/BP-125.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "contracts/BP-0*.json",
+    "contracts/BP-1[0-1][0-9].json",
+    "contracts/BP-12[0-4].json",
+    "examples/**",
+    ".specify/**",
+    "package.json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md"
+  ],
+  "scope_out": [
+    "Do not change code or tools.",
+    "Do not rewrite docs/CLAUDE-CONTEXT.md.",
+    "Do not alter the WLP verifier or WLP protocol.",
+    "Do not start the builder migration in this task."
+  ],
+  "claims": [
+    "AGENTS.md gains exactly one mandatory read-order section before Pflichtregeln.",
+    "docs/SESSION-LOG.md records the current red thread with BP-124 included.",
+    "STATE.md exists at the repository root and reflects the current Bluepilot state.",
+    "docs/DEPLOY_MAYA_CORE_BINDING.md documents the Maya-core URL and gate-token requirements.",
+    "The supplied Claude package is adapted for current repo state, BP-125 numbering, and valid WLP schema."
+  ],
+  "assumptions": [
+    "BP-124 is already used for Maya memory server-to-server auth and must not be overwritten.",
+    "ASCII wording is preferred for Bluepilot docs because the existing repository mostly uses ASCII transliteration.",
+    "The anchor docs are documentation only and do not affect runtime behavior."
+  ],
+  "dod": [
+    "AGENTS.md contains one 'Pflicht-Lesereihenfolge (ANKER-REGEL)' section before '## Pflichtregeln'.",
+    "docs/SESSION-LOG.md exists with newest entries first and includes BP-125, BP-124, BP-123, and BP-122 context.",
+    "STATE.md exists at repo root and names current main as the BP-125 anchor/read-order state after this task.",
+    "docs/DEPLOY_MAYA_CORE_BINDING.md exists and documents MAYA_CORE_URL plus MAYA_CORE_GATE_TOKEN or MAYA_BUILDER_GATE_TOKEN.",
+    "review-packets/BP-125.md records the Claude package corrections and verification evidence.",
+    "node tools/verify-task-lock.cjs BP-125 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "content_check",
+    "runtime_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-125 --preflight",
+    "node tools/verify-task-lock.cjs BP-125 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "Changing code or tools becomes necessary.",
+    "Changing BP-124 files becomes necessary.",
+    "A new architecture decision outside the anchor/read-order docs becomes necessary."
+  ],
+  "prior_task_findings": "BP-124 secured maya-core /api/maya/memory server-to-server auth. Claude supplied an anchor/read-order package using BP-124, but BP-124 is already taken; BP-125 carries the package forward with valid WLP fields and current repo facts.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "session_log",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
