@@ -1,0 +1,95 @@
+{
+  "task_id": "BP-133",
+  "task_name": "Builder live deploy anchor: Render URL and health proofs, no secrets",
+  "created": "2026-05-31",
+  "scope": "bluepilot/docs/builder-deploy-anchor",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "low",
+  "impact_class": "governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Record the live Bluepilot Builder deploy as an anchor: Render service name, public URL, branch/root/build/start/health settings, the two live health proofs, and the set environment variable names only, with zero Neon identifiers or secrets.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/README.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BP-133.json",
+    "docs/BUILDER_RENDER_DEPLOY_STATE.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BP-133.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/**",
+    "builder/tests/**",
+    "builder/.env.example",
+    "contracts/BP-0*.json",
+    "contracts/BP-1[0-2][0-9].json",
+    "contracts/BP-13[0-2].json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md"
+  ],
+  "scope_out": [
+    "Do not write any Neon identifier (host/endpoint, project ID, branch ID, role, database name) or connection string anywhere in tracked files.",
+    "Do not write any secret value; environment variables are recorded by name only.",
+    "Do not change Builder code, tests, packages, or soulmatch.",
+    "Do not start the Maya-gate binding or the end-to-end probe in this task; those are later steps."
+  ],
+  "claims": [
+    "docs/BUILDER_RENDER_DEPLOY_STATE.md records: Render service name bluepilot-builder, public URL https://bluepilot-builder.onrender.com, branch main, root directory builder, build command npm install --include=dev, start command npm start, health check path /health.",
+    "It records the two live proofs: GET /health returned HTTP 200 with status ok; GET /health/db returned HTTP 200 with status reachable.",
+    "It lists the set environment variable by name only: BLUEPILOT_BUILDER_DATABASE_URL (no value).",
+    "It contains no Neon host/endpoint, no project or branch ID, no role, no database name, and no connection string.",
+    "It notes the open follow-ups: free instance spins down on inactivity; the Neon spending-limit warning could matter under sustained use; Maya gate is still fail-closed until maya-core is reachable.",
+    "STATE.md and docs/SESSION-LOG.md are updated to reflect the live deploy."
+  ],
+  "assumptions": [
+    "The live proofs were confirmed on 2026-05-31 (HTTP 200 ok and HTTP 200 reachable), independently verifiable by fetching the public URL.",
+    "The repo is public, so infra identifiers must stay out of tracked files."
+  ],
+  "dod": [
+    "docs/BUILDER_RENDER_DEPLOY_STATE.md exists with the service name, public URL, branch/root/build/start/health settings, the two live proofs, and the env var name only.",
+    "A text scan of all files changed in this task finds no Neon endpoint pattern, no Neon project/branch ID, no role name, no database name, and no postgres connection string.",
+    "STATE.md and docs/SESSION-LOG.md reference the live deploy and the new anchor doc.",
+    "review-packets/BP-133.md confirms the no-secrets/no-identifiers check passed and links the verifiable public proofs.",
+    "node tools/verify-task-lock.cjs BP-133 --verify exits 0.",
+    "git diff --check exits 0.",
+    "No Builder code, test, package, or soulmatch file is changed."
+  ],
+  "evidence_required": [
+    "diff_ref",
+    "content_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-133 --preflight",
+    "node tools/verify-task-lock.cjs BP-133 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "Recording the state would require writing a Neon identifier, connection string, or any secret value.",
+    "A Builder code/test/package change becomes necessary.",
+    "soulmatch would need to be changed."
+  ],
+  "prior_task_findings": "BP-132 added the runtime health entry; the service is now live on Render at https://bluepilot-builder.onrender.com with GET /health -> 200 ok and GET /health/db -> 200 reachable, confirmed both by Codex and by Claude fetching the public URL. BP-131 lesson: that doc task exposed Neon resource identifiers in a public repo; BP-133 must record the deploy with names and proofs only and zero infra identifiers or secrets. Next arc after this anchor is binding the canonical app-spanning Maya: deploy maya-core and set MAYA_CORE_URL plus the gate token so the BP-129 mayaBuilderGateClient (currently fail-closed) and the BP-123 memory client reach the real Maya.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "session_log",
+    "review_packet"
+  ],
+  "baseline_ref": "961f231"
+}
