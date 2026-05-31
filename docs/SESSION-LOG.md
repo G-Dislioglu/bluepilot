@@ -5,6 +5,19 @@
 
 ---
 
+## 2026-05-31 - Builder DB-Fundament (BP-128)
+
+- Gebaut: eigenes Builder-DB-Fundament unter `builder/` mit kompletter Schema-Kopie,
+  `builder/src/db.ts`, `BLUEPILOT_BUILDER_DATABASE_URL`, `.env.example` und den zwei DB-only
+  Modulen `poolState` + `builderApprovalArtifacts`.
+- Ergebnis: Keine Live-DB fuer lokale Verifikation noetig. `getDb()` scheitert ohne Env-Var klar,
+  Tests und Typecheck laufen trotzdem gruen.
+- Korrektur am Claude-Paket: `opusErrorLearning` bleibt draussen, weil es `providers` zieht.
+  Die zwei migrierten DB-Module sind nicht bytegleich, sondern nur mit relativen Importpfaden ans
+  neue `builder/src`-Layout angepasst. Das Schema selbst ist bytegleich.
+- Roter Faden weiter: Naechste Welle kann Provider/Netz/Gates pruefen, aber erst wieder mit
+  maschineller Closure. Keine DB-, Provider- oder Write-Pfad-Teile still vermischen.
+
 ## 2026-05-31 - Builder Umzugswelle 1: Logik-Closure (BP-127)
 
 - Gebaut: 14 maschinell gepruefte pure-logic Builder-Module aus soulmatch wurden nach
