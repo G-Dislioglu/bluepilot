@@ -1,0 +1,81 @@
+{
+  "task_id": "BP-122",
+  "task_name": "BP Anchor Bootstrap: CLAUDE-CONTEXT",
+  "created": "2026-05-31",
+  "scope": "bluepilot/docs/anchor",
+  "mode": "standard",
+  "task_type": "doc_task",
+  "risk_class": "low",
+  "impact_class": "docs",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Introduce the missing project anchor document docs/CLAUDE-CONTEXT.md so future sessions and agents read one red thread before any task.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "docs/MVP_SCOPE.md",
+    "docs/BP_C5_ENTRY_DECISION_v0.md",
+    "C:/Users/guerc/Downloads/files (20).zip"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-122.json",
+    "docs/CLAUDE-CONTEXT.md",
+    "review-packets/BP-122.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "contracts/BP-0*.json",
+    "contracts/BP-1[0-1]*.json",
+    "examples/**",
+    ".specify/**",
+    "package.json"
+  ],
+  "scope_out": [
+    "No Maya persona integration",
+    "No memory integration",
+    "No builder gate integration",
+    "No runtime code changes",
+    "No tool changes"
+  ],
+  "claims": [
+    "docs/CLAUDE-CONTEXT.md exists and provides Bluepilot's red-thread anchor.",
+    "The document states the MVP chain, WLP rules, current phase state, open points, and staged Maya binding plan.",
+    "No code or tool file is changed."
+  ],
+  "assumptions": [
+    "The user-provided zip content is the intended source for the anchor document.",
+    "SESSION-LOG.md and STATE.md are follow-up documents, not part of this task."
+  ],
+  "dod": [
+    "docs/CLAUDE-CONTEXT.md exists.",
+    "docs/CLAUDE-CONTEXT.md mentions ANKER-REGEL and Maya-Anbindung.",
+    "node tools/verify-task-lock.cjs BP-122 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "content_check",
+    "diff_ref"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-122 --preflight",
+    "node tools/verify-task-lock.cjs BP-122 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Maya integration becomes necessary",
+    "Runtime code change becomes necessary"
+  ],
+  "prior_task_findings": "Bootstrap exception by nature: the anchor that orders tasks is itself introduced through the smallest possible contract.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
