@@ -1,0 +1,118 @@
+{
+  "task_id": "BP-132",
+  "task_name": "Builder runtime entry: health and DB readiness probe",
+  "created": "2026-05-31",
+  "scope": "bluepilot/builder/runtime-health-entry",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "functional",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a minimal HTTP runtime entry to bluepilot/builder using only Node's built-in http module: a liveness route that returns 200 independent of the database, and a DB-readiness route that pings the real Neon database via getDb() and reports reachable or not without crashing, so Render has a real, safe process to start.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/package.json",
+    "builder/tsconfig.json",
+    "builder/src/db.ts",
+    "builder/.env.example",
+    "builder/README.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BP-132.json",
+    "builder/src/server.ts",
+    "builder/src/health.ts",
+    "builder/tests/health.test.ts",
+    "builder/package.json",
+    "builder/.env.example",
+    "builder/README.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BP-132.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "builder/package-lock.json",
+    "contracts/BP-0*.json",
+    "contracts/BP-1[0-2][0-9].json",
+    "contracts/BP-13[01].json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "builder/tsconfig.json",
+    "builder/src/builderGithubBridge.ts",
+    "builder/src/builderExecutor.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusBuildPipeline.ts",
+    "builder/src/mayaBuilderGateClient.ts"
+  ],
+  "scope_out": [
+    "Do not add any dependency; use only Node's built-in http module, so builder/package.json changes are limited to adding a start script and builder/package-lock.json stays untouched.",
+    "Do not expose any builder-execution route; server.ts must not import opusTaskOrchestrator, opusBuildPipeline, builderExecutor, builderGithubBridge or the maya gate. No build can be triggered over HTTP in BP-132.",
+    "Do not make the liveness route depend on the database; only the readiness route touches the DB.",
+    "Do not require real API keys or a reachable maya-core.",
+    "Do not create the Render service in this task; that is a later operator infra action. BP-132 only builds the process Render will start.",
+    "Do not modify soulmatch, root governance, root package.json, or builder/tsconfig.json."
+  ],
+  "claims": [
+    "builder/src/server.ts starts an HTTP server on process.env.PORT (with a local fallback port) using only the built-in node:http module.",
+    "GET /health returns HTTP 200 with a small JSON body and never calls getDb(), so it succeeds even when the database is missing or unreachable.",
+    "GET /health/db calls getDb() and runs a trivial SELECT-1 style query, wrapped in try/catch, and reports a JSON readiness status: reachable, not_configured (missing BLUEPILOT_BUILDER_DATABASE_URL), or unreachable, without crashing the process.",
+    "The readiness handler logic lives in builder/src/health.ts so it can be unit-tested without binding a real port.",
+    "No new dependency is added; builder/package.json gains only a start script (tsx src/server.ts) and builder/package-lock.json is unchanged.",
+    "server.ts imports no builder-execution or maya-gate module; there is no HTTP path that can trigger a build."
+  ],
+  "assumptions": [
+    "Render will be configured later with root directory builder/, build command npm install, start command npm start, plus PORT and BLUEPILOT_BUILDER_DATABASE_URL env vars.",
+    "The exact drizzle/neon-http readiness query form is an implementation detail Codex picks so it typechecks; the intent is a trivial SELECT 1.",
+    "The local runtime check against the real Neon database can be run now without Render, since the database already exists from BP-131."
+  ],
+  "dod": [
+    "builder/src/server.ts exists and uses only node:http; it reads PORT from the environment with a local fallback.",
+    "GET /health returns 200 without calling getDb().",
+    "GET /health/db returns a JSON readiness status and never throws out of the request handler; missing URL yields not_configured, a failing query yields unreachable.",
+    "builder/src/health.ts holds the readiness logic and is imported by both server.ts and the test.",
+    "builder/tests/health.test.ts runs without real API keys, without a live database, and without a reachable maya-core: it asserts /health is 200 and that the readiness handler returns not_configured when BLUEPILOT_BUILDER_DATABASE_URL is unset.",
+    "server.ts imports no builder-execution module or maya gate (verified by inspection).",
+    "builder/package.json adds only a start script; builder/package-lock.json shows no diff.",
+    "npm test in builder/ passes; npm run typecheck passes.",
+    "Runtime check (operator, local, with the real Neon URL set): npm start boots, GET /health returns 200, GET /health/db reports reachable. Result recorded in review-packets/BP-132.md.",
+    "builder/README.md documents the Render service settings (root directory, build/start commands, required PORT and BLUEPILOT_BUILDER_DATABASE_URL).",
+    "node tools/verify-task-lock.cjs BP-132 --verify exits 0; git diff --check exits 0.",
+    "soulmatch remains unchanged."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-132 --preflight",
+    "npm test",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BP-132 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "A dependency would be needed (anything beyond node:http).",
+    "The liveness route would need the database to answer.",
+    "Any builder-execution or maya-gate module would have to be imported to satisfy the task.",
+    "builder/package-lock.json, root package.json, builder/tsconfig.json, or root governance would have to change.",
+    "soulmatch would need to be changed."
+  ],
+  "prior_task_findings": "BP-130 completed the verbatim Builder core migration; BP-131 documented the live Neon DB (15 tables verified) but deliberately did not create the Render service. BP-132 is the first non-verbatim task, so the strict order returns to build -> push -> STOP -> VAL-K2 -> merge. Security note from BP-131 VAL-K2: the repo is public and the BP-131 review packet exposed Neon resource identifiers (host endpoint, role, project IDs); the connection-string password was not committed. A scrub remains an optional separate task; do not bundle it into BP-132.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "session_log",
+    "review_packet"
+  ],
+  "baseline_ref": "5716470"
+}
