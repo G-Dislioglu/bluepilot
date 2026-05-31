@@ -1,0 +1,93 @@
+{
+  "task_id": "BP-123",
+  "task_name": "Maya Memory Binding: bluepilot to shared Block-2 memory",
+  "created": "2026-05-31",
+  "scope": "bluepilot/maya/memory-binding",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "integration",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Make bluepilot's Maya memory a thin client of the one shared Block-2 memory in maya-core, with local JSON only as offline fallback.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/BP_C3_MAYA_MEMORY_CONTRACT_v0.md",
+    "tools/maya-memory.cjs",
+    "tools/test-maya-memory-fixtures.cjs"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-123.json",
+    "tools/maya-memory.cjs",
+    "tools/maya-memory-remote-client.cjs",
+    "tools/test-maya-memory-fixtures.cjs",
+    "docs/BP_C3_MAYA_MEMORY_CONTRACT_v0.md",
+    "review-packets/BP-123.md"
+  ],
+  "forbidden_files": [
+    "contracts/BP-0*.json",
+    "contracts/BP-1[0-2][0-2].json",
+    "tools/council-*.cjs",
+    "tools/verify-task-lock.cjs",
+    "examples/**",
+    ".specify/**",
+    "package.json"
+  ],
+  "scope_out": [
+    "Do not copy Block-2 memory logic or ethics/budget categories into bluepilot.",
+    "Do not let bluepilot write a confirmed entry directly.",
+    "Do not remove the local JSON fallback.",
+    "Do not bind persona/voice or ethics here."
+  ],
+  "claims": [
+    "tools/maya-memory-remote-client.cjs calls maya-core via MAYA_CORE_URL and sends app_origin='bluepilot'.",
+    "tools/maya-memory.cjs uses the remote client as primary path and local JSON as offline fallback.",
+    "Writes are proposals only and never directly confirmed.",
+    "The four existing ALLOWED_KEYS still work through get, set, and list."
+  ],
+  "assumptions": [
+    "maya-core exposes Block-2 memory endpoints compatible with POST /api/maya/memory and GET /api/maya/memory.",
+    "MAYA_CORE_URL and MAYA_CORE_GATE_TOKEN or MAYA_BUILDER_GATE_TOKEN will be configured in deployed environments.",
+    "Local JSON fallback remains acceptable when maya-core is unreachable."
+  ],
+  "dod": [
+    "tools/maya-memory-remote-client.cjs provides proposeEntry, readConfirmed, and listConfirmed.",
+    "tools/maya-memory.cjs falls back to local JSON and marks fallback entries local/offline.",
+    "test-maya-memory-fixtures.cjs covers remote propose pending, remote read/list mapping, and offline fallback.",
+    "docs/BP_C3_MAYA_MEMORY_CONTRACT_v0.md states shared Block-2 memory is primary and local JSON is fallback only.",
+    "node tools/test-maya-memory-fixtures.cjs exits 0.",
+    "node tools/verify-task-lock.cjs BP-123 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-123 --preflight",
+    "node --check tools/maya-memory.cjs",
+    "node --check tools/maya-memory-remote-client.cjs",
+    "node tools/test-maya-memory-fixtures.cjs",
+    "node tools/verify-task-lock.cjs BP-123 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "FORBIDDEN_FILES verletzt",
+    "Persona or ethics binding becomes necessary",
+    "A second memory schema becomes necessary",
+    "Removing local fallback becomes necessary"
+  ],
+  "prior_task_findings": "BP-122 added docs/CLAUDE-CONTEXT.md; Maya binding plan says memory first because Bluepilot currently has a real memory tool but no speaking Maya surface.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
