@@ -5,6 +5,7 @@
   "type": "module",
   "description": "TypeScript home for the staged Bluepilot Builder migration.",
   "scripts": {
+    "start": "tsx src/server.ts",
     "test": "tsx --test tests/*.test.ts",
     "typecheck": "tsc --noEmit"
   },

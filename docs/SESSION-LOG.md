@@ -5,6 +5,22 @@
 
 ---
 
+## 2026-05-31 - Builder Runtime Health Entry (BP-132)
+
+- Gebaut: `builder/src/server.ts` startet einen minimalen HTTP-Prozess ueber Node `http`.
+  `builder/src/health.ts` kapselt Liveness und DB-Readiness, damit die Logik ohne Port-Bindung
+  testbar bleibt.
+- Ergebnis: `GET /health` antwortet 200 und beruehrt die DB nicht. `GET /health/db` faengt
+  fehlende oder unerreichbare DB-Konfiguration ab und antwortet mit JSON statt Prozess-Crash.
+  Es gibt keine Build-Ausfuehrungsroute.
+- Korrektur/Einordnung: Claudes BP-132-Contract war brauchbar, aber `baseline_ref: "HEAD"` wurde
+  auf die echte BP-131-Basis `5716470` korrigiert. Der Live-DB-Secret-Check wurde nicht lokal in
+  einen Shell-Befehl geschrieben; DB-Reichweite wurde ueber Neon-MCP mit `SELECT 1` bestaetigt.
+- Beweis: `npm test` und `npm run typecheck` in `builder/` sind gruen. Lokaler `npm start`
+  liefert `/health` 200 und `/health/db` 503 `not_configured`, wenn die Secret-Env-Var fehlt.
+- Roter Faden weiter: Nach Merge kann der Render-Service mit Root Directory `builder/` angelegt
+  und `BLUEPILOT_BUILDER_DATABASE_URL` als Secret gesetzt werden.
+
 ## 2026-05-31 - Builder Neon-DB-Infra (BP-131)
 
 - Gebaut: Das bestehende Neon-Projekt `bluepilot-builder` wurde als Live-DB-Fundament fuer den
