@@ -4,6 +4,12 @@
 
 const fs = require('fs');
 const path = require('path');
+const {
+  MayaMemoryRemoteUnavailableError,
+  listConfirmed,
+  proposeEntry,
+  readConfirmed,
+} = require('./maya-memory-remote-client.cjs');
 
 const ALLOWED_KEYS = Object.freeze(['preferred_models', 'project_name', 'working_dir', 'user_preferences']);
 
@@ -29,6 +35,16 @@ function assertAllowedKey(key) {
   }
 }
 
+function markOfflineEntry(entry) {
+  if (!entry) return null;
+  return {
+    ...entry,
+    storage: entry.storage || 'local_json_fallback',
+    offline: true,
+    source: entry.source && entry.source.startsWith('local_offline') ? entry.source : `local_offline:${entry.source || 'local'}`,
+  };
+}
+
 function readMemory(rootDir = process.cwd()) {
   const filePath = memoryPath(rootDir);
   if (!fs.existsSync(filePath)) return defaultMemory();
@@ -42,7 +58,7 @@ function writeAtomicJson(filePath, value) {
   fs.renameSync(tmp, filePath);
 }
 
-function setMemory(rootDir, key, value, options = {}) {
+function setLocalMemory(rootDir, key, value, options = {}) {
   assertAllowedKey(key);
   const memory = readMemory(rootDir);
   memory.updated_at = nowIso();
@@ -50,26 +66,75 @@ function setMemory(rootDir, key, value, options = {}) {
     key,
     value,
     proposal_only: options.proposalOnly !== false,
-    source: options.source || 'local',
+    source: options.source || 'local_offline',
+    storage: 'local_json_fallback',
+    offline: true,
     updated_at: memory.updated_at,
   };
   writeAtomicJson(memoryPath(rootDir), memory);
   return memory.entries[key];
 }
 
-function getMemory(rootDir, key) {
+function getLocalMemory(rootDir, key) {
   assertAllowedKey(key);
   const memory = readMemory(rootDir);
-  return memory.entries[key] || null;
+  return markOfflineEntry(memory.entries[key] || null);
 }
 
-function listMemory(rootDir) {
+function listLocalMemory(rootDir) {
   const memory = readMemory(rootDir);
   return {
     schema_version: memory.schema_version,
     updated_at: memory.updated_at,
-    entries: ALLOWED_KEYS.map((key) => memory.entries[key]).filter(Boolean),
+    storage: 'local_json_fallback',
+    offline: true,
+    entries: ALLOWED_KEYS.map((key) => markOfflineEntry(memory.entries[key])).filter(Boolean),
   };
+}
+
+async function setMemory(rootDir, key, value, options = {}) {
+  assertAllowedKey(key);
+  try {
+    return await proposeEntry(key, value, { source: options.source || 'bluepilot' });
+  } catch (err) {
+    if (!(err instanceof MayaMemoryRemoteUnavailableError)) {
+      throw err;
+    }
+    return setLocalMemory(rootDir, key, value, {
+      proposalOnly: true,
+      source: options.source || 'fallback',
+    });
+  }
+}
+
+async function getMemory(rootDir, key) {
+  assertAllowedKey(key);
+  try {
+    return await readConfirmed(key);
+  } catch (err) {
+    if (!(err instanceof MayaMemoryRemoteUnavailableError)) {
+      throw err;
+    }
+    return getLocalMemory(rootDir, key);
+  }
+}
+
+async function listMemory(rootDir) {
+  try {
+    const entries = await listConfirmed();
+    return {
+      schema_version: 'bluepilot-maya-memory/shared-block2-client-v1',
+      updated_at: entries.reduce((latest, entry) => !latest || (entry.updated_at || '') > latest ? entry.updated_at : latest, null),
+      storage: 'shared_block2',
+      offline: false,
+      entries,
+    };
+  } catch (err) {
+    if (!(err instanceof MayaMemoryRemoteUnavailableError)) {
+      throw err;
+    }
+    return listLocalMemory(rootDir);
+  }
 }
 
 function parseValue(value) {
@@ -91,7 +156,7 @@ function printUsage() {
   console.log('Usage: node tools/maya-memory.cjs <get|set|list> [key] [value] [--root <path>]');
 }
 
-function runCli(argv) {
+async function runCli(argv) {
   const [command, key, rawValue, ...rest] = argv;
   const rootDir = path.resolve(getArg(rest, '--root') || process.cwd());
 
@@ -101,17 +166,17 @@ function runCli(argv) {
   }
 
   if (command === 'list') {
-    console.log(JSON.stringify(listMemory(rootDir), null, 2));
+    console.log(JSON.stringify(await listMemory(rootDir), null, 2));
     return 0;
   }
 
   if (command === 'get') {
-    console.log(JSON.stringify(getMemory(rootDir, key), null, 2));
+    console.log(JSON.stringify(await getMemory(rootDir, key), null, 2));
     return 0;
   }
 
   if (command === 'set') {
-    console.log(JSON.stringify(setMemory(rootDir, key, parseValue(rawValue), { source: 'cli' }), null, 2));
+    console.log(JSON.stringify(await setMemory(rootDir, key, parseValue(rawValue), { source: 'cli' }), null, 2));
     return 0;
   }
 
@@ -119,19 +184,22 @@ function runCli(argv) {
 }
 
 if (require.main === module) {
-  try {
-    process.exitCode = runCli(process.argv.slice(2));
-  } catch (err) {
+  runCli(process.argv.slice(2)).then((code) => {
+    process.exitCode = code;
+  }).catch((err) => {
     console.error(err.message);
     process.exitCode = 1;
-  }
+  });
 }
 
 module.exports = {
   ALLOWED_KEYS,
   getMemory,
+  getLocalMemory,
   listMemory,
+  listLocalMemory,
   memoryPath,
   readMemory,
   setMemory,
+  setLocalMemory,
 };
