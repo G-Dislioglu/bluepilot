@@ -9,7 +9,7 @@
   "impact_class": "infra",
   "target_persona": null,
   "council_session_required": false,
-  "goal": "Create a dedicated Neon Postgres database foundation for the Bluepilot Builder, apply the already migrated 15-table Builder schema, verify the tables exist, and document the required Render environment variable without committing secrets.",
+  "goal": "Use the dedicated existing Neon Postgres project for the Bluepilot Builder, apply the already migrated 15-table Builder schema, verify the tables exist, and document the required Render environment variable without committing secrets.",
   "eligible_context": [
     "AGENTS.md",
     "docs/CLAUDE-CONTEXT.md",
@@ -52,18 +52,18 @@
     "Do not run a live Builder task; this task only creates and verifies the database schema."
   ],
   "claims": [
-    "A dedicated Neon project/database is created for Bluepilot Builder.",
+    "The dedicated Neon project/database for Bluepilot Builder is used.",
     "The database schema contains the 15 tables from builder/src/schema/builder.ts.",
     "The connection string is retrieved for operator use but not committed.",
     "The required Render variable is BLUEPILOT_BUILDER_DATABASE_URL."
   ],
   "assumptions": [
     "The Neon plugin is authorized for the user's account.",
-    "Creating a new Neon project is acceptable for the Builder DB foundation.",
+    "The existing Neon project named bluepilot-builder is the intended Builder DB foundation.",
     "The schema is empty; no data migration is part of BP-131."
   ],
   "dod": [
-    "A Neon project for Bluepilot Builder exists.",
+    "The existing Neon project for Bluepilot Builder exists and is reachable through the Neon tool.",
     "The 15 Builder tables exist in the Neon database.",
     "A table-count verification query returns 15 for the Builder table set.",
     "A connection string is obtained but not stored in the repo.",
@@ -87,11 +87,18 @@
     "A secret would need to be committed to proceed.",
     "Builder code changes become necessary."
   ],
-  "prior_task_findings": "BP-130 completed the Builder core migration into bluepilot/builder. BP-128 prepared the code-level DB foundation using BLUEPILOT_BUILDER_DATABASE_URL, but no live Neon database was created then.",
+  "target_neon": {
+    "project_name": "bluepilot-builder",
+    "project_id": "polished-king-49081538",
+    "branch_id": "br-tiny-star-ajc0ps66",
+    "database": "neondb",
+    "role": "neondb_owner"
+  },
+  "prior_task_findings": "BP-130 completed the Builder core migration into bluepilot/builder. BP-128 prepared the code-level DB foundation using BLUEPILOT_BUILDER_DATABASE_URL, but no live Neon database schema was applied then. The user clarified during BP-131 that an existing Neon project named bluepilot-builder should be used instead of creating another database.",
   "reuse_target": [
     "next_task_pre_lock",
     "session_log",
     "review_packet"
   ],
-  "baseline_ref": "HEAD"
+  "baseline_ref": "9f62765"
 }

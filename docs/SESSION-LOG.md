@@ -5,6 +5,22 @@
 
 ---
 
+## 2026-05-31 - Builder Neon-DB-Infra (BP-131)
+
+- Gebaut: Das bestehende Neon-Projekt `bluepilot-builder` wurde als Live-DB-Fundament fuer den
+  migrierten Builder verwendet. In `neondb` wurden die 15 Tabellen aus
+  `builder/src/schema/builder.ts` leer angelegt.
+- Ergebnis: Die Datenbank ist separat von soulmatch, nutzt das Bluepilot-Ziel
+  `BLUEPILOT_BUILDER_DATABASE_URL` und enthaelt keine Datenmigration. Secrets wurden nicht ins
+  Repo geschrieben.
+- Korrektur waehrend der Ausfuehrung: Der Screenshot zeigte noch die `soulmatch`-Projektseite
+  (`floral-hat-29593725`), aber der Neon-Search fand `bluepilot-builder` als eigenes Projekt
+  `polished-king-49081538`. Dieses bestehende Projekt wurde verwendet.
+- Beweis: Neon listet 15 Builder-Tabellen; die Tabellenzaehlung fuer das definierte Builder-Set
+  gibt `15` zurueck, und die erwarteten FKs zeigen auf `builder_tasks`.
+- Roter Faden weiter: Nach Merge BP-131 kann der erste echte End-to-End-Probelauf mit gesetzter
+  `BLUEPILOT_BUILDER_DATABASE_URL` geplant werden. Keine Secrets in Git.
+
 ## 2026-05-31 - Builder Spitze / Orchestrator-Tip (BP-130)
 
 - Gebaut: die bestaetigte 9-Modul-Closure der Builder-Spitze nach `builder/src/` migriert:

@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bp-130-builder-orchestrator-tip`.
+- Aktueller Arbeitsbranch: `bp-131-builder-neon-db-infra`.
 - Nach Abschluss von BP-126 enthaelt Bluepilot ein separates TypeScript-Subpackage unter
   `builder/`.
 - BP-127 migriert die erste echte Builder-Code-Welle: 14 pure-logic Module unter `builder/src/`.
@@ -23,6 +23,9 @@
   ohne Orchestrator/Pipeline/Judge/Architect.
 - BP-130 migriert die Builder-Spitze: Orchestrator, Pipeline, Architect, Judge, RenderBridge,
   SelfTest, ScopeResolver, ControlPlane und `devLogger`.
+- BP-131 richtet die echte Neon-DB-Grundlage fuer den Bluepilot-Builder ein: bestehendes
+  Neon-Projekt `bluepilot-builder`, Datenbank `neondb`, 15 Builder-Tabellen angewendet und
+  verifiziert. Secrets bleiben ausserhalb des Repos.
 
 ## Phasen
 
@@ -34,7 +37,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-130.
+- Hoechster Contract: BP-131.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -49,6 +52,9 @@
   kanonischem Smart-Push-Pfad, ohne Spitze.
 - BP-130: Orchestrator-Tip-Closure; 9 Module, inklusive `devLogger` aus soulmatch `server/src`,
   ohne `builderGithubBridge` oder `builderExecutor`.
+- BP-131: Live-Infra-Fundament; bestehendes Neon-Projekt `bluepilot-builder` mit den 15
+  Builder-Tabellen aus `builder/src/schema/builder.ts`, Env-Var-Ziel
+  `BLUEPILOT_BUILDER_DATABASE_URL`.
 
 ## Maya-Anbindung
 
@@ -62,6 +68,8 @@
 
 - Bluepilot braucht `MAYA_CORE_URL`.
 - Bluepilot braucht `MAYA_CORE_GATE_TOKEN` oder `MAYA_BUILDER_GATE_TOKEN`.
+- Fuer den migrierten Builder braucht Bluepilot zusaetzlich
+  `BLUEPILOT_BUILDER_DATABASE_URL` aus dem Neon-Projekt `bluepilot-builder`.
 - maya-core muss die Gate-Auth fuer `/api/maya/memory` enthalten und deployt haben.
 - Ohne diese Variablen oder ohne deployten maya-core-Auth-Pfad arbeitet Bluepilot korrekt, aber
   lokal im Offline-Fallback.
@@ -71,8 +79,9 @@
 
 Nach BP-125 ist das Anker-Projekt abgeschlossen. Danach gibt es zwei saubere Optionen:
 
-1. BP-130 reviewen/mergen: Builder-Spitze bestaetigen.
-2. Danach BP-131 separat schneiden: erster echter End-to-End-Probelauf im Bluepilot-Builder.
+1. BP-131 reviewen/mergen: echte Builder-Datenbankgrundlage bestaetigen.
+2. Danach erster echter End-to-End-Probelauf im Bluepilot-Builder, mit gesetzter
+   `BLUEPILOT_BUILDER_DATABASE_URL`.
 3. Alternativ Bluepilot weiterbauen: echten "Maya Review"-Sprechort fuer die MVP-Kette schaffen.
 
 Nicht beides still zusammenziehen, wenn Auth, Deploy, Live-Builder oder globale Steuerung beruehrt
