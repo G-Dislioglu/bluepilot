@@ -5,6 +5,21 @@
 
 ---
 
+## 2026-05-31 - Builder Provider/Gate/Write-Pfad (BP-129)
+
+- Gebaut: 9 Module der Provider-, Gate- und Write-Pfad-Welle nach `builder/src/` migriert,
+  inklusive `providers`, `outboundHttp`, `opusSmartPush`, `opusPatchMode`,
+  `opusErrorLearning` und `mayaBuilderGateClient`.
+- Ergebnis: Die maschinelle Closure zieht keine Spitze nach. Kein Orchestrator, keine Pipeline,
+  kein Judge, kein Architect und kein `builderGithubBridge` wurden migriert.
+- Korrektur am Claude-Paket: `mayaBuilderGateClient` existiert lokal und ist Pflicht, weil
+  `providers` und `opusSmartPush` ihn importieren. Der Contract wurde von 8 auf 9 Module
+  korrigiert und WLP-gueltig gemacht.
+- Beweis: Tests und Typecheck laufen ohne Live-API-Keys, ohne Live-DB und ohne erreichbares
+  maya-core. Der Gate-Client-Test prueft fail-closed Verhalten und Gate-Token-Header mit Stub.
+- Roter Faden weiter: Erst BP-129 reviewen/mergen. Danach die Spitze separat schneiden:
+  Orchestrator/Pipeline/Judge/Architect nur nach neuer Closure-Pruefung.
+
 ## 2026-05-31 - Builder DB-Fundament (BP-128)
 
 - Gebaut: eigenes Builder-DB-Fundament unter `builder/` mit kompletter Schema-Kopie,

@@ -13,12 +13,14 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bp-128-builder-db-foundation`.
+- Aktueller Arbeitsbranch: `bp-129-builder-provider-write-path`.
 - Nach Abschluss von BP-126 enthaelt Bluepilot ein separates TypeScript-Subpackage unter
   `builder/`.
 - BP-127 migriert die erste echte Builder-Code-Welle: 14 pure-logic Module unter `builder/src/`.
 - BP-128 legt das eigene Builder-DB-Fundament an: komplettes Schema, lokales `db.ts`, eigene
   Env-Var `BLUEPILOT_BUILDER_DATABASE_URL`, plus `poolState` und `builderApprovalArtifacts`.
+- BP-129 migriert Provider/Gate/Write-Pfad-Module: 9 Module inklusive `mayaBuilderGateClient`,
+  ohne Orchestrator/Pipeline/Judge/Architect.
 
 ## Phasen
 
@@ -30,7 +32,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-128.
+- Hoechster Contract: BP-129.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -41,6 +43,8 @@
   ohne Orchestrator, DB, Provider, Netzwerk oder Write-Pfad.
 - BP-128: Builder-DB-Fundament; komplettes Schema bytegleich migriert, DB-Zugang mit eigener
   Env-Var vorbereitet, nur die zwei DB-only Module mitgenommen.
+- BP-129: Provider-, Gate- und Write-Pfad-Welle; 9 Module inklusive maya-core Gate-Client und
+  kanonischem Smart-Push-Pfad, ohne Spitze.
 
 ## Maya-Anbindung
 
@@ -63,8 +67,9 @@
 
 Nach BP-125 ist das Anker-Projekt abgeschlossen. Danach gibt es zwei saubere Optionen:
 
-1. BP-128 reviewen/mergen: eigenes Builder-DB-Fundament bestaetigen.
-2. Danach BP-129 separat schneiden: Provider/Netz/Gate-Welle erst nach neuer Import-Closure-Pruefung.
+1. BP-129 reviewen/mergen: Provider/Gate/Write-Pfad-Welle bestaetigen.
+2. Danach BP-130 separat schneiden: Orchestrator/Pipeline/Judge/Architect-Spitze erst nach neuer
+   Import-Closure-Pruefung.
 3. Alternativ Bluepilot weiterbauen: echten "Maya Review"-Sprechort fuer die MVP-Kette schaffen.
 
 Nicht beides still zusammenziehen, wenn Auth, Deploy, Live-Builder oder globale Steuerung beruehrt
