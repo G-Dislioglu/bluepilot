@@ -1,0 +1,141 @@
+{
+  "task_id": "BP-129",
+  "task_name": "Builder migration wave 3: provider, gate, and write path",
+  "created": "2026-05-31",
+  "scope": "bluepilot/builder/migration-wave-3-provider",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "migration",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Migrate the network/provider/write-path Builder layer into bluepilot/builder/src: 9 machine-verified modules covering provider calls, maya-core gate checks, canonical push/write helpers, and error learning against the migrated DB. Tests must pass without live API keys, without a live DB, and without a reachable maya-core.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "docs/BUILDER_MIGRATION_MATRIX.md",
+    "builder/package.json",
+    "builder/tsconfig.json",
+    "builder/src/db.ts",
+    "builder/src/schema/builder.ts",
+    "C:/Users/guerc/OneDrive/Desktop/soulmatch/soulmatch/server/src/lib"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BP-129.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/providers.ts",
+    "builder/src/premiumModelGate.ts",
+    "builder/src/outboundHttp.ts",
+    "builder/src/pushResultWaiter.ts",
+    "builder/src/opusAssist.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/opusPatchMode.ts",
+    "builder/src/opusErrorLearning.ts",
+    "builder/src/mayaBuilderGateClient.ts",
+    "builder/tests/opusSmartPush.test.ts",
+    "builder/tests/mayaBuilderGateClient.test.ts",
+    "builder/tests/migration-wave-3-imports.test.ts",
+    "builder/.env.example",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BP-129.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "contracts/BP-0*.json",
+    "contracts/BP-1[0-1][0-9].json",
+    "contracts/BP-12[0-8].json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "builder/tsconfig.json",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusBuildPipeline.ts",
+    "builder/src/architectPhase1.ts",
+    "builder/src/opusJudge.ts",
+    "builder/src/builderGithubBridge.ts",
+    "builder/src/schema/builder.ts",
+    "builder/src/db.ts"
+  ],
+  "module_manifest": [
+    "providers",
+    "premiumModelGate",
+    "outboundHttp",
+    "pushResultWaiter",
+    "opusAssist",
+    "opusSmartPush",
+    "opusPatchMode",
+    "opusErrorLearning",
+    "mayaBuilderGateClient"
+  ],
+  "scope_out": [
+    "Do not migrate orchestrator, pipeline, judge, architect, or route/controller modules.",
+    "Do not migrate builderGithubBridge.",
+    "Do not change module logic; only relocate imports required by the new builder/src layout.",
+    "Do not require live API keys, a live DB, or reachable maya-core for tests.",
+    "Do not modify soulmatch.",
+    "Do not modify Bluepilot root package.json or tools/*.cjs."
+  ],
+  "claims": [
+    "The 9-module manifest is the recursive closure of the provider/write-path seeds, excluding already migrated wave 1 and 2 modules.",
+    "mayaBuilderGateClient exists in soulmatch and is required by providers and opusSmartPush.",
+    "The closure pulls no top module: no opusTaskOrchestrator, opusBuildPipeline, architectPhase1, opusJudge, opusRenderBridge, opusSelfTest, opusFeatureOrchestrator, opusVordenker, or opusMeisterPlan.",
+    "outboundHttp requires undici, so builder/package.json and package-lock.json must be updated.",
+    "opusErrorLearning needs only import relocation for db and schema paths.",
+    "The original mayaBuilderGateClient.test.ts is not migrated verbatim because it imports builderGithubBridge; BP-129 adds a focused gate-client test instead."
+  ],
+  "assumptions": [
+    "Provider/API-key behavior should remain environment based and not be exercised live in BP-129 tests.",
+    "The maya-core gate should fail closed for premium model calls and irreversible write checks when unavailable.",
+    "Live provider keys and maya-core deployment are operator infrastructure concerns documented for later runs."
+  ],
+  "dod": [
+    "All 9 manifest modules exist under builder/src.",
+    "All migrated modules match soulmatch sources except documented import-path relocations.",
+    "builder/package.json and builder/package-lock.json include undici.",
+    "opusSmartPush.test.ts is migrated with test imports relocated to ../src.",
+    "builder/tests/mayaBuilderGateClient.test.ts validates focused fail-closed and gate-header behavior without builderGithubBridge or live maya-core.",
+    "builder/tests/migration-wave-3-imports.test.ts imports all 9 modules.",
+    "builder/.env.example documents provider keys, MAYA_CORE_URL, and gate token variables.",
+    "npm test in builder/ passes without live API keys, live DB, or reachable maya-core.",
+    "npm run typecheck in builder/ passes.",
+    "node tools/verify-task-lock.cjs BP-129 --verify exits 0.",
+    "git diff --check exits 0.",
+    "review-packets/BP-129.md contains provenance, closure proof, relocation list, evidence, and infra notes.",
+    "soulmatch remains unchanged."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-129 --preflight",
+    "npm install undici --save",
+    "npm test",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BP-129 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "The 9-module closure pulls a top module.",
+    "A live provider key, live DB, or reachable maya-core becomes necessary for tests.",
+    "A root package or WLP tool change becomes necessary.",
+    "soulmatch would need to be changed."
+  ],
+  "prior_task_findings": "BP-128 added the Bluepilot Builder DB foundation. A pre-build closure check corrected BP-129 from 8 to 9 modules because mayaBuilderGateClient exists and is imported by providers and opusSmartPush.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "session_log",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
