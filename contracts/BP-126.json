@@ -1,0 +1,110 @@
+{
+  "task_id": "BP-126",
+  "task_name": "Builder TypeScript foundation subpackage",
+  "created": "2026-05-31",
+  "scope": "bluepilot/builder/foundation",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "low",
+  "impact_class": "foundation",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Give Bluepilot a separate TypeScript subpackage for the upcoming Builder migration without moving any soulmatch Builder module yet.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "package.json",
+    "C:/Users/guerc/OneDrive/Desktop/soulmatch/soulmatch/server/package.json",
+    "C:/Users/guerc/OneDrive/Desktop/soulmatch/soulmatch/server/tsconfig.json",
+    "C:/Users/guerc/OneDrive/Desktop/soulmatch/soulmatch/server/docs/BUILDER_TEST_BASELINE.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BP-126.json",
+    "builder/.gitignore",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/tsconfig.json",
+    "builder/src/index.ts",
+    "builder/src/smoke.ts",
+    "builder/tests/smoke.test.ts",
+    "builder/README.md",
+    "docs/BUILDER_MIGRATION_MATRIX.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BP-126.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "contracts/BP-0*.json",
+    "contracts/BP-1[0-1][0-9].json",
+    "contracts/BP-12[0-5].json",
+    "examples/**",
+    ".specify/**",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md"
+  ],
+  "scope_out": [
+    "Do not move, copy, or import any soulmatch Builder module.",
+    "Do not change Bluepilot root package.json or tools/*.cjs.",
+    "Do not add database, provider, network, GitHub, or maya-core runtime calls.",
+    "Do not start Tier-1 module migration in this task."
+  ],
+  "claims": [
+    "builder/ is a self-contained TypeScript ESM subpackage.",
+    "builder/tsconfig.json supports NodeNext ESM and .js import specifiers used by the soulmatch Builder modules.",
+    "builder/tests/smoke.test.ts proves TypeScript execution through tsx and node:test.",
+    "The root CJS governance/WLP world remains untouched.",
+    "docs/BUILDER_MIGRATION_MATRIX.md records the corrected migration tiers and notes that the Tier-1 import closure must be machine-checked before module movement."
+  ],
+  "assumptions": [
+    "The Builder should live under a separate Bluepilot subpackage instead of turning the Bluepilot root into a TypeScript app.",
+    "Keeping a builder/package-lock.json is acceptable for reproducibility.",
+    "The first real migration block will be cut only after the TS foundation is verified."
+  ],
+  "dod": [
+    "builder/package.json declares type=module and scripts for test and typecheck.",
+    "builder/tsconfig.json uses NodeNext module and moduleResolution.",
+    "builder/src/smoke.ts exports a trivial function and builder/src/index.ts re-exports it via a .js specifier.",
+    "builder/tests/smoke.test.ts imports from ../src/smoke.js and passes.",
+    "npm install and npm test inside builder/ succeed.",
+    "npm run typecheck inside builder/ succeeds.",
+    "Root package.json and tools/*.cjs remain unchanged.",
+    "No soulmatch Builder module is copied into Bluepilot.",
+    "node tools/verify-task-lock.cjs BP-126 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-126 --preflight",
+    "npm install",
+    "npm test",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BP-126 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "A root package.json change becomes necessary.",
+    "A tools/*.cjs change becomes necessary.",
+    "A soulmatch Builder module move or copy becomes necessary.",
+    "A database, provider, network, GitHub, or maya-core runtime dependency becomes necessary."
+  ],
+  "prior_task_findings": "BP-125 completed Bluepilot's anchors. The builder migration must start with a separate TypeScript subpackage because Bluepilot root is CJS/governance-only while the soulmatch Builder is TypeScript ESM with .js import specifiers.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "session_log",
+    "review_packet"
+  ],
+  "baseline_ref": "HEAD"
+}
