@@ -1,0 +1,121 @@
+{
+  "task_id": "BP-142",
+  "task_name": "Non-default whole-file create and overwrite writes",
+  "created": "2026-06-01",
+  "scope": "bluepilot/builder/non-default-whole-file-write",
+  "mode": "critical",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "safety",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Fix the final Phase-B write adapter blocker: BP-141 can reach the sandbox real-write trigger and Maya corridor, but new-file writes land in SmartPush's overwrite bucket, which currently blocks non-default targets. Add a direct GitHub contents API whole-file write for non-default targets that can create or update a file, and route non-default overwrites through it. Keep the default soulmatch overwrite path unchanged and do not modify gates, profiles, endpoints, or orchestrator core.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "contracts/BP-140.json",
+    "contracts/BP-141.json",
+    "builder/src/opusPatchMode.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/tests/opusSmartPush.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BP-142.json",
+    "builder/src/opusPatchMode.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/tests/opusSmartPush.test.ts",
+    "builder/tests/opusPatchMode.test.ts",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BP-142.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/mayaBuilderGateClient.ts",
+    "builder/src/builderTargetProfiles.ts",
+    "builder/src/sandboxRealWrite.ts",
+    "builder/src/server.ts",
+    "builder/src/probeDryRun.ts",
+    "builder/src/sandboxWriteProbe.ts",
+    "builder/src/builderScopeResolver.ts",
+    "builder/src/providers.ts",
+    "builder/src/opusBuildPipeline.ts",
+    "builder/tests/!(opusSmartPush.test.ts|opusPatchMode.test.ts)",
+    "contracts/BP-0*.json",
+    "contracts/BP-1[0-3][0-9].json",
+    "contracts/BP-14[0-1].json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not modify target profiles, the sandbox real-write endpoint, server dispatch, Maya gate client, providers, orchestrator core, repo index, or deploy settings.",
+    "Do not change the default soulmatch overwrite path; it must still use the existing /push dispatch.",
+    "Do not bypass or alter the Maya corridor.",
+    "Do not widen target selection or introduce new repo defaults.",
+    "Do not log, return, or commit any token value.",
+    "Do not perform a live GitHub write during implementation or tests."
+  ],
+  "claims": [
+    "opusPatchMode.ts exports putFileContent, a whole-file write helper using the GitHub contents API.",
+    "putFileContent GETs the target file first; if it exists, it includes sha in the PUT body, and if GET returns 404, it omits sha so GitHub creates the file.",
+    "SmartPush routes non-default overwrites through putFileContent when a GitHub token is available.",
+    "SmartPush reports a clear missing-token error for non-default overwrites when no GitHub token is available.",
+    "SmartPush default target overwrites remain on the existing /push path.",
+    "Tests prove create-vs-update payload shape, non-default routing, missing-token behavior, and unchanged default routing without network writes."
+  ],
+  "assumptions": [
+    "BP-140 is merged: SmartPush already has a parsed targetRepo and target-aware direct patch path.",
+    "BP-141 is merged: the guarded sandbox real-write trigger is live, fixed to the sandbox and one target file.",
+    "The live blocker was the SmartPush non-default overwrite branch, not Maya corridor or target routing.",
+    "The GitHub contents API supports create when sha is omitted and update when sha is included."
+  ],
+  "dod": [
+    "putFileContent creates a new file by omitting sha after a 404 GET, proven by test.",
+    "putFileContent updates an existing file by including sha after a successful GET, proven by test.",
+    "smartPush non-default overwrite calls putFileContent with the target owner/name and no longer returns overwrite push unsupported for non-default target, proven by test.",
+    "smartPush default overwrite still uses /push and does not call putFileContent, proven by test.",
+    "Source check: no changes to sandboxRealWrite, builderTargetProfiles, opusTaskOrchestrator, Maya gate client, providers, or server dispatch.",
+    "npm test in builder/ passes.",
+    "npm run typecheck in builder/ passes.",
+    "node tools/verify-task-lock.cjs BP-142 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "review_packet"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-142 --preflight",
+    "npm test",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BP-142 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "A live write would be required during implementation or tests.",
+    "Default soulmatch overwrite behavior cannot be preserved.",
+    "Orchestrator, profile, endpoint, provider, or Maya gate changes become necessary.",
+    "The GitHub token would need to be logged, returned, or committed.",
+    "The non-default write path cannot be tested without network writes."
+  ],
+  "prior_task_findings": "BP-141 safely exposed the guarded sandbox real-write trigger. Live Phase-B testing reached the final adapter blocker: non-default overwrites/new-file writes were rejected with overwrite push unsupported for non-default target. The target and corridor were already correct; only the whole-file write adapter needs to support non-default repos.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "session_log",
+    "review_packet"
+  ],
+  "baseline_ref": "2f2b68e"
+}

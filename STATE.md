@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bp-141-sandbox-real-write`.
+- Aktueller Arbeitsbranch: `bp-142-non-default-whole-file-write`.
 - Nach Abschluss von BP-126 enthaelt Bluepilot ein separates TypeScript-Subpackage unter
   `builder/`.
 - BP-127 migriert die erste echte Builder-Code-Welle: 14 pure-logic Module unter `builder/src/`.
@@ -47,6 +47,8 @@
 - BP-141 bereitet den ersten echten Sandbox-Write vor: Sandbox-Profil ist write-enabled, aber
   der neue Trigger `/probe/sandbox-real-write` ist env-, confirm- und repo-guarded und erzwingt
   eine feste Datei in `G-Dislioglu/bluepilot-sandbox`.
+- BP-142 beseitigt den finalen Adapter-Blocker fuer diesen Write: Nicht-Default-Overwrites und
+  neue Dateien koennen nun ueber die GitHub-Contents-API direkt ins Ziel-Repo geschrieben werden.
 
 ## Phasen
 
@@ -58,7 +60,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-141.
+- Hoechster Contract: BP-142.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -109,6 +111,9 @@
   Confirm-Phrase, prueft den Ziel-Repo-Guard und erzwingt eine feste Datei
   `.bluepilot/phase-b-real-write.md`. Maya-Kill-Switch und Operator-Freigabe bleiben externe
   manuelle Gates.
+- BP-142: Non-default whole-file write adapter; ergaenzt `putFileContent` und routet
+  Nicht-Default-Overwrite/Create-Jobs ueber einen direkten GitHub-Contents-API-Write. Der
+  Default-`soulmatch`-Overwrite-Pfad bleibt auf `/push`.
 
 ## Maya-Anbindung
 
@@ -137,9 +142,9 @@
 
 Nach BP-125 ist das Anker-Projekt abgeschlossen. Danach gibt es zwei saubere Optionen:
 
-1. BP-141 reviewen/mergen und deployen.
-2. Danach gestaffelt live pruefen: Env aus -> 403; nur Builder-Env an -> Maya-Korridor blockt,
-   kein Commit; erst dann Maya-Kill-Switch + Operator-Freigabe fuer genau einen Sandbox-Write.
+1. BP-142 reviewen/mergen und deployen.
+2. Danach den BP-141-Sandbox-Write genau einmal live ausfuehren und pruefen, dass
+   `.bluepilot/phase-b-real-write.md` nur in `G-Dislioglu/bluepilot-sandbox` entsteht.
 3. Nach dem echten Write alle Write-Env-Flags wieder schliessen.
 
 Nicht beides still zusammenziehen, wenn Auth, Deploy, Live-Builder oder globale Steuerung beruehrt

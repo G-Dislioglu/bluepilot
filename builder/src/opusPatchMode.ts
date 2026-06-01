@@ -15,6 +15,16 @@ type GitHubUpdateResponse = {
   message?: string;
 };
 
+type FetchLike = typeof outboundFetch;
+
+function githubContentsHeaders(token: string): Record<string, string> {
+  return {
+    Authorization: `token ${token}`,
+    Accept: 'application/vnd.github.v3+json',
+    'Content-Type': 'application/json',
+  };
+}
+
 export function applyPatches(source: string, patches: PatchEdit[]): string {
   let result = source;
   for (const p of patches) {
@@ -41,11 +51,7 @@ export async function applyPatch(
   token: string
 ): Promise<{ success: boolean; commitSha?: string; error?: string }> {
   const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
-  const headers = {
-    Authorization: `token ${token}`,
-    Accept: 'application/vnd.github.v3+json',
-    'Content-Type': 'application/json',
-  };
+  const headers = githubContentsHeaders(token);
 
   try {
     // 1. Fetch current file content
@@ -87,6 +93,58 @@ export async function applyPatch(
       const errorData = await putResponse.json().catch(() => null) as GitHubUpdateResponse | null;
       const detail = errorData?.message ? ` (${errorData.message})` : '';
       return { success: false, error: `Failed to update file: ${putResponse.statusText}${detail}` };
+    }
+
+    const result = await putResponse.json() as GitHubUpdateResponse;
+    return { success: true, commitSha: result.commit?.sha };
+  } catch (err: any) {
+    return { success: false, error: err.message };
+  }
+}
+
+export async function putFileContent(
+  repoOwner: string,
+  repoName: string,
+  filePath: string,
+  content: string,
+  commitMessage: string,
+  token: string,
+  fetchImpl: FetchLike = outboundFetch,
+): Promise<{ success: boolean; commitSha?: string; error?: string }> {
+  const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
+  const headers = githubContentsHeaders(token);
+
+  try {
+    let sha: string | undefined;
+    const getResponse = await fetchImpl(url, { headers });
+
+    if (getResponse.ok) {
+      const fileData = await getResponse.json() as GitHubContentsResponse;
+      sha = fileData.sha;
+    } else if (getResponse.status !== 404) {
+      return { success: false, error: `Failed to inspect file: ${getResponse.statusText || getResponse.status}` };
+    }
+
+    const putBody: {
+      message: string;
+      content: string;
+      sha?: string;
+    } = {
+      message: commitMessage,
+      content: Buffer.from(content).toString('base64'),
+      ...(sha ? { sha } : {}),
+    };
+
+    const putResponse = await fetchImpl(url, {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify(putBody),
+    });
+
+    if (!putResponse.ok) {
+      const errorData = await putResponse.json().catch(() => null) as GitHubUpdateResponse | null;
+      const detail = errorData?.message ? ` (${errorData.message})` : '';
+      return { success: false, error: `Failed to put file: ${putResponse.statusText || putResponse.status}${detail}` };
     }
 
     const result = await putResponse.json() as GitHubUpdateResponse;

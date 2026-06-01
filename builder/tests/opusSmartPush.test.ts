@@ -49,11 +49,18 @@ const allowCorridor = async () => ({
 });
 
 async function withGitHubToken<T>(fn: () => Promise<T>): Promise<T> {
+  const previousPat = process.env.GITHUB_PAT;
   const previous = process.env.GITHUB_TOKEN;
-  process.env.GITHUB_TOKEN = 'test-token';
+  process.env.GITHUB_PAT = 'test-token';
+  delete process.env.GITHUB_TOKEN;
   try {
     return await fn();
   } finally {
+    if (previousPat === undefined) {
+      delete process.env.GITHUB_PAT;
+    } else {
+      process.env.GITHUB_PAT = previousPat;
+    }
     if (previous === undefined) {
       delete process.env.GITHUB_TOKEN;
     } else {
@@ -63,13 +70,20 @@ async function withGitHubToken<T>(fn: () => Promise<T>): Promise<T> {
 }
 
 async function withoutGitHubToken<T>(fn: () => Promise<T>): Promise<T> {
+  const previousPat = process.env.GITHUB_PAT;
   const previousGithub = process.env.GITHUB_TOKEN;
   const previousGh = process.env.GH_TOKEN;
+  delete process.env.GITHUB_PAT;
   delete process.env.GITHUB_TOKEN;
   delete process.env.GH_TOKEN;
   try {
     return await fn();
   } finally {
+    if (previousPat === undefined) {
+      delete process.env.GITHUB_PAT;
+    } else {
+      process.env.GITHUB_PAT = previousPat;
+    }
     if (previousGithub === undefined) {
       delete process.env.GITHUB_TOKEN;
     } else {
@@ -201,9 +215,116 @@ async function testRawFallbackReadsFromProvidedTargetRepo(): Promise<void> {
   });
 }
 
+async function testNonDefaultOverwriteUsesDirectWholeFileWrite(): Promise<void> {
+  await withGitHubToken(async () => {
+    let captured: unknown[] = [];
+
+    const result = await smartPush(
+      [{
+        file: '.bluepilot/phase-b-real-write.md',
+        mode: 'create',
+        content: 'sandbox marker',
+      }],
+      'test non-default overwrite',
+      {
+        targetRepo: 'G-Dislioglu/bluepilot-sandbox',
+        assessCorridorImpl: allowCorridor,
+        putFileContentImpl: async (...args) => {
+          captured = args;
+          return { success: true, commitSha: 'sandbox-write-commit' };
+        },
+      },
+    );
+
+    assert.equal(result.pushed, true);
+    assert.equal(result.asyncDispatch, false);
+    assert.equal(result.landed, true);
+    assert.equal(result.commitHash, 'sandbox-write-commit');
+    assert.deepEqual(captured.slice(0, 5), [
+      'G-Dislioglu',
+      'bluepilot-sandbox',
+      '.bluepilot/phase-b-real-write.md',
+      'sandbox marker',
+      'test non-default overwrite',
+    ]);
+    assert.equal(result.error?.includes('unsupported'), undefined);
+  });
+}
+
+async function testNonDefaultOverwriteRequiresGitHubToken(): Promise<void> {
+  await withoutGitHubToken(async () => {
+    let putCalled = false;
+
+    const result = await smartPush(
+      [{
+        file: '.bluepilot/phase-b-real-write.md',
+        mode: 'create',
+        content: 'sandbox marker',
+      }],
+      'test missing token',
+      {
+        targetRepo: 'G-Dislioglu/bluepilot-sandbox',
+        assessCorridorImpl: allowCorridor,
+        putFileContentImpl: async () => {
+          putCalled = true;
+          return { success: true, commitSha: 'should-not-happen' };
+        },
+      },
+    );
+
+    assert.equal(result.pushed, false);
+    assert.equal(putCalled, false);
+    assert.match(result.error ?? '', /requires GitHub token/);
+    assert.doesNotMatch(result.error ?? '', /test-token/);
+  });
+}
+
+async function testDefaultOverwriteStillUsesPushPath(): Promise<void> {
+  await withGitHubToken(async () => {
+    let putCalled = false;
+    let pushUrl = '';
+
+    const fakeFetch = async (input: unknown, init?: RequestInit) => {
+      pushUrl = String(input);
+      assert.equal(init?.method, 'POST');
+      const body = JSON.parse(String(init?.body)) as { files: unknown[]; message: string };
+      assert.deepEqual(body.files, [{ file: 'README.md', content: 'default overwrite' }]);
+      assert.equal(body.message, 'test default overwrite');
+      return {
+        json: async () => ({ triggered: false, error: 'mock stops before async wait' }),
+      };
+    };
+
+    const result = await smartPush(
+      [{
+        file: 'README.md',
+        mode: 'overwrite',
+        content: 'default overwrite',
+      }],
+      'test default overwrite',
+      {
+        assessCorridorImpl: allowCorridor,
+        outboundFetchImpl: fakeFetch as never,
+        putFileContentImpl: async () => {
+          putCalled = true;
+          return { success: true, commitSha: 'should-not-happen' };
+        },
+      },
+    );
+
+    assert.equal(putCalled, false);
+    assert.match(pushUrl, /\/push/);
+    assert.equal(result.asyncDispatch, true);
+    assert.match(result.error ?? '', /overwrite push failed/);
+  });
+}
+
 await testProvidedTargetRepoReachesDirectPatch();
 await testDefaultTargetRepoStaysSoulmatch();
 await testMalformedTargetRepoFailsBeforeGateOrWrite();
 await testRawFallbackReadsFromProvidedTargetRepo();
+await testNonDefaultOverwriteUsesDirectWholeFileWrite();
+await testNonDefaultOverwriteRequiresGitHubToken();
+await testDefaultOverwriteStillUsesPushPath();
 
 console.log('opusSmartPush tests passed');

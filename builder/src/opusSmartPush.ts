@@ -6,7 +6,7 @@
 import { readFile as fsReadFile } from 'node:fs/promises';
 import path from 'node:path';
 import { decideChangeMode } from './opusChangeRouter.js';
-import { applyPatch, applyPatches, PatchEdit } from './opusPatchMode.js';
+import { applyPatch, applyPatches, PatchEdit, putFileContent } from './opusPatchMode.js';
 import { getAuthUrl } from './opusBridgeConfig.js';
 import { waitForPushResult } from './pushResultWaiter.js';
 import { outboundFetch } from './outboundHttp.js';
@@ -58,6 +58,7 @@ interface SmartPushOptions {
   sideEffects?: BuilderSideEffectsContract;
   targetRepo?: string | null;
   applyPatchImpl?: typeof applyPatch;
+  putFileContentImpl?: typeof putFileContent;
   assessCorridorImpl?: typeof assessCorridor;
   outboundFetchImpl?: typeof outboundFetch;
 }
@@ -160,6 +161,7 @@ export async function smartPush(
   const start = Date.now();
   const targetRepo = resolveSmartPushTargetRepo(options?.targetRepo);
   const applyPatchForTarget = options?.applyPatchImpl ?? applyPatch;
+  const putFileContentForTarget = options?.putFileContentImpl ?? putFileContent;
   const assessCorridorForTarget = options?.assessCorridorImpl ?? assessCorridor;
   const outboundFetchForTarget = options?.outboundFetchImpl ?? outboundFetch;
   const modes: Record<string, 'ambiguous' | 'overwrite' | 'create' | 'patch'> = {};
@@ -212,13 +214,36 @@ export async function smartPush(
   // werten wir pushed als true.
   const dispatchedTaskIds: string[] = [];
   let verifiedCommitHash: string | undefined;
+  let directWritesSucceeded = 0;
 
   // Overwrites via internal /push endpoint (chunked, via GitHub Action)
   if (overwrites.length > 0) {
-    asyncDispatch = true;
     if (!targetRepo.isDefault) {
-      errors.push(`overwrite push unsupported for non-default target ${targetRepo.fullName}`);
+      const ghToken = process.env.GITHUB_PAT || process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '';
+      if (!ghToken) {
+        errors.push(`overwrite requires GitHub token for non-default target ${targetRepo.fullName}`);
+      } else {
+        for (const overwrite of overwrites) {
+          const result = await putFileContentForTarget(
+            targetRepo.owner,
+            targetRepo.name,
+            overwrite.file,
+            overwrite.content,
+            message,
+            ghToken,
+          );
+          if (!result.success) {
+            errors.push(`overwrite failed for ${overwrite.file}: ${result.error}`);
+          } else {
+            directWritesSucceeded += 1;
+            if (result.commitSha && !verifiedCommitHash) {
+              verifiedCommitHash = result.commitSha;
+            }
+          }
+        }
+      }
     } else {
+      asyncDispatch = true;
       try {
         const res = await outboundFetchForTarget(getAuthUrl('/push'), {
           method: 'POST',
@@ -246,7 +271,7 @@ export async function smartPush(
   }
 
   // Patches via GitHub API directly (no size limit)
-  const ghToken = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '';
+  const ghToken = process.env.GITHUB_PAT || process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '';
   for (const job of patchJobs) {
     if (!ghToken) {
       asyncDispatch = true;
@@ -320,7 +345,7 @@ export async function smartPush(
         verifiedCommitHash = entry.r.commitHash;
       }
     }
-  } else if (patchJobs.length > 0 && errors.length === 0) {
+  } else if ((patchJobs.length > 0 || directWritesSucceeded > 0) && errors.length === 0) {
     // Reiner direct-applyPatch-Pfad (synchron). Erfolge bedeuten echte Commits.
     landed = true;
   }

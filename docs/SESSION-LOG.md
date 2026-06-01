@@ -5,6 +5,26 @@
 
 ---
 
+## 2026-06-01 - Non-default Whole-file Write Adapter (BP-142)
+
+- Gebaut: `putFileContent` in `opusPatchMode.ts` als direkter GitHub-Contents-API-Write fuer
+  ganze Dateien. Die Funktion legt neue Dateien ohne `sha` an und aktualisiert bestehende
+  Dateien mit `sha`.
+- Ergebnis: `smartPush` routet Overwrite/Create-Jobs fuer Nicht-Default-Ziele nicht mehr in den
+  alten `/push`-Blocker, sondern schreibt direkt ins aufgeloeste Ziel-Repo. Fuer das Default-
+  Ziel `soulmatch` bleibt der bestehende `/push`-Pfad unveraendert.
+- Sicherheitsentscheidung: Kein neuer Endpoint, keine Profil-, Orchestrator-, Provider- oder
+  Maya-Gate-Aenderung. Der Fix oeffnet nur den fehlenden Adapterpfad, nachdem BP-141 bereits
+  Ziel, Datei, Confirm und Maya-Korridor absichert.
+- Korrektur am Claude-Paket: Der Vorschlag war inhaltlich richtig, wurde aber WLP-kompatibel
+  gemacht und ohne Live-GitHub-Write getestet. Token-Werte erscheinen nur in Request-Headern der
+  Mocks, nicht in Resultaten oder Fehlern.
+- Beweis: `npm test` in `builder/` laeuft mit 41 Tests gruen; `npm run typecheck` ist gruen.
+  Neue Tests beweisen Create ohne `sha`, Update mit `sha`, Nicht-Default-Overwrite via direktem
+  Whole-file-Write, fehlenden Token als klaren Fehler und unveraenderten Default-`/push`-Pfad.
+- Roter Faden weiter: Nach VAL-K2, Merge und Deploy den BP-141-Live-Write einmal ausfuehren,
+  dann alle Write-Env-Flags wieder schliessen.
+
 ## 2026-06-01 - Guarded Sandbox Real Write Trigger (BP-141)
 
 - Gebaut: `POST /probe/sandbox-real-write` als eng bewachter Trigger fuer den ersten echten
