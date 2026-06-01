@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bp-135-maya-gate-readiness-probe`.
+- Aktueller Arbeitsbranch: `bp-137-builder-dry-run-probe`.
 - Nach Abschluss von BP-126 enthaelt Bluepilot ein separates TypeScript-Subpackage unter
   `builder/`.
 - BP-127 migriert die erste echte Builder-Code-Welle: 14 pure-logic Module unter `builder/src/`.
@@ -34,6 +34,8 @@
   Artefakten im aktuellen Arbeitsbaum. Git-Historie bleibt unveraendert.
 - BP-135 ergaenzt `/health/maya-gate` als sicheren Maya-Gate-Readiness-Probe fuer den
   Free-Render-Dienst ohne Shell-Zugriff.
+- BP-137 ergaenzt `POST /probe/dry-run` als externen Phase-A-Startknopf fuer die bestehende
+  Builder-Orchestrator-Kette, erzwungen trocken und ohne Deploy.
 
 ## Phasen
 
@@ -45,7 +47,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-135.
+- Hoechster Contract: BP-137.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -73,6 +75,10 @@
 - BP-135: Browser-aufrufbarer Maya-Gate-Probe; Budget, Corridor und Cost werden ueber die
   bestehenden Gate-Client-Funktionen geprueft, ohne Token auszugeben oder Builder-Aktionen zu
   starten.
+- BP-137: Phase-A Dry-Run Trigger; `POST /probe/dry-run` ruft `orchestrateTask` mit
+  `dryRun:true` und `skipDeploy:true` auf und berichtet Status, Run-ID, Scope-Dateien,
+  Phasen und lokale Safety-Entscheidung. Externe Maya-Gate-Reachability bleibt der separate
+  BP-135/BP-136-Beweis.
 
 ## Maya-Anbindung
 
@@ -101,10 +107,11 @@
 
 Nach BP-125 ist das Anker-Projekt abgeschlossen. Danach gibt es zwei saubere Optionen:
 
-1. BP-135 reviewen/mergen und deployen.
-2. Danach `https://bluepilot-builder.onrender.com/health/maya-gate` pruefen: Budget und Corridor
-   sollen `reachable: true` liefern, Cost `recorded: true`.
-3. Danach erster echter End-to-End-Probelauf im Bluepilot-Builder.
+1. BP-137 reviewen/mergen und deployen.
+2. Danach `POST https://bluepilot-builder.onrender.com/probe/dry-run` mit einer kleinen
+   harmlosen Instruction live pruefen.
+3. Wenn Phase A `status: "dry_run"` und `safety.pushAllowed: false` liefert, den eng begrenzten
+   Phase-B-Schreibtest separat planen.
 4. Alternativ Bluepilot weiterbauen: echten "Maya Review"-Sprechort fuer die MVP-Kette schaffen.
 
 Nicht beides still zusammenziehen, wenn Auth, Deploy, Live-Builder oder globale Steuerung beruehrt
