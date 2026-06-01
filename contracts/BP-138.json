@@ -1,0 +1,121 @@
+{
+  "task_id": "BP-138",
+  "task_name": "Builder repo-index runtime artifact and generator",
+  "created": "2026-06-01",
+  "scope": "bluepilot/builder/repo-index-runtime-artifact",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "functional",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Unblock the live Phase-A dry-run by providing the target repo index that builderScopeResolver already expects at runtime. The current default Builder target is soulmatch, so the committed builder/data/builder-repo-index.json must describe the soulmatch target paths, not Bluepilot's own builder/src tree. Add a deterministic generator/normalizer, commit the generated artifact, and prove resolveScope no longer fails because the index is missing.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/package.json",
+    "builder/src/builderScopeResolver.ts",
+    "builder/src/builderRelatedFiles.ts",
+    "builder/src/probeDryRun.ts",
+    "builder/tests/probeDryRun.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BP-138.json",
+    "builder/scripts/generate-repo-index.mjs",
+    "builder/data/builder-repo-index.json",
+    "builder/package.json",
+    "builder/tests/repoIndex.test.ts",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BP-138.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "builder/package-lock.json",
+    "builder/src/builderScopeResolver.ts",
+    "builder/src/builderRelatedFiles.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusBuildPipeline.ts",
+    "builder/src/mayaBuilderGateClient.ts",
+    "builder/src/probeDryRun.ts",
+    "builder/src/providers.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/opusPatchMode.ts",
+    "builder/src/builderExecutor.ts",
+    "builder/src/builderGithubBridge.ts",
+    "builder/tests/!(repoIndex.test.ts)",
+    "contracts/BP-0*.json",
+    "contracts/BP-1[0-2][0-9].json",
+    "contracts/BP-13[0-7].json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not modify scope-resolution, orchestrator, pipeline, gate, provider, smart-push, patch-mode, executor, or GitHub bridge logic.",
+    "Do not add network, LLM, provider, DB, or Maya calls to the index generator.",
+    "Do not open or touch any write kill-switch; real writes stay closed.",
+    "Do not change dependencies or package-lock.",
+    "Do not generate a Bluepilot-self index for this task; BP-137 defaults to the soulmatch target and needs soulmatch target paths."
+  ],
+  "claims": [
+    "A new generator script can scan a supplied target source root recursively for TypeScript source files and writes builder/data/builder-repo-index.json.",
+    "The generated artifact has the full format consumed by builderScopeResolver and builderRelatedFiles: { totalFiles, files: [{ path, lines, exports }] }.",
+    "File paths are stable slash-separated paths relative to the target repo root, such as server/src/lib/opusTaskOrchestrator.ts, matching the soulmatch target profile used by orchestrateTask.",
+    "The export parser covers common exported function, const, class, interface, type, enum, async function, and named export forms without executing source code.",
+    "The package script makes the committed artifact reproducibly normalized and idempotent in a fresh Bluepilot checkout; the generator can fully regenerate from an explicit --source checkout when the target repo is available.",
+    "A test proves the committed artifact exists, matches the generator output, and allows resolveScope to run without throwing the missing-index error."
+  ],
+  "assumptions": [
+    "Render runs bluepilot-builder with builder/ as Root Directory, so process.cwd()/data/builder-repo-index.json resolves to builder/data/builder-repo-index.json in the repo.",
+    "resolveScope consumes the index deterministically by text matching and does not require a live provider or Maya call.",
+    "The migrated orchestrator still defaults to targetProfileId soulmatch; therefore the index must contain soulmatch repo paths until a later task changes target selection explicitly.",
+    "BP-137 correctly exposes the dry-run trigger; BP-138 only supplies the runtime map needed before the dry-run chain can proceed.",
+    "If the live dry-run reveals a new provider, model, or later orchestration error after this task, that is progress beyond the missing-index blocker and belongs in a follow-up task."
+  ],
+  "dod": [
+    "builder/data/builder-repo-index.json exists, is valid JSON, contains totalFiles plus files entries with path, lines, and exports, and includes known soulmatch paths such as server/src/lib/opusTaskOrchestrator.ts.",
+    "Running npm run index in builder/ normalizes the committed artifact; a second run leaves no git diff.",
+    "A test verifies the artifact against the generator output and verifies resolveScope does not throw builder-repo-index.json not found.",
+    "The generator source contains no fetch, http, https, process.env provider key reads, DB client usage, or Maya calls.",
+    "npm test in builder/ passes.",
+    "npm run typecheck in builder/ passes.",
+    "node tools/verify-task-lock.cjs BP-138 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check",
+    "idempotence_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-138 --preflight",
+    "npm run index",
+    "npm test",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BP-138 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "The index cannot be generated from builder/src without modifying scope resolver logic.",
+    "A package-lock or dependency change becomes necessary.",
+    "A live network, provider, DB, Maya, or secret dependency becomes necessary.",
+    "Fixing a later dry-run failure would require changing orchestrator, provider, gate, or write-path logic."
+  ],
+  "prior_task_findings": "BP-137 merged and deployed POST /probe/dry-run. The endpoint is live and accepts valid JSON, but the live Phase-A request returns dry_run_failed. Local reproduction showed the first blocker: builderScopeResolver throws 'builder-repo-index.json not found' before the dry-run chain can continue. The correct fix is to provide the index artifact and a reproducible generator, not to change the scope resolver.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "session_log",
+    "review_packet"
+  ],
+  "baseline_ref": "9b74692"
+}
