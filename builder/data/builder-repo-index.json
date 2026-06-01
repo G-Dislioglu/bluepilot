@@ -1,0 +1,7243 @@
+{
+  "totalFiles": 839,
+  "files": [
+    {
+      "path": "client/e2e/audio-devtools.spec.ts",
+      "lines": 80,
+      "exports": []
+    },
+    {
+      "path": "client/e2e/audio-live.spec.ts",
+      "lines": 223,
+      "exports": []
+    },
+    {
+      "path": "client/e2e/builder-maya-ui-live.spec.ts",
+      "lines": 588,
+      "exports": []
+    },
+    {
+      "path": "client/e2e/builder-readiness-live.spec.ts",
+      "lines": 82,
+      "exports": []
+    },
+    {
+      "path": "client/e2e/builder-safety-live.spec.ts",
+      "lines": 82,
+      "exports": []
+    },
+    {
+      "path": "client/e2e/builder-vision-live.spec.ts",
+      "lines": 72,
+      "exports": []
+    },
+    {
+      "path": "client/e2e/freisprechen.spec.ts",
+      "lines": 210,
+      "exports": []
+    },
+    {
+      "path": "client/playwright.builder-live.config.ts",
+      "lines": 24,
+      "exports": []
+    },
+    {
+      "path": "client/playwright.builder-maya-ui-live.config.ts",
+      "lines": 32,
+      "exports": []
+    },
+    {
+      "path": "client/playwright.builder-safety-live.config.ts",
+      "lines": 24,
+      "exports": []
+    },
+    {
+      "path": "client/playwright.builder-vision-live.config.ts",
+      "lines": 24,
+      "exports": []
+    },
+    {
+      "path": "client/playwright.config.ts",
+      "lines": 37,
+      "exports": []
+    },
+    {
+      "path": "client/playwright.live.config.ts",
+      "lines": 28,
+      "exports": []
+    },
+    {
+      "path": "client/src/app/App.tsx",
+      "lines": 2443,
+      "exports": [
+        "App"
+      ]
+    },
+    {
+      "path": "client/src/data/voiceCatalog.ts",
+      "lines": 102,
+      "exports": [
+        "ACCENT_CATALOG",
+        "AccentCatalogEntry",
+        "AccentKey",
+        "getSystemAccent",
+        "getSystemVoiceName",
+        "getVoiceEntry",
+        "SYSTEM_PERSONA_VOICES",
+        "VOICE_CATALOG",
+        "VoiceCatalogEntry",
+        "VoiceGender"
+      ]
+    },
+    {
+      "path": "client/src/design/index.ts",
+      "lines": 5,
+      "exports": [
+        "accentColor",
+        "SCard",
+        "ScoreRing",
+        "TOKENS",
+        "useTilt"
+      ]
+    },
+    {
+      "path": "client/src/design/SCard.tsx",
+      "lines": 85,
+      "exports": [
+        "SCard"
+      ]
+    },
+    {
+      "path": "client/src/design/ScoreRing.tsx",
+      "lines": 28,
+      "exports": [
+        "ScoreRing"
+      ]
+    },
+    {
+      "path": "client/src/design/tokens.ts",
+      "lines": 97,
+      "exports": [
+        "accentColor",
+        "TOKENS"
+      ]
+    },
+    {
+      "path": "client/src/design/useTilt.ts",
+      "lines": 82,
+      "exports": [
+        "useTilt"
+      ]
+    },
+    {
+      "path": "client/src/hooks/useLiveTalk.ts",
+      "lines": 391,
+      "exports": [
+        "LiveTalkController",
+        "LiveTalkState",
+        "useLiveTalk"
+      ]
+    },
+    {
+      "path": "client/src/hooks/usePersonaTension.ts",
+      "lines": 235,
+      "exports": [
+        "usePersonaTension"
+      ]
+    },
+    {
+      "path": "client/src/hooks/useSpeechToText.ts",
+      "lines": 659,
+      "exports": [
+        "useSpeechToText",
+        "UseSpeechToTextReturn"
+      ]
+    },
+    {
+      "path": "client/src/lib/audienceEngine.ts",
+      "lines": 248,
+      "exports": [
+        "isAudienceEnabled",
+        "playAudienceEvent",
+        "setAudienceEnabled",
+        "setAudienceVolume"
+      ]
+    },
+    {
+      "path": "client/src/lib/emotionEngine.ts",
+      "lines": 228,
+      "exports": [
+        "AudienceEvent",
+        "calcDissensScore",
+        "clampTension",
+        "dissensColor",
+        "dissensLabel",
+        "EMOTION_CONFIG",
+        "EmotionConfig",
+        "EmotionState",
+        "inferAudienceEvent",
+        "isAudienceEvent",
+        "isEmotionState",
+        "isMicroReaction",
+        "LLMTurnMeta",
+        "MICRO_REACTION_SYMBOLS",
+        "MicroReaction",
+        "parseTurnMeta",
+        "PersonaMicroReactionMeta",
+        "PersonaTensionState",
+        "pushTensionHistory",
+        "RelationTension",
+        "smoothTension",
+        "tensionToEmotion"
+      ]
+    },
+    {
+      "path": "client/src/lib/globalMediaController.ts",
+      "lines": 88,
+      "exports": [
+        "clearGlobalMediaSource",
+        "registerGlobalStopHandler",
+        "setGlobalAudioPlaying",
+        "setGlobalRequestRunning",
+        "stopGlobalMedia",
+        "useGlobalMediaState"
+      ]
+    },
+    {
+      "path": "client/src/main.tsx",
+      "lines": 11,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M00_home/index.ts",
+      "lines": 3,
+      "exports": [
+        "HomePage"
+      ]
+    },
+    {
+      "path": "client/src/modules/M00_home/ui/DailyEnergyCard.tsx",
+      "lines": 114,
+      "exports": [
+        "DailyEnergyCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M00_home/ui/GreetingCard.tsx",
+      "lines": 149,
+      "exports": [
+        "GreetingCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M00_home/ui/GuidesSection.tsx",
+      "lines": 108,
+      "exports": [
+        "GuidesSection"
+      ]
+    },
+    {
+      "path": "client/src/modules/M00_home/ui/HomePage.tsx",
+      "lines": 137,
+      "exports": [
+        "HomePage"
+      ]
+    },
+    {
+      "path": "client/src/modules/M00_home/ui/InsightsGrid.tsx",
+      "lines": 88,
+      "exports": [
+        "InsightsGrid"
+      ]
+    },
+    {
+      "path": "client/src/modules/M00_home/ui/ProfileScoreCard.tsx",
+      "lines": 157,
+      "exports": [
+        "ProfileScoreCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M00_home/ui/SoulCardsPreview.tsx",
+      "lines": 150,
+      "exports": [
+        "SoulCardsPreview"
+      ]
+    },
+    {
+      "path": "client/src/modules/M01_app-shell/DisclaimerModal.tsx",
+      "lines": 133,
+      "exports": [
+        "DisclaimerModal"
+      ]
+    },
+    {
+      "path": "client/src/modules/M01_app-shell/index.ts",
+      "lines": 16,
+      "exports": [
+        "DisclaimerModal",
+        "LiveTalkButton",
+        "MayaContextRow",
+        "ProfileRow",
+        "SHELL_SIDEBAR_COLLAPSED_WIDTH",
+        "SHELL_SIDEBAR_WIDTH",
+        "Sidebar",
+        "SidebarLogo",
+        "SidebarNav",
+        "Topbar"
+      ]
+    },
+    {
+      "path": "client/src/modules/M01_app-shell/LiveTalkButton.tsx",
+      "lines": 109,
+      "exports": [
+        "LiveTalkButton"
+      ]
+    },
+    {
+      "path": "client/src/modules/M01_app-shell/Sidebar.tsx",
+      "lines": 326,
+      "exports": [
+        "MayaContextRow",
+        "ProfileRow",
+        "SHELL_SIDEBAR_COLLAPSED_WIDTH",
+        "SHELL_SIDEBAR_WIDTH",
+        "Sidebar",
+        "SidebarLogo",
+        "SidebarNav"
+      ]
+    },
+    {
+      "path": "client/src/modules/M01_app-shell/Topbar.tsx",
+      "lines": 143,
+      "exports": [
+        "Topbar"
+      ]
+    },
+    {
+      "path": "client/src/modules/M02_ui-kit/AuraAvatar.tsx",
+      "lines": 85,
+      "exports": [
+        "AuraAvatar"
+      ]
+    },
+    {
+      "path": "client/src/modules/M02_ui-kit/BackButton.tsx",
+      "lines": 74,
+      "exports": [
+        "BackButton"
+      ]
+    },
+    {
+      "path": "client/src/modules/M02_ui-kit/Button.tsx",
+      "lines": 39,
+      "exports": [
+        "Button"
+      ]
+    },
+    {
+      "path": "client/src/modules/M02_ui-kit/Card.tsx",
+      "lines": 31,
+      "exports": [
+        "Card",
+        "CardContent",
+        "CardHeader"
+      ]
+    },
+    {
+      "path": "client/src/modules/M02_ui-kit/CardMayaChat.tsx",
+      "lines": 353,
+      "exports": [
+        "CardMayaChat"
+      ]
+    },
+    {
+      "path": "client/src/modules/M02_ui-kit/ControlsDropdown.tsx",
+      "lines": 141,
+      "exports": [
+        "ControlsDropdown"
+      ]
+    },
+    {
+      "path": "client/src/modules/M02_ui-kit/CosmicButton.tsx",
+      "lines": 93,
+      "exports": [
+        "CosmicButton"
+      ]
+    },
+    {
+      "path": "client/src/modules/M02_ui-kit/CosmicTrail.tsx",
+      "lines": 191,
+      "exports": [
+        "CosmicTrail"
+      ]
+    },
+    {
+      "path": "client/src/modules/M02_ui-kit/DiscoveryFlow.tsx",
+      "lines": 380,
+      "exports": [
+        "DiscoveryFlow",
+        "DiscoveryFlowProps"
+      ]
+    },
+    {
+      "path": "client/src/modules/M02_ui-kit/EnergyDivider.tsx",
+      "lines": 32,
+      "exports": [
+        "EnergyDivider"
+      ]
+    },
+    {
+      "path": "client/src/modules/M02_ui-kit/index.ts",
+      "lines": 21,
+      "exports": [
+        "AuraAvatar",
+        "BackButton",
+        "Button",
+        "Card",
+        "CardContent",
+        "CardHeader",
+        "CardMayaChat",
+        "ControlsDropdown",
+        "CosmicButton",
+        "CosmicTrail",
+        "DEFAULT_CARD_SETTINGS",
+        "DiscoveryFlow",
+        "EnergyDivider",
+        "Input",
+        "PageTransition",
+        "ResponsiveArtwork",
+        "ScoreSkeleton",
+        "SoulmatchCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M02_ui-kit/Input.tsx",
+      "lines": 41,
+      "exports": [
+        "Input"
+      ]
+    },
+    {
+      "path": "client/src/modules/M02_ui-kit/insightTexts.ts",
+      "lines": 170,
+      "exports": [
+        "claimIdToSlug",
+        "getInsightEnrichment",
+        "getRelatedIndices",
+        "InsightEnrichment",
+        "InsightSlug"
+      ]
+    },
+    {
+      "path": "client/src/modules/M02_ui-kit/PageTransition.tsx",
+      "lines": 128,
+      "exports": [
+        "PageDef",
+        "PageTransition"
+      ]
+    },
+    {
+      "path": "client/src/modules/M02_ui-kit/ResponsiveArtwork.tsx",
+      "lines": 56,
+      "exports": [
+        "ResponsiveArtwork"
+      ]
+    },
+    {
+      "path": "client/src/modules/M02_ui-kit/ScoreSkeleton.tsx",
+      "lines": 108,
+      "exports": [
+        "ScoreSkeleton"
+      ]
+    },
+    {
+      "path": "client/src/modules/M02_ui-kit/SoulmatchCard.tsx",
+      "lines": 262,
+      "exports": [
+        "CardSettings",
+        "DEFAULT_CARD_SETTINGS",
+        "SoulmatchCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M03_profile/index.ts",
+      "lines": 18,
+      "exports": [
+        "clearProfile",
+        "deleteProfile",
+        "getCurrentProfile",
+        "getCurrentProfileId",
+        "getProfileById",
+        "hasValidProfile",
+        "listProfiles",
+        "loadProfile",
+        "ProfileForm",
+        "ProfileSummary",
+        "saveProfile",
+        "setCurrentProfileId"
+      ]
+    },
+    {
+      "path": "client/src/modules/M03_profile/lib/profileStorage.ts",
+      "lines": 155,
+      "exports": [
+        "clearProfile",
+        "deleteProfile",
+        "getCurrentProfile",
+        "getCurrentProfileId",
+        "getProfileById",
+        "hasErrors",
+        "hasValidProfile",
+        "listProfiles",
+        "loadProfile",
+        "ProfileDraft",
+        "ProfileErrors",
+        "saveProfile",
+        "setCurrentProfileId",
+        "validateProfileDraft"
+      ]
+    },
+    {
+      "path": "client/src/modules/M03_profile/ui/ProfileForm.tsx",
+      "lines": 224,
+      "exports": [
+        "ProfileForm"
+      ]
+    },
+    {
+      "path": "client/src/modules/M03_profile/ui/ProfileSummary.tsx",
+      "lines": 66,
+      "exports": [
+        "ProfileSummary"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/index.ts",
+      "lines": 52,
+      "exports": [
+        "AspectMeaning",
+        "AspectsOverview",
+        "BirthRuler",
+        "buildAstrologyRequestFromProfile",
+        "ChakraMap",
+        "ChironWounds",
+        "computeAstrology",
+        "CosmicAlerts",
+        "CosmicDayCard",
+        "CurrentSkyCard",
+        "DayEnergyScore",
+        "DayRhythm",
+        "HouseMeanings",
+        "JupiterGifts",
+        "LunarAdvice",
+        "LunarCalendar",
+        "MonthlyEnergy",
+        "MonthlyHoroscope",
+        "MoonCalendar",
+        "MoonPhaseDeep",
+        "NorthNodeGuide",
+        "PlanetaryHours",
+        "PlanetJournal",
+        "PlanetMeanings",
+        "PlanetRhythm",
+        "RadixWheel",
+        "RealAstrologyEngine",
+        "RetrogradeAlert",
+        "RetrogradeGuide",
+        "SaturnReturn",
+        "SignInterpretation",
+        "StarGate",
+        "StubAstrologyEngine",
+        "TransitsToday",
+        "VenusCycle",
+        "WeeklyAstroView",
+        "YearAstro",
+        "ZodiacGuide"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/lib/astrologyEngine.ts",
+      "lines": 39,
+      "exports": [
+        "AstrologyEngine",
+        "buildAstrologyRequestFromProfile"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/lib/astronomy.ts",
+      "lines": 334,
+      "exports": [
+        "AspectInfo",
+        "blackMoonLilithLon",
+        "chironLon",
+        "computeAscMc",
+        "detectAspect",
+        "equalHouseCusps",
+        "findHouse",
+        "gmst",
+        "isRetrograde",
+        "julianDay",
+        "lonToZodiac",
+        "lunarLongitude",
+        "obliquity",
+        "planetGeocentricLon",
+        "wholeSignCusps"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/lib/geocode.ts",
+      "lines": 274,
+      "exports": [
+        "birthToUT",
+        "estimateOffsetFromLongitude",
+        "geocodeCity",
+        "GeoResult",
+        "timeZoneOffsetHours"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/lib/realEngine.ts",
+      "lines": 202,
+      "exports": [
+        "RealAstrologyEngine"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/lib/stubEngine.ts",
+      "lines": 120,
+      "exports": [
+        "StubAstrologyEngine"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/AspectMeaning.tsx",
+      "lines": 39,
+      "exports": [
+        "AspectMeaning"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/AspectsOverview.tsx",
+      "lines": 98,
+      "exports": [
+        "AspectsOverview"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/BirthRuler.tsx",
+      "lines": 112,
+      "exports": [
+        "BirthRuler"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/ChakraMap.tsx",
+      "lines": 99,
+      "exports": [
+        "ChakraMap"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/ChironWounds.tsx",
+      "lines": 71,
+      "exports": [
+        "ChironWounds"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/CosmicAlerts.tsx",
+      "lines": 97,
+      "exports": [
+        "CosmicAlerts"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/CosmicDayCard.tsx",
+      "lines": 154,
+      "exports": [
+        "CosmicDayCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/CurrentSkyCard.tsx",
+      "lines": 101,
+      "exports": [
+        "CurrentSkyCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/DayEnergyScore.tsx",
+      "lines": 120,
+      "exports": [
+        "DayEnergyScore"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/DayRhythm.tsx",
+      "lines": 83,
+      "exports": [
+        "DayRhythm"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/HouseMeanings.tsx",
+      "lines": 44,
+      "exports": [
+        "HouseMeanings"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/JupiterGifts.tsx",
+      "lines": 67,
+      "exports": [
+        "JupiterGifts"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/LunarAdvice.tsx",
+      "lines": 56,
+      "exports": [
+        "LunarAdvice"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/LunarCalendar.tsx",
+      "lines": 117,
+      "exports": [
+        "LunarCalendar"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/MonthlyEnergy.tsx",
+      "lines": 47,
+      "exports": [
+        "MonthlyEnergy"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/MonthlyHoroscope.tsx",
+      "lines": 130,
+      "exports": [
+        "MonthlyHoroscope"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/MoonCalendar.tsx",
+      "lines": 115,
+      "exports": [
+        "MoonCalendar"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/MoonPhaseDeep.tsx",
+      "lines": 155,
+      "exports": [
+        "MoonPhaseDeep"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/NorthNodeGuide.tsx",
+      "lines": 68,
+      "exports": [
+        "NorthNodeGuide"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/PlanetaryHours.tsx",
+      "lines": 156,
+      "exports": [
+        "PlanetaryHours"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/PlanetJournal.tsx",
+      "lines": 116,
+      "exports": [
+        "PlanetJournal"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/PlanetMeanings.tsx",
+      "lines": 48,
+      "exports": [
+        "PlanetMeanings"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/PlanetRhythm.tsx",
+      "lines": 70,
+      "exports": [
+        "PlanetRhythm"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/RadixWheel.tsx",
+      "lines": 351,
+      "exports": [
+        "RadixWheel"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/RetrogradeAlert.tsx",
+      "lines": 78,
+      "exports": [
+        "RetrogradeAlert"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/RetrogradeGuide.tsx",
+      "lines": 44,
+      "exports": [
+        "RetrogradeGuide"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/SaturnReturn.tsx",
+      "lines": 147,
+      "exports": [
+        "SaturnReturn"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/SignInterpretation.tsx",
+      "lines": 96,
+      "exports": [
+        "SignInterpretation"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/StarGate.tsx",
+      "lines": 60,
+      "exports": [
+        "StarGate"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/TransitsToday.tsx",
+      "lines": 81,
+      "exports": [
+        "TransitsToday"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/VenusCycle.tsx",
+      "lines": 64,
+      "exports": [
+        "VenusCycle"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/WeeklyAstroView.tsx",
+      "lines": 103,
+      "exports": [
+        "WeeklyAstroView"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/YearAstro.tsx",
+      "lines": 74,
+      "exports": [
+        "YearAstro"
+      ]
+    },
+    {
+      "path": "client/src/modules/M04_astrology-adapter/ui/ZodiacGuide.tsx",
+      "lines": 70,
+      "exports": [
+        "ZodiacGuide"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/index.ts",
+      "lines": 54,
+      "exports": [
+        "BiorhythmCurve",
+        "BirthMoonPhase",
+        "BirthstoneCard",
+        "buildNumerologyRequestFromProfile",
+        "ChakraBar",
+        "ChakraNumbers",
+        "ChallengeNumbers",
+        "computeNumerology",
+        "DailyAffirmations",
+        "DailyEnergy",
+        "DestinyCard",
+        "DreamArchive",
+        "GiftsCard",
+        "IdealPartnerHints",
+        "KarmicDebts",
+        "LifeCycleCard",
+        "LifeMission",
+        "LifeMissionCard",
+        "LifePathDetail",
+        "LifePinnacles",
+        "LifeWheel",
+        "LuckyNumbers",
+        "NumberMeditation",
+        "NumerologyCard",
+        "NumerologyRadar",
+        "PersonalityCard",
+        "PersonalityDeep",
+        "QuantumLeap",
+        "ShadowSide",
+        "ShadowWork",
+        "SoulColors",
+        "SoulContract",
+        "SoulDossier",
+        "SoulIntention",
+        "SoulJourney",
+        "SoulMantra",
+        "SoulPathWheel",
+        "SoulSigil",
+        "SoulTypeCard",
+        "SoulUrgeCard",
+        "SoulVow",
+        "StrengthsAnalysis",
+        "TarotDayCard",
+        "TimeCapsulle",
+        "TreeOfLife",
+        "YearCalendar",
+        "YearClock",
+        "YearCycleMandala",
+        "YearForecast",
+        "YearOracle"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/lib/calc.ts",
+      "lines": 86,
+      "exports": [
+        "calcBirthday",
+        "calcExpression",
+        "calcLifePath",
+        "calcPersonality",
+        "calcSoulUrge",
+        "reduceToNumber",
+        "sumDigits"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/lib/numerologyEngine.ts",
+      "lines": 60,
+      "exports": [
+        "buildNumerologyRequestFromProfile",
+        "computeNumerology",
+        "NumerologyEngine"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/BiorhythmCurve.tsx",
+      "lines": 140,
+      "exports": [
+        "BiorhythmCurve"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/BirthMoonPhase.tsx",
+      "lines": 67,
+      "exports": [
+        "BirthMoonPhase"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/BirthstoneCard.tsx",
+      "lines": 86,
+      "exports": [
+        "BirthstoneCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/ChakraBar.tsx",
+      "lines": 127,
+      "exports": [
+        "ChakraBar"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/ChakraNumbers.tsx",
+      "lines": 66,
+      "exports": [
+        "ChakraNumbers"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/ChallengeNumbers.tsx",
+      "lines": 95,
+      "exports": [
+        "ChallengeNumbers"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/DailyAffirmations.tsx",
+      "lines": 178,
+      "exports": [
+        "DailyAffirmations"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/DailyEnergy.tsx",
+      "lines": 63,
+      "exports": [
+        "DailyEnergy"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/DestinyCard.tsx",
+      "lines": 62,
+      "exports": [
+        "DestinyCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/DreamArchive.tsx",
+      "lines": 163,
+      "exports": [
+        "DreamArchive"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/GiftsCard.tsx",
+      "lines": 64,
+      "exports": [
+        "GiftsCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/IdealPartnerHints.tsx",
+      "lines": 105,
+      "exports": [
+        "IdealPartnerHints"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/KarmicDebts.tsx",
+      "lines": 113,
+      "exports": [
+        "KarmicDebts"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/LifeCycleCard.tsx",
+      "lines": 105,
+      "exports": [
+        "LifeCycleCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/LifeMission.tsx",
+      "lines": 121,
+      "exports": [
+        "LifeMission"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/LifeMissionCard.tsx",
+      "lines": 64,
+      "exports": [
+        "LifeMissionCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/LifePathDetail.tsx",
+      "lines": 94,
+      "exports": [
+        "LifePathDetail"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/LifePinnacles.tsx",
+      "lines": 100,
+      "exports": [
+        "LifePinnacles"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/LifeWheel.tsx",
+      "lines": 79,
+      "exports": [
+        "LifeWheel"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/LuckyNumbers.tsx",
+      "lines": 108,
+      "exports": [
+        "LuckyNumbers"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/NumberMeditation.tsx",
+      "lines": 57,
+      "exports": [
+        "NumberMeditation"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/NumerologyCard.tsx",
+      "lines": 159,
+      "exports": [
+        "NumerologyCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/NumerologyRadar.tsx",
+      "lines": 112,
+      "exports": [
+        "NumerologyRadar"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/PersonalityCard.tsx",
+      "lines": 67,
+      "exports": [
+        "PersonalityCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/PersonalityDeep.tsx",
+      "lines": 56,
+      "exports": [
+        "PersonalityDeep"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/QuantumLeap.tsx",
+      "lines": 54,
+      "exports": [
+        "QuantumLeap"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/ShadowSide.tsx",
+      "lines": 125,
+      "exports": [
+        "ShadowSide"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/ShadowWork.tsx",
+      "lines": 58,
+      "exports": [
+        "ShadowWork"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/SoulColors.tsx",
+      "lines": 92,
+      "exports": [
+        "SoulColors"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/SoulContract.tsx",
+      "lines": 140,
+      "exports": [
+        "SoulContract"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/SoulDossier.tsx",
+      "lines": 75,
+      "exports": [
+        "SoulDossier"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/SoulIntention.tsx",
+      "lines": 103,
+      "exports": [
+        "SoulIntention"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/SoulJourney.tsx",
+      "lines": 200,
+      "exports": [
+        "SoulJourney"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/SoulMantra.tsx",
+      "lines": 89,
+      "exports": [
+        "SoulMantra"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/SoulPathWheel.tsx",
+      "lines": 105,
+      "exports": [
+        "SoulPathWheel"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/SoulSigil.tsx",
+      "lines": 121,
+      "exports": [
+        "SoulSigil"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/SoulTypeCard.tsx",
+      "lines": 90,
+      "exports": [
+        "SoulTypeCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/SoulUrgeCard.tsx",
+      "lines": 61,
+      "exports": [
+        "SoulUrgeCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/SoulVow.tsx",
+      "lines": 58,
+      "exports": [
+        "SoulVow"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/StrengthsAnalysis.tsx",
+      "lines": 70,
+      "exports": [
+        "StrengthsAnalysis"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/TarotDayCard.tsx",
+      "lines": 95,
+      "exports": [
+        "TarotDayCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/TimeCapsulle.tsx",
+      "lines": 130,
+      "exports": [
+        "TimeCapsulle"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/TreeOfLife.tsx",
+      "lines": 98,
+      "exports": [
+        "TreeOfLife"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/YearCalendar.tsx",
+      "lines": 82,
+      "exports": [
+        "YearCalendar"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/YearClock.tsx",
+      "lines": 99,
+      "exports": [
+        "YearClock"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/YearCycleMandala.tsx",
+      "lines": 91,
+      "exports": [
+        "YearCycleMandala"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/YearForecast.tsx",
+      "lines": 98,
+      "exports": [
+        "YearForecast"
+      ]
+    },
+    {
+      "path": "client/src/modules/M05_numerology/ui/YearOracle.tsx",
+      "lines": 57,
+      "exports": [
+        "YearOracle"
+      ]
+    },
+    {
+      "path": "client/src/modules/M06_discuss/hooks/useDiscussApi.ts",
+      "lines": 190,
+      "exports": [
+        "useDiscussApi"
+      ]
+    },
+    {
+      "path": "client/src/modules/M06_discuss/hooks/useLiveTalk.ts",
+      "lines": 302,
+      "exports": [
+        "useLiveTalk"
+      ]
+    },
+    {
+      "path": "client/src/modules/M06_discuss/index.ts",
+      "lines": 1,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M06_discuss/types.ts",
+      "lines": 39,
+      "exports": [
+        "ChatMessage",
+        "InsightCard",
+        "PersonaInfo",
+        "PERSONAS"
+      ]
+    },
+    {
+      "path": "client/src/modules/M06_discuss/ui/ChatSidebar.tsx",
+      "lines": 89,
+      "exports": [
+        "ChatSidebar"
+      ]
+    },
+    {
+      "path": "client/src/modules/M06_discuss/ui/CompanionPanel.tsx",
+      "lines": 147,
+      "exports": [
+        "CompanionPanel"
+      ]
+    },
+    {
+      "path": "client/src/modules/M06_discuss/ui/CompanionSelectScreen.tsx",
+      "lines": 36,
+      "exports": [
+        "CompanionSelectScreen"
+      ]
+    },
+    {
+      "path": "client/src/modules/M06_discuss/ui/DiscussionChat.tsx",
+      "lines": 1095,
+      "exports": [
+        "DiscussionChat"
+      ]
+    },
+    {
+      "path": "client/src/modules/M06_discuss/ui/GearDropdown.tsx",
+      "lines": 224,
+      "exports": [
+        "GearDropdown"
+      ]
+    },
+    {
+      "path": "client/src/modules/M06_discuss/ui/LiveTalkBanner.tsx",
+      "lines": 96,
+      "exports": [
+        "LiveTalkBanner"
+      ]
+    },
+    {
+      "path": "client/src/modules/M06_discuss/ui/LiveTalkButton.tsx",
+      "lines": 63,
+      "exports": [
+        "LiveTalkButton"
+      ]
+    },
+    {
+      "path": "client/src/modules/M06_discuss/ui/MayaChips.tsx",
+      "lines": 71,
+      "exports": [
+        "MayaChips"
+      ]
+    },
+    {
+      "path": "client/src/modules/M06_discuss/ui/MayaOverlay.tsx",
+      "lines": 216,
+      "exports": [
+        "MayaOverlay"
+      ]
+    },
+    {
+      "path": "client/src/modules/M06_discuss/ui/PersonaList.tsx",
+      "lines": 337,
+      "exports": [
+        "PersonaList"
+      ]
+    },
+    {
+      "path": "client/src/modules/M06_discuss/ui/PersonaSelectScreen.tsx",
+      "lines": 53,
+      "exports": [
+        "PersonaSelectScreen"
+      ]
+    },
+    {
+      "path": "client/src/modules/M06_discuss/ui/PersonaSettingsModal.tsx",
+      "lines": 146,
+      "exports": [
+        "PersonaSettingsModal"
+      ]
+    },
+    {
+      "path": "client/src/modules/M06_discuss/ui/PersonaSettingsPanel.tsx",
+      "lines": 480,
+      "exports": [
+        "PersonaPanelSettings",
+        "PersonaSettingsPanel"
+      ]
+    },
+    {
+      "path": "client/src/modules/M06_scoring/index.ts",
+      "lines": 7,
+      "exports": [
+        "buildScoreRequestFromProfile",
+        "computeScore",
+        "scoreAstrology",
+        "scoreFusion",
+        "scoreNumerology"
+      ]
+    },
+    {
+      "path": "client/src/modules/M06_scoring/lib/rules.ts",
+      "lines": 225,
+      "exports": [
+        "scoreAstrology",
+        "scoreFusion",
+        "scoreNumerology"
+      ]
+    },
+    {
+      "path": "client/src/modules/M06_scoring/lib/scoringEngine.ts",
+      "lines": 94,
+      "exports": [
+        "buildScoreRequestFromProfile",
+        "computeScore",
+        "ScoringEngine"
+      ]
+    },
+    {
+      "path": "client/src/modules/M06_scoring/lib/utils.ts",
+      "lines": 12,
+      "exports": [
+        "claimId",
+        "clamp",
+        "roundScore"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/index.ts",
+      "lines": 54,
+      "exports": [
+        "AffinityRadar",
+        "AuraFusion2",
+        "AuraResonance",
+        "ClaimsList",
+        "CommunicationGuide",
+        "CompatibilityStoryCard",
+        "CompatOracle",
+        "ConnectionTypeCard",
+        "DailyEnergyMatch",
+        "DailyRitual",
+        "ElementalBalance",
+        "ElementBalance",
+        "EnergyForecast",
+        "FutureVision",
+        "FutureVisionCard",
+        "GrowthPath",
+        "HallOfSouls",
+        "KarmicArc",
+        "KarmicPairCard",
+        "KarmicRelease",
+        "KarmicResolution",
+        "LifePathComparison",
+        "MatchActionPlan",
+        "MatchReport",
+        "MatchReportPage",
+        "MatchSelector",
+        "MoonPhaseCompat",
+        "MoonSynergy",
+        "NodalCompat",
+        "NumeroPairTable",
+        "PairAffirmation",
+        "PartnerTips",
+        "PrayerWheel",
+        "ProfileCompatMatrix",
+        "ProfileReport",
+        "ReportLayout",
+        "ReportPage",
+        "ScoreBar",
+        "ScoreReport",
+        "Section",
+        "SharedLifePath",
+        "SharedYearForecast",
+        "SoulBridge",
+        "SoulColorFusion",
+        "SoulColorMatch",
+        "SoulContract2",
+        "SoulGeometry",
+        "SoulPairNarrative",
+        "SynastryAspects",
+        "TwinFlameCheck"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/AffinityRadar.tsx",
+      "lines": 134,
+      "exports": [
+        "AffinityRadar"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/AuraFusion2.tsx",
+      "lines": 109,
+      "exports": [
+        "AuraFusion2"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/AuraResonance.tsx",
+      "lines": 108,
+      "exports": [
+        "AuraResonance"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/ClaimsList.tsx",
+      "lines": 42,
+      "exports": [
+        "ClaimsList"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/CommunicationGuide.tsx",
+      "lines": 75,
+      "exports": [
+        "CommunicationGuide"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/CompatibilityStoryCard.tsx",
+      "lines": 120,
+      "exports": [
+        "CompatibilityStoryCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/CompatOracle.tsx",
+      "lines": 81,
+      "exports": [
+        "CompatOracle"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/ConnectionTypeCard.tsx",
+      "lines": 167,
+      "exports": [
+        "ConnectionTypeCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/DailyEnergyMatch.tsx",
+      "lines": 99,
+      "exports": [
+        "DailyEnergyMatch"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/DailyRitual.tsx",
+      "lines": 73,
+      "exports": [
+        "DailyRitual"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/ElementalBalance.tsx",
+      "lines": 104,
+      "exports": [
+        "ElementalBalance"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/ElementBalance.tsx",
+      "lines": 104,
+      "exports": [
+        "ElementBalance"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/EnergyForecast.tsx",
+      "lines": 87,
+      "exports": [
+        "EnergyForecast"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/FutureVision.tsx",
+      "lines": 95,
+      "exports": [
+        "FutureVision"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/FutureVisionCard.tsx",
+      "lines": 60,
+      "exports": [
+        "FutureVisionCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/GrowthPath.tsx",
+      "lines": 128,
+      "exports": [
+        "GrowthPath"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/HallOfSouls.tsx",
+      "lines": 202,
+      "exports": [
+        "HallOfSouls"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/KarmicArc.tsx",
+      "lines": 84,
+      "exports": [
+        "KarmicArc"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/KarmicPairCard.tsx",
+      "lines": 95,
+      "exports": [
+        "KarmicPairCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/KarmicRelease.tsx",
+      "lines": 67,
+      "exports": [
+        "KarmicRelease"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/KarmicResolution.tsx",
+      "lines": 66,
+      "exports": [
+        "KarmicResolution"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/LifePathComparison.tsx",
+      "lines": 110,
+      "exports": [
+        "LifePathComparison"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/MatchActionPlan.tsx",
+      "lines": 111,
+      "exports": [
+        "MatchActionPlan"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/MatchReport.tsx",
+      "lines": 256,
+      "exports": [
+        "MatchReport"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/MatchReportPage.tsx",
+      "lines": 31,
+      "exports": [
+        "MatchReportPage"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/MatchSelector.tsx",
+      "lines": 67,
+      "exports": [
+        "MatchSelector"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/MoonPhaseCompat.tsx",
+      "lines": 74,
+      "exports": [
+        "MoonPhaseCompat"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/MoonSynergy.tsx",
+      "lines": 88,
+      "exports": [
+        "MoonSynergy"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/NodalCompat.tsx",
+      "lines": 90,
+      "exports": [
+        "NodalCompat"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/NumeroPairTable.tsx",
+      "lines": 114,
+      "exports": [
+        "NumeroPairTable"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/PairAffirmation.tsx",
+      "lines": 105,
+      "exports": [
+        "PairAffirmation"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/PartnerTips.tsx",
+      "lines": 57,
+      "exports": [
+        "PartnerTips"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/PrayerWheel.tsx",
+      "lines": 94,
+      "exports": [
+        "PrayerWheel"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/ProfileCompatMatrix.tsx",
+      "lines": 112,
+      "exports": [
+        "ProfileCompatMatrix"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/ProfileReport.tsx",
+      "lines": 30,
+      "exports": [
+        "ProfileReport"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/ReportLayout.tsx",
+      "lines": 20,
+      "exports": [
+        "ReportLayout"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/ReportPage.tsx",
+      "lines": 27,
+      "exports": [
+        "ReportPage"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/ScoreBar.tsx",
+      "lines": 23,
+      "exports": [
+        "ScoreBar"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/ScoreReport.tsx",
+      "lines": 36,
+      "exports": [
+        "ScoreReport"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/Section.tsx",
+      "lines": 21,
+      "exports": [
+        "Section"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/SharedLifePath.tsx",
+      "lines": 106,
+      "exports": [
+        "SharedLifePath"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/SharedYearForecast.tsx",
+      "lines": 70,
+      "exports": [
+        "SharedYearForecast"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/SoulBridge.tsx",
+      "lines": 91,
+      "exports": [
+        "SoulBridge"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/SoulColorFusion.tsx",
+      "lines": 119,
+      "exports": [
+        "SoulColorFusion"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/SoulColorMatch.tsx",
+      "lines": 126,
+      "exports": [
+        "SoulColorMatch"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/SoulContract2.tsx",
+      "lines": 57,
+      "exports": [
+        "SoulContract2"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/SoulGeometry.tsx",
+      "lines": 80,
+      "exports": [
+        "SoulGeometry"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/SoulPairNarrative.tsx",
+      "lines": 116,
+      "exports": [
+        "SoulPairNarrative"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/SynastryAspects.tsx",
+      "lines": 107,
+      "exports": [
+        "SynastryAspects"
+      ]
+    },
+    {
+      "path": "client/src/modules/M07_reports/ui/TwinFlameCheck.tsx",
+      "lines": 82,
+      "exports": [
+        "TwinFlameCheck"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/index.ts",
+      "lines": 47,
+      "exports": [
+        "activateBlock",
+        "addMemoryEntry",
+        "addStrike",
+        "appendMessage",
+        "buildMemoryContext",
+        "checkMilestone",
+        "clearBlock",
+        "clearChatHistory",
+        "clearUserMemory",
+        "createCommandBus",
+        "detectToxicity",
+        "DiscussionChat",
+        "evaluateMessage",
+        "extractInsights",
+        "getBanStatus",
+        "getBlockRemainingMs",
+        "getLastPersona",
+        "getLilithIntensity",
+        "getSensitivityState",
+        "getStrikeRecord",
+        "getUserMemoryEntries",
+        "isBlocked",
+        "LilithAvatar",
+        "LilithEyes",
+        "LilithPortrait",
+        "LiveSigil",
+        "loadChatHistory",
+        "loadUserMemory",
+        "LunaPortrait",
+        "MayaAvatar",
+        "MayaPortrait",
+        "OracleMode",
+        "OrionPortrait",
+        "parseResponse",
+        "parseSoulCard",
+        "PERSONA_COLORS",
+        "PERSONA_ICONS",
+        "PERSONA_NAMES",
+        "PERSONA_TIERS",
+        "PERSONA_TITLES",
+        "PersonaBar",
+        "PersonaGrid",
+        "PersonaPicker",
+        "PersonaPreview",
+        "PersonaSoloChat",
+        "resetSensitivity",
+        "SeatBadge",
+        "setLastPersona",
+        "setLilithIntensity",
+        "shouldDowngradeIntensity",
+        "shouldTriggerMayaHandoff",
+        "sleep",
+        "SoulPortraitCard",
+        "StubStudioEngine",
+        "StudioPage",
+        "StudioPanel",
+        "TurnsView",
+        "updateSensitivity",
+        "VALID_COMMANDS",
+        "WeeklyInsightCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/lib/chatHistory.ts",
+      "lines": 39,
+      "exports": [
+        "appendMessage",
+        "ChatMessage",
+        "clearChatHistory",
+        "loadChatHistory"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/lib/commandBus.ts",
+      "lines": 52,
+      "exports": [
+        "CommandBus",
+        "CommandDispatcher",
+        "createCommandBus",
+        "sleep"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/lib/commandParser.ts",
+      "lines": 115,
+      "exports": [
+        "MayaCommand",
+        "MayaCommandType",
+        "ParsedResponse",
+        "parseResponse",
+        "parseSoulCard",
+        "SoulCardProposal",
+        "TourStep",
+        "VALID_COMMANDS"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/lib/insightExtractor.ts",
+      "lines": 146,
+      "exports": [
+        "checkMilestone",
+        "extractInsights"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/lib/lilithGate.ts",
+      "lines": 37,
+      "exports": [
+        "getLilithIntensity",
+        "getPersonaIntensity",
+        "LilithIntensity",
+        "setLilithIntensity",
+        "setPersonaIntensity"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/lib/personaColors.ts",
+      "lines": 73,
+      "exports": [
+        "PERSONA_COLORS",
+        "PERSONA_ICONS",
+        "PERSONA_NAMES",
+        "PERSONA_TIERS",
+        "PERSONA_TITLES",
+        "PersonaTierLabel"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/lib/personaPersist.ts",
+      "lines": 14,
+      "exports": [
+        "getLastPersona",
+        "setLastPersona"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/lib/sensitivityTracker.ts",
+      "lines": 120,
+      "exports": [
+        "analyzeMessage",
+        "getSensitivityState",
+        "resetSensitivity",
+        "SensitivityState",
+        "shouldDowngradeIntensity",
+        "shouldTriggerMayaHandoff",
+        "updateSensitivity"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/lib/stubStudio.ts",
+      "lines": 122,
+      "exports": [
+        "StubStudioEngine"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/lib/studioEngine.ts",
+      "lines": 6,
+      "exports": [
+        "StudioEngine"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/lib/toxicityGuard.ts",
+      "lines": 167,
+      "exports": [
+        "activateBlock",
+        "clearBlock",
+        "detectToxicity",
+        "detectToxicityLevel",
+        "evaluateMessage",
+        "getBlockRemainingMs",
+        "isBlocked",
+        "ModerationResult",
+        "ToxicitySeverity"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/lib/userMemory.ts",
+      "lines": 479,
+      "exports": [
+        "addMemoryEntry",
+        "addStrike",
+        "buildMemoryContext",
+        "clearUserMemory",
+        "getBanStatus",
+        "getMemoryStats",
+        "getStrikeRecord",
+        "getUserMemoryEntries",
+        "loadUserMemory",
+        "MemoryEntry",
+        "MemoryEntryType",
+        "Sentiment",
+        "StrikeRecord",
+        "UserMemoryStore"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/DiscussionChat.tsx",
+      "lines": 1526,
+      "exports": [
+        "DiscussionChat"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/LilithAvatar.tsx",
+      "lines": 105,
+      "exports": [
+        "LilithAvatar"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/LilithEyes.tsx",
+      "lines": 76,
+      "exports": [
+        "LilithEyeIntensity",
+        "LilithEyes",
+        "LilithEyeState"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/LilithPortrait.tsx",
+      "lines": 88,
+      "exports": [
+        "LilithPortrait"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/LiveSigil.tsx",
+      "lines": 145,
+      "exports": [
+        "LiveSigil",
+        "SigilState"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/LunaPortrait.tsx",
+      "lines": 65,
+      "exports": [
+        "LunaPortrait"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/MayaAvatar.tsx",
+      "lines": 106,
+      "exports": [
+        "MayaAvatar"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/MayaPortrait.tsx",
+      "lines": 68,
+      "exports": [
+        "MayaPortrait"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/MicroReactions.tsx",
+      "lines": 28,
+      "exports": [
+        "MicroReactionBadge"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/OracleMode.tsx",
+      "lines": 171,
+      "exports": [
+        "OracleMode"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/OracleRouting.tsx",
+      "lines": 66,
+      "exports": [
+        "OracleRouting"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/OrionPortrait.tsx",
+      "lines": 65,
+      "exports": [
+        "OrionPortrait"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/PersonaBar.tsx",
+      "lines": 194,
+      "exports": [
+        "PersonaBar"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/PersonaGrid.tsx",
+      "lines": 313,
+      "exports": [
+        "PersonaGrid"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/PersonaPicker.tsx",
+      "lines": 175,
+      "exports": [
+        "PersonaPicker"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/PersonaPreview.tsx",
+      "lines": 245,
+      "exports": [
+        "PersonaPreview"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/PersonaSoloChat.tsx",
+      "lines": 1022,
+      "exports": [
+        "MayaCommandCallbacks",
+        "PersonaSoloChat"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/PersonaTensionCard.tsx",
+      "lines": 70,
+      "exports": [
+        "PersonaTensionCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/PersonaTuningBar.tsx",
+      "lines": 409,
+      "exports": [
+        "AccentProfile",
+        "DEFAULT_MOOD",
+        "getPersonaAccentProfile",
+        "getPersonaHumorLevel",
+        "getPersonaSpeechRate",
+        "MoodParameters",
+        "PersonaTuningBar",
+        "usePersonaTuning"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/PersonaVisualizer.tsx",
+      "lines": 97,
+      "exports": [
+        "PersonaVisualizer"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/RelationshipLines.tsx",
+      "lines": 239,
+      "exports": [
+        "RelationshipLines"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/SeatBadge.tsx",
+      "lines": 54,
+      "exports": [
+        "SeatBadge"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/SoulPortraitCard.tsx",
+      "lines": 124,
+      "exports": [
+        "SoulPortraitCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/SpeechConsentDialog.tsx",
+      "lines": 76,
+      "exports": [
+        "SpeechConsentDialog"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/StudioHome.tsx",
+      "lines": 224,
+      "exports": [
+        "StudioHome"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/StudioPage.tsx",
+      "lines": 33,
+      "exports": [
+        "StudioPage"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/StudioPanel.tsx",
+      "lines": 204,
+      "exports": [
+        "StudioPanel"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/StudioSession.tsx",
+      "lines": 851,
+      "exports": [
+        "StudioSession"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/StudioSetup.tsx",
+      "lines": 213,
+      "exports": [
+        "DebateMode",
+        "StudioConfig",
+        "StudioSetup",
+        "TalkMode"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/TurnsView.tsx",
+      "lines": 33,
+      "exports": [
+        "TurnsView"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/VoiceRitual.tsx",
+      "lines": 94,
+      "exports": [
+        "VoiceRitual"
+      ]
+    },
+    {
+      "path": "client/src/modules/M08_studio-chat/ui/WeeklyInsightCard.tsx",
+      "lines": 134,
+      "exports": [
+        "WeeklyInsightCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M09_arcana/hooks/useArcanaApi.ts",
+      "lines": 337,
+      "exports": [
+        "ARCANA_ARCHETYPE_OPTIONS",
+        "ArcanaAccentKey",
+        "ArcanaArchetypeKey",
+        "ArcanaCharacterTuning",
+        "ArcanaPersonaContradiction",
+        "ArcanaPersonaCreditConfig",
+        "ArcanaPersonaDefinition",
+        "ArcanaPersonaSkills",
+        "ArcanaPersonaSource",
+        "ArcanaPersonaStatus",
+        "ArcanaPersonaTier",
+        "ArcanaPreset",
+        "ArcanaSignatureQuirk",
+        "ArcanaToneMode",
+        "ArcanaToneModeKey",
+        "ArcanaVoiceConfig",
+        "ArcanaVoiceName",
+        "PersonaDraftInput",
+        "useArcanaApi"
+      ]
+    },
+    {
+      "path": "client/src/modules/M09_arcana/index.ts",
+      "lines": 4,
+      "exports": [
+        "ArcanaStudioPage"
+      ]
+    },
+    {
+      "path": "client/src/modules/M09_arcana/lib/clientDirectorPrompt.ts",
+      "lines": 233,
+      "exports": [
+        "buildClientDirectorPrompt",
+        "buildExampleResponse",
+        "getCharacterDisplay",
+        "getVoiceDisplay",
+        "TONE_MODE_IMPACT_TEXT"
+      ]
+    },
+    {
+      "path": "client/src/modules/M09_arcana/ui/ArcanaCreatorChat.tsx",
+      "lines": 922,
+      "exports": [
+        "ArcanaCreatorChat"
+      ]
+    },
+    {
+      "path": "client/src/modules/M09_arcana/ui/ArcanaLivePreview.tsx",
+      "lines": 163,
+      "exports": [
+        "ArcanaLivePreview"
+      ]
+    },
+    {
+      "path": "client/src/modules/M09_arcana/ui/ArcanaPersonaList.tsx",
+      "lines": 271,
+      "exports": [
+        "ArcanaPersonaList"
+      ]
+    },
+    {
+      "path": "client/src/modules/M09_arcana/ui/ArcanaPersonaTuning.tsx",
+      "lines": 1194,
+      "exports": [
+        "ArcanaPersonaTuning"
+      ]
+    },
+    {
+      "path": "client/src/modules/M09_arcana/ui/ArcanaRightPanel.tsx",
+      "lines": 190,
+      "exports": [
+        "ArcanaRightPanel"
+      ]
+    },
+    {
+      "path": "client/src/modules/M09_arcana/ui/ArcanaStudioPage.tsx",
+      "lines": 555,
+      "exports": [
+        "ArcanaStudioPage"
+      ]
+    },
+    {
+      "path": "client/src/modules/M09_settings/index.ts",
+      "lines": 14,
+      "exports": [
+        "defaultModelForProvider",
+        "getStudioProvider",
+        "loadSettings",
+        "maskApiKey",
+        "saveSettings",
+        "SettingsPage",
+        "updateSettings"
+      ]
+    },
+    {
+      "path": "client/src/modules/M09_settings/lib/providerRouter.ts",
+      "lines": 147,
+      "exports": [
+        "getStudioProvider",
+        "LilithIntensity",
+        "StudioCallOptions",
+        "StudioProvider"
+      ]
+    },
+    {
+      "path": "client/src/modules/M09_settings/lib/settingsStorage.ts",
+      "lines": 83,
+      "exports": [
+        "defaultModelForProvider",
+        "loadSettings",
+        "maskApiKey",
+        "MODEL_OPTIONS",
+        "saveSettings",
+        "updateSettings"
+      ]
+    },
+    {
+      "path": "client/src/modules/M09_settings/ui/SettingsPage.tsx",
+      "lines": 273,
+      "exports": [
+        "SettingsPage"
+      ]
+    },
+    {
+      "path": "client/src/modules/M10_quality-gates/index.ts",
+      "lines": 3,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M11_match/index.ts",
+      "lines": 6,
+      "exports": [
+        "computeMatch",
+        "computeMatchNarrative"
+      ]
+    },
+    {
+      "path": "client/src/modules/M11_match/lib/matchEngine.ts",
+      "lines": 143,
+      "exports": [
+        "computeMatch",
+        "computeMatchNarrative",
+        "MatchEngine"
+      ]
+    },
+    {
+      "path": "client/src/modules/M11_match/lib/rules.ts",
+      "lines": 107,
+      "exports": [
+        "computeMatchSubscores"
+      ]
+    },
+    {
+      "path": "client/src/modules/M11_match/lib/utils.ts",
+      "lines": 8,
+      "exports": [
+        "clamp",
+        "roundMatch"
+      ]
+    },
+    {
+      "path": "client/src/modules/M12_dev-tools/index.ts",
+      "lines": 6,
+      "exports": [
+        "DevPanel",
+        "getDevToken",
+        "setDevToken"
+      ]
+    },
+    {
+      "path": "client/src/modules/M12_dev-tools/lib/devApi.ts",
+      "lines": 78,
+      "exports": [
+        "fetchHealth",
+        "fetchLogs",
+        "getDevToken",
+        "HealthData",
+        "LogEntry",
+        "ProviderStats",
+        "reportClientError",
+        "setDevToken"
+      ]
+    },
+    {
+      "path": "client/src/modules/M12_dev-tools/ui/DevPanel.tsx",
+      "lines": 290,
+      "exports": [
+        "DevPanel"
+      ]
+    },
+    {
+      "path": "client/src/modules/M13_timeline/index.ts",
+      "lines": 33,
+      "exports": [
+        "CrossingModal",
+        "ENTRY_TYPES",
+        "FALLBACK_ENTRY_META",
+        "resolveEntryTypeMeta",
+        "ScoreHistoryChart",
+        "Sidebar",
+        "SoulCardDetail",
+        "TopMatchesCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M13_timeline/lib/entryTypes.ts",
+      "lines": 85,
+      "exports": [
+        "ENTRY_TYPES",
+        "EntryTypeMeta",
+        "FALLBACK_ENTRY_META",
+        "resolveEntryTypeMeta"
+      ]
+    },
+    {
+      "path": "client/src/modules/M13_timeline/lib/soulCardService.ts",
+      "lines": 111,
+      "exports": [
+        "addCrossing",
+        "confirmCard",
+        "createCardFromProposal",
+        "deleteCard",
+        "getCardById",
+        "getCards",
+        "getConfirmedCards",
+        "updateCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M13_timeline/lib/timelineService.ts",
+      "lines": 72,
+      "exports": [
+        "addEntry",
+        "clearAll",
+        "countByType",
+        "getEntries",
+        "getLatestByType",
+        "removeEntry"
+      ]
+    },
+    {
+      "path": "client/src/modules/M13_timeline/lib/types.ts",
+      "lines": 51,
+      "exports": [
+        "SoulCard",
+        "SoulCardProposal",
+        "SoulCardSourceType",
+        "TimelineEntry",
+        "TimelineEntryType"
+      ]
+    },
+    {
+      "path": "client/src/modules/M13_timeline/ui/CrossingModal.tsx",
+      "lines": 322,
+      "exports": [
+        "CrossingModal",
+        "CrossingModalProps"
+      ]
+    },
+    {
+      "path": "client/src/modules/M13_timeline/ui/ScoreHistoryChart.tsx",
+      "lines": 123,
+      "exports": [
+        "ScoreHistoryChart"
+      ]
+    },
+    {
+      "path": "client/src/modules/M13_timeline/ui/Sidebar.tsx",
+      "lines": 656,
+      "exports": [
+        "Sidebar",
+        "SidebarCallbacks",
+        "SidebarProps"
+      ]
+    },
+    {
+      "path": "client/src/modules/M13_timeline/ui/SoulCardDetail.tsx",
+      "lines": 249,
+      "exports": [
+        "SoulCardDetail",
+        "SoulCardDetailProps"
+      ]
+    },
+    {
+      "path": "client/src/modules/M13_timeline/ui/TopMatchesCard.tsx",
+      "lines": 74,
+      "exports": [
+        "TopMatchesCard"
+      ]
+    },
+    {
+      "path": "client/src/modules/M14_guide/guideContext.ts",
+      "lines": 125,
+      "exports": [
+        "buildStepContext",
+        "captureAppState"
+      ]
+    },
+    {
+      "path": "client/src/modules/M14_guide/guideEngine.ts",
+      "lines": 307,
+      "exports": [
+        "guideEngine"
+      ]
+    },
+    {
+      "path": "client/src/modules/M14_guide/guideLLM.ts",
+      "lines": 194,
+      "exports": [
+        "generateContextualGuide",
+        "generateGuideText"
+      ]
+    },
+    {
+      "path": "client/src/modules/M14_guide/GuideProvider.tsx",
+      "lines": 68,
+      "exports": [
+        "GuideProvider",
+        "useGuide"
+      ]
+    },
+    {
+      "path": "client/src/modules/M14_guide/guideSteps.ts",
+      "lines": 115,
+      "exports": [
+        "ONBOARDING_STEPS"
+      ]
+    },
+    {
+      "path": "client/src/modules/M14_guide/guideTypes.ts",
+      "lines": 66,
+      "exports": [
+        "AppStateCondition",
+        "AppStateSnapshot",
+        "GuideBubblePosition",
+        "GuideMode",
+        "GuideState",
+        "GuideStep",
+        "StepCondition"
+      ]
+    },
+    {
+      "path": "client/src/modules/M14_guide/index.ts",
+      "lines": 28,
+      "exports": [
+        "buildStepContext",
+        "captureAppState",
+        "generateContextualGuide",
+        "generateGuideText",
+        "guideEngine",
+        "GuideProvider",
+        "ONBOARDING_STEPS",
+        "useGuide"
+      ]
+    },
+    {
+      "path": "client/src/modules/M14_guide/lib/guideEngine.ts",
+      "lines": 172,
+      "exports": [
+        "GuideEngine",
+        "GuideEngineConfig"
+      ]
+    },
+    {
+      "path": "client/src/modules/M14_guide/lib/guideSteps.ts",
+      "lines": 103,
+      "exports": [
+        "FULL_APP_GUIDE"
+      ]
+    },
+    {
+      "path": "client/src/modules/M14_guide/lib/types.ts",
+      "lines": 17,
+      "exports": [
+        "GuideAppState",
+        "GuideStep"
+      ]
+    },
+    {
+      "path": "client/src/modules/M14_guide/MayaGuideBubble.tsx",
+      "lines": 166,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M14_guide/MayaGuideRing.tsx",
+      "lines": 36,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M14_guide/ui/GuideOverlay.tsx",
+      "lines": 73,
+      "exports": [
+        "GuideOverlay",
+        "GuideOverlayProps"
+      ]
+    },
+    {
+      "path": "client/src/modules/M14_guide/ui/MayaPointer.tsx",
+      "lines": 71,
+      "exports": [
+        "MayaPointer",
+        "MayaPointerProps"
+      ]
+    },
+    {
+      "path": "client/src/modules/M15_aetheria/index.ts",
+      "lines": 7,
+      "exports": [
+        "AetheriaImageGen",
+        "AetheriaScreen",
+        "LOCATIONS"
+      ]
+    },
+    {
+      "path": "client/src/modules/M15_aetheria/lib/locations.ts",
+      "lines": 89,
+      "exports": [
+        "AetheriaLocation",
+        "LOCATIONS"
+      ]
+    },
+    {
+      "path": "client/src/modules/M15_aetheria/lib/useAssetImage.ts",
+      "lines": 101,
+      "exports": [
+        "clearAssetCache",
+        "useAssetImage"
+      ]
+    },
+    {
+      "path": "client/src/modules/M15_aetheria/lib/useCamera.ts",
+      "lines": 59,
+      "exports": [
+        "useCamera"
+      ]
+    },
+    {
+      "path": "client/src/modules/M15_aetheria/ui/AetheriaImageGen.tsx",
+      "lines": 229,
+      "exports": [
+        "AetheriaImageGen"
+      ]
+    },
+    {
+      "path": "client/src/modules/M15_aetheria/ui/AetheriaLabels.tsx",
+      "lines": 94,
+      "exports": [
+        "AetheriaLabels"
+      ]
+    },
+    {
+      "path": "client/src/modules/M15_aetheria/ui/AetheriaScreen.tsx",
+      "lines": 129,
+      "exports": [
+        "AetheriaScreen"
+      ]
+    },
+    {
+      "path": "client/src/modules/M15_aetheria/ui/CameraStage.tsx",
+      "lines": 99,
+      "exports": [
+        "CameraStage"
+      ]
+    },
+    {
+      "path": "client/src/modules/M15_aetheria/ui/RoomScene.tsx",
+      "lines": 231,
+      "exports": [
+        "RoomScene"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/hooks/useBuilderApi.ts",
+      "lines": 1984,
+      "exports": [
+        "BuilderAction",
+        "BuilderArtifact",
+        "BuilderAttentionState",
+        "BuilderChatMessage",
+        "BuilderChatPoolEntry",
+        "BuilderChatResponse",
+        "BuilderCodeLanePhase",
+        "BuilderCreateTaskInput",
+        "BuilderEvidencePack",
+        "BuilderFileContent",
+        "BuilderInstanceMode",
+        "BuilderLaneKey",
+        "BuilderObservedAction",
+        "BuilderObservedLog",
+        "BuilderOutputFormat",
+        "BuilderOutputKind",
+        "BuilderPatrolFinding",
+        "BuilderPatrolSeverity",
+        "BuilderPatrolStatus",
+        "BuilderPipelineInstanceGroup",
+        "BuilderPipelineReadiness",
+        "BuilderPipelineReadinessInstance",
+        "BuilderPipelineReadinessStatus",
+        "BuilderPipelineSmokeMode",
+        "BuilderRiskDecisionFeed",
+        "BuilderRiskDecisionPayload",
+        "BuilderRiskDecisionRouteLog",
+        "BuilderRiskDecisionTaskArtifact",
+        "BuilderRiskPreflight",
+        "BuilderRiskPreflightSummary",
+        "BuilderRouteEnforcementPolicy",
+        "BuilderRouteEnforcementPolicySummary",
+        "BuilderTargetProfile",
+        "BuilderTargetProfilesResponse",
+        "BuilderTargetRuntime",
+        "BuilderTargetWritePolicy",
+        "BuilderTask",
+        "BuilderTaskContract",
+        "BuilderTaskIntentKind",
+        "BuilderTaskObservation",
+        "BuilderUniversalLifecyclePhase",
+        "MayaIntakeApprovalDecision",
+        "MayaIntakeApprovalQueueItem",
+        "MayaIntakeApprovalState",
+        "MayaIntakeAuditEvent",
+        "MayaIntakeContractExport",
+        "MayaIntakeDecision",
+        "MayaIntakeRecord",
+        "MayaIntakeReevaluation",
+        "MayaIntakeSummary",
+        "MayaOperatorAggregation",
+        "useBuilderApi"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/hooks/useBuilderMayaLive.ts",
+      "lines": 449,
+      "exports": [
+        "BuilderMayaAutonomyMode",
+        "BuilderMayaLiveStatus",
+        "BuilderMayaLiveTranscriptEntry",
+        "useBuilderMayaLive"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/hooks/useMayaApi.ts",
+      "lines": 714,
+      "exports": [
+        "BuilderGoatLocalVoiceContextPreview",
+        "BuilderGoatLocalVoiceContextPreviewResponse",
+        "BuilderGoatNavigationMarker",
+        "BuilderGoatScreenNavigationContext",
+        "BuilderGoatVoiceContextPreview",
+        "BuilderGoatVoiceContextPreviewResponse",
+        "BuilderGoatVoiceIntentPreview",
+        "BuilderGoatVoiceIntentPreviewResponse",
+        "BuilderMayaRepoMutationKillSwitchLiveStatus",
+        "DirectorModel",
+        "MayaActionResult",
+        "MayaChatMessage",
+        "MayaChatResponse",
+        "MayaContext",
+        "MayaPoolConfig",
+        "MayaPoolModel",
+        "PoolState",
+        "PoolType",
+        "useMayaApi",
+        "VisionAutoPickModel",
+        "VisionAutoPickResponse",
+        "VisionModelScoreAggregate",
+        "VisionModelTaskTypeScore",
+        "VisualCaptureResponse",
+        "VisualCouncilEscalationResponse",
+        "VisualCouncilModelResponse",
+        "VisualFixTaskCreationResponse",
+        "VisualInteractionResponse",
+        "VisualReviewFinding",
+        "VisualReviewModelResult",
+        "VisualReviewRunResponse",
+        "VisualReviewTaskType",
+        "VisualScreenshotUploadResponse"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/hooks/useMayaFigureGuide.ts",
+      "lines": 532,
+      "exports": [
+        "MayaGuideAPI",
+        "useMayaFigureGuide"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/hooks/useMayaTargetRegistry.ts",
+      "lines": 112,
+      "exports": [
+        "MayaTargetRect",
+        "useMayaTargetRegistry"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/index.ts",
+      "lines": 15,
+      "exports": [
+        "BuilderStudioPage",
+        "GlobalMayaDock",
+        "PatrolConsole",
+        "useBuilderApi",
+        "useMayaApi"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderEvidenceHint.ts",
+      "lines": 60,
+      "exports": [
+        "deriveBuilderEvidenceHint"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderFlowFindings.test.ts",
+      "lines": 280,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderFlowFindings.ts",
+      "lines": 601,
+      "exports": [
+        "acknowledgeAllBuilderFlowFindings",
+        "acknowledgeBuilderFlowFinding",
+        "BuilderFlowFinding",
+        "BuilderFlowFindingOutcomeContext",
+        "BuilderFlowFindingSeverity",
+        "BuilderFlowFindingSummary",
+        "deriveBuilderFlowFinding",
+        "deriveBuilderFlowOutcomeFinding",
+        "formatBuilderFlowFindingActionTrace",
+        "getNextOpenBuilderFlowFinding",
+        "loadBuilderFlowFindings",
+        "mergeBuilderFlowFinding",
+        "saveBuilderFlowFindings",
+        "sortBuilderFlowFindingsForReview",
+        "summarizeBuilderFlowFindings"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderFlowTraining.test.ts",
+      "lines": 134,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderFlowTraining.ts",
+      "lines": 309,
+      "exports": [
+        "BUILDER_FLOW_TRAINING_STEPS",
+        "BuilderFlowTrainingArea",
+        "BuilderFlowTrainingStep",
+        "BuilderFlowTrainingSummary",
+        "evaluateBuilderFlowTrainingStep",
+        "formatBuilderFlowLearningAction",
+        "formatBuilderFlowTrainingAreaSummary",
+        "formatBuilderFlowTrainingSummary",
+        "getBuilderFlowTrainingStep",
+        "getBuilderFlowTrainingStepsByArea",
+        "summarizeBuilderFlowTraining"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaActionPolicy.test.ts",
+      "lines": 80,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaActionPolicy.ts",
+      "lines": 128,
+      "exports": [
+        "BUILDER_MAYA_POLICY_ONLY_ACTIONS",
+        "BuilderMayaActionPolicyDecision",
+        "BuilderMayaPolicyActionType",
+        "BuilderMayaPolicyCategory",
+        "BuilderMayaPolicyRisk",
+        "evaluateBuilderMayaActionPolicy",
+        "formatBuilderMayaActionPolicyDecision",
+        "summarizeBuilderMayaPolicyOnlyGates"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaBeforeAfterAuditContract.test.ts",
+      "lines": 70,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaBeforeAfterAuditContract.ts",
+      "lines": 67,
+      "exports": [
+        "BUILDER_MAYA_BEFORE_AFTER_AUDIT_CONTRACT",
+        "BuilderMayaAuditSnapshotLike",
+        "BuilderMayaBeforeAfterAuditContract",
+        "formatBuilderMayaBeforeAfterAuditSummary",
+        "listMissingBuilderMayaAuditFields"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaDecisionPreview.test.ts",
+      "lines": 106,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaDecisionPreview.ts",
+      "lines": 126,
+      "exports": [
+        "BuilderMayaDecisionPreview",
+        "BuilderMayaDecisionPreviewContext",
+        "BuilderMayaPolicyOnlyDecisionPreviewInput",
+        "createBuilderMayaDecisionPreview",
+        "createBuilderMayaPolicyOnlyDecisionPreview",
+        "formatBuilderMayaDecisionPreview"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaExecutionLedger.test.ts",
+      "lines": 352,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaExecutionLedger.ts",
+      "lines": 668,
+      "exports": [
+        "appendBuilderMayaExecutionEntry",
+        "buildBuilderMayaExecutionSteps",
+        "BuilderMayaDecisionReceipt",
+        "BuilderMayaExecutionAutonomyMode",
+        "BuilderMayaExecutionDecisionKind",
+        "BuilderMayaExecutionEntry",
+        "BuilderMayaExecutionSnapshot",
+        "BuilderMayaExecutionStatus",
+        "BuilderMayaExecutionStep",
+        "BuilderMayaExecutionSummary",
+        "BuilderMayaExecutorPreflightState",
+        "BuilderMayaExecutorPreviewState",
+        "BuilderMayaExecutorRouteReceipt",
+        "classifyBuilderMayaExecutionDecision",
+        "createBuilderMayaChatLedgerEntry",
+        "createBuilderMayaExecutionEntry",
+        "createBuilderMayaExecutorRouteLedgerEntry",
+        "createBuilderMayaPolicyLedgerEntry",
+        "createBuilderMayaUiResultLedgerEntry",
+        "explainBuilderMayaExecutionDecision",
+        "formatBuilderMayaConfirmQueueEntry",
+        "formatBuilderMayaDecisionAudit",
+        "formatBuilderMayaDecisionReceipt",
+        "formatBuilderMayaExecutionStepsForPrompt",
+        "formatBuilderMayaExecutorAuditRequirements",
+        "formatBuilderMayaExecutorCandidateMarker",
+        "formatBuilderMayaExecutorCandidateTrace",
+        "formatBuilderMayaExecutorDisabledReason",
+        "formatBuilderMayaExecutorPreflight",
+        "formatBuilderMayaExecutorPreview",
+        "formatBuilderMayaExecutorRouteReceipt",
+        "formatBuilderMayaLiveFactText",
+        "formatBuilderMayaRunEventLabel",
+        "formatBuilderMayaRunSummary",
+        "getBuilderMayaExecutorCandidateEntry",
+        "getBuilderMayaExecutorPreflightState",
+        "getBuilderMayaExecutorPreviewState",
+        "loadBuilderMayaExecutionLedger",
+        "markLatestBuilderMayaPendingConfirmation",
+        "saveBuilderMayaExecutionLedger",
+        "summarizeBuilderMayaExecutionLedger"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaExecutorArmingGate.test.ts",
+      "lines": 89,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaExecutorArmingGate.ts",
+      "lines": 46,
+      "exports": [
+        "BuilderMayaExecutorArmingGateInput",
+        "BuilderMayaExecutorArmingGateResult",
+        "evaluateBuilderMayaExecutorArmingGate"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaExecutorDryRun.test.ts",
+      "lines": 82,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaExecutorDryRun.ts",
+      "lines": 128,
+      "exports": [
+        "BuilderMayaExecutorDryRunResult",
+        "evaluateBuilderMayaExecutorDryRun"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaExecutorErrorPathContract.test.ts",
+      "lines": 76,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaExecutorErrorPathContract.ts",
+      "lines": 99,
+      "exports": [
+        "BUILDER_MAYA_EXECUTOR_ERROR_PATH_CONTRACT",
+        "BuilderMayaExecutorErrorCode",
+        "BuilderMayaExecutorErrorPathContract",
+        "BuilderMayaExecutorErrorSnapshot",
+        "BuilderMayaExecutorRecoveryMode",
+        "formatBuilderMayaExecutorErrorPathSummary",
+        "listMissingBuilderMayaExecutorErrorFields"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaExecutorRouteContract.test.ts",
+      "lines": 58,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaExecutorRouteContract.ts",
+      "lines": 91,
+      "exports": [
+        "BUILDER_MAYA_EXECUTOR_ROUTE_CONTRACT",
+        "BuilderMayaExecutorRouteActionType",
+        "BuilderMayaExecutorRouteContract",
+        "BuilderMayaExecutorRouteReadiness",
+        "evaluateBuilderMayaExecutorRouteReadiness",
+        "isBuilderMayaExecutorRouteActionType"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaExecutorRouteStub.test.ts",
+      "lines": 84,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaExecutorRouteStub.ts",
+      "lines": 91,
+      "exports": [
+        "BuilderMayaExecutorRouteStubInput",
+        "BuilderMayaExecutorRouteStubResult",
+        "evaluateBuilderMayaExecutorRouteStub"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaKillSwitchContract.test.ts",
+      "lines": 72,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaKillSwitchContract.ts",
+      "lines": 81,
+      "exports": [
+        "BUILDER_MAYA_KILL_SWITCH_CONTRACT",
+        "BuilderMayaKillSwitchContract",
+        "BuilderMayaKillSwitchDecision",
+        "BuilderMayaKillSwitchScope",
+        "BuilderMayaKillSwitchState",
+        "formatBuilderMayaKillSwitchSummary",
+        "isBuilderMayaKillSwitchBlocking",
+        "listMissingBuilderMayaKillSwitchDecisionFields"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaLiveProofContract.test.ts",
+      "lines": 85,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaLiveProofContract.ts",
+      "lines": 92,
+      "exports": [
+        "BUILDER_MAYA_LIVE_PROOF_CONTRACT",
+        "BuilderMayaLiveProofContract",
+        "BuilderMayaLiveProofSnapshot",
+        "BuilderMayaLiveProofStatus",
+        "formatBuilderMayaLiveProofSummary",
+        "isBuilderMayaLiveProofPassing",
+        "listMissingBuilderMayaLiveProofFields"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationArmingGate.test.ts",
+      "lines": 52,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationArmingGate.ts",
+      "lines": 62,
+      "exports": [
+        "BuilderMayaRepoMutationArmingGateInput",
+        "BuilderMayaRepoMutationArmingGateResult",
+        "BuilderMayaRepoMutationKillSwitchState",
+        "evaluateBuilderMayaRepoMutationArmingGate",
+        "formatBuilderMayaRepoMutationArmingGateSummary"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationDraft.test.ts",
+      "lines": 53,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationDraft.ts",
+      "lines": 102,
+      "exports": [
+        "BUILDER_MAYA_REPO_MUTATION_DRAFT",
+        "BuilderMayaRepoMutationDraft",
+        "BuilderMayaRepoMutationDraftEvaluation",
+        "evaluateBuilderMayaRepoMutationDraft",
+        "formatBuilderMayaRepoMutationDraftSummary"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationKillSwitchAuditContract.test.ts",
+      "lines": 50,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationKillSwitchAuditContract.ts",
+      "lines": 100,
+      "exports": [
+        "BUILDER_MAYA_REPO_MUTATION_KILL_SWITCH_AUDIT_CONTRACT",
+        "BuilderMayaRepoMutationKillSwitchAuditContract",
+        "BuilderMayaRepoMutationKillSwitchAuditStatus",
+        "evaluateBuilderMayaRepoMutationKillSwitchAuditStatus",
+        "formatBuilderMayaRepoMutationKillSwitchAuditSummary"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationKillSwitchAuditProofContract.test.ts",
+      "lines": 43,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationKillSwitchAuditProofContract.ts",
+      "lines": 79,
+      "exports": [
+        "BUILDER_MAYA_REPO_MUTATION_KILL_SWITCH_AUDIT_PROOF_CONTRACT",
+        "BuilderMayaRepoMutationKillSwitchAuditProofContract",
+        "BuilderMayaRepoMutationKillSwitchAuditProofStatus",
+        "evaluateBuilderMayaRepoMutationKillSwitchAuditProofStatus",
+        "formatBuilderMayaRepoMutationKillSwitchAuditProofSummary"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationKillSwitchAuditStoragePlan.test.ts",
+      "lines": 42,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationKillSwitchAuditStoragePlan.ts",
+      "lines": 80,
+      "exports": [
+        "BUILDER_MAYA_REPO_MUTATION_KILL_SWITCH_AUDIT_STORAGE_PLAN_CONTRACT",
+        "BuilderMayaRepoMutationKillSwitchAuditStoragePlanContract",
+        "BuilderMayaRepoMutationKillSwitchAuditStoragePlanStatus",
+        "evaluateBuilderMayaRepoMutationKillSwitchAuditStoragePlan",
+        "formatBuilderMayaRepoMutationKillSwitchAuditStoragePlanSummary"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationKillSwitchConfirmationContract.test.ts",
+      "lines": 40,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationKillSwitchConfirmationContract.ts",
+      "lines": 66,
+      "exports": [
+        "BUILDER_MAYA_REPO_MUTATION_KILL_SWITCH_CONFIRMATION_CONTRACT",
+        "BuilderMayaRepoMutationKillSwitchConfirmationContract",
+        "BuilderMayaRepoMutationKillSwitchConfirmationStatus",
+        "evaluateBuilderMayaRepoMutationKillSwitchConfirmationStatus",
+        "formatBuilderMayaRepoMutationKillSwitchConfirmationSummary"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationKillSwitchOperatorConfirmationBinding.test.ts",
+      "lines": 72,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationKillSwitchOperatorConfirmationBinding.ts",
+      "lines": 101,
+      "exports": [
+        "BUILDER_MAYA_REPO_MUTATION_KILL_SWITCH_OPERATOR_CONFIRMATION_BINDING_CONTRACT",
+        "BuilderMayaRepoMutationKillSwitchOperatorConfirmationBindingContract",
+        "BuilderMayaRepoMutationKillSwitchOperatorConfirmationBindingStatus",
+        "evaluateBuilderMayaRepoMutationKillSwitchOperatorConfirmationBinding",
+        "formatBuilderMayaRepoMutationKillSwitchOperatorConfirmationBindingSummary"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationKillSwitchOperatorPreflight.test.ts",
+      "lines": 45,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationKillSwitchOperatorPreflight.ts",
+      "lines": 77,
+      "exports": [
+        "BUILDER_MAYA_REPO_MUTATION_KILL_SWITCH_OPERATOR_PREFLIGHT_CONTRACT",
+        "BuilderMayaRepoMutationKillSwitchOperatorPreflightContract",
+        "BuilderMayaRepoMutationKillSwitchOperatorPreflightStatus",
+        "evaluateBuilderMayaRepoMutationKillSwitchOperatorPreflight",
+        "formatBuilderMayaRepoMutationKillSwitchOperatorPreflightSummary"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationKillSwitchReplayContract.test.ts",
+      "lines": 41,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationKillSwitchReplayContract.ts",
+      "lines": 69,
+      "exports": [
+        "BUILDER_MAYA_REPO_MUTATION_KILL_SWITCH_REPLAY_CONTRACT",
+        "BuilderMayaRepoMutationKillSwitchReplayContract",
+        "BuilderMayaRepoMutationKillSwitchReplayStatus",
+        "evaluateBuilderMayaRepoMutationKillSwitchReplayStatus",
+        "formatBuilderMayaRepoMutationKillSwitchReplaySummary"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationKillSwitchStatus.test.ts",
+      "lines": 42,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationKillSwitchStatus.ts",
+      "lines": 56,
+      "exports": [
+        "BuilderMayaRepoMutationKillSwitchStatusInput",
+        "BuilderMayaRepoMutationKillSwitchStatusResult",
+        "evaluateBuilderMayaRepoMutationKillSwitchStatus",
+        "formatBuilderMayaRepoMutationKillSwitchStatusSummary"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationKillSwitchStorageContract.test.ts",
+      "lines": 48,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationKillSwitchStorageContract.ts",
+      "lines": 91,
+      "exports": [
+        "BUILDER_MAYA_REPO_MUTATION_KILL_SWITCH_STORAGE_CONTRACT",
+        "BuilderMayaRepoMutationKillSwitchStorageContract",
+        "BuilderMayaRepoMutationKillSwitchStorageStatus",
+        "evaluateBuilderMayaRepoMutationKillSwitchStorageStatus",
+        "formatBuilderMayaRepoMutationKillSwitchStorageSummary"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationKillSwitchToggleContract.test.ts",
+      "lines": 49,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationKillSwitchToggleContract.ts",
+      "lines": 79,
+      "exports": [
+        "BUILDER_MAYA_REPO_MUTATION_KILL_SWITCH_TOGGLE_CONTRACT",
+        "BuilderMayaRepoMutationKillSwitchToggleContract",
+        "BuilderMayaRepoMutationKillSwitchToggleStatus",
+        "evaluateBuilderMayaRepoMutationKillSwitchToggleStatus",
+        "formatBuilderMayaRepoMutationKillSwitchToggleSummary"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationKillSwitchWriteReadiness.test.ts",
+      "lines": 68,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationKillSwitchWriteReadiness.ts",
+      "lines": 159,
+      "exports": [
+        "BUILDER_MAYA_REPO_MUTATION_KILL_SWITCH_WRITE_READINESS_CONTRACT",
+        "BuilderMayaRepoMutationKillSwitchWriteReadinessContract",
+        "BuilderMayaRepoMutationKillSwitchWriteReadinessStatus",
+        "evaluateBuilderMayaRepoMutationKillSwitchWriteReadiness",
+        "formatBuilderMayaRepoMutationKillSwitchWriteReadinessSummary"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationPlanGate.test.ts",
+      "lines": 61,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationPlanGate.ts",
+      "lines": 103,
+      "exports": [
+        "BUILDER_MAYA_REPO_MUTATION_PLAN_GATE",
+        "BuilderMayaRepoMutationPlanGateContract",
+        "BuilderMayaRepoMutationPlanGateInput",
+        "BuilderMayaRepoMutationPlanGateResult",
+        "evaluateBuilderMayaRepoMutationPlanGate",
+        "formatBuilderMayaRepoMutationPlanGateSummary",
+        "isBuilderMayaRepoMutationTestCommandAllowed"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationPreflightContract.test.ts",
+      "lines": 51,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationPreflightContract.ts",
+      "lines": 104,
+      "exports": [
+        "BUILDER_MAYA_REPO_MUTATION_PREFLIGHT_CONTRACT",
+        "BuilderMayaRepoMutationPreflightContract",
+        "BuilderMayaRepoMutationPreflightSnapshot",
+        "formatBuilderMayaRepoMutationPreflightSummary",
+        "isBuilderMayaRepoMutationPreflightReady",
+        "listMissingBuilderMayaRepoMutationPreflightFields"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationRouteStub.test.ts",
+      "lines": 120,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationRouteStub.ts",
+      "lines": 68,
+      "exports": [
+        "BuilderMayaRepoMutationRouteStubInput",
+        "BuilderMayaRepoMutationRouteStubResult",
+        "evaluateBuilderMayaRepoMutationRouteStub"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationScopePolicy.test.ts",
+      "lines": 58,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderMayaRepoMutationScopePolicy.ts",
+      "lines": 124,
+      "exports": [
+        "BUILDER_MAYA_REPO_MUTATION_SCOPE_POLICY",
+        "BuilderMayaDirtyWorktreeStatus",
+        "BuilderMayaRepoMutationScopePolicy",
+        "BuilderMayaRepoMutationScopePolicyInput",
+        "BuilderMayaRepoMutationScopePolicyResult",
+        "evaluateBuilderMayaRepoMutationScopePolicy",
+        "formatBuilderMayaRepoMutationScopePolicySummary",
+        "isBuilderMayaRepoMutationPathAllowed"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderOperatorCopy.ts",
+      "lines": 38,
+      "exports": [
+        "formatBuilderTaskTitleForOperator"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderOperatorErrors.ts",
+      "lines": 28,
+      "exports": [
+        "formatBuilderOperatorError"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/builderTaskStatusLabel.ts",
+      "lines": 14,
+      "exports": [
+        "formatBuilderTaskStatus"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/mayaActionBus.ts",
+      "lines": 355,
+      "exports": [
+        "BUILDER_MAYA_UI_ACTIONS",
+        "BuilderMayaUiAction",
+        "BuilderMayaUiActionType",
+        "createBuilderMayaUiAction",
+        "formatBuilderMayaUiActionSelfAssessment",
+        "parseBuilderMayaLocalCommand",
+        "parseBuilderMayaUiActions",
+        "ParsedBuilderMayaUiActions"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/mayaChatDisplayText.test.ts",
+      "lines": 35,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/mayaChatDisplayText.ts",
+      "lines": 43,
+      "exports": [
+        "isMayaNavigationOnlyContent",
+        "MAYA_CHAT_FALLBACK",
+        "stripMayaProviderJsonFence",
+        "unwrapMayaChatContent"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/mayaTransitions.ts",
+      "lines": 40,
+      "exports": [
+        "ALLOWED_TRANSITIONS",
+        "canTransition",
+        "CLICK_TO_RETURN_ARM_DELAY",
+        "MAYA_LAYOUT",
+        "MAYA_TIMING",
+        "MAYA_Z_INDEX",
+        "MayaPhase",
+        "NAVIGATE_SETTLE_DEADLINE",
+        "RETURN_SETTLE_DEADLINE"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/mayaWorkflowReceipt.test.ts",
+      "lines": 46,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/lib/mayaWorkflowReceipt.ts",
+      "lines": 52,
+      "exports": [
+        "buildMayaWorkflowReceipt",
+        "formatMayaWorkflowEndpointLabel",
+        "MayaWorkflowReceipt",
+        "MayaWorkflowReceiptInput"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/builderApprovePrototypeRoute.ts",
+      "lines": 42,
+      "exports": [
+        "approveBuilderPrototypeRoute",
+        "BuilderApprovePrototypeRouteContext"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/builderApproveTaskRoute.ts",
+      "lines": 43,
+      "exports": [
+        "approveBuilderTaskRoute",
+        "BuilderApproveTaskRouteContext"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/BuilderCodexAgentRoomPanel.tsx",
+      "lines": 796,
+      "exports": [
+        "AgentRoomCouncilRunContext",
+        "AgentRoomMessage",
+        "BuilderCodexAgentRoomPanel",
+        "CouncilLiveStatus"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/BuilderConfigPanel.tsx",
+      "lines": 231,
+      "exports": [
+        "BuilderConfigPanel"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/BuilderContextPanel.tsx",
+      "lines": 101,
+      "exports": [
+        "BuilderContextPanel"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/builderDeleteTaskRoute.ts",
+      "lines": 63,
+      "exports": [
+        "BuilderDeleteTaskRouteContext",
+        "deleteBuilderTaskRoute"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/BuilderDialogViewerPanel.tsx",
+      "lines": 1009,
+      "exports": [
+        "BuilderDialogViewerPanel"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/BuilderFileExplorerPanel.tsx",
+      "lines": 116,
+      "exports": [
+        "BuilderFileExplorerPanel"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/BuilderFlowFindingsPanel.tsx",
+      "lines": 355,
+      "exports": [
+        "BuilderFlowFindingsPanel"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/BuilderGoatVoiceIntentPanel.tsx",
+      "lines": 1913,
+      "exports": [
+        "BuilderGoatVoiceIntentPanel"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/builderMayaCommandModel.ts",
+      "lines": 136,
+      "exports": [
+        "buildBuilderMayaCommandModel",
+        "BuilderMayaCommandModel",
+        "BuilderMayaCommandNextMove",
+        "BuilderMayaCommandWorkRunRow"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/builderMayaDecisionPreviewExecution.ts",
+      "lines": 44,
+      "exports": [
+        "BuilderMayaDecisionPreviewExecutionContext",
+        "executeBuilderMayaDecisionPreview"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/BuilderMayaDock.tsx",
+      "lines": 2286,
+      "exports": [
+        "BuilderMayaDock",
+        "BuilderMayaMode"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/builderMayaDockModeRouting.ts",
+      "lines": 33,
+      "exports": [
+        "BuilderMayaDockModeRoutingContext",
+        "routeBuilderMayaDockMode"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/BuilderMayaIntakePanel.tsx",
+      "lines": 472,
+      "exports": [
+        "BuilderMayaIntakePanel"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/builderMayaMemoryNotes.ts",
+      "lines": 22,
+      "exports": [
+        "addBuilderMayaMemoryNote",
+        "BuilderMayaMemoryNoteContext",
+        "deleteBuilderMayaMemoryNote"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/BuilderMayaOperatorAggregationPanel.tsx",
+      "lines": 1507,
+      "exports": [
+        "BuilderMayaOperatorAggregationPanel"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/builderMayaPolicyGatePreview.ts",
+      "lines": 97,
+      "exports": [
+        "BuilderMayaPolicyGatePreviewContext",
+        "tryHandleBuilderMayaPolicyGatePreviewAction"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/builderMayaPoolModelToggle.ts",
+      "lines": 45,
+      "exports": [
+        "BuilderMayaPoolModelToggleContext",
+        "buildNextBuilderMayaPoolState",
+        "toggleBuilderMayaPoolModel"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/builderMayaSafeUiRouting.ts",
+      "lines": 216,
+      "exports": [
+        "BuilderMayaSafeUiRoutingContext",
+        "tryHandleBuilderMayaSafeUiRoutingAction"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/builderMayaScreenVisionToggle.ts",
+      "lines": 12,
+      "exports": [
+        "BuilderMayaScreenVisionToggleContext",
+        "toggleBuilderMayaScreenVision"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/builderMayaUiLanguagePatrol.ts",
+      "lines": 155,
+      "exports": []
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/builderMayaUserUiContract.test.ts",
+      "lines": 595,
+      "exports": [
+        "addBuilderMayaMemoryNote",
+        "approveBuilderPrototypeRoute",
+        "approveBuilderTaskRoute",
+        "buildBuilderMayaCommandModel",
+        "buildNextBuilderMayaPoolState",
+        "deleteBuilderMayaMemoryNote",
+        "deleteBuilderTaskRoute",
+        "executeBuilderMayaDecisionPreview",
+        "revertBuilderTaskRoute",
+        "reviseBuilderPrototypeRoute",
+        "routeBuilderMayaDockMode",
+        "runBuilderTaskRoute",
+        "toggleBuilderMayaScreenVision",
+        "tryHandleBuilderMayaPolicyGatePreviewAction",
+        "tryHandleBuilderMayaSafeUiRoutingAction"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/BuilderModelConfigDrawer.tsx",
+      "lines": 84,
+      "exports": [
+        "BuilderModelConfigDrawer"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/BuilderOutputPanels.tsx",
+      "lines": 328,
+      "exports": [
+        "BuilderOutputPanels"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/BuilderPanel.tsx",
+      "lines": 50,
+      "exports": [
+        "BuilderPanel"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/BuilderPipelineReadinessPanel.tsx",
+      "lines": 513,
+      "exports": [
+        "BuilderPipelineReadinessPanel"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/builderPreparedMayaCommand.ts",
+      "lines": 87,
+      "exports": [
+        "buildPreparedAgentRoomCouncilCommand",
+        "buildPreparedMayaBackendMessage",
+        "buildPreparedMayaChatReason",
+        "PreparedMayaCommand",
+        "PreparedMayaCommandSource"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/builderRevertTaskRoute.ts",
+      "lines": 37,
+      "exports": [
+        "BuilderRevertTaskRouteContext",
+        "revertBuilderTaskRoute"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/builderRevisePrototypeRoute.ts",
+      "lines": 32,
+      "exports": [
+        "BuilderRevisePrototypeRouteContext",
+        "reviseBuilderPrototypeRoute"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/BuilderRiskDecisionPanel.tsx",
+      "lines": 516,
+      "exports": [
+        "BuilderRiskDecisionPanel"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/builderRunTaskRoute.ts",
+      "lines": 31,
+      "exports": [
+        "BuilderRunTaskRouteContext",
+        "runBuilderTaskRoute"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/BuilderSidebarNav.tsx",
+      "lines": 222,
+      "exports": [
+        "BuilderSidebarNav"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/BuilderStageIntro.tsx",
+      "lines": 132,
+      "exports": [
+        "BuilderStageIntro"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/BuilderStudioPage.tsx",
+      "lines": 5594,
+      "exports": [
+        "BuilderStudioPage"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/builderStudioSurfaceModel.ts",
+      "lines": 77,
+      "exports": [
+        "buildBuilderStudioSurfaceModel",
+        "BuilderStudioSurfaceModel"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/BuilderStudioTopbar.tsx",
+      "lines": 384,
+      "exports": [
+        "BuilderStudioTopbar"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/BuilderTaskDetailPanel.tsx",
+      "lines": 334,
+      "exports": [
+        "BuilderTaskDetailPanel"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/BuilderTaskFooterStrip.tsx",
+      "lines": 76,
+      "exports": [
+        "BuilderTaskFooterStrip"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/BuilderTaskListPanel.tsx",
+      "lines": 282,
+      "exports": [
+        "BuilderTaskListPanel"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/BuilderTribuneStage.tsx",
+      "lines": 504,
+      "exports": [
+        "BuilderTribuneStage"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/BuilderVisualReviewPanel.tsx",
+      "lines": 1330,
+      "exports": [
+        "BuilderVisualReviewPanel"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/GlobalMayaDock.tsx",
+      "lines": 429,
+      "exports": [
+        "GlobalMayaAppTarget",
+        "GlobalMayaDock"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/MayaFigure.tsx",
+      "lines": 219,
+      "exports": [
+        "getMayaFigureColor",
+        "MayaFigure",
+        "MayaFigureProps",
+        "MayaFigureState"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/PatrolConsole.tsx",
+      "lines": 1929,
+      "exports": [
+        "PatrolConsole"
+      ]
+    },
+    {
+      "path": "client/src/modules/M16_builder/ui/PoolChatWindow.tsx",
+      "lines": 280,
+      "exports": [
+        "PoolChatWindow"
+      ]
+    },
+    {
+      "path": "client/src/pages/BuilderStudio.tsx",
+      "lines": 478,
+      "exports": [
+        "BuilderStudio"
+      ]
+    },
+    {
+      "path": "client/src/shared/maya/appIntents.ts",
+      "lines": 122,
+      "exports": [
+        "getMayaAppIntentLabel",
+        "getMayaAppIntentPhrase",
+        "getMayaTargetLabel",
+        "MAYA_APP_TARGETS",
+        "MayaAppIntent",
+        "MayaAppTarget",
+        "parseMayaAppIntent"
+      ]
+    },
+    {
+      "path": "client/src/shared/maya/autonomy.ts",
+      "lines": 78,
+      "exports": [
+        "LEGACY_BUILDER_GOAT_AUTONOMY_MODE_STORAGE_KEY",
+        "LEGACY_BUILDER_MAYA_AUTONOMY_MODE_STORAGE_KEY",
+        "MAYA_AUTONOMY_MODE_DESCRIPTIONS",
+        "MAYA_AUTONOMY_MODE_EVENT",
+        "MAYA_AUTONOMY_MODE_LABELS",
+        "MAYA_AUTONOMY_MODE_STORAGE_KEY",
+        "MayaAutonomyMode",
+        "normalizeMayaAutonomyMode",
+        "readMayaAutonomyMode",
+        "useMayaAutonomyMode",
+        "writeMayaAutonomyMode"
+      ]
+    },
+    {
+      "path": "client/src/shared/types/astrology.ts",
+      "lines": 93,
+      "exports": [
+        "AnglePosition",
+        "Aspect",
+        "AspectType",
+        "AstrologyMeta",
+        "AstrologyRequest",
+        "AstrologyResult",
+        "AstrologySystem",
+        "GeoPoint",
+        "HouseCusp",
+        "HouseSystem",
+        "PlanetKey",
+        "PlanetPosition",
+        "ZodiacPosition"
+      ]
+    },
+    {
+      "path": "client/src/shared/types/index.ts",
+      "lines": 52,
+      "exports": []
+    },
+    {
+      "path": "client/src/shared/types/match.ts",
+      "lines": 80,
+      "exports": [
+        "AstroAspect",
+        "AstroAspectType",
+        "AstroBodyKey",
+        "MatchAccuracy",
+        "MatchBreakdown",
+        "MatchMeta",
+        "MatchNarrativeResult",
+        "MatchRequest",
+        "MatchScoreResult"
+      ]
+    },
+    {
+      "path": "client/src/shared/types/numerology.ts",
+      "lines": 43,
+      "exports": [
+        "NumerologyCoreNumbers",
+        "NumerologyMeta",
+        "NumerologyRequest",
+        "NumerologyResult",
+        "NumerologySystem"
+      ]
+    },
+    {
+      "path": "client/src/shared/types/profile.ts",
+      "lines": 18,
+      "exports": [
+        "UserProfile"
+      ]
+    },
+    {
+      "path": "client/src/shared/types/scoring.ts",
+      "lines": 45,
+      "exports": [
+        "ClaimLevel",
+        "ExplainClaim",
+        "ScoreBreakdown",
+        "ScoreMeta",
+        "ScoreRequest",
+        "ScoreResult"
+      ]
+    },
+    {
+      "path": "client/src/shared/types/settings.ts",
+      "lines": 25,
+      "exports": [
+        "AiProvider",
+        "AppSettings",
+        "FeatureFlags",
+        "ProviderKeyEntry",
+        "ProviderSettings"
+      ]
+    },
+    {
+      "path": "client/src/shared/types/studio.ts",
+      "lines": 47,
+      "exports": [
+        "StudioMeta",
+        "StudioRequest",
+        "StudioResult",
+        "StudioSeat",
+        "StudioTurn"
+      ]
+    },
+    {
+      "path": "client/src/vite-env.d.ts",
+      "lines": 4,
+      "exports": []
+    },
+    {
+      "path": "client/vite-env.d.ts",
+      "lines": 2,
+      "exports": []
+    },
+    {
+      "path": "client/vite.config.ts",
+      "lines": 55,
+      "exports": []
+    },
+    {
+      "path": "reports/archive/2026-05/tools/big-bro-ttft-benchmark.ts",
+      "lines": 649,
+      "exports": []
+    },
+    {
+      "path": "reports/archive/2026-05/tools/zhipu-raw-stream-check.ts",
+      "lines": 117,
+      "exports": []
+    },
+    {
+      "path": "server/drizzle.config.ts",
+      "lines": 17,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-agent-council-request.ts",
+      "lines": 540,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-codex-agent-heartbeat.ts",
+      "lines": 318,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-codex-mailbox-watcher.ts",
+      "lines": 402,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-goat-read-only-status-summary.ts",
+      "lines": 42,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-goat-voice-context-preview.ts",
+      "lines": 126,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k26b-live-runner.ts",
+      "lines": 409,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k26c-push-runner.ts",
+      "lines": 373,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k26d-push-runner.ts",
+      "lines": 353,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k26e-push-runner.ts",
+      "lines": 362,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k26f-push-runner.ts",
+      "lines": 404,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k26g-push-runner.ts",
+      "lines": 425,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k27a-free-class1-runner.ts",
+      "lines": 346,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k27b-free-anchored-runner.ts",
+      "lines": 227,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k27c-free-anchored-runner.ts",
+      "lines": 227,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k27d-free-runtime-runner.ts",
+      "lines": 401,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k27e-free-runtime-runner.ts",
+      "lines": 407,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k27f-free-runtime-runner.ts",
+      "lines": 375,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k28a-free-ops-runner.ts",
+      "lines": 345,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k28b-free-ops-runner.ts",
+      "lines": 330,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k28c-free-runtime-runner.ts",
+      "lines": 376,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k28d-local-hardening-runner.ts",
+      "lines": 167,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k28e-live-hardening-dryrun-runner.ts",
+      "lines": 189,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k28f-live-t03-repeatability-runner.ts",
+      "lines": 205,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k28g-live-t03-landing-runner.ts",
+      "lines": 316,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k28h-live-t01-landing-runner.ts",
+      "lines": 324,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k28i-live-repeatability-runner.ts",
+      "lines": 379,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k28j-free-runtime-runner.ts",
+      "lines": 412,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k28k-free-runtime-runner.ts",
+      "lines": 383,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k28l-free-runtime-runner.ts",
+      "lines": 410,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k28m-free-runtime-runner.ts",
+      "lines": 392,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k28n-free-runtime-runner.ts",
+      "lines": 390,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k28o-class2-approved-runner.ts",
+      "lines": 523,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k28q-studio-rerun-runner.ts",
+      "lines": 378,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k28s-oracle-provider-runner.ts",
+      "lines": 392,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k28t-weekly-provider-runner.ts",
+      "lines": 444,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k29a-observer-trial-runner.ts",
+      "lines": 326,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k29b-observer-runtime-runner.ts",
+      "lines": 348,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k29c-class2-approved-runner.ts",
+      "lines": 381,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k29d-council-risk-observation-runner.ts",
+      "lines": 396,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k29e-risk-preflight-runner.ts",
+      "lines": 318,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k29f-proof-package-transport-runner.ts",
+      "lines": 203,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k29g-enforcement-flag-runner.ts",
+      "lines": 209,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k29h-evidence-hydration-runner.ts",
+      "lines": 160,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k29i-evidence-availability-runner.ts",
+      "lines": 221,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k30a-all-instances-smoke-runner.ts",
+      "lines": 78,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k30b-pipeline-readiness-runner.ts",
+      "lines": 93,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k30c-live-readiness-smoke-runner.ts",
+      "lines": 384,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k30d-readiness-suite-runner.ts",
+      "lines": 457,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k30e-operator-health-summary-runner.ts",
+      "lines": 344,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k30f-disabled-enforcement-preflight-runner.ts",
+      "lines": 97,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k30g-disabled-enforcement-preflight-live-runner.ts",
+      "lines": 294,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k30h-operator-recovery-policy-runner.ts",
+      "lines": 94,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k30i-operator-recovery-policy-live-runner.ts",
+      "lines": 290,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k30j-autonomy-safety-status-runner.ts",
+      "lines": 100,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k30k-autonomy-safety-status-live-runner.ts",
+      "lines": 281,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-k30l-live-pipeline-matrix-runner.ts",
+      "lines": 585,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t1009-worker-direct-grok-reasoning-effort-smoke.ts",
+      "lines": 100,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t1010-team-briefing-uc-light-live-smoke.ts",
+      "lines": 115,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t1131-vision-candidate-live-smoke.ts",
+      "lines": 83,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t160-maya-intake-dryrun-smoke.ts",
+      "lines": 65,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t165-maya-intake-flow-smoke.ts",
+      "lines": 75,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t166-maya-intake-live-probe.ts",
+      "lines": 177,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t167-maya-intake-ui-live-smoke.ts",
+      "lines": 102,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t171-maya-intake-promotion-idempotency-smoke.ts",
+      "lines": 127,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t172-maya-intake-summary-smoke.ts",
+      "lines": 97,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t174-vision-worker-intake-smoke.ts",
+      "lines": 118,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t176-maya-intake-source-contract-smoke.ts",
+      "lines": 86,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t178-maya-intake-e2e-dryrun-chain-smoke.ts",
+      "lines": 134,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t179-maya-intake-audit-feed-smoke.ts",
+      "lines": 81,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t180-maya-intake-replay-smoke.ts",
+      "lines": 98,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t181-maya-intake-ui-filter-live-smoke.ts",
+      "lines": 61,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t183-maya-intake-operator-controls-live-smoke.ts",
+      "lines": 63,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t184-t187-maya-intake-detail-contract-smoke.ts",
+      "lines": 137,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t188-t191-external-client-readiness-smoke.ts",
+      "lines": 172,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t192-t195-maya-intake-contract-hardening-smoke.ts",
+      "lines": 188,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t196-t197-maya-intake-approval-smoke.ts",
+      "lines": 182,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t198-t200-maya-intake-client-readiness-smoke.ts",
+      "lines": 204,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t205-t208-maya-intake-operator-audit-smoke.ts",
+      "lines": 155,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t217-t224-big-bro-context-operator-review-smoke.ts",
+      "lines": 178,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t225-t228-desktop-action-plan-smoke.ts",
+      "lines": 185,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t229-t232-desktop-preflight-bundle-smoke.ts",
+      "lines": 193,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t233-t236-desktop-disabled-executor-smoke.ts",
+      "lines": 135,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t237-t240-desktop-readiness-summary-smoke.ts",
+      "lines": 147,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t241-t252-desktop-approval-binding-e2e-smoke.ts",
+      "lines": 202,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t253-t264-desktop-post-action-audit-gate-smoke.ts",
+      "lines": 214,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t265-t276-desktop-evidence-kill-switch-smoke.ts",
+      "lines": 250,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t277-t288-desktop-evidence-export-conformance-smoke.ts",
+      "lines": 221,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t289-t300-desktop-fixtures-stale-handoff-smoke.ts",
+      "lines": 186,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t301-t312-desktop-handoff-ui-pause-smoke.ts",
+      "lines": 120,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t345-t352-operator-aggregation-smoke.ts",
+      "lines": 696,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t553-t560-desktop-evidence-triad-records-smoke.ts",
+      "lines": 179,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t605-t608-operator-alert-acknowledgement-smoke.ts",
+      "lines": 102,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t617-t620-operator-alert-ack-filter-export-smoke.ts",
+      "lines": 117,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t625-t628-stale-alert-review-packet-links-smoke.ts",
+      "lines": 85,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t633-t636-ack-export-retention-model-smoke.ts",
+      "lines": 92,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t641-t644-operator-evidence-packet-index-smoke.ts",
+      "lines": 79,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t649-t652-big-bro-delegated-fast-reader-grant-smoke.ts",
+      "lines": 101,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t661-t668-codex-agent-mailbox-smoke.ts",
+      "lines": 166,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t677-t684-desktop-point-proposal-smoke.ts",
+      "lines": 178,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t685-t692-fast-reader-provider-selection-reason-smoke.ts",
+      "lines": 92,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t693-t700-codex-mailbox-start-check.ts",
+      "lines": 119,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t753-t760-fast-reader-timeout-blocker-smoke.ts",
+      "lines": 125,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t769-t776-grok-timeout-diagnosis-smoke.ts",
+      "lines": 89,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t777-t784-codex-mailbox-ownership-smoke.ts",
+      "lines": 84,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t785-t792-goat-doctor-smoke.ts",
+      "lines": 154,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t793-t800-goat-mcp-client-smoke.ts",
+      "lines": 160,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t801-t808-goat-builder-preflight-smoke.ts",
+      "lines": 164,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t809-t816-goat-builder-context-smoke.ts",
+      "lines": 209,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t817-t824-goat-builder-context-compare-smoke.ts",
+      "lines": 153,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t825-t832-goat-offline-context-compare-smoke.ts",
+      "lines": 175,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t833-t840-goat-context-history-smoke.ts",
+      "lines": 169,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t841-t848-goat-context-packet-smoke.ts",
+      "lines": 184,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t849-t856-goat-context-decision-smoke.ts",
+      "lines": 162,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t857-t864-goat-context-decision-routing-smoke.ts",
+      "lines": 171,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t873-t880-goat-read-only-flow-smoke.ts",
+      "lines": 158,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t881-t888-goat-read-only-flow-surface-smoke.ts",
+      "lines": 42,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t889-t896-goat-read-only-status-summary-smoke.ts",
+      "lines": 135,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t897-t904-goat-read-only-status-cli-smoke.ts",
+      "lines": 96,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t905-t912-goat-read-only-status-route-smoke.ts",
+      "lines": 113,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t913-t920-goat-voice-intent-preview-smoke.ts",
+      "lines": 117,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t921-t928-goat-voice-intent-route-smoke.ts",
+      "lines": 126,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t937-t944-goat-voice-context-route-smoke.ts",
+      "lines": 160,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t945-t952-goat-live-voice-context-smoke.ts",
+      "lines": 99,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/builder-t953-t960-goat-local-voice-context-route-smoke.ts",
+      "lines": 110,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/generateFillerAudio.ts",
+      "lines": 144,
+      "exports": []
+    },
+    {
+      "path": "server/scripts/lib/builderApprovalTicket.ts",
+      "lines": 74,
+      "exports": [
+        "issueApprovalTicket",
+        "IssuedApprovalTicket"
+      ]
+    },
+    {
+      "path": "server/scripts/seed-builder-sandbox.ts",
+      "lines": 15,
+      "exports": []
+    },
+    {
+      "path": "server/src/db.ts",
+      "lines": 39,
+      "exports": [
+        "getDb",
+        "NewProfile",
+        "ProfileRecord",
+        "profiles"
+      ]
+    },
+    {
+      "path": "server/src/devLogger.ts",
+      "lines": 122,
+      "exports": [
+        "devLogger",
+        "LogCategory",
+        "LogEntry",
+        "LogLevel",
+        "ProviderStats"
+      ]
+    },
+    {
+      "path": "server/src/index.ts",
+      "lines": 118,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/__tests__/promptBuilders.smoke.ts",
+      "lines": 82,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/agentHabitat.ts",
+      "lines": 426,
+      "exports": [
+        "buildAgentBrief",
+        "getAgentProfile",
+        "getAllAgentSummaries",
+        "getTopPerformers",
+        "reflectOnTask",
+        "TaskOutcome",
+        "updateAgentProfiles"
+      ]
+    },
+    {
+      "path": "server/src/lib/anchorPatch.test.ts",
+      "lines": 43,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/anchorPatch.ts",
+      "lines": 308,
+      "exports": [
+        "ANCHOR_PATCH_PROMPT",
+        "applyEdit",
+        "EditOperation",
+        "parseWorkerEdit",
+        "validateEdit"
+      ]
+    },
+    {
+      "path": "server/src/lib/appEnv.ts",
+      "lines": 41,
+      "exports": [
+        "AppEnv",
+        "getAppEnv",
+        "getAppEnvLabel",
+        "isSandboxEnv",
+        "isSandboxFalEnabled"
+      ]
+    },
+    {
+      "path": "server/src/lib/architectPhase1.test.ts",
+      "lines": 57,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/architectPhase1.ts",
+      "lines": 967,
+      "exports": [
+        "addAssumption",
+        "ArchitectAssemblyResult",
+        "ArchitectFinding",
+        "ArchitectHardeningStatus",
+        "ArchitectProvenance",
+        "ArchitectSourceFragment",
+        "ArchitectSourceKind",
+        "ArchitectTaskAugmentations",
+        "ArchitectTruncation",
+        "assembleArchitectInstruction",
+        "ensureBootstrapAssumptions",
+        "getArchitectAssumptionsByIds",
+        "getArchitectState",
+        "listArchitectAssumptions",
+        "loadAicosMetaFragments"
+      ]
+    },
+    {
+      "path": "server/src/lib/architectureDigest.ts",
+      "lines": 730,
+      "exports": [
+        "ArchitectureDigestResult",
+        "buildArchitectureDigest"
+      ]
+    },
+    {
+      "path": "server/src/lib/autonomySafetyStatus.ts",
+      "lines": 166,
+      "exports": [
+        "AUTONOMY_SAFETY_STATUS_VERSION",
+        "AutonomySafetyStatusReport",
+        "getAutonomySafetyStatusReport"
+      ]
+    },
+    {
+      "path": "server/src/lib/beingHabitatMemory.test.ts",
+      "lines": 36,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/beingHabitatMemory.ts",
+      "lines": 65,
+      "exports": [
+        "BEING_CLASSES",
+        "BEING_MEMORY_STATUSES",
+        "BeingClass",
+        "BeingHabitatMemoryMeta",
+        "BeingMemoryStatus",
+        "canUseBeingMemoryConfidently",
+        "formatBeingHabitatProvenance",
+        "getBeingMemoryReuseGuidance",
+        "normalizeAppOrigin",
+        "normalizeBeingClass",
+        "normalizeBeingMemoryStatus"
+      ]
+    },
+    {
+      "path": "server/src/lib/bigBroMayaContextContract.ts",
+      "lines": 133,
+      "exports": [
+        "BIG_BRO_MAYA_CONTEXT_CONTRACT_VERSION",
+        "BigBroContextValidationResult",
+        "BigBroMayaContextContract",
+        "buildBigBroMayaContextContract",
+        "validateBigBroMayaContext"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderAnalysisOutput.ts",
+      "lines": 80,
+      "exports": [
+        "buildAnalysisOutput",
+        "BuilderAnalysisOutput"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderApprovalArtifacts.ts",
+      "lines": 265,
+      "exports": [
+        "ApprovalArtifactValidationResult",
+        "fingerprintInstruction",
+        "fingerprintScope",
+        "validateApprovalArtifact"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderAsyncJobReconciliation.ts",
+      "lines": 171,
+      "exports": [
+        "reconcileAsyncJobResultWithCallback"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderBdlParser.ts",
+      "lines": 260,
+      "exports": [
+        "BdlCommand",
+        "extractTextContent",
+        "parseBdl"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderBrowserLane.ts",
+      "lines": 295,
+      "exports": [
+        "BrowserLaneExecution",
+        "runBrowserLane"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderCanary.ts",
+      "lines": 299,
+      "exports": [
+        "BUILDER_STATUS_TRANSITIONS",
+        "buildTaskAudit",
+        "CANARY_STAGE_CONFIG",
+        "CanaryAuditSummary",
+        "CanaryGateResult",
+        "CanaryLaneFlags",
+        "CanaryPromotionStatus",
+        "CanaryStageConfig",
+        "evaluateCanaryGate",
+        "getCanaryPromotionStatus",
+        "getCurrentCanaryStage"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderContextAssembler.ts",
+      "lines": 159,
+      "exports": [
+        "assembleBuilderContext"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderControlPlane.ts",
+      "lines": 119,
+      "exports": [
+        "BuilderControlState",
+        "getBuilderControlState",
+        "getNextRecommendedBlock"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderDialogEngine.ts",
+      "lines": 1827,
+      "exports": [
+        "DialogRound",
+        "EngineResult",
+        "runDialogEngine"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderEvidencePack.ts",
+      "lines": 414,
+      "exports": [
+        "EvidencePack",
+        "generateEvidencePack",
+        "saveEvidencePack"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderExecutor.ts",
+      "lines": 133,
+      "exports": [
+        "commitInWorktree",
+        "createWorktree",
+        "getRepoRoot",
+        "getWorktreeDiff",
+        "removeWorktree",
+        "runCheck"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderFileIO.ts",
+      "lines": 143,
+      "exports": [
+        "diffFiles",
+        "findPattern",
+        "listFiles",
+        "readFile",
+        "writeFile"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderFusionChat.ts",
+      "lines": 1716,
+      "exports": [
+        "__builderFusionChatRoutingTest",
+        "ChatMessage",
+        "ChatResponse",
+        "handleBuilderChat",
+        "looksLikeTaskRequest"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderGates.ts",
+      "lines": 82,
+      "exports": [
+        "checkDestructive",
+        "checkScope",
+        "checkTokenBudget"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderGithubBridge.ts",
+      "lines": 355,
+      "exports": [
+        "buildSessionLogBlob",
+        "convertBdlPatchesToPayload",
+        "ensureArchiveFile",
+        "ensureSessionLogFile",
+        "ExecutionResult",
+        "formatSessionLogEntry",
+        "injectSessionLogIntoTree",
+        "PatchPayload",
+        "triggerGithubAction",
+        "triggerGithubActionChunked",
+        "validatePatchPayloads"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderGoalState.ts",
+      "lines": 78,
+      "exports": [
+        "BuilderGoalRecord",
+        "BuilderGoalState",
+        "computeGoalState"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderGoatDecisionRouting.test.ts",
+      "lines": 54,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/builderGoatDecisionRouting.ts",
+      "lines": 77,
+      "exports": [
+        "BuilderGoatDecision",
+        "BuilderGoatDecisionEnvelope",
+        "BuilderGoatDecisionRoute",
+        "BuilderGoatReadOnlyRoute",
+        "routeBuilderGoatDecision"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderGoatLocalVoiceContextPreview.ts",
+      "lines": 289,
+      "exports": [
+        "buildBuilderGoatLocalVoiceContextPreview",
+        "BuilderGoatLocalVoiceContextPreviewResult"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderGoatReadOnlyFlow.test.ts",
+      "lines": 47,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/builderGoatReadOnlyFlow.ts",
+      "lines": 91,
+      "exports": [
+        "BuilderGoatReadOnlyFlowPlan",
+        "BuilderGoatReadOnlyFlowStatus",
+        "planBuilderGoatReadOnlyFlow"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderGoatReadOnlyFlowSurface.test.ts",
+      "lines": 43,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/builderGoatReadOnlyFlowSurface.ts",
+      "lines": 74,
+      "exports": [
+        "buildBuilderGoatReadOnlyFlowSurface",
+        "BuilderGoatReadOnlyFlowSurface"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderGoatReadOnlyStatusSummary.test.ts",
+      "lines": 46,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/builderGoatReadOnlyStatusSummary.ts",
+      "lines": 64,
+      "exports": [
+        "BuilderGoatReadOnlyStatusSummary",
+        "summarizeBuilderGoatReadOnlyStatus"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderGoatVoiceContextPreview.test.ts",
+      "lines": 119,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/builderGoatVoiceContextPreview.ts",
+      "lines": 337,
+      "exports": [
+        "buildBuilderGoatVoiceContextPreview",
+        "BuilderGoatVoiceContextPreview"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderGoatVoiceIntentPreview.test.ts",
+      "lines": 74,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/builderGoatVoiceIntentPreview.ts",
+      "lines": 148,
+      "exports": [
+        "buildBuilderGoatVoiceIntentPreview",
+        "BuilderGoatVoiceIntentPreview"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderMayaRepoMutationKillSwitchAuditPersistence.test.ts",
+      "lines": 38,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/builderMayaRepoMutationKillSwitchAuditPersistence.ts",
+      "lines": 90,
+      "exports": [
+        "buildBuilderMayaRepoMutationKillSwitchAuditPayload",
+        "BuilderMayaRepoMutationKillSwitchAuditPersistenceInput",
+        "BuilderMayaRepoMutationKillSwitchAuditPersistenceResult",
+        "persistBuilderMayaRepoMutationKillSwitchAudit"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderMayaRepoMutationKillSwitchReadOnlyStub.test.ts",
+      "lines": 46,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/builderMayaRepoMutationKillSwitchReadOnlyStub.ts",
+      "lines": 54,
+      "exports": [
+        "buildBuilderMayaRepoMutationKillSwitchReadOnlyStub",
+        "BuilderMayaRepoMutationKillSwitchReadOnlyStub"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderMayaRepoMutationKillSwitchStateStore.test.ts",
+      "lines": 18,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/builderMayaRepoMutationKillSwitchStateStore.ts",
+      "lines": 121,
+      "exports": [
+        "BuilderMayaRepoMutationKillSwitchRequestedState",
+        "BuilderMayaRepoMutationKillSwitchState",
+        "normalizeBuilderMayaRepoMutationKillSwitchRequestedState",
+        "persistBuilderMayaRepoMutationKillSwitchState",
+        "readBuilderMayaRepoMutationKillSwitchState",
+        "repoMutationAllowedByKillSwitchState"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderMayaRepoMutationKillSwitchWriteDisabled.test.ts",
+      "lines": 148,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/builderMayaRepoMutationKillSwitchWriteDisabled.ts",
+      "lines": 367,
+      "exports": [
+        "buildBuilderMayaRepoMutationKillSwitchWriteDisabledResponse",
+        "BuilderMayaRepoMutationKillSwitchAuditPersistenceSummary",
+        "BuilderMayaRepoMutationKillSwitchWriteDisabledInput",
+        "BuilderMayaRepoMutationKillSwitchWriteDisabledResponse"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderMemory.ts",
+      "lines": 436,
+      "exports": [
+        "buildBuilderMemoryContext",
+        "deleteBuilderMemoryForTask",
+        "rememberBuilderAssistantMessage",
+        "rememberBuilderChatHistory",
+        "rememberBuilderUserMessage",
+        "setActiveBuilderTask",
+        "syncBuilderMemoryForTask"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderMetrics.ts",
+      "lines": 67,
+      "exports": [
+        "getBuildCount",
+        "getMetrics",
+        "getRecentCompletedTasks",
+        "getTaskStats",
+        "getVersion",
+        "getWorstPerformers"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderNonBlockingRecovery.test.ts",
+      "lines": 80,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/builderPatchExecutor.ts",
+      "lines": 169,
+      "exports": [
+        "applyPatch",
+        "parsePatchBody",
+        "PatchResult"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderPipelineInstances.test.ts",
+      "lines": 87,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/builderPipelineInstances.ts",
+      "lines": 536,
+      "exports": [
+        "BUILDER_PIPELINE_INFO_VERSION",
+        "BUILDER_PIPELINE_READINESS_VERSION",
+        "BUILDER_PIPELINE_REQUIRED_GROUPS",
+        "BuilderPipelineInstance",
+        "BuilderPipelineInstanceGroup",
+        "BuilderPipelineInstanceReadiness",
+        "BuilderPipelineReadinessStatus",
+        "BuilderPipelineSmokeMode",
+        "getBuilderPipelineInfo",
+        "getBuilderPipelineInstances",
+        "getBuilderPipelineReadiness"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderPolicyProfiles.ts",
+      "lines": 93,
+      "exports": [
+        "BUILDER_POLICY_PROFILES",
+        "PolicyProfile",
+        "PolicyProfileName",
+        "TASK_TYPE_TO_PROFILE",
+        "TaskType"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderPrototypeLane.ts",
+      "lines": 120,
+      "exports": [
+        "executePrototype",
+        "getPrototypeHtml",
+        "promotePrototype",
+        "PrototypeResult"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderRecommendationOutput.ts",
+      "lines": 80,
+      "exports": [
+        "BuilderRecommendationOutput",
+        "buildRecommendationOutput"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderRelatedFiles.ts",
+      "lines": 218,
+      "exports": [
+        "findRelatedFiles",
+        "loadBuilderFileIndex",
+        "RelatedFile"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderReviewLane.test.ts",
+      "lines": 61,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/builderReviewLane.ts",
+      "lines": 334,
+      "exports": [
+        "AgreementLevel",
+        "computeAgreement",
+        "ObserverResult",
+        "ParsedReview",
+        "parseReviewBody",
+        "ReviewAgreement",
+        "ReviewVerdict",
+        "runObserver",
+        "saveReview"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderReviewOnlyRouting.test.ts",
+      "lines": 147,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/builderRuntimeLane.ts",
+      "lines": 419,
+      "exports": [
+        "assertExpect",
+        "assertExpectJson",
+        "callLocalEndpoint",
+        "RuntimeCallResult",
+        "verifyDatabaseState"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderSafetyPolicy.ts",
+      "lines": 230,
+      "exports": [
+        "BuilderGateDecision",
+        "BuilderSafetyDecision",
+        "BuilderTaskClass",
+        "classifyBuilderTask",
+        "ExecutionPolicy",
+        "guardBuilderPush",
+        "GuardedBuilderPushResult"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderScopeResolver.ts",
+      "lines": 274,
+      "exports": [
+        "fetchFileContents",
+        "invalidateIndexCache",
+        "isIndexedRepoFile",
+        "probeRepoFilePresence",
+        "RepoFilePresence",
+        "resolveScope",
+        "ScopeMethod",
+        "ScopeResult"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderSearch.ts",
+      "lines": 71,
+      "exports": [
+        "SearchResult",
+        "webSearch"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderSideEffects.ts",
+      "lines": 56,
+      "exports": [
+        "appendBuilderSideEffectsMarker",
+        "BUILDER_SIDE_EFFECTS_NONE_MARKER",
+        "BuilderSideEffectsContract",
+        "BuilderSideEffectsMode",
+        "getBuilderSideEffectsFromGoal",
+        "normalizeBuilderSideEffects",
+        "NormalizedBuilderSideEffectsContract"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderStaleDetector.ts",
+      "lines": 157,
+      "exports": [
+        "startStaleDetector",
+        "stopStaleDetector"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderTargetProfiles.ts",
+      "lines": 134,
+      "exports": [
+        "BuilderTargetProfile",
+        "BuilderTargetProfileId",
+        "BuilderTargetRuntime",
+        "BuilderTargetWritePolicy",
+        "getBuilderTargetProfile",
+        "isSoulmatchTarget",
+        "listBuilderTargetProfiles",
+        "resolveBuilderTargetProfile",
+        "ResolvedBuilderTargetProfile"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderTaskContract.ts",
+      "lines": 737,
+      "exports": [
+        "buildBuilderTaskContract",
+        "BuilderAttentionState",
+        "BuilderCodeLanePhase",
+        "BuilderInstanceMode",
+        "BuilderLaneKey",
+        "BuilderOutputFormat",
+        "BuilderOutputKind",
+        "BuilderTaskContract",
+        "BuilderTaskCreationDefaults",
+        "BuilderTaskIntentKind",
+        "BuilderTaskRecord",
+        "BuilderUniversalLifecyclePhase",
+        "deriveTaskCreationDefaults",
+        "inferIntentKindFromText",
+        "normalizeIntentKind",
+        "normalizeOutputFormat",
+        "normalizeOutputKind",
+        "presentBuilderTask",
+        "PresentedBuilderTask"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderTeamAwareness.ts",
+      "lines": 243,
+      "exports": [
+        "BuilderTeamRole",
+        "buildTeamAwarenessBrief",
+        "buildTeamContextPack"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderUcLightPromptRule.test.ts",
+      "lines": 62,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/builderUcLightPromptRule.ts",
+      "lines": 11,
+      "exports": [
+        "BUILDER_UC_LIGHT_PROMPT_RULE"
+      ]
+    },
+    {
+      "path": "server/src/lib/builderWorkflowSimulation.ts",
+      "lines": 175,
+      "exports": [
+        "BuilderWorkflowSimulation",
+        "buildWorkflowSimulation",
+        "WorkflowSimulationRecommendedAction"
+      ]
+    },
+    {
+      "path": "server/src/lib/councilDebate.test.ts",
+      "lines": 31,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/councilDebate.ts",
+      "lines": 647,
+      "exports": [
+        "buildCouncilDebateActorsFromModels",
+        "buildCouncilSystemPrompt",
+        "CouncilActorRuntimePolicy",
+        "CouncilDebateActor",
+        "firstFailureSignal",
+        "getCouncilActorRuntimePolicy",
+        "hasFailureSignal",
+        "resolveCouncilDebateActors",
+        "resolveCouncilModerator",
+        "runCouncilDebate"
+      ]
+    },
+    {
+      "path": "server/src/lib/councilDebateAdaptiveActors.test.ts",
+      "lines": 76,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/councilDebateTimeoutPolicy.test.ts",
+      "lines": 47,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/councilScout.ts",
+      "lines": 354,
+      "exports": [
+        "runScoutPhase",
+        "ScoutFindings"
+      ]
+    },
+    {
+      "path": "server/src/lib/deepModeHandler.ts",
+      "lines": 110,
+      "exports": [
+        "handleDeepModeRequest"
+      ]
+    },
+    {
+      "path": "server/src/lib/desktopBridgeActionPlanContract.ts",
+      "lines": 948,
+      "exports": [
+        "buildConstrainedDesktopExecutorDraft",
+        "buildDesktopBridgeActionPlanContract",
+        "buildDesktopBridgeActionPlanExample",
+        "buildDesktopBridgeApprovalBinding",
+        "buildDesktopBridgeExecutorPolicy",
+        "buildDesktopBridgeFinalPreflightResult",
+        "buildDesktopBridgeKillSwitchStatusContract",
+        "buildDesktopBridgePostActionAuditContract",
+        "buildDesktopBridgePreflightBundleContract",
+        "buildDesktopBridgePreflightBundleExample",
+        "buildDesktopBridgeScreenshotBindingContract",
+        "buildDesktopBridgeSingleActionReadinessGate",
+        "buildDesktopBridgeTargetWindowEvidenceContract",
+        "ConstrainedDesktopExecutorDraft",
+        "DESKTOP_BRIDGE_ACTION_PLAN_CONTRACT_VERSION",
+        "DESKTOP_BRIDGE_APPROVAL_BINDING_VERSION",
+        "DESKTOP_BRIDGE_CONSTRAINED_EXECUTOR_DRAFT_VERSION",
+        "DESKTOP_BRIDGE_EXECUTOR_POLICY_VERSION",
+        "DESKTOP_BRIDGE_KILL_SWITCH_STATUS_VERSION",
+        "DESKTOP_BRIDGE_POST_ACTION_AUDIT_VERSION",
+        "DESKTOP_BRIDGE_PREFLIGHT_BUNDLE_CONTRACT_VERSION",
+        "DESKTOP_BRIDGE_SCREENSHOT_BINDING_VERSION",
+        "DESKTOP_BRIDGE_SINGLE_ACTION_READINESS_GATE_VERSION",
+        "DESKTOP_BRIDGE_TARGET_WINDOW_EVIDENCE_VERSION",
+        "DesktopBridgeActionPlanContract",
+        "DesktopBridgeActionPlanValidationResult",
+        "DesktopBridgeApprovalBinding",
+        "DesktopBridgeApprovalBindingStatus",
+        "DesktopBridgeExecutorPolicy",
+        "DesktopBridgeFinalPreflightResult",
+        "DesktopBridgeKillSwitchStatusContract",
+        "DesktopBridgeKillSwitchStatusValidationResult",
+        "DesktopBridgePostActionAuditContract",
+        "DesktopBridgePostActionAuditValidationResult",
+        "DesktopBridgePreflightBundleContract",
+        "DesktopBridgePreflightBundleValidationResult",
+        "DesktopBridgeScreenshotBindingContract",
+        "DesktopBridgeScreenshotBindingValidationResult",
+        "DesktopBridgeSingleActionReadinessGate",
+        "DesktopBridgeTargetWindowEvidenceContract",
+        "DesktopBridgeTargetWindowEvidenceValidationResult",
+        "validateDesktopBridgeActionPlan",
+        "validateDesktopBridgeKillSwitchStatus",
+        "validateDesktopBridgePostActionAudit",
+        "validateDesktopBridgePreflightBundle",
+        "validateDesktopBridgeScreenshotBinding",
+        "validateDesktopBridgeTargetWindowEvidence"
+      ]
+    },
+    {
+      "path": "server/src/lib/desktopBridgeEvidenceBundles.ts",
+      "lines": 976,
+      "exports": [
+        "buildDesktopBridgeClientConformancePackage",
+        "buildDesktopBridgeClientFixtureBundle",
+        "buildDesktopBridgeEvidenceExportBundle",
+        "buildDesktopBridgeEvidenceReplayBundle",
+        "buildDesktopBridgeEvidenceTriadRecordsBundle",
+        "buildDesktopBridgeEvidenceTriadReplayBundle",
+        "buildDesktopBridgeEvidenceTriadSenderHandoff",
+        "buildDesktopBridgeHandoffDocument",
+        "buildDesktopBridgeOperatorUiIntegrationSketch",
+        "buildDesktopBridgePauseDecision",
+        "buildDesktopBridgePointProposalContract",
+        "buildDesktopBridgePointProposalHandoff",
+        "buildDesktopBridgePointProposalRecordsBundle",
+        "buildDesktopBridgePointProposalReplayBundle",
+        "buildDesktopBridgeSafetyMilestoneSummary",
+        "buildDesktopBridgeUiReadinessStatus",
+        "persistDesktopBridgeEvidenceTriadRecord",
+        "persistDesktopBridgePointProposal"
+      ]
+    },
+    {
+      "path": "server/src/lib/desktopBridgeOperatorAuditSurface.ts",
+      "lines": 155,
+      "exports": [
+        "buildDesktopBridgeOperatorAuditSurface",
+        "DesktopBridgeOperatorAuditSurface",
+        "DesktopBridgeOperatorAuditSurfaceItem"
+      ]
+    },
+    {
+      "path": "server/src/lib/desktopBridgeReadinessSummary.ts",
+      "lines": 101,
+      "exports": [
+        "buildDesktopBridgeReadinessSummary",
+        "DesktopBridgeReadinessSummary",
+        "DesktopBridgeReadinessSummaryItem"
+      ]
+    },
+    {
+      "path": "server/src/lib/directorActions.test.ts",
+      "lines": 56,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/directorActions.ts",
+      "lines": 576,
+      "exports": [
+        "buildPatrolRepairRunPayload",
+        "DirectorAction",
+        "DirectorActionResult",
+        "executeDirectorAction",
+        "executeDirectorActions",
+        "inferReadFileFallbackAction",
+        "orderDirectorActionsForExecution",
+        "parseDirectorActions",
+        "renderDirectorActionSummary",
+        "stripDirectorActions"
+      ]
+    },
+    {
+      "path": "server/src/lib/directorContext.ts",
+      "lines": 115,
+      "exports": [
+        "buildDirectorContext",
+        "DirectorContext"
+      ]
+    },
+    {
+      "path": "server/src/lib/directorPrompt.ts",
+      "lines": 169,
+      "exports": [
+        "buildDirectorSystemPrompt",
+        "DirectorThinkingMode",
+        "MAYA_NAVIGATION_GUIDANCE"
+      ]
+    },
+    {
+      "path": "server/src/lib/directorPromptBuilder.ts",
+      "lines": 160,
+      "exports": [
+        "buildDirectorPrompt"
+      ]
+    },
+    {
+      "path": "server/src/lib/disabledEnforcementPreflight.ts",
+      "lines": 140,
+      "exports": [
+        "DISABLED_ENFORCEMENT_PREFLIGHT_VERSION",
+        "DisabledEnforcementPreflightReport",
+        "DisabledEnforcementRoutePreflight",
+        "DisabledEnforcementTaskAbortPolicy",
+        "getDisabledEnforcementPreflightReport"
+      ]
+    },
+    {
+      "path": "server/src/lib/drizzle.ts",
+      "lines": 2,
+      "exports": [
+        "and",
+        "asc",
+        "desc",
+        "eq",
+        "gte",
+        "inArray",
+        "lt",
+        "ne",
+        "notInArray",
+        "or",
+        "sql"
+      ]
+    },
+    {
+      "path": "server/src/lib/fillerCatalog.ts",
+      "lines": 273,
+      "exports": [
+        "FILLER_CATALOG",
+        "FILLER_COUNTS_BY_PERSONA",
+        "FillerCategory",
+        "FillerPhrase",
+        "getFillersByCategory",
+        "getFillersByPersona",
+        "getRandomFiller"
+      ]
+    },
+    {
+      "path": "server/src/lib/fillerSpeech.ts",
+      "lines": 53,
+      "exports": [
+        "generateFillerQueue",
+        "generateFillerSpeech"
+      ]
+    },
+    {
+      "path": "server/src/lib/formatCredits.ts",
+      "lines": 108,
+      "exports": [
+        "CreditInfo",
+        "CREDITS_CONSTANTS",
+        "CreditTier",
+        "estimateCost",
+        "formatCreditsDisplay",
+        "getCreditsColor",
+        "getCreditsTier"
+      ]
+    },
+    {
+      "path": "server/src/lib/goatChat.test.ts",
+      "lines": 82,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/goatChat.ts",
+      "lines": 338,
+      "exports": [
+        "buildGoatChatUncertain",
+        "GoatChatProvider",
+        "GoatChatReasoningLevel",
+        "GoatChatRequest",
+        "GoatChatResponse",
+        "normalizeGoatChatProvider",
+        "normalizeGoatChatReasoningLevel",
+        "resolveGoatChatModel",
+        "runGoatChat"
+      ]
+    },
+    {
+      "path": "server/src/lib/goatStt.test.ts",
+      "lines": 81,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/goatStt.ts",
+      "lines": 251,
+      "exports": [
+        "buildGoatSttUncertain",
+        "GoatSttProvider",
+        "GoatSttRequest",
+        "GoatSttResponse",
+        "normalizeGoatSttMimeType",
+        "normalizeGoatSttProvider",
+        "runGoatStt"
+      ]
+    },
+    {
+      "path": "server/src/lib/goatTts.test.ts",
+      "lines": 93,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/goatTts.ts",
+      "lines": 198,
+      "exports": [
+        "buildGoatTtsUncertain",
+        "GoatTtsFormat",
+        "GoatTtsLanguage",
+        "GoatTtsProvider",
+        "GoatTtsRequest",
+        "GoatTtsResponse",
+        "GoatTtsVoice",
+        "normalizeGoatTtsFormat",
+        "normalizeGoatTtsLanguage",
+        "normalizeGoatTtsProvider",
+        "normalizeGoatTtsVoice",
+        "runGoatTts"
+      ]
+    },
+    {
+      "path": "server/src/lib/goatVisionHint.test.ts",
+      "lines": 109,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/goatVisionHint.ts",
+      "lines": 327,
+      "exports": [
+        "buildGoatVisionUncertainHint",
+        "GoatVisionHintRequest",
+        "GoatVisionHintResponse",
+        "GoatVisionModelConfig",
+        "GoatVisionProvider",
+        "GoatVisionReasoningLevel",
+        "normalizeGoatVisionProvider",
+        "normalizeGoatVisionReasoningLevel",
+        "resolveGoatVisionModel",
+        "runGoatVisionHint"
+      ]
+    },
+    {
+      "path": "server/src/lib/goatVoice.test.ts",
+      "lines": 163,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/goatVoice.ts",
+      "lines": 429,
+      "exports": [
+        "createGoatVoiceWebSocketUpgradeHandler",
+        "EchoLiveSocket",
+        "GoatVoiceOptions",
+        "installGoatVoiceWebSocket",
+        "isAuthorizedGoatVoiceRequest"
+      ]
+    },
+    {
+      "path": "server/src/lib/jsonSafe.ts",
+      "lines": 19,
+      "exports": [
+        "parseJsonColumn",
+        "safeStringify"
+      ]
+    },
+    {
+      "path": "server/src/lib/keepAlive.ts",
+      "lines": 37,
+      "exports": [
+        "getUptimeInfo",
+        "startKeepAlive"
+      ]
+    },
+    {
+      "path": "server/src/lib/masterpieceTelemetry.ts",
+      "lines": 58,
+      "exports": [
+        "logMasterPieceRound",
+        "MasterPieceRoundMetrics"
+      ]
+    },
+    {
+      "path": "server/src/lib/mayaBuilderGateClient.test.ts",
+      "lines": 136,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/mayaBuilderGateClient.ts",
+      "lines": 199,
+      "exports": [
+        "assertGateAllowed",
+        "assessBudget",
+        "assessCorridor",
+        "BudgetAssessInput",
+        "BuilderGateDecision",
+        "BuilderGateReason",
+        "CorridorAssessInput",
+        "estimateProviderInputTokens",
+        "estimateProviderOutputTokens",
+        "MayaBuilderGateBlockedError",
+        "recordCost",
+        "resetMayaBuilderGateClientForTests",
+        "setMayaBuilderGateFetchForTests"
+      ]
+    },
+    {
+      "path": "server/src/lib/mayaCanonClient.test.ts",
+      "lines": 84,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/mayaCanonClient.ts",
+      "lines": 123,
+      "exports": [
+        "buildBundledMayaPersona",
+        "clearMayaPersonaCacheForTests",
+        "fetchMayaPersona"
+      ]
+    },
+    {
+      "path": "server/src/lib/mayaCodexAgentMailbox.ts",
+      "lines": 386,
+      "exports": [
+        "acknowledgeMayaCodexAgentMailboxMessage",
+        "buildMayaCodexAgentMailboxContract",
+        "buildMayaCodexAgentMailboxCurrentBlock",
+        "buildMayaCodexAgentMailboxOperationalProtocol",
+        "MayaCodexAgentMailboxMessage",
+        "MayaCodexAgentMailboxReadOptions",
+        "persistMayaCodexAgentMailboxMessage",
+        "readMayaCodexAgentMailboxMessages"
+      ]
+    },
+    {
+      "path": "server/src/lib/mayaCodexAgentMailboxOwnership.ts",
+      "lines": 109,
+      "exports": [
+        "buildCodexMailboxRoleOwnershipPolicy",
+        "CodexMailboxAgent",
+        "CodexMailboxOwnershipMessage",
+        "CodexMailboxOwnershipSummary",
+        "isOwnedBy",
+        "summarizeCodexMailboxOwnership"
+      ]
+    },
+    {
+      "path": "server/src/lib/mayaContextAssembler.ts",
+      "lines": 396,
+      "exports": [
+        "assembleMayaContext",
+        "MAYA_CONTEXT_IDENTITY_LINES",
+        "MayaContextAssembly",
+        "MayaContextMessage",
+        "MayaContextSignals",
+        "resolveMayaSessionUserId"
+      ]
+    },
+    {
+      "path": "server/src/lib/mayaEnsembleUnchanged.test.ts",
+      "lines": 51,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/mayaIntakeAdapters.ts",
+      "lines": 227,
+      "exports": [
+        "BigBroIntakeAdapterInput",
+        "buildBigBroMayaIntake",
+        "buildDesktopBridgeMayaIntake",
+        "buildVisionWorkerMayaIntake",
+        "DesktopBridgeIntakeAdapterInput",
+        "MayaIntakeAdapterValidationError",
+        "VisionWorkerIntakeAdapterInput"
+      ]
+    },
+    {
+      "path": "server/src/lib/mayaIntakeClientStubs.ts",
+      "lines": 531,
+      "exports": [
+        "buildBigBroHandoffSnapshot",
+        "buildBigBroIntakeClientRequest",
+        "buildBigBroReadinessGate",
+        "buildBigBroStructuredContextExample",
+        "buildDesktopBridgeIntakeClientRequest",
+        "buildDesktopBridgeReadinessGate",
+        "buildExternalClientIntakeRequest",
+        "buildMayaIntakeClientConformanceReport",
+        "buildMayaIntakeClientStubBundle",
+        "buildMayaIntakeSdkPackage",
+        "buildVisionWorkerIntakeClientRequest",
+        "MayaBigBroHandoffSnapshot",
+        "MayaBigBroReadinessGate",
+        "MayaIntakeClientConformanceReport",
+        "MayaIntakeClientStub",
+        "MayaIntakeClientStubBundle",
+        "MayaIntakeClientStubSource",
+        "MayaIntakeSdkPackage",
+        "MayaIntakeSdkRequest"
+      ]
+    },
+    {
+      "path": "server/src/lib/mayaIntakeGateway.ts",
+      "lines": 1235,
+      "exports": [
+        "buildMayaIntakeRecord",
+        "MAYA_INTAKE_CONTRACT_VERSION",
+        "MAYA_INTAKE_MIN_SUPPORTED_CONTRACT_VERSION",
+        "MAYA_INTAKE_SOURCES",
+        "MayaIntakeApprovalDecision",
+        "MayaIntakeApprovalQueueItem",
+        "MayaIntakeApprovalReceipt",
+        "MayaIntakeApprovalReceiptSearchItem",
+        "MayaIntakeApprovalState",
+        "MayaIntakeAuditEvent",
+        "MayaIntakeAuditEventType",
+        "MayaIntakeDecision",
+        "MayaIntakeExportPackage",
+        "MayaIntakeLifecycleState",
+        "MayaIntakeOperatorAuditSnapshot",
+        "MayaIntakeOperatorAuditSummary",
+        "MayaIntakeOperatorReviewPackage",
+        "MayaIntakePage",
+        "MayaIntakePendingApprovalHygieneItem",
+        "MayaIntakePendingHygieneStatus",
+        "MayaIntakeReadOptions",
+        "MayaIntakeReceiptExportBundle",
+        "MayaIntakeRecord",
+        "MayaIntakeReevaluation",
+        "MayaIntakeRequest",
+        "MayaIntakeSource",
+        "MayaIntakeSourceClaim",
+        "MayaIntakeSummary",
+        "MayaNextAllowedStep",
+        "persistMayaIntakeAuditEvent",
+        "persistMayaIntakeRecord",
+        "readMayaIntake",
+        "readMayaIntakeApprovalQueue",
+        "readMayaIntakeApprovalReceipts",
+        "readMayaIntakeApprovalState",
+        "readMayaIntakeAuditEventPage",
+        "readMayaIntakeAuditEventsForIntake",
+        "readMayaIntakeByIdempotencyKey",
+        "readMayaIntakeExportPackage",
+        "readMayaIntakeOperatorAuditSnapshot",
+        "readMayaIntakeOperatorAuditSummary",
+        "readMayaIntakeOperatorReviewPackage",
+        "readMayaIntakePage",
+        "readMayaIntakePendingApprovalHygiene",
+        "readMayaIntakeReceiptExportBundle",
+        "readMayaIntakeSummary",
+        "readRecentMayaIntakeAuditEvents",
+        "readRecentMayaIntakes",
+        "reevaluateMayaIntakeRecord",
+        "summarizeMayaIntakes"
+      ]
+    },
+    {
+      "path": "server/src/lib/mayaOperatorAggregation.ts",
+      "lines": 1652,
+      "exports": [
+        "buildMayaOperatorAggregation"
+      ]
+    },
+    {
+      "path": "server/src/lib/mayaOperatorAlertAcknowledgements.ts",
+      "lines": 238,
+      "exports": [
+        "buildMayaOperatorAlertAcknowledgementContract",
+        "buildMayaOperatorAlertAcknowledgementExport",
+        "buildMayaOperatorAlertAcknowledgementRetentionModel",
+        "MayaOperatorAlertAcknowledgement",
+        "MayaOperatorAlertAcknowledgementReadOptions",
+        "persistMayaOperatorAlertAcknowledgement",
+        "readMayaOperatorAlertAcknowledgements"
+      ]
+    },
+    {
+      "path": "server/src/lib/mayaPersonalityContract.test.ts",
+      "lines": 32,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/mayaPersonalityContract.ts",
+      "lines": 63,
+      "exports": [
+        "buildMayaBuilderPersonalityContract",
+        "hasMayaBuilderPersonalityContract",
+        "MAYA_BUILDER_PERSONALITY_CONTRACT_ID",
+        "MAYA_BUILDER_PERSONALITY_RULES"
+      ]
+    },
+    {
+      "path": "server/src/lib/mayaPipelineAwareness.test.ts",
+      "lines": 48,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/mayaPipelineAwareness.ts",
+      "lines": 135,
+      "exports": [
+        "buildMayaPipelineAwarenessRoute",
+        "MayaPipelineRoute",
+        "MayaPipelineRouteModel"
+      ]
+    },
+    {
+      "path": "server/src/lib/mayaWorkerScoutAssignment.ts",
+      "lines": 143,
+      "exports": [
+        "buildMayaWorkerScoutAssignmentPlan",
+        "buildMayaWorkerScoutPrompt",
+        "MayaWorkerScoutAssignmentPlan",
+        "MayaWorkerScoutAssignmentResult",
+        "MayaWorkerScoutCandidate",
+        "summarizeMayaWorkerScoutResults"
+      ]
+    },
+    {
+      "path": "server/src/lib/memoryBus.ts",
+      "lines": 245,
+      "exports": [
+        "buildCouncilContext",
+        "buildDistillerContext",
+        "buildMayaFullContext",
+        "buildScoutContext",
+        "buildWorkerContext"
+      ]
+    },
+    {
+      "path": "server/src/lib/memoryService.ts",
+      "lines": 199,
+      "exports": [
+        "getUserMemoryContext",
+        "saveSessionMemory"
+      ]
+    },
+    {
+      "path": "server/src/lib/operatorRecoveryPolicy.ts",
+      "lines": 122,
+      "exports": [
+        "getOperatorRecoveryPolicyReport",
+        "OPERATOR_RECOVERY_POLICY_VERSION",
+        "OperatorRecoveryMode",
+        "OperatorRecoveryPolicyReport",
+        "OperatorRecoveryTrigger"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusAnchorPaths.ts",
+      "lines": 6,
+      "exports": [
+        "extractExplicitPaths"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusAssist.ts",
+      "lines": 140,
+      "exports": [
+        "BenchmarkResult",
+        "runBenchmark",
+        "waitForDeploy"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusBridgeAuth.ts",
+      "lines": 24,
+      "exports": [
+        "requireOpusToken"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusBridgeConfig.ts",
+      "lines": 54,
+      "exports": [
+        "completeOpusJob",
+        "createOpusJob",
+        "failOpusJob",
+        "getAuthUrl",
+        "getLocalBaseUrl",
+        "getOpusJob",
+        "getOpusToken",
+        "MAX_FILE_LINES_FOR_OVERWRITE",
+        "MEISTER_MAX_OUTPUT_TOKENS",
+        "MEISTER_TOKEN_LIMIT",
+        "OPUS_BASE_PATH",
+        "OPUS_TOKEN_ENV",
+        "PIPELINE_BUILD_ID",
+        "PIPELINE_STATUS",
+        "PIPELINE_VERSION",
+        "S25_LAST_RUN",
+        "S25_TASKS_PUSHED",
+        "WORKER_MAX_OUTPUT_TOKENS",
+        "WORKER_TIMEOUT_MS",
+        "WORKER_TOKEN_LIMIT"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusBridgeController.ts",
+      "lines": 1211,
+      "exports": [
+        "ExecuteInput",
+        "ExecuteResult",
+        "executeTask",
+        "getTaskSummary"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusBudgetGate.ts",
+      "lines": 45,
+      "exports": [
+        "checkBudget",
+        "getSessionState",
+        "recordTaskUsage",
+        "resetSession"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusBuildPipeline.ts",
+      "lines": 340,
+      "exports": [
+        "BuildInput",
+        "BuildResult",
+        "runBuildPipeline"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusChainController.ts",
+      "lines": 239,
+      "exports": [
+        "ChainConfig",
+        "ChainResult",
+        "ChainTask",
+        "ChainTaskResult",
+        "runChain"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusChangeRouter.ts",
+      "lines": 38,
+      "exports": [
+        "ChangeMode",
+        "decideChangeMode",
+        "getWorkerPromptForMode"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusChatPool.ts",
+      "lines": 144,
+      "exports": [
+        "addChatPoolMessage",
+        "ChatPoolMessage",
+        "ChatPoolMessageInput",
+        "ChatPoolPhase",
+        "countApprovals",
+        "countBlocks",
+        "formatChatPoolForModel",
+        "getChatPoolForTask"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusClaimGate.ts",
+      "lines": 149,
+      "exports": [
+        "CandidateGateResult",
+        "ClaimRejectCode",
+        "DerivedClaimResult",
+        "deriveImpactClass",
+        "evaluateCandidateClaims",
+        "GateMode",
+        "ImpactClass",
+        "resolveGateMode",
+        "ScopeCompatibility"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusDailyStandup.ts",
+      "lines": 281,
+      "exports": [
+        "cleanupInvalidScores",
+        "runDailyStandup",
+        "StandupReport"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusDecomposer.ts",
+      "lines": 725,
+      "exports": [
+        "cutPlan",
+        "CutUnit",
+        "decompose",
+        "DecomposerInput",
+        "DecompositionResult",
+        "fileAnalysis",
+        "FileBlock",
+        "GraphContext",
+        "graphScan",
+        "MergedFile",
+        "smartMerge",
+        "WorkerAssignment",
+        "workerMatch",
+        "WorkerScore"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusDistiller.ts",
+      "lines": 319,
+      "exports": [
+        "DistillerResult",
+        "runDistiller"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusEnvelopeValidator.test.ts",
+      "lines": 37,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/opusEnvelopeValidator.ts",
+      "lines": 540,
+      "exports": [
+        "AppliedDiffFileSnapshot",
+        "AppliedDiffSnapshot",
+        "checkTypeScriptSyntax",
+        "ClaimEvidenceRef",
+        "EditEnvelope",
+        "EnvelopeValidationResult",
+        "parseEnvelope",
+        "validateEnvelope",
+        "WorkerClaim"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusErrorLearning.ts",
+      "lines": 90,
+      "exports": [
+        "ErrorCardInput",
+        "generateErrorCard"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusFeatureOrchestrator.ts",
+      "lines": 187,
+      "exports": [
+        "OpusFeatureInput",
+        "OpusFeatureResult",
+        "orchestrateFeature"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusGraphIntegration.ts",
+      "lines": 277,
+      "exports": [
+        "ArchitectureGraph",
+        "findRelevantErrorCards",
+        "generateGraphBriefing",
+        "loadArchitectureGraph",
+        "loadProjectDna",
+        "updateGraphAfterTask"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusIndexGenerator.ts",
+      "lines": 276,
+      "exports": [
+        "alias",
+        "bar",
+        "Bar",
+        "Baz",
+        "Foo",
+        "name",
+        "Qux",
+        "regenerateRepoIndex"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusJudge.test.ts",
+      "lines": 76,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/opusJudge.ts",
+      "lines": 289,
+      "exports": [
+        "JudgeDecision",
+        "judgeValidCandidates",
+        "previewEditForJudge"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusMeisterPlan.ts",
+      "lines": 229,
+      "exports": [
+        "BuildPlan",
+        "runMeisterPlan",
+        "SubTask"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusNachdenker.ts",
+      "lines": 150,
+      "exports": [
+        "NachdenkerReport",
+        "runNachdenker",
+        "WorkerResult"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusPatchMode.ts",
+      "lines": 98,
+      "exports": [
+        "applyPatch",
+        "applyPatches",
+        "estimateFileComplexity",
+        "PatchEdit"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusPulseCrush.ts",
+      "lines": 196,
+      "exports": [
+        "AmbientCrushResult",
+        "CaseCrushResult",
+        "CrushIntensity",
+        "determineCrushIntensity",
+        "extractJsonFromText",
+        "runAmbientCrush",
+        "runCaseCrush",
+        "runHeavyCrush"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusRenderBridge.ts",
+      "lines": 397,
+      "exports": [
+        "DeployInfo",
+        "EnvVarInfo",
+        "getDeployDetails",
+        "getDeployStatus",
+        "getServerInfo",
+        "getServiceInfo",
+        "listEnvVars",
+        "listRecentBuildLogs",
+        "listRecentLogs",
+        "RenderLogEntry",
+        "RenderLogType",
+        "RenderServiceInfo",
+        "triggerRedeploy",
+        "updateEnvVar"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusRoundtable.ts",
+      "lines": 697,
+      "exports": [
+        "DEFAULT_ROUNDTABLE_CONFIG",
+        "ModeratorDecision",
+        "PatchValidation",
+        "RoundModerator",
+        "RoundtableAssignment",
+        "RoundtableConfig",
+        "RoundtableParticipant",
+        "RoundtableResult",
+        "runRoundtable",
+        "validatePatch"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusScoutRunner.ts",
+      "lines": 233,
+      "exports": [
+        "runScoutPhase",
+        "ScoutPhaseResult",
+        "ScoutTask"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusSelfTest.ts",
+      "lines": 192,
+      "exports": [
+        "selfHealthCheck",
+        "SelfTestCheck",
+        "SelfTestResult",
+        "selfVerify"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusSmartPush.test.ts",
+      "lines": 46,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/opusSmartPush.ts",
+      "lines": 299,
+      "exports": [
+        "buildPatchViaPushFiles",
+        "smartPush"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusTaskOrchestrator.ts",
+      "lines": 1308,
+      "exports": [
+        "buildAdaptiveScopeProposal",
+        "BuilderScopeProposal",
+        "BuilderScopeProposalCandidate",
+        "OpusTaskInput",
+        "OpusTaskResult",
+        "orchestrateTask"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusTaskOrchestratorScopeProposal.test.ts",
+      "lines": 30,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/opusVerification.ts",
+      "lines": 140,
+      "exports": [
+        "EndpointTest",
+        "runVerificationTests",
+        "STANDARD_TESTS",
+        "TestResult",
+        "VerificationResult"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusVordenker.ts",
+      "lines": 145,
+      "exports": [
+        "BuildOrder",
+        "RelevantFile",
+        "runVordenker",
+        "ScoutReport"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusWorkerRegistry.ts",
+      "lines": 45,
+      "exports": [
+        "DEFAULT_WORKERS",
+        "getModel",
+        "getProvider",
+        "JUDGE_FALLBACK_WORKERS",
+        "JUDGE_WORKER",
+        "WORKER_REGISTRY",
+        "WorkerConfig"
+      ]
+    },
+    {
+      "path": "server/src/lib/opusWorkerSwarm.ts",
+      "lines": 874,
+      "exports": [
+        "getRecommendedWriter",
+        "getWorkerRanking",
+        "MeisterResult",
+        "MeisterScore",
+        "parseAssignments",
+        "runMeisterValidation",
+        "runWorkerSwarm",
+        "saveWorkerScores",
+        "WORKER_MAX_TOKEN_CAP",
+        "WorkerAssignment",
+        "WorkerResult"
+      ]
+    },
+    {
+      "path": "server/src/lib/outboundHttp.ts",
+      "lines": 385,
+      "exports": [
+        "installOutboundHttpDefaults",
+        "OUTBOUND_DISPATCHER",
+        "outboundFetch",
+        "OutboundFetchInit",
+        "OutboundFetchResponse"
+      ]
+    },
+    {
+      "path": "server/src/lib/patrolFindingGrouping.ts",
+      "lines": 272,
+      "exports": [
+        "comparePatrolFindingGroupsByPriority",
+        "comparePatrolFindingsByPriority",
+        "getPatrolFindingFeatureScope",
+        "getPatrolFindingIssueBucket",
+        "getPatrolFindingModelVote",
+        "getPatrolFindingTopicBucket",
+        "getPatrolGroupingSeverityRank",
+        "getPatrolSemanticGroupKey",
+        "normalizePatrolGroupingSeverity",
+        "PatrolGroupingCard",
+        "scorePatrolFindingGroup"
+      ]
+    },
+    {
+      "path": "server/src/lib/patrolRepairLoop.ts",
+      "lines": 1099,
+      "exports": [
+        "getPatrolRepairLoopStatus",
+        "getPatrolRepairQueue",
+        "PatrolRepairLoopConfig",
+        "PatrolRepairLoopStatus",
+        "PatrolRepairQueueItem",
+        "PatrolRepairQueueStatus",
+        "PatrolRepairResumeResult",
+        "PatrolRepairRunResult",
+        "PatrolRepairTaskSummary",
+        "promotePatrolFindingsToRepairTasks",
+        "resumePatrolRepairTasks",
+        "runPatrolRepairLoopOnce",
+        "startPatrolRepairLoop",
+        "stopPatrolRepairLoop",
+        "syncPatrolRepairOutcomes",
+        "updatePatrolRepairLoopConfig"
+      ]
+    },
+    {
+      "path": "server/src/lib/patrolVisualCoverage.ts",
+      "lines": 44,
+      "exports": [
+        "getVisualCoveragePlan",
+        "VisualCoveragePlan",
+        "VisualCoverageRoute",
+        "VisualCoverageViewport"
+      ]
+    },
+    {
+      "path": "server/src/lib/personaRouter.ts",
+      "lines": 352,
+      "exports": [
+        "DeepProviderName",
+        "getPersonaDefinition",
+        "getProviderForPersona",
+        "PERSONA_CONFIG",
+        "PERSONA_DEFINITIONS",
+        "PERSONA_PROVIDERS",
+        "PersonaConfig",
+        "PersonaDefinition",
+        "PersonaProviderConfig",
+        "PersonaTier",
+        "ProviderName",
+        "ROUTER_CONFIG",
+        "shouldUseDeepMode"
+      ]
+    },
+    {
+      "path": "server/src/lib/personaVoices.ts",
+      "lines": 87,
+      "exports": [
+        "getPersonaVoice",
+        "getPersonaVoiceDirector"
+      ]
+    },
+    {
+      "path": "server/src/lib/pipelineTestMarker.ts",
+      "lines": 4,
+      "exports": [
+        "PIPELINE_TEST_MARKER",
+        "TEST_RUN_2",
+        "TEST_VERIFIED_AT"
+      ]
+    },
+    {
+      "path": "server/src/lib/poolState.ts",
+      "lines": 658,
+      "exports": [
+        "getActivePools",
+        "getAllFromPool",
+        "getDeprecatedVisionModels",
+        "getExecutableVisualCouncilModel",
+        "getExecutableVisualReviewModel",
+        "getPoolConfigSnapshot",
+        "getPoolModelCatalogEntry",
+        "getProviderHealthSnapshot",
+        "getVisionCapableModels",
+        "initializePoolState",
+        "isPoolModelExecutable",
+        "ModelHealthEntry",
+        "pickFromPool",
+        "POOL_MODEL_CATALOG",
+        "POOL_MODEL_MAP",
+        "PoolConfig",
+        "PoolConfigSnapshot",
+        "PoolModelCatalogEntry",
+        "PoolType",
+        "ProviderHealthEntry",
+        "ProviderHealthSnapshot",
+        "ResolvedModel",
+        "resolveModelById",
+        "updatePools"
+      ]
+    },
+    {
+      "path": "server/src/lib/poolStateVision.test.ts",
+      "lines": 35,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/premiumModelGate.ts",
+      "lines": 53,
+      "exports": [
+        "assertPremiumModelAllowed",
+        "getPremiumModelIds",
+        "isPremiumModelSelectedInUi",
+        "isPremiumProviderModel",
+        "PremiumModelApprovalSource"
+      ]
+    },
+    {
+      "path": "server/src/lib/proofPackage.ts",
+      "lines": 67,
+      "exports": [
+        "ProofPackage",
+        "ProofValidationResult",
+        "SandboxResult",
+        "validateProofPackage"
+      ]
+    },
+    {
+      "path": "server/src/lib/providerJson.test.ts",
+      "lines": 32,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/providerJson.ts",
+      "lines": 73,
+      "exports": [
+        "parseProviderJsonObject"
+      ]
+    },
+    {
+      "path": "server/src/lib/providers.ts",
+      "lines": 736,
+      "exports": [
+        "buildOpenAiCompatibleChatCompletionRequest",
+        "callProvider",
+        "CallProviderParams",
+        "getProviderApiKey",
+        "ProviderMessage",
+        "ProviderMessagePart"
+      ]
+    },
+    {
+      "path": "server/src/lib/providersDeepSeekV4.test.ts",
+      "lines": 50,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/providersGemini.test.ts",
+      "lines": 48,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/providersMoonshotKimi.test.ts",
+      "lines": 41,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/providersXaiVision.test.ts",
+      "lines": 39,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/pushResultWaiter.ts",
+      "lines": 93,
+      "exports": [
+        "getPendingWaiterCount",
+        "PushResult",
+        "signalPushResult",
+        "waitForPushResult"
+      ]
+    },
+    {
+      "path": "server/src/lib/rateLimiter.ts",
+      "lines": 133,
+      "exports": [
+        "RateLimiter"
+      ]
+    },
+    {
+      "path": "server/src/lib/requireDevToken.ts",
+      "lines": 31,
+      "exports": [
+        "requireDevToken"
+      ]
+    },
+    {
+      "path": "server/src/lib/riskDecisionRecorder.test.ts",
+      "lines": 75,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/riskDecisionRecorder.ts",
+      "lines": 83,
+      "exports": [
+        "buildRiskDecisionRecord",
+        "recordRiskDecision",
+        "RiskDecisionRecord",
+        "RiskDecisionRecordInput",
+        "RiskDecisionRecordResult",
+        "RiskDecisionStorage"
+      ]
+    },
+    {
+      "path": "server/src/lib/riskGate.test.ts",
+      "lines": 218,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/riskGate.ts",
+      "lines": 141,
+      "exports": [
+        "ActionPlane",
+        "ActionTarget",
+        "CapabilityVector",
+        "evaluateRisk",
+        "RiskDecision",
+        "RiskZone",
+        "riskZoneRank"
+      ]
+    },
+    {
+      "path": "server/src/lib/riskLogger.ts",
+      "lines": 31,
+      "exports": [
+        "buildRiskLogEntry",
+        "logRiskDecision",
+        "RiskLogEntry"
+      ]
+    },
+    {
+      "path": "server/src/lib/riskPolicy.ts",
+      "lines": 102,
+      "exports": [
+        "getRouteEnforcementPolicy",
+        "listRouteEnforcementPolicies",
+        "RiskPolicyRoute",
+        "RouteEnforcementPolicy",
+        "RouteEnforcementPolicySummary",
+        "summarizeRouteEnforcementPolicies"
+      ]
+    },
+    {
+      "path": "server/src/lib/riskPreflight.ts",
+      "lines": 331,
+      "exports": [
+        "buildProofPackageTransportPreflight",
+        "evaluateRiskPreflight",
+        "normalizeCapabilityVector",
+        "normalizeProofPackageTransport",
+        "ProofPackageTransportPreflight",
+        "ProofPackageTransportSummary",
+        "RiskPreflightDecision",
+        "RiskPreflightSummary",
+        "summarizeRiskPreflight"
+      ]
+    },
+    {
+      "path": "server/src/lib/sandboxSeed.ts",
+      "lines": 340,
+      "exports": [
+        "clearSyntheticSandboxSeed",
+        "seedBuilderSandbox",
+        "seedBuilderSandboxIfNeeded"
+      ]
+    },
+    {
+      "path": "server/src/lib/scoutPatrol.ts",
+      "lines": 1845,
+      "exports": [
+        "CODE_DEEP_MODELS",
+        "CODE_ROUTINE_MODELS",
+        "DEEP_MODELS",
+        "DeepPatrolModelResult",
+        "ensurePatrolModelSelectionLoaded",
+        "FindingConfidence",
+        "FindingState",
+        "getPatrolStatus",
+        "PatrolEvent",
+        "PatrolFinding",
+        "PatrolModel",
+        "PatrolModelSelection",
+        "PatrolModelSelectionOwner",
+        "patrolRouter",
+        "PatrolTeamVerificationMemberResult",
+        "PatrolTeamVerificationResult",
+        "PatrolTeamVerificationRunInput",
+        "PatrolTeamVerificationRunResult",
+        "PatrolVerificationResult",
+        "PatrolVerificationRunInput",
+        "PatrolVerificationRunResult",
+        "PatrolVerifierVerdict",
+        "ROUTINE_MODELS",
+        "RoutinePatrolModelResult",
+        "runDeepPatrol",
+        "runPatrolTeamVerification",
+        "runPatrolVerification",
+        "runRoutinePatrol",
+        "runVisualPatrol",
+        "startPatrol",
+        "stopPatrol",
+        "updatePatrolModelSelection",
+        "VISUAL_DEEP_MODELS",
+        "VISUAL_ROUTINE_MODELS",
+        "VisualPatrolInput"
+      ]
+    },
+    {
+      "path": "server/src/lib/sharedScoring.ts",
+      "lines": 17,
+      "exports": [
+        "getScoreColor"
+      ]
+    },
+    {
+      "path": "server/src/lib/specHardening.ts",
+      "lines": 331,
+      "exports": [
+        "hardenInstruction",
+        "SpecHardeningFinding",
+        "SpecHardeningReport"
+      ]
+    },
+    {
+      "path": "server/src/lib/studioAnchors.ts",
+      "lines": 86,
+      "exports": [
+        "buildStudioAnchors",
+        "renderAnchorInstructionBlock",
+        "StudioAnchor"
+      ]
+    },
+    {
+      "path": "server/src/lib/studioQuality.ts",
+      "lines": 105,
+      "exports": [
+        "applyNarrativeGate"
+      ]
+    },
+    {
+      "path": "server/src/lib/swissEphemerisProbe.ts",
+      "lines": 43,
+      "exports": [
+        "swissEphemerisProbe",
+        "SwissEphemerisProbeResult"
+      ]
+    },
+    {
+      "path": "server/src/lib/teamBriefing.test.ts",
+      "lines": 167,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/teamBriefing.ts",
+      "lines": 782,
+      "exports": [
+        "AgentReceiptInput",
+        "buildTeamBriefing",
+        "buildTeamBriefingTemplate",
+        "buildTeamBriefingUpdates",
+        "confirmDoNotRepeatRule",
+        "DO_NOT_REPEAT_LAYER",
+        "DoNotRepeatInput",
+        "DoNotRepeatRule",
+        "proposeDoNotRepeatRule",
+        "TEAM_BRIEFING_VERSION",
+        "TEAM_RECEIPT_LAYER",
+        "TeamBriefingAuthority",
+        "TeamBriefingConfidenceLevel",
+        "TeamBriefingResult",
+        "TeamBriefingRetention",
+        "TeamBriefingSeverity",
+        "TeamBriefingUpdatesResult",
+        "TeamReceipt",
+        "writeAgentReceipt"
+      ]
+    },
+    {
+      "path": "server/src/lib/ttsService.ts",
+      "lines": 375,
+      "exports": [
+        "FastFirstTTSResult",
+        "generateTTS",
+        "generateTTSFastFirst",
+        "TTSResult"
+      ]
+    },
+    {
+      "path": "server/src/lib/ttsServiceGemini.test.ts",
+      "lines": 39,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/visualReviewNormalization.test.ts",
+      "lines": 68,
+      "exports": []
+    },
+    {
+      "path": "server/src/lib/visualReviewNormalization.ts",
+      "lines": 170,
+      "exports": [
+        "normalizeVisualFindings",
+        "normalizeVisualReviewPayloadFindings",
+        "VisualReviewFinding",
+        "VisualReviewSeverity"
+      ]
+    },
+    {
+      "path": "server/src/lib/voiceCatalog.ts",
+      "lines": 96,
+      "exports": [
+        "ACCENT_CATALOG",
+        "AccentCatalogEntry",
+        "CREDIT_TIERS",
+        "SYSTEM_PERSONA_VOICES",
+        "VOICE_CATALOG",
+        "VoiceCatalogEntry"
+      ]
+    },
+    {
+      "path": "server/src/lib/voicePromptBuilder.ts",
+      "lines": 75,
+      "exports": [
+        "buildTtsPrompt",
+        "getVoiceName"
+      ]
+    },
+    {
+      "path": "server/src/lib/workerProfiles.ts",
+      "lines": 151,
+      "exports": [
+        "getWorkerById",
+        "pickWorker",
+        "WORKER_PROFILES",
+        "WorkerProfile"
+      ]
+    },
+    {
+      "path": "server/src/routes/arcana.ts",
+      "lines": 798,
+      "exports": [
+        "arcanaRouter"
+      ]
+    },
+    {
+      "path": "server/src/routes/architect.ts",
+      "lines": 16,
+      "exports": [
+        "architectRouter"
+      ]
+    },
+    {
+      "path": "server/src/routes/astro.ts",
+      "lines": 712,
+      "exports": [
+        "astrologyRouter",
+        "calculateAstrologyForMatch",
+        "MatchAstroComputationInput"
+      ]
+    },
+    {
+      "path": "server/src/routes/builder.ts",
+      "lines": 7381,
+      "exports": [
+        "builderRouter"
+      ]
+    },
+    {
+      "path": "server/src/routes/contextBroker.ts",
+      "lines": 498,
+      "exports": [
+        "contextBrokerRouter"
+      ]
+    },
+    {
+      "path": "server/src/routes/dev.ts",
+      "lines": 51,
+      "exports": [
+        "devRouter"
+      ]
+    },
+    {
+      "path": "server/src/routes/geo.ts",
+      "lines": 117,
+      "exports": [
+        "geoRouter"
+      ]
+    },
+    {
+      "path": "server/src/routes/goat.ts",
+      "lines": 92,
+      "exports": [
+        "goatRouter"
+      ]
+    },
+    {
+      "path": "server/src/routes/guide.ts",
+      "lines": 75,
+      "exports": [
+        "guideRouter"
+      ]
+    },
+    {
+      "path": "server/src/routes/health.ts",
+      "lines": 336,
+      "exports": [
+        "healthRouter",
+        "initializeAsyncJobsCache"
+      ]
+    },
+    {
+      "path": "server/src/routes/journey.ts",
+      "lines": 256,
+      "exports": [
+        "JourneyEventType",
+        "JourneyRequest",
+        "JourneyResponse",
+        "journeyRouter",
+        "OptimalDate",
+        "PlanetaryInfluence"
+      ]
+    },
+    {
+      "path": "server/src/routes/match.ts",
+      "lines": 964,
+      "exports": [
+        "matchRouter"
+      ]
+    },
+    {
+      "path": "server/src/routes/meta.ts",
+      "lines": 27,
+      "exports": [
+        "metaRouter"
+      ]
+    },
+    {
+      "path": "server/src/routes/numerology.ts",
+      "lines": 185,
+      "exports": [
+        "numerologyRouter"
+      ]
+    },
+    {
+      "path": "server/src/routes/opusBridge.ts",
+      "lines": 3966,
+      "exports": [
+        "buildTaskIntakeRiskVector",
+        "logRiskDecisionSafely",
+        "opusBridgeRouter"
+      ]
+    },
+    {
+      "path": "server/src/routes/opusBridgeProofTransport.test.ts",
+      "lines": 53,
+      "exports": []
+    },
+    {
+      "path": "server/src/routes/opusBridgeRiskLog.test.ts",
+      "lines": 55,
+      "exports": []
+    },
+    {
+      "path": "server/src/routes/profile.ts",
+      "lines": 244,
+      "exports": [
+        "profileRouter"
+      ]
+    },
+    {
+      "path": "server/src/routes/repoFile.ts",
+      "lines": 35,
+      "exports": []
+    },
+    {
+      "path": "server/src/routes/scoring.ts",
+      "lines": 48,
+      "exports": [
+        "scoringRouter"
+      ]
+    },
+    {
+      "path": "server/src/routes/studio.ts",
+      "lines": 2032,
+      "exports": [
+        "studioRouter"
+      ]
+    },
+    {
+      "path": "server/src/routes/zimage.ts",
+      "lines": 202,
+      "exports": [
+        "zimageRouter"
+      ]
+    },
+    {
+      "path": "server/src/schema/arcana.ts",
+      "lines": 79,
+      "exports": [
+        "personaDefinitions",
+        "personaPresets",
+        "personaVoiceOverrides"
+      ]
+    },
+    {
+      "path": "server/src/schema/builder.ts",
+      "lines": 239,
+      "exports": [
+        "asyncJobs",
+        "BUILDER_STATUS",
+        "builderActions",
+        "builderAgentProfiles",
+        "builderArtifacts",
+        "builderAssumptions",
+        "builderChains",
+        "builderChatpool",
+        "builderErrorCards",
+        "builderMemory",
+        "builderOpusLog",
+        "builderReviews",
+        "BuilderStatus",
+        "builderTasks",
+        "builderTestResults",
+        "builderWorkerScores",
+        "poolState"
+      ]
+    },
+    {
+      "path": "server/src/schema/opusBridge.ts",
+      "lines": 1,
+      "exports": [
+        "builderChains",
+        "builderChatpool",
+        "builderErrorCards",
+        "builderOpusLog"
+      ]
+    },
+    {
+      "path": "server/src/schema/personaMemories.ts",
+      "lines": 36,
+      "exports": [
+        "personaMemories"
+      ]
+    },
+    {
+      "path": "server/src/schema/sessionMemories.ts",
+      "lines": 25,
+      "exports": [
+        "sessionMemories"
+      ]
+    },
+    {
+      "path": "server/src/shared/contracts/astro.ts",
+      "lines": 70,
+      "exports": [
+        "ASTRO_CALC_RESPONSE_EXAMPLE",
+        "AstroCalcContractRequest",
+        "AstroCalcContractResponse"
+      ]
+    },
+    {
+      "path": "server/src/shared/contracts/narrative.ts",
+      "lines": 17,
+      "exports": [
+        "NARRATIVE_QUALITY_DEBUG_EXAMPLE",
+        "StudioQualityDebugContract"
+      ]
+    },
+    {
+      "path": "server/src/shared/contracts/scoring.ts",
+      "lines": 83,
+      "exports": [
+        "SCORING_CALC_REQUEST_EXAMPLE",
+        "SCORING_CALC_RESPONSE_EXAMPLE",
+        "ScoringCalcRequest",
+        "ScoringCalcResponse"
+      ]
+    },
+    {
+      "path": "server/src/shared/narrative/examples.ts",
+      "lines": 28,
+      "exports": [
+        "NARRATIVE_FAIL_FIXTURE",
+        "NARRATIVE_PASS_FIXTURE"
+      ]
+    },
+    {
+      "path": "server/src/shared/narrative/qualityGate.ts",
+      "lines": 92,
+      "exports": [
+        "evaluateNarrative",
+        "GATE_VERSION"
+      ]
+    },
+    {
+      "path": "server/src/shared/narrative/types.ts",
+      "lines": 37,
+      "exports": [
+        "ApplyGateResult",
+        "GateContext",
+        "GateResult",
+        "NarrativeQualityDebug",
+        "StudioNarrativePayload"
+      ]
+    },
+    {
+      "path": "server/src/shared/scoring.ts",
+      "lines": 342,
+      "exports": [
+        "AstroSnapshot",
+        "calculateUnifiedScore",
+        "ConnectionType",
+        "ExplainClaim",
+        "NumerologyNumbers",
+        "RelationshipType",
+        "UnifiedScoringRequest",
+        "UnifiedScoringResult"
+      ]
+    },
+    {
+      "path": "server/src/shared/types/persona.ts",
+      "lines": 125,
+      "exports": [
+        "AccentKey",
+        "ArchetypeKey",
+        "CharacterTuning",
+        "GeminiVoiceName",
+        "PersonaCreditConfig",
+        "PersonaDefinition",
+        "PersonaStatus",
+        "PersonaTier",
+        "SignatureQuirk",
+        "ToneMode",
+        "ToneModeKey",
+        "VoiceConfig"
+      ]
+    },
+    {
+      "path": "server/src/studioPrompt.ts",
+      "lines": 1226,
+      "exports": [
+        "buildCrossingPrompt",
+        "buildDiscussPrompt",
+        "buildMayaCanonicalPrompt",
+        "buildMayaSynthesisPrompt",
+        "buildOraclePrompt",
+        "buildSoloSystemPrompt",
+        "buildSystemPrompt",
+        "buildUserPrompt",
+        "DiscussPromptContext",
+        "LilithIntensity",
+        "MAYA_BUILDER_MODE_LINE",
+        "MAYA_ORACLE_MODE_LINE",
+        "MAYA_SOLO_MODE_LINE",
+        "MoodParameters",
+        "OracleQuestionType",
+        "SRI_CONFIG",
+        "SRI_SYSTEM_PROMPT"
+      ]
+    },
+    {
+      "path": "server/src/studioSchema.ts",
+      "lines": 33,
+      "exports": [
+        "STUDIO_RESULT_SCHEMA"
+      ]
+    }
+  ]
+}

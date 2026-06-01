@@ -5,6 +5,23 @@
 
 ---
 
+## 2026-06-01 - Builder Repo Index Runtime Artifact (BP-138)
+
+- Gebaut: `builder/data/builder-repo-index.json` als Runtime-Artefakt fuer den Phase-A-Dry-Run
+  und `builder/scripts/generate-repo-index.mjs` als Generator/Normalizer.
+- Ergebnis: Der erste Live-Blocker aus BP-137 ist adressiert. `builderScopeResolver` findet jetzt
+  den Index unter dem Render-Root `builder/` und kann Scope-Aufloesung starten, statt sofort mit
+  `builder-repo-index.json not found` zu werfen.
+- Korrektur am Claude-Paket: Der Index darf nicht Bluepilots eigenes `builder/src` beschreiben,
+  weil der Orchestrator aktuell auf das Default-Target `soulmatch` zeigt und danach Dateien aus
+  `G-Dislioglu/soulmatch` holt. BP-138 erzeugt deshalb einen Soulmatch-Zielindex mit Pfaden wie
+  `server/src/lib/opusTaskOrchestrator.ts`.
+- Beweis: `npm test` in `builder/` laeuft mit 25 Tests gruen; der neue Test prueft Artifact-Form,
+  Generator-Check und `resolveScope` ohne Missing-Index-Fehler. `npm run typecheck` ist gruen.
+- Roter Faden weiter: Nach Merge und Render-Deploy `POST /probe/dry-run` erneut mit einem echten
+  indexed Soulmatch-Pfad testen. Falls danach Provider- oder Orchestrator-Fehler sichtbar werden,
+  ist das die naechste Schicht und kein Rueckfall.
+
 ## 2026-06-01 - Phase-A Dry-Run Trigger (BP-137)
 
 - Gebaut: `POST /probe/dry-run` im Bluepilot-Builder. Der Endpunkt nimmt `{ instruction }`
