@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bp-132-builder-runtime-health-entry`.
+- Aktueller Arbeitsbranch: `bp-134-scrub-bp131-identifiers`.
 - Nach Abschluss von BP-126 enthaelt Bluepilot ein separates TypeScript-Subpackage unter
   `builder/`.
 - BP-127 migriert die erste echte Builder-Code-Welle: 14 pure-logic Module unter `builder/src/`.
@@ -30,6 +30,8 @@
   HTTP-Prozess mit `/health` und `/health/db`, ohne Build-Ausfuehrungsroute.
 - BP-133 verankert den Live-Deploy: Render-Service `bluepilot-builder`, Public URL, Health- und
   DB-Readiness-Beweise, ohne Secret- oder DB-Ressourcenkennungen.
+- BP-134 scrubbt die verbliebenen konkreten DB-Ressourcenkennungen aus den alten BP-131-
+  Artefakten im aktuellen Arbeitsbaum. Git-Historie bleibt unveraendert.
 
 ## Phasen
 
@@ -41,7 +43,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-133.
+- Hoechster Contract: BP-134.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -64,6 +66,8 @@
   Maya-Gate zu importieren.
 - BP-133: Live-Deploy-Anker; `docs/BUILDER_RENDER_DEPLOY_STATE.md` haelt Render-URL,
   Build-/Start-Einstellungen und Health-Beweise fest, ohne Secrets.
+- BP-134: Scrub der alten BP-131-Artefakte; konkrete Projekt-, Branch-, Endpoint- und alte
+  soulmatch-Projektkennung durch Platzhalter ersetzt.
 
 ## Maya-Anbindung
 
@@ -92,7 +96,7 @@
 
 Nach BP-125 ist das Anker-Projekt abgeschlossen. Danach gibt es zwei saubere Optionen:
 
-1. BP-133 reviewen/mergen: Live-Deploy-Anker bestaetigen.
+1. BP-134 reviewen/mergen: Arbeitsbaum-Scrub der BP-131-Kennungen bestaetigen.
 2. Danach Maya-Gate-Infra planen: `MAYA_CORE_URL` und Gate-Token in Bluepilot setzen, nachdem
    maya-core mit BP-124-Auth deployt ist.
 3. Danach erster echter End-to-End-Probelauf im Bluepilot-Builder.

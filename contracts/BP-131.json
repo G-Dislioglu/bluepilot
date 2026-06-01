@@ -67,7 +67,7 @@
     "The 15 Builder tables exist in the Neon database.",
     "A table-count verification query returns 15 for the Builder table set.",
     "A connection string is obtained but not stored in the repo.",
-    "review-packets/BP-131.md records the project ID, database/branch details, schema verification, and redacted env-var instructions.",
+    "review-packets/BP-131.md records redacted project/database/branch details, schema verification, and redacted env-var instructions.",
     "STATE.md and docs/SESSION-LOG.md are updated.",
     "node tools/verify-task-lock.cjs BP-131 --verify exits 0.",
     "git diff --check exits 0."
@@ -89,8 +89,8 @@
   ],
   "target_neon": {
     "project_name": "bluepilot-builder",
-    "project_id": "polished-king-49081538",
-    "branch_id": "br-tiny-star-ajc0ps66",
+    "project_id": "<neon-project-id>",
+    "branch_id": "<neon-branch-id>",
     "database": "neondb",
     "role": "neondb_owner"
   },

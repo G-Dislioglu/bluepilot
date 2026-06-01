@@ -5,6 +5,21 @@
 
 ---
 
+## 2026-06-01 - BP-131 Identifier Scrub (BP-134)
+
+- Gebaut: Die verbliebenen konkreten DB-Ressourcenkennungen in `contracts/BP-131.json` und
+  `review-packets/BP-131.md` wurden durch neutrale Platzhalter ersetzt.
+- Ergebnis: Der aktuelle Arbeitsbaum enthaelt die vier bekannten Kennungen nicht mehr. Defaults
+  wie `neondb` und `neondb_owner` bleiben bewusst stehen, weil sie Produktdefaults und keine
+  konkreten Ressourcenkoordinaten sind.
+- Korrektur am Claude-Paket: Der gelieferte BP-134-Contract wiederholte die konkreten Kennungen
+  in `assumptions`/`dod`; das haette den eigenen `git grep` scheitern lassen. Der Contract wurde
+  vor dem Bootstrap so neutralisiert, dass er die Werte nicht erneut commitet.
+- Beweis: `git grep` ueber den ganzen Arbeitsbaum findet die vier bekannten Kennungen nicht.
+  `contracts/BP-131.json` bleibt valides JSON.
+- Roter Faden weiter: Jetzt kann Maya-Gate-Infra als eigener Block folgen. Git-Historie ist
+  bewusst unveraendert; ein History-Rewrite waere eine separate Entscheidung.
+
 ## 2026-05-31 - Builder Live-Deploy-Anker (BP-133)
 
 - Gebaut: `docs/BUILDER_RENDER_DEPLOY_STATE.md` haelt den ersten Live-Deploy des
