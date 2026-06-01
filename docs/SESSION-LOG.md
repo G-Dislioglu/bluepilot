@@ -5,6 +5,27 @@
 
 ---
 
+## 2026-06-01 - Guarded Sandbox Real Write Trigger (BP-141)
+
+- Gebaut: `POST /probe/sandbox-real-write` als eng bewachter Trigger fuer den ersten echten
+  Sandbox-Write. Der Endpunkt bleibt geschlossen, bis
+  `BLUEPILOT_SANDBOX_REAL_WRITE_ENABLED=true` gesetzt ist und die Confirm-Phrase stimmt.
+- Ergebnis: Der Trigger erzwingt `targetProfileId: bluepilot-sandbox`, `dryRun:false`, eine
+  feste Datei `.bluepilot/phase-b-real-write.md` und `skipInlinePostPushChecks:true`.
+  `skipDeploy:true` wird bewusst NICHT gesetzt, weil das im Orchestrator den Push ueberspringt.
+- Sicherheitsentscheidung: Nur das Sandbox-Profil wird auf `sandbox_real_write` /
+  `pushAllowed:true` gestellt. Der Repo-Guard prueft vor Orchestrierung hart auf
+  `G-Dislioglu/bluepilot-sandbox`. Request-Body-Felder wie Ziel, Scope, Datei oder Dry-Run
+  werden nicht akzeptiert. Maya-Kill-Switch und Operator-Freigabe bleiben manuelle Env-Gates.
+- Korrektur am Claude-Paket: Der Contract wurde WLP-kompatibel gemacht und enger gefasst:
+  feste Sandbox-Datei statt frei interpretierbarer Instruction, kein `skipDeploy:true`, und
+  der alte BP-139-Test wurde nur an die neue Profilwahrheit angepasst.
+- Beweis: Der Live-Readiness-Probe aus BP-139 meldete vor dem Build `status: writable`.
+  `npm test` in `builder/` laeuft mit 40 Tests gruen; `npm run typecheck` ist gruen.
+- Roter Faden weiter: Nach VAL-K2, Merge und Deploy gestaffelt pruefen: zuerst Env aus -> 403,
+  dann Builder-Env an bei geschlossenem Maya-Korridor -> kein Commit, erst danach bewusst
+  Maya-Kill-Switch + Operator-Freigabe fuer genau einen Sandbox-Write.
+
 ## 2026-06-01 - Target-aware SmartPush (BP-140)
 
 - Gebaut: Der bestehende SmartPush-Schreibadapter akzeptiert jetzt ein optionales

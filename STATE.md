@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bp-140-target-aware-smartpush`.
+- Aktueller Arbeitsbranch: `bp-141-sandbox-real-write`.
 - Nach Abschluss von BP-126 enthaelt Bluepilot ein separates TypeScript-Subpackage unter
   `builder/`.
 - BP-127 migriert die erste echte Builder-Code-Welle: 14 pure-logic Module unter `builder/src/`.
@@ -44,6 +44,9 @@
 - BP-140 macht den bestehenden SmartPush-Schreibadapter target-aware: `targetProfile.repo`
   wird bis zum direkten GitHub-Patch durchgereicht. Kein Kill-Switch, kein echter Write,
   keine Profil- oder Endpoint-Aenderung.
+- BP-141 bereitet den ersten echten Sandbox-Write vor: Sandbox-Profil ist write-enabled, aber
+  der neue Trigger `/probe/sandbox-real-write` ist env-, confirm- und repo-guarded und erzwingt
+  eine feste Datei in `G-Dislioglu/bluepilot-sandbox`.
 
 ## Phasen
 
@@ -55,7 +58,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-140.
+- Hoechster Contract: BP-141.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -100,6 +103,12 @@
   Patch-Schreibpfad, indem `targetProfile.repo` aus dem Orchestrator an SmartPush
   durchgereicht wird. Ohne `targetRepo` bleibt der Default `G-Dislioglu/soulmatch`.
   Nicht-target-aware Legacy-Dispatch wird fuer Nicht-Default-Repos fail-safe blockiert.
+- BP-141: Guarded sandbox real-write trigger; stellt nur das Sandbox-Profil auf
+  `sandbox_real_write`/`pushAllowed:true` und ergaenzt `POST /probe/sandbox-real-write`.
+  Der Endpunkt ist geschlossen ohne `BLUEPILOT_SANDBOX_REAL_WRITE_ENABLED=true`, verlangt die
+  Confirm-Phrase, prueft den Ziel-Repo-Guard und erzwingt eine feste Datei
+  `.bluepilot/phase-b-real-write.md`. Maya-Kill-Switch und Operator-Freigabe bleiben externe
+  manuelle Gates.
 
 ## Maya-Anbindung
 
@@ -128,11 +137,10 @@
 
 Nach BP-125 ist das Anker-Projekt abgeschlossen. Danach gibt es zwei saubere Optionen:
 
-1. BP-140 reviewen/mergen und deployen.
-2. Danach BP-141 als getrennten echten Sandbox-Mini-Write schneiden: Sandbox-Profil scharf,
-   eigener Confirm-Endpunkt, Maya-Kill-Switch und Operator-Freigabe gestaffelt.
-3. Vor BP-141 erneut pruefen, dass der Live-Sandbox-Write-Readiness-Probe `writable` meldet.
-4. Den Maya-Kill-Switch erst in BP-141 oeffnen, wenn der Zielpfad ausdruecklich sandbox-only ist.
+1. BP-141 reviewen/mergen und deployen.
+2. Danach gestaffelt live pruefen: Env aus -> 403; nur Builder-Env an -> Maya-Korridor blockt,
+   kein Commit; erst dann Maya-Kill-Switch + Operator-Freigabe fuer genau einen Sandbox-Write.
+3. Nach dem echten Write alle Write-Env-Flags wieder schliessen.
 
 Nicht beides still zusammenziehen, wenn Auth, Deploy, Live-Builder oder globale Steuerung beruehrt
 werden.
