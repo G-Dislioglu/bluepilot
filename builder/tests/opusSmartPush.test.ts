@@ -49,11 +49,18 @@ const allowCorridor = async () => ({
 });
 
 async function withGitHubToken<T>(fn: () => Promise<T>): Promise<T> {
+  const previousPat = process.env.GITHUB_PAT;
   const previous = process.env.GITHUB_TOKEN;
-  process.env.GITHUB_TOKEN = 'test-token';
+  process.env.GITHUB_PAT = 'test-token';
+  delete process.env.GITHUB_TOKEN;
   try {
     return await fn();
   } finally {
+    if (previousPat === undefined) {
+      delete process.env.GITHUB_PAT;
+    } else {
+      process.env.GITHUB_PAT = previousPat;
+    }
     if (previous === undefined) {
       delete process.env.GITHUB_TOKEN;
     } else {
@@ -63,13 +70,20 @@ async function withGitHubToken<T>(fn: () => Promise<T>): Promise<T> {
 }
 
 async function withoutGitHubToken<T>(fn: () => Promise<T>): Promise<T> {
+  const previousPat = process.env.GITHUB_PAT;
   const previousGithub = process.env.GITHUB_TOKEN;
   const previousGh = process.env.GH_TOKEN;
+  delete process.env.GITHUB_PAT;
   delete process.env.GITHUB_TOKEN;
   delete process.env.GH_TOKEN;
   try {
     return await fn();
   } finally {
+    if (previousPat === undefined) {
+      delete process.env.GITHUB_PAT;
+    } else {
+      process.env.GITHUB_PAT = previousPat;
+    }
     if (previousGithub === undefined) {
       delete process.env.GITHUB_TOKEN;
     } else {

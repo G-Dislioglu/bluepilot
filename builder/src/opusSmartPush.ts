@@ -219,7 +219,7 @@ export async function smartPush(
   // Overwrites via internal /push endpoint (chunked, via GitHub Action)
   if (overwrites.length > 0) {
     if (!targetRepo.isDefault) {
-      const ghToken = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '';
+      const ghToken = process.env.GITHUB_PAT || process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '';
       if (!ghToken) {
         errors.push(`overwrite requires GitHub token for non-default target ${targetRepo.fullName}`);
       } else {
@@ -271,7 +271,7 @@ export async function smartPush(
   }
 
   // Patches via GitHub API directly (no size limit)
-  const ghToken = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '';
+  const ghToken = process.env.GITHUB_PAT || process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '';
   for (const job of patchJobs) {
     if (!ghToken) {
       asyncDispatch = true;
