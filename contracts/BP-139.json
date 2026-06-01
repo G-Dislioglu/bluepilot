@@ -1,0 +1,120 @@
+{
+  "task_id": "BP-139",
+  "task_name": "Sandbox target and GitHub write readiness probe",
+  "created": "2026-06-01",
+  "scope": "bluepilot/builder/phase-b-sandbox-readiness",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "safety",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Prepare Phase B safely by adding a dedicated bluepilot-sandbox target profile and a guarded POST /probe/sandbox-write-check endpoint that proves the deployed Builder's GitHub token can write to G-Dislioglu/bluepilot-sandbox only. Do not open the Maya write kill-switch and do not perform a real Builder push.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/server.ts",
+    "builder/src/probeDryRun.ts",
+    "builder/src/builderTargetProfiles.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/outboundHttp.ts",
+    "builder/tests/probeDryRun.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BP-139.json",
+    "builder/src/builderTargetProfiles.ts",
+    "builder/src/server.ts",
+    "builder/src/sandboxWriteProbe.ts",
+    "builder/tests/sandboxWriteProbe.test.ts",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BP-139.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusBuildPipeline.ts",
+    "builder/src/mayaBuilderGateClient.ts",
+    "builder/src/providers.ts",
+    "builder/src/opusPatchMode.ts",
+    "builder/src/builderExecutor.ts",
+    "builder/src/builderGithubBridge.ts",
+    "builder/tests/!(sandboxWriteProbe.test.ts)",
+    "contracts/BP-0*.json",
+    "contracts/BP-1[0-2][0-9].json",
+    "contracts/BP-13[0-8].json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not set or document a secret value.",
+    "Do not change Render environment variables from code.",
+    "Do not open MAYA_BUILDER_REPO_WRITE_ENABLED.",
+    "Do not modify SmartPush, orchestrator, providers, Maya gate, patch mode, or executor logic.",
+    "Do not point any default target away from soulmatch.",
+    "Do not allow the new probe to write to any repo except G-Dislioglu/bluepilot-sandbox.",
+    "Do not perform a real Builder task write; this task only proves sandbox write readiness."
+  ],
+  "claims": [
+    "Builder target profiles include a new bluepilot-sandbox profile with repo G-Dislioglu/bluepilot-sandbox, branch main, explicit_scope_only, and dry_run_only/write-disabled behavior for now.",
+    "A new POST /probe/sandbox-write-check endpoint requires an explicit confirmation phrase before it attempts any write.",
+    "The endpoint reads a GitHub token from GITHUB_PAT, GITHUB_TOKEN, or GH_TOKEN, creates a small temporary file under .bluepilot/ in G-Dislioglu/bluepilot-sandbox, then deletes that same file.",
+    "The endpoint never returns or logs the token and never accepts a repository name from the request body.",
+    "The endpoint returns not_configured when no token exists, writable when create+delete succeeds, and not_writable when GitHub rejects the operation.",
+    "Unit tests mock fetch and prove success, missing-token, missing-confirmation, hard-coded repo, and token non-disclosure behavior."
+  ],
+  "assumptions": [
+    "G-Dislioglu/bluepilot-sandbox exists with default branch main and was manually created by the operator.",
+    "Codex GitHub connector write access was proven separately by creating and deleting a temporary file; the deployed Render token still needs its own proof, which this endpoint provides after deploy.",
+    "Current SmartPush is still hard-coded to G-Dislioglu/soulmatch, so Phase B cannot safely use it until a later contract makes the write target explicit and sandbox-only.",
+    "The Maya kill-switch remains closed until the sandbox target and deployed token have been proven."
+  ],
+  "dod": [
+    "builderTargetProfiles includes bluepilot-sandbox without changing the default soulmatch profile.",
+    "POST /probe/sandbox-write-check refuses requests without confirmation and never supports GET writes.",
+    "The write check is hard-coded to G-Dislioglu/bluepilot-sandbox and does not read repo/owner/path from user input except for generating a safe temporary filename internally.",
+    "Tests prove token values are not serialized in any response.",
+    "npm test in builder/ passes.",
+    "npm run typecheck in builder/ passes.",
+    "node tools/verify-task-lock.cjs BP-139 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-139 --preflight",
+    "npm test",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BP-139 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "A code change would be needed in opusSmartPush, orchestrator, providers, or Maya gate.",
+    "The endpoint would need to accept an arbitrary repository or path.",
+    "A secret value would need to be logged, returned, or committed.",
+    "A package or dependency change becomes necessary.",
+    "Opening the Maya write kill-switch becomes necessary."
+  ],
+  "prior_task_findings": "Phase A is green: live dry-run reached target-profile, hardening, architect-assembly, scope, fetch, swarm, validate, claim-gate, judge, and workflow-simulation with status dry_run. Before Phase B, a safe sandbox target and deployed GitHub-token write proof are required because the current default target is soulmatch and SmartPush is still hard-coded to G-Dislioglu/soulmatch.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "session_log",
+    "review_packet"
+  ],
+  "baseline_ref": "7fa264c"
+}
