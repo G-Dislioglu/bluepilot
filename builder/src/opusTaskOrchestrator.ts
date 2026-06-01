@@ -562,6 +562,7 @@ async function pushEdits(
   acceptanceSmoke?: boolean,
   sourceAsyncJobId?: string,
   sideEffects?: BuilderSideEffectsContract,
+  targetRepo?: string | null,
 ): Promise<{
   pushed: boolean;
   filesCount: number;
@@ -594,6 +595,7 @@ async function pushEdits(
         acceptanceSmoke,
         sourceAsyncJobId,
         sideEffects,
+        targetRepo,
       }),
     };
   });
@@ -1203,6 +1205,7 @@ export async function orchestrateTask(input: OpusTaskInput): Promise<OpusTaskRes
       input.acceptanceSmoke,
       input.sourceAsyncJobId,
       input.sideEffects,
+      targetProfile.repo,
     );
     phases.push({ phase: 'push', status: push.pushed ? 'ok' : 'error', durationMs: push.durationMs, detail: push });
     if (!push.pushed) {
