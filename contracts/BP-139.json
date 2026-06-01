@@ -30,6 +30,8 @@
   ],
   "allowed_files": [
     "contracts/BP-139.json",
+    ".gitattributes",
+    "builder/data/builder-repo-index.json",
     "builder/src/builderTargetProfiles.ts",
     "builder/src/server.ts",
     "builder/src/sandboxWriteProbe.ts",
