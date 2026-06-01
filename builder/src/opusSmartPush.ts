@@ -22,6 +22,14 @@ const PUSH_CALLBACK_TIMEOUT_MS = 3 * 60 * 1000;
 
 const REPO_OWNER = 'G-Dislioglu';
 const REPO_NAME = 'soulmatch';
+const DEFAULT_TARGET_REPO = `${REPO_OWNER}/${REPO_NAME}`;
+
+interface ResolvedTargetRepo {
+  owner: string;
+  name: string;
+  fullName: string;
+  isDefault: boolean;
+}
 
 interface SmartPushFile {
   file: string;
@@ -48,6 +56,10 @@ interface SmartPushOptions {
   acceptanceSmoke?: boolean;
   sourceAsyncJobId?: string;
   sideEffects?: BuilderSideEffectsContract;
+  targetRepo?: string | null;
+  applyPatchImpl?: typeof applyPatch;
+  assessCorridorImpl?: typeof assessCorridor;
+  outboundFetchImpl?: typeof outboundFetch;
 }
 
 type PushDispatchFile =
@@ -55,6 +67,22 @@ type PushDispatchFile =
   | { file: string; search: string; replace: string };
 
 const PUSH_SINGLE_PATCH_LIMIT_BYTES = 50_000;
+const TARGET_REPO_RE = /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/;
+
+export function resolveSmartPushTargetRepo(targetRepo?: string | null): ResolvedTargetRepo {
+  const normalized = (targetRepo ?? DEFAULT_TARGET_REPO).trim();
+  if (!TARGET_REPO_RE.test(normalized)) {
+    throw new Error(`invalid targetRepo: ${normalized || '(empty)'}`);
+  }
+
+  const [owner, name] = normalized.split('/');
+  return {
+    owner,
+    name,
+    fullName: normalized,
+    isDefault: normalized === DEFAULT_TARGET_REPO,
+  };
+}
 
 function getJsonSize(value: unknown): number {
   return Buffer.byteLength(JSON.stringify(value), 'utf8');
@@ -83,7 +111,12 @@ export function buildPatchViaPushFiles(
   return overwriteFiles;
 }
 
-async function buildOverwriteFromPatch(file: string, patches: PatchEdit[]): Promise<string> {
+async function buildOverwriteFromPatch(
+  file: string,
+  patches: PatchEdit[],
+  targetRepo: ResolvedTargetRepo,
+  fetchImpl: typeof outboundFetch,
+): Promise<string> {
   const candidatePaths = [
     path.resolve(process.cwd(), file),
     path.resolve(process.cwd(), '..', file),
@@ -101,9 +134,9 @@ async function buildOverwriteFromPatch(file: string, patches: PatchEdit[]): Prom
   }
 
   if (currentContent === null) {
-    const remoteUrl = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/${file}`;
+    const remoteUrl = `https://raw.githubusercontent.com/${targetRepo.owner}/${targetRepo.name}/main/${file}`;
     try {
-      const response = await outboundFetch(remoteUrl);
+      const response = await fetchImpl(remoteUrl);
       if (response.ok) {
         currentContent = await response.text();
       }
@@ -125,10 +158,14 @@ export async function smartPush(
   options?: SmartPushOptions,
 ): Promise<SmartPushResult> {
   const start = Date.now();
+  const targetRepo = resolveSmartPushTargetRepo(options?.targetRepo);
+  const applyPatchForTarget = options?.applyPatchImpl ?? applyPatch;
+  const assessCorridorForTarget = options?.assessCorridorImpl ?? assessCorridor;
+  const outboundFetchForTarget = options?.outboundFetchImpl ?? outboundFetch;
   const modes: Record<string, 'ambiguous' | 'overwrite' | 'create' | 'patch'> = {};
   const errors: string[] = [];
 
-  const corridor = await assessCorridor({
+  const corridor = await assessCorridorForTarget({
     intent: [
       message,
       ...files.map((file) => file.file),
@@ -179,28 +216,32 @@ export async function smartPush(
   // Overwrites via internal /push endpoint (chunked, via GitHub Action)
   if (overwrites.length > 0) {
     asyncDispatch = true;
-    try {
-      const res = await outboundFetch(getAuthUrl('/push'), {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          files: overwrites,
-          message,
-          acceptanceSmoke: options?.acceptanceSmoke === true,
-          sourceAsyncJobId: options?.sourceAsyncJobId,
-          sideEffects: options?.sideEffects,
-        }),
-      });
-      const data = await res.json() as Record<string, unknown>;
-      if (!data.triggered) {
-        errors.push(`overwrite push failed: ${JSON.stringify(data)}`);
-      } else if (typeof data.taskId === 'string' && data.taskId.length > 0) {
-        dispatchedTaskIds.push(data.taskId);
-      } else {
-        errors.push('overwrite push: missing taskId in /push response');
+    if (!targetRepo.isDefault) {
+      errors.push(`overwrite push unsupported for non-default target ${targetRepo.fullName}`);
+    } else {
+      try {
+        const res = await outboundFetchForTarget(getAuthUrl('/push'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            files: overwrites,
+            message,
+            acceptanceSmoke: options?.acceptanceSmoke === true,
+            sourceAsyncJobId: options?.sourceAsyncJobId,
+            sideEffects: options?.sideEffects,
+          }),
+        });
+        const data = await res.json() as Record<string, unknown>;
+        if (!data.triggered) {
+          errors.push(`overwrite push failed: ${JSON.stringify(data)}`);
+        } else if (typeof data.taskId === 'string' && data.taskId.length > 0) {
+          dispatchedTaskIds.push(data.taskId);
+        } else {
+          errors.push('overwrite push: missing taskId in /push response');
+        }
+      } catch (e: unknown) {
+        errors.push(`overwrite error: ${e instanceof Error ? e.message : String(e)}`);
       }
-    } catch (e: unknown) {
-      errors.push(`overwrite error: ${e instanceof Error ? e.message : String(e)}`);
     }
   }
 
@@ -214,9 +255,14 @@ export async function smartPush(
       // search/replace payloads so the /push dispatcher stays under its
       // single-patch size ceiling.
       try {
-        const overwriteContent = await buildOverwriteFromPatch(job.file, job.patches);
+        const overwriteContent = await buildOverwriteFromPatch(job.file, job.patches, targetRepo, outboundFetchForTarget);
         const pushFiles = buildPatchViaPushFiles(job.file, job.patches, overwriteContent);
-        const res = await outboundFetch(getAuthUrl('/push'), {
+        if (!targetRepo.isDefault) {
+          errors.push(`patch-via-push unsupported for non-default target ${targetRepo.fullName}`);
+          continue;
+        }
+
+        const res = await outboundFetchForTarget(getAuthUrl('/push'), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -242,7 +288,7 @@ export async function smartPush(
         errors.push(`patch fallback error: ${e instanceof Error ? e.message : String(e)}`);
       }
     } else {
-      const result = await applyPatch(REPO_OWNER, REPO_NAME, job.file, job.patches, message, ghToken);
+      const result = await applyPatchForTarget(targetRepo.owner, targetRepo.name, job.file, job.patches, message, ghToken);
       if (!result.success) errors.push(`patch failed for ${job.file}: ${result.error}`);
     }
   }

@@ -1,0 +1,121 @@
+{
+  "task_id": "BP-140",
+  "task_name": "Target-aware SmartPush pass-through",
+  "created": "2026-06-01",
+  "scope": "bluepilot/builder/target-aware-write-path",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "safety",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Fix the critical pre-Phase-B safety gap: the real Builder write adapter currently hard-codes G-Dislioglu/soulmatch and ignores the resolved target profile. Thread the resolved target repo from orchestrateTask into smartPush and down to the patch/write adapter, without opening the Maya kill-switch, without flipping any target profile, without adding a real-write endpoint, and without performing any live write.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusPatchMode.ts",
+    "builder/src/builderTargetProfiles.ts",
+    "builder/tests/opusSmartPush.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BP-140.json",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/tests/opusSmartPush.test.ts",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BP-140.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/mayaBuilderGateClient.ts",
+    "builder/src/opusBuildPipeline.ts",
+    "builder/src/builderScopeResolver.ts",
+    "builder/src/opusPatchMode.ts",
+    "builder/src/providers.ts",
+    "builder/src/builderTargetProfiles.ts",
+    "builder/src/probeDryRun.ts",
+    "builder/src/sandboxWriteProbe.ts",
+    "builder/src/server.ts",
+    "builder/tests/!(opusSmartPush.test.ts)",
+    "contracts/BP-0*.json",
+    "contracts/BP-1[0-2][0-9].json",
+    "contracts/BP-13[0-9].json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not open, set, document, or depend on MAYA_BUILDER_REPO_WRITE_ENABLED.",
+    "Do not change any target profile's pushAllowed or writePolicy; bluepilot-sandbox stays dry_run_only.",
+    "Do not add a real-write trigger endpoint or modify server.ts.",
+    "Do not modify Maya gate, providers, patch mode, target profiles, dry-run probe, or sandbox-write probe.",
+    "Do not change the default behavior: absent targetRepo must still resolve to G-Dislioglu/soulmatch.",
+    "Do not perform a live GitHub write.",
+    "Do not log, return, or commit any token value."
+  ],
+  "claims": [
+    "SmartPushOptions gains an optional targetRepo string in owner/name form.",
+    "smartPush validates targetRepo before using it; malformed targetRepo fails before any write or raw-content fetch for that target.",
+    "When targetRepo is provided, smartPush uses its owner/name for raw-content fallback reads and direct applyPatch writes.",
+    "When targetRepo is absent, smartPush uses the existing default G-Dislioglu/soulmatch behavior.",
+    "orchestrateTask passes targetProfile.repo as targetRepo at the single smartPush call site.",
+    "No real write path is made reachable by this task because target profiles, dryRun behavior, endpoints, and kill-switches are unchanged.",
+    "Tests prove targetRepo routing, default fallback, and malformed target rejection without making network or GitHub writes."
+  ],
+  "assumptions": [
+    "applyPatch already accepts repoOwner and repoName parameters, so opusPatchMode.ts does not need to change.",
+    "orchestrateTask already has targetProfile.repo at the smartPush call site.",
+    "The sandbox profile remains pushAllowed:false after this task, so effectiveDryRun stays true for sandbox.",
+    "The first real guarded sandbox write is a later task after this pass-through is verified."
+  ],
+  "dod": [
+    "smartPush accepts targetRepo and threads the parsed owner/name to direct applyPatch writes and raw-content fallback reads.",
+    "smartPush without targetRepo still routes to G-Dislioglu/soulmatch, proven by test.",
+    "orchestrateTask passes targetProfile.repo as targetRepo at the existing smartPush call site, with no other orchestrator logic change.",
+    "Malformed targetRepo is rejected before any write or target-specific network call, proven by test.",
+    "Source check: no MAYA_BUILDER_REPO_WRITE_ENABLED, no pushAllowed change, no new endpoint, no dryRun change in this diff.",
+    "npm test in builder/ passes.",
+    "npm run typecheck in builder/ passes.",
+    "node tools/verify-task-lock.cjs BP-140 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-140 --preflight",
+    "npm test",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BP-140 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "A live write would be required to prove the change.",
+    "A target profile, endpoint, Maya gate, provider, patch mode, or package change becomes necessary.",
+    "The default soulmatch fallback cannot be preserved.",
+    "A secret value would need to be logged, returned, or committed.",
+    "Opening the Maya kill-switch becomes necessary."
+  ],
+  "prior_task_findings": "BP-139 proved/introduced a sandbox write-readiness probe but also documented the safety gap: current SmartPush is hard-coded to G-Dislioglu/soulmatch. Claude's first BP-140 proposal would have flipped the sandbox profile and opened the write path while SmartPush still targeted soulmatch. Codex stopped that as a hard-stop. This BP-140 is the corrected pass-through-only prerequisite.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "session_log",
+    "review_packet"
+  ],
+  "baseline_ref": "2081ba9"
+}

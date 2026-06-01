@@ -5,6 +5,25 @@
 
 ---
 
+## 2026-06-01 - Target-aware SmartPush (BP-140)
+
+- Gebaut: Der bestehende SmartPush-Schreibadapter akzeptiert jetzt ein optionales
+  `targetRepo` und nutzt dieses Ziel fuer direkte GitHub-Patches und Raw-Content-Fallbacks.
+  Ohne Ziel bleibt der Default unveraendert `G-Dislioglu/soulmatch`.
+- Ergebnis: `orchestrateTask` reicht das aufgeloeste `targetProfile.repo` an SmartPush weiter.
+  Ein Sandbox-Profil kann damit spaeter auf `G-Dislioglu/bluepilot-sandbox` zeigen, statt
+  trotz Profilwahl in Soulmatch zu landen.
+- Sicherheitsentscheidung: Kein Kill-Switch, kein echter Write, kein neuer Endpoint und keine
+  Profil-Aenderung. Nicht-target-aware Legacy-Dispatches ueber `/push` werden fuer
+  Nicht-Default-Repos fail-safe blockiert.
+- Korrektur am Claude-Paket: Der erste BP-140-Entwurf haette das Sandbox-Profil scharf gestellt,
+  obwohl der echte Schreibadapter noch hart auf Soulmatch zeigte. Dieser Block ist deshalb nur
+  der Ziel-Durchreichungs-Fix; der echte Mini-Write bleibt BP-141.
+- Beweis: `npm test` in `builder/` laeuft mit 31 Tests gruen; `npm run typecheck`,
+  `node tools/verify-task-lock.cjs BP-140 --verify` und `git diff --check` sind gruen.
+- Roter Faden weiter: Nach VAL-K2 und Merge kann BP-141 den ersten echten Sandbox-Mini-Write
+  gestaffelt vorbereiten.
+
 ## 2026-06-01 - Sandbox Write Readiness (BP-139)
 
 - Gebaut: `bluepilot-sandbox` als eigenes, write-disabled Target-Profil und

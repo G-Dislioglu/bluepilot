@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bp-139-sandbox-write-readiness`.
+- Aktueller Arbeitsbranch: `bp-140-target-aware-smartpush`.
 - Nach Abschluss von BP-126 enthaelt Bluepilot ein separates TypeScript-Subpackage unter
   `builder/`.
 - BP-127 migriert die erste echte Builder-Code-Welle: 14 pure-logic Module unter `builder/src/`.
@@ -41,6 +41,9 @@
 - BP-139 bereitet Phase B vor, ohne den Maya-Kill-Switch zu oeffnen: ein eigenes
   `bluepilot-sandbox`-Target und ein guarded GitHub-Write-Readiness-Probe fuer
   `G-Dislioglu/bluepilot-sandbox`.
+- BP-140 macht den bestehenden SmartPush-Schreibadapter target-aware: `targetProfile.repo`
+  wird bis zum direkten GitHub-Patch durchgereicht. Kein Kill-Switch, kein echter Write,
+  keine Profil- oder Endpoint-Aenderung.
 
 ## Phasen
 
@@ -52,7 +55,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-139.
+- Hoechster Contract: BP-140.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -93,6 +96,10 @@
   Bestaetigung einen kleinen temporaeren GitHub-Write in `G-Dislioglu/bluepilot-sandbox`
   erstellt und wieder entfernt. Der Maya-Kill-Switch bleibt geschlossen; SmartPush,
   Orchestrator und Default-Target bleiben unveraendert.
+- BP-140: Target-aware SmartPush; korrigiert die harte Soulmatch-Verdrahtung im direkten
+  Patch-Schreibpfad, indem `targetProfile.repo` aus dem Orchestrator an SmartPush
+  durchgereicht wird. Ohne `targetRepo` bleibt der Default `G-Dislioglu/soulmatch`.
+  Nicht-target-aware Legacy-Dispatch wird fuer Nicht-Default-Repos fail-safe blockiert.
 
 ## Maya-Anbindung
 
@@ -121,12 +128,11 @@
 
 Nach BP-125 ist das Anker-Projekt abgeschlossen. Danach gibt es zwei saubere Optionen:
 
-1. BP-139 reviewen/mergen und deployen.
-2. Danach `POST https://bluepilot-builder.onrender.com/probe/sandbox-write-check` mit
-   `{"confirm":"write-to-bluepilot-sandbox"}` live pruefen.
-3. Wenn der Probe `writable` liefert, BP-140 als eng begrenzten echten Sandbox-Mini-Write planen.
-4. Den Maya-Kill-Switch erst in einem eigenen Contract oeffnen, wenn der Write-Zielpfad
-   ausdruecklich sandbox-only ist.
+1. BP-140 reviewen/mergen und deployen.
+2. Danach BP-141 als getrennten echten Sandbox-Mini-Write schneiden: Sandbox-Profil scharf,
+   eigener Confirm-Endpunkt, Maya-Kill-Switch und Operator-Freigabe gestaffelt.
+3. Vor BP-141 erneut pruefen, dass der Live-Sandbox-Write-Readiness-Probe `writable` meldet.
+4. Den Maya-Kill-Switch erst in BP-141 oeffnen, wenn der Zielpfad ausdruecklich sandbox-only ist.
 
 Nicht beides still zusammenziehen, wenn Auth, Deploy, Live-Builder oder globale Steuerung beruehrt
 werden.
