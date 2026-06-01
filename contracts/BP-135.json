@@ -1,0 +1,111 @@
+{
+  "task_id": "BP-135",
+  "task_name": "Maya Gate readiness probe endpoint",
+  "created": "2026-06-01",
+  "scope": "bluepilot/builder/maya-gate-readiness-probe",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "functional",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a safe readiness endpoint at GET /health/maya-gate so the Free Render bluepilot-builder service can verify Bluepilot -> maya-core gate binding without shell access. The endpoint calls the existing Maya gate client functions with harmless probe payloads, never serializes secrets, and never starts a Builder task, write, push, or deploy.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/health.ts",
+    "builder/src/server.ts",
+    "builder/src/mayaBuilderGateClient.ts",
+    "builder/tests/health.test.ts",
+    "docs/BUILDER_RENDER_DEPLOY_STATE.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BP-135.json",
+    "builder/src/health.ts",
+    "builder/tests/health.test.ts",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BP-135.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/mayaBuilderGateClient.ts",
+    "builder/src/providers.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusBuildPipeline.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/opusPatchMode.ts",
+    "builder/src/builderExecutor.ts",
+    "builder/src/builderGithubBridge.ts",
+    "builder/tests/!(health.test.ts)",
+    "contracts/BP-0*.json",
+    "contracts/BP-1[0-2][0-9].json",
+    "contracts/BP-13[0-4].json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md"
+  ],
+  "scope_out": [
+    "Do not modify the Maya gate client or gate logic.",
+    "Do not add a route that starts a Builder task, write_file, push, deploy, provider call, or orchestrator path.",
+    "Do not log, return, or echo MAYA_CORE_GATE_TOKEN or MAYA_BUILDER_GATE_TOKEN values.",
+    "Do not add dependencies or package changes.",
+    "Do not modify soulmatch or maya-core."
+  ],
+  "claims": [
+    "GET /health/maya-gate is handled in builder/src/health.ts using the existing health handler pattern.",
+    "The probe calls assessBudget, assessCorridor, and recordCost from builder/src/mayaBuilderGateClient.ts; it does not construct its own fetch/auth path.",
+    "The corridor probe uses actionKind 'push' with dryRun true, not the invalid actionKind 'dry_run'.",
+    "The response includes mayaCoreConfigured and per-gate reachable/reason/status fields, but never includes secret values.",
+    "The probe performs no irreversible Builder action. recordCost is a tiny best-effort maya-core readiness write and is documented as the only side effect."
+  ],
+  "assumptions": [
+    "The Free Render plan blocks shell access, so a browser-callable readiness endpoint is the lowest-risk verification path.",
+    "maya-core builder routes are deployed and return 401 without a token, so the remaining question is token binding.",
+    "The model openai/gpt-4.1-nano exists in maya-core provider specs and is cheap enough for a synthetic readiness payload."
+  ],
+  "dod": [
+    "GET /health/maya-gate returns JSON with mayaCoreConfigured plus budget, corridor, and cost probe results.",
+    "Unit tests cover all gates reachable and gate unavailable cases, and assert a fake token value is not serialized.",
+    "The probe uses actionKind 'push' with dryRun true and does not introduce a new 'dry_run' literal.",
+    "No Builder execution/orchestrator/write-path module is imported by builder/src/health.ts.",
+    "npm test in builder/ passes.",
+    "npm run typecheck in builder/ passes.",
+    "node tools/verify-task-lock.cjs BP-135 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-135 --preflight",
+    "npm test",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BP-135 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "The implementation would require modifying the gate client, providers, orchestrator, or write path.",
+    "A secret value would need to be logged, returned, or committed.",
+    "A dependency or package-lock change becomes necessary.",
+    "The probe cannot be made harmless without starting a real Builder action."
+  ],
+  "prior_task_findings": "BP-132 added /health and /health/db. BP-133 anchored the live Render deploy. BP-134 scrubbed old BP-131 identifiers from the current working tree. Render Free blocks bluepilot-builder shell access, so BP-135 adds an in-process readiness probe instead of requiring shell access.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "session_log",
+    "review_packet"
+  ],
+  "baseline_ref": "d30cf99"
+}
