@@ -1,0 +1,114 @@
+{
+  "task_id": "BP-137",
+  "task_name": "Phase-A dry-run trigger endpoint",
+  "created": "2026-06-01",
+  "scope": "bluepilot/builder/phase-a-dry-run-trigger",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "functional",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Expose the existing Builder orchestrator chain through a thin POST /probe/dry-run endpoint that forces dryRun:true and skipDeploy:true so Phase A can be triggered without a Render shell.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/server.ts",
+    "builder/src/health.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/tests/health.test.ts",
+    "docs/BUILDER_RENDER_DEPLOY_STATE.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BP-137.json",
+    "builder/src/server.ts",
+    "builder/src/probeDryRun.ts",
+    "builder/tests/probeDryRun.test.ts",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BP-137.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusBuildPipeline.ts",
+    "builder/src/builderScopeResolver.ts",
+    "builder/src/mayaBuilderGateClient.ts",
+    "builder/src/providers.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/opusPatchMode.ts",
+    "builder/src/builderExecutor.ts",
+    "builder/src/builderGithubBridge.ts",
+    "builder/tests/!(probeDryRun.test.ts)",
+    "contracts/BP-0*.json",
+    "contracts/BP-1[0-2][0-9].json",
+    "contracts/BP-13[0-6].json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not modify orchestrator, pipeline, scope resolver, gate client, provider, smart-push, patch-mode, executor, or GitHub bridge logic.",
+    "Do not add an endpoint that can perform a real write, push, deploy, or kill-switch change.",
+    "Do not allow request body values to override dryRun:true or skipDeploy:true.",
+    "Do not log, return, or echo MAYA_CORE_GATE_TOKEN or MAYA_BUILDER_GATE_TOKEN values.",
+    "Do not change dependencies, package files, tools, soulmatch, or maya-core."
+  ],
+  "claims": [
+    "POST /probe/dry-run parses JSON body { instruction: string } and rejects missing or non-string instruction with 400 before calling the orchestrator.",
+    "The handler calls orchestrateTask with dryRun:true and skipDeploy:true as server-side literals; request body dryRun, skipDeploy, approval, or deploy fields are ignored.",
+    "The response summarizes OpusTaskResult fields including status, runId, summary, scopeFiles, and a gate summary with reachable, reason, pushAllowed, and requiredExternalApproval.",
+    "GET /probe/dry-run returns 405; unknown routes still fall through to the existing health handler behavior.",
+    "The response contains no token or secret value."
+  ],
+  "assumptions": [
+    "orchestrateTask already chains scope resolution, worker phases, Maya gate, safety policy, and dry-run behavior internally.",
+    "BP-136 made maya-core budget, corridor, and cost gates reachable from the deployed Bluepilot Builder.",
+    "Phase A intentionally proves the chain with writes still closed; opening the write kill-switch is a separate future task."
+  ],
+  "dod": [
+    "POST /probe/dry-run with { instruction } returns 200 and JSON with status, runId, scopeFiles, and gate summary fields when the orchestrator returns a dry-run result.",
+    "GET /probe/dry-run returns 405 and missing instruction returns 400 without calling orchestrateTask.",
+    "Tests prove the call to orchestrateTask receives dryRun:true and skipDeploy:true even when the request body tries to set dryRun:false or skipDeploy:false.",
+    "git grep for MAYA_CORE_GATE_TOKEN and MAYA_BUILDER_GATE_TOKEN finds no occurrence in builder/src/probeDryRun.ts.",
+    "npm test in builder/ passes.",
+    "npm run typecheck in builder/ passes.",
+    "node tools/verify-task-lock.cjs BP-137 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-137 --preflight",
+    "npm test",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BP-137 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "Implementing the endpoint would require modifying orchestrator, gate, provider, or write-path logic.",
+    "A request body value would need to control dryRun or skipDeploy.",
+    "A secret value would need to be logged, returned, or committed.",
+    "A dependency or package-lock change becomes necessary."
+  ],
+  "prior_task_findings": "BP-135 added /health/maya-gate. BP-136 fixed maya-core middleware so the gate token reaches budget, corridor, cost, and memory routes. Live probe shows the gate is reachable and corridor blocks writes with kill_switch_closed, which is the expected Phase-A safety state.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "session_log",
+    "review_packet"
+  ],
+  "baseline_ref": "880ce6a"
+}
