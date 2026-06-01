@@ -1,0 +1,94 @@
+{
+  "task_id": "BP-134",
+  "task_name": "Scrub Neon resource identifiers from BP-131 files",
+  "created": "2026-05-31",
+  "scope": "bluepilot/security/scrub-bp131-identifiers",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "low",
+  "impact_class": "governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Remove the Neon resource identifiers left in the two BP-131 files so the working tree is identifier-free; replace each with a neutral placeholder while keeping the documents readable. No secret or connection string was ever present. The Neon default database name and role are left as-is because they are product defaults, not resource coordinates.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "contracts/BP-131.json",
+    "review-packets/BP-131.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BP-134.json",
+    "contracts/BP-131.json",
+    "review-packets/BP-131.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BP-134.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "builder/**",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "contracts/BP-0*.json",
+    "contracts/BP-13[023].json",
+    "contracts/BP-1[0-2][0-9].json"
+  ],
+  "scope_out": [
+    "Edit only the two BP-131 files plus the anchors; do not touch any other contract or review packet.",
+    "Do not change Builder code, tests, packages, or soulmatch.",
+    "Do not attempt to rewrite Git history; that is a separate decision and out of scope.",
+    "Do not remove the human label bluepilot-builder, which is not sensitive.",
+    "Do not change the Neon default values neondb and neondb_owner; they are product defaults, not coordinates to this project."
+  ],
+  "claims": [
+    "In contracts/BP-131.json and review-packets/BP-131.md, the Neon project ID, branch ID and compute/endpoint identifier are replaced with neutral placeholders (<neon-project-id>, <neon-branch-id>, <neon-endpoint>), and the soulmatch project ID is replaced with <soulmatch-project-id>.",
+    "The database name (neondb) and role (neondb_owner) are Neon product defaults, not resource coordinates that point to this project, and are left unchanged. The human label bluepilot-builder is also kept.",
+    "The documents stay readable: the table structure and meaning are preserved, only the concrete identifiers are removed.",
+    "No secret or connection string is added; none existed.",
+    "After the scrub, a tree-wide scan for the known identifiers returns nothing."
+  ],
+  "assumptions": [
+    "The known identifier strings are the concrete project, branch, endpoint, and old soulmatch project values currently present in the two BP-131 files. They are intentionally not repeated in this contract.",
+    "Git history still contains these strings; closing history fully would need a rewrite or a private repo and is intentionally not done here."
+  ],
+  "dod": [
+    "git grep over the whole tree for the four known identifier strings returns no matches in the working tree.",
+    "contracts/BP-131.json remains valid JSON after the scrub.",
+    "review-packets/BP-131.md remains readable with placeholders in place of the identifiers.",
+    "Only the two BP-131 files plus contracts/BP-134.json, review-packets/BP-134.md, STATE.md, and docs/SESSION-LOG.md are changed.",
+    "review-packets/BP-134.md notes that the working tree is now identifier-free and that Git history is unchanged by design.",
+    "node tools/verify-task-lock.cjs BP-134 --verify exits 0.",
+    "git diff --check exits 0.",
+    "No Builder code/test/package or soulmatch file is changed."
+  ],
+  "evidence_required": [
+    "diff_ref",
+    "content_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-134 --preflight",
+    "node tools/verify-task-lock.cjs BP-134 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "The scrub would require touching a file other than the two BP-131 files and the anchors.",
+    "Removing an identifier would break BP-131.json as valid JSON in a way that cannot be fixed with a placeholder.",
+    "A Builder code/test/package or soulmatch change becomes necessary."
+  ],
+  "prior_task_findings": "BP-133 anchored the live deploy and scrubbed identifiers from STATE.md and docs/SESSION-LOG.md, but VAL-K2 found the Neon identifiers still present in contracts/BP-131.json (project_id, branch_id) and review-packets/BP-131.md (project ID, branch ID, compute endpoint, soulmatch project ID). No password or connection string was ever committed. BP-134 finishes the working-tree scrub without repeating the concrete identifiers in this contract. Note: Git history still contains the identifiers; a full history clean would need a rewrite or making the repo private, which is a separate decision.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "session_log",
+    "review_packet"
+  ],
+  "baseline_ref": "a755e2e"
+}
