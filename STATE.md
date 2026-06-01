@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bp-138-builder-repo-index`.
+- Aktueller Arbeitsbranch: `bp-139-sandbox-write-readiness`.
 - Nach Abschluss von BP-126 enthaelt Bluepilot ein separates TypeScript-Subpackage unter
   `builder/`.
 - BP-127 migriert die erste echte Builder-Code-Welle: 14 pure-logic Module unter `builder/src/`.
@@ -38,6 +38,9 @@
   Builder-Orchestrator-Kette, erzwungen trocken und ohne Deploy.
 - BP-138 ergaenzt das fehlende Runtime-Artefakt `builder/data/builder-repo-index.json` und einen
   Generator/Normalizer, damit die Phase-A-Scope-Aufloesung nicht mehr am fehlenden Index stoppt.
+- BP-139 bereitet Phase B vor, ohne den Maya-Kill-Switch zu oeffnen: ein eigenes
+  `bluepilot-sandbox`-Target und ein guarded GitHub-Write-Readiness-Probe fuer
+  `G-Dislioglu/bluepilot-sandbox`.
 
 ## Phasen
 
@@ -49,7 +52,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-138.
+- Hoechster Contract: BP-139.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -85,6 +88,11 @@
   Default-Target `soulmatch` unter `builder/data/builder-repo-index.json`, plus
   Generator/Normalizer und Tests. Korrigiert die Annahme, dass ein Bluepilot-self Index reichen
   wuerde.
+- BP-139: Sandbox write readiness; ergaenzt ein write-disabled Target-Profil
+  `bluepilot-sandbox` und `POST /probe/sandbox-write-check`, das nach expliziter
+  Bestaetigung einen kleinen temporaeren GitHub-Write in `G-Dislioglu/bluepilot-sandbox`
+  erstellt und wieder entfernt. Der Maya-Kill-Switch bleibt geschlossen; SmartPush,
+  Orchestrator und Default-Target bleiben unveraendert.
 
 ## Maya-Anbindung
 
@@ -113,13 +121,12 @@
 
 Nach BP-125 ist das Anker-Projekt abgeschlossen. Danach gibt es zwei saubere Optionen:
 
-1. BP-138 reviewen/mergen und deployen.
-2. Danach `POST https://bluepilot-builder.onrender.com/probe/dry-run` mit einer kleinen
-   harmlosen Instruction und einem echten indexed Soulmatch-Pfad live pruefen.
-3. Wenn Phase A `status: "dry_run"` und `safety.pushAllowed: false` liefert, den eng begrenzten
-   Phase-B-Schreibtest separat planen.
-4. Wenn ein neuer Fehler erscheint (z.B. Provider-Key oder spaetere Orchestrator-Schicht), diesen
-   als naechste echte Schicht separat behandeln.
+1. BP-139 reviewen/mergen und deployen.
+2. Danach `POST https://bluepilot-builder.onrender.com/probe/sandbox-write-check` mit
+   `{"confirm":"write-to-bluepilot-sandbox"}` live pruefen.
+3. Wenn der Probe `writable` liefert, BP-140 als eng begrenzten echten Sandbox-Mini-Write planen.
+4. Den Maya-Kill-Switch erst in einem eigenen Contract oeffnen, wenn der Write-Zielpfad
+   ausdruecklich sandbox-only ist.
 
 Nicht beides still zusammenziehen, wenn Auth, Deploy, Live-Builder oder globale Steuerung beruehrt
 werden.

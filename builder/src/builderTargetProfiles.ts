@@ -1,11 +1,13 @@
 export type BuilderTargetProfileId =
   | 'soulmatch'
+  | 'bluepilot-sandbox'
   | 'big-bro'
   | 'goat-control-adapter'
   | 'goat-desktop';
 
 export type BuilderTargetRuntime =
   | 'soulmatch-web'
+  | 'sandbox-repo'
   | 'node-express-react'
   | 'python-local-bridge'
   | 'windows-desktop-app';
@@ -50,6 +52,19 @@ const TARGET_PROFILES: Record<BuilderTargetProfileId, BuilderTargetProfile> = {
     pushAllowed: true,
     evidenceRequired: ['builder-repo-index', 'scope-gate', 'judge', 'workflow-simulation'],
     notes: ['Default target. Existing Builder safety and push gates apply.'],
+  },
+  'bluepilot-sandbox': {
+    id: 'bluepilot-sandbox',
+    label: 'Bluepilot Sandbox',
+    repo: 'G-Dislioglu/bluepilot-sandbox',
+    branch: 'main',
+    runtime: 'sandbox-repo',
+    status: 'active',
+    scopePolicy: 'explicit_scope_only',
+    writePolicy: 'dry_run_only',
+    pushAllowed: false,
+    evidenceRequired: ['explicit-scope', 'sandbox-token-write-check', 'operator-approval-before-real-write'],
+    notes: ['Phase-B sandbox target. Real Builder writes remain disabled until a later explicit contract.'],
   },
   'big-bro': {
     id: 'big-bro',

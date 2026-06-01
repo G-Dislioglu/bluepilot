@@ -5,6 +5,24 @@
 
 ---
 
+## 2026-06-01 - Sandbox Write Readiness (BP-139)
+
+- Gebaut: `bluepilot-sandbox` als eigenes, write-disabled Target-Profil und
+  `POST /probe/sandbox-write-check` als guarded Readiness-Probe fuer den deployten
+  GitHub-Token.
+- Ergebnis: Der Probe schreibt nach expliziter Bestaetigung nur in
+  `G-Dislioglu/bluepilot-sandbox`, legt eine kleine temporaere Datei unter `.bluepilot/`
+  an und loescht sie wieder. Repo, Owner und Pfad werden nicht aus dem Request gelesen;
+  Token-Werte werden nicht serialisiert.
+- Sicherheitsentscheidung: Der Maya-Kill-Switch bleibt geschlossen. `opusSmartPush`,
+  Orchestrator, Provider, Maya-Gate und Default-Target bleiben unveraendert, weil SmartPush
+  derzeit noch hart auf `G-Dislioglu/soulmatch` zeigt.
+- Beweis: `node tools/verify-task-lock.cjs BP-139 --preflight`, `npm test`,
+  `npm run typecheck`, `node tools/verify-task-lock.cjs BP-139 --verify` und
+  `git diff --check` sind gruen.
+- Roter Faden weiter: Nach Merge und Deploy den Sandbox-Write-Probe live ausfuehren. Erst wenn
+  er `writable` meldet, BP-140 fuer einen echten, eng begrenzten Sandbox-Mini-Write schneiden.
+
 ## 2026-06-01 - Builder Repo Index Runtime Artifact (BP-138)
 
 - Gebaut: `builder/data/builder-repo-index.json` als Runtime-Artefakt fuer den Phase-A-Dry-Run
