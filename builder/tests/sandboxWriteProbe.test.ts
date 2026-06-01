@@ -48,15 +48,15 @@ async function withProbeServer(
   }
 }
 
-test('bluepilot-sandbox target profile is explicit-scope and write-disabled for now', () => {
+test('bluepilot-sandbox target profile stays explicit-scope and sandbox-only', () => {
   const profile = getBuilderTargetProfile('bluepilot-sandbox');
 
   assert.ok(profile);
   assert.equal(profile.repo, 'G-Dislioglu/bluepilot-sandbox');
   assert.equal(profile.branch, 'main');
   assert.equal(profile.scopePolicy, 'explicit_scope_only');
-  assert.equal(profile.writePolicy, 'dry_run_only');
-  assert.equal(profile.pushAllowed, false);
+  assert.equal(profile.writePolicy, 'sandbox_real_write');
+  assert.equal(profile.pushAllowed, true);
   assert.equal(getBuilderTargetProfile(null)?.id, 'soulmatch');
 });
 

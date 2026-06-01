@@ -15,7 +15,8 @@ export type BuilderTargetRuntime =
 export type BuilderTargetWritePolicy =
   | 'soulmatch_guarded_push'
   | 'dry_run_only'
-  | 'planned_only';
+  | 'planned_only'
+  | 'sandbox_real_write';
 
 export interface BuilderTargetProfile {
   id: BuilderTargetProfileId;
@@ -61,10 +62,10 @@ const TARGET_PROFILES: Record<BuilderTargetProfileId, BuilderTargetProfile> = {
     runtime: 'sandbox-repo',
     status: 'active',
     scopePolicy: 'explicit_scope_only',
-    writePolicy: 'dry_run_only',
-    pushAllowed: false,
+    writePolicy: 'sandbox_real_write',
+    pushAllowed: true,
     evidenceRequired: ['explicit-scope', 'sandbox-token-write-check', 'operator-approval-before-real-write'],
-    notes: ['Phase-B sandbox target. Real Builder writes remain disabled until a later explicit contract.'],
+    notes: ['Phase-B sandbox target. Real writes are allowed only through guarded sandbox-only endpoints and Maya corridor approval.'],
   },
   'big-bro': {
     id: 'big-bro',
