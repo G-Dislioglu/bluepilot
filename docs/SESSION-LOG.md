@@ -5,6 +5,23 @@
 
 ---
 
+## 2026-06-01 - Phase-A Dry-Run Trigger (BP-137)
+
+- Gebaut: `POST /probe/dry-run` im Bluepilot-Builder. Der Endpunkt nimmt `{ instruction }`
+  entgegen und ruft den bestehenden `orchestrateTask`-Pfad mit serverseitig erzwungenem
+  `dryRun: true` und `skipDeploy: true` auf.
+- Ergebnis: Phase A bekommt einen echten externen Startknopf ohne Render-Shell. Der Endpunkt
+  gibt `status`, `runId`, `summary`, extrahierte `scopeFiles`, Phasenuebersicht und eine lokale
+  Safety-Zusammenfassung zurueck.
+- Korrektur am Claude-Paket: `OpusTaskResult` hat kein direktes `scopeFiles`-Feld; die Dateien
+  werden aus der `scope`-Phase extrahiert. Ausserdem beweist der Orchestrator-Dry-Run nicht
+  nochmals die externe Maya-Gate-Reachability, weil der Dry-Run vor realem SmartPush endet.
+  Maya-Gate-Reachability ist der separate BP-135/BP-136-Beweis.
+- Beweis: `npm test` in `builder/` laeuft mit 22 Tests gruen, inklusive erzwungenem Dry-Run und
+  400/405-Guards. `npm run typecheck` ist gruen.
+- Roter Faden weiter: Nach Merge und Render-Deploy `POST /probe/dry-run` live mit einer kleinen
+  harmlosen Instruction testen. Erwartet ist `status: "dry_run"` und `safety.pushAllowed: false`.
+
 ## 2026-06-01 - Maya-Gate Readiness Probe (BP-135)
 
 - Gebaut: `GET /health/maya-gate` im Bluepilot-Builder. Der Endpunkt ruft die bestehenden
