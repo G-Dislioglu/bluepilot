@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bp-134-scrub-bp131-identifiers`.
+- Aktueller Arbeitsbranch: `bp-135-maya-gate-readiness-probe`.
 - Nach Abschluss von BP-126 enthaelt Bluepilot ein separates TypeScript-Subpackage unter
   `builder/`.
 - BP-127 migriert die erste echte Builder-Code-Welle: 14 pure-logic Module unter `builder/src/`.
@@ -32,6 +32,8 @@
   DB-Readiness-Beweise, ohne Secret- oder DB-Ressourcenkennungen.
 - BP-134 scrubbt die verbliebenen konkreten DB-Ressourcenkennungen aus den alten BP-131-
   Artefakten im aktuellen Arbeitsbaum. Git-Historie bleibt unveraendert.
+- BP-135 ergaenzt `/health/maya-gate` als sicheren Maya-Gate-Readiness-Probe fuer den
+  Free-Render-Dienst ohne Shell-Zugriff.
 
 ## Phasen
 
@@ -43,7 +45,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-134.
+- Hoechster Contract: BP-135.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -68,6 +70,9 @@
   Build-/Start-Einstellungen und Health-Beweise fest, ohne Secrets.
 - BP-134: Scrub der alten BP-131-Artefakte; konkrete Projekt-, Branch-, Endpoint- und alte
   soulmatch-Projektkennung durch Platzhalter ersetzt.
+- BP-135: Browser-aufrufbarer Maya-Gate-Probe; Budget, Corridor und Cost werden ueber die
+  bestehenden Gate-Client-Funktionen geprueft, ohne Token auszugeben oder Builder-Aktionen zu
+  starten.
 
 ## Maya-Anbindung
 
@@ -96,9 +101,9 @@
 
 Nach BP-125 ist das Anker-Projekt abgeschlossen. Danach gibt es zwei saubere Optionen:
 
-1. BP-134 reviewen/mergen: Arbeitsbaum-Scrub der BP-131-Kennungen bestaetigen.
-2. Danach Maya-Gate-Infra planen: `MAYA_CORE_URL` und Gate-Token in Bluepilot setzen, nachdem
-   maya-core mit BP-124-Auth deployt ist.
+1. BP-135 reviewen/mergen und deployen.
+2. Danach `https://bluepilot-builder.onrender.com/health/maya-gate` pruefen: Budget und Corridor
+   sollen `reachable: true` liefern, Cost `recorded: true`.
 3. Danach erster echter End-to-End-Probelauf im Bluepilot-Builder.
 4. Alternativ Bluepilot weiterbauen: echten "Maya Review"-Sprechort fuer die MVP-Kette schaffen.
 

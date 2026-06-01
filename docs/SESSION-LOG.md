@@ -5,6 +5,23 @@
 
 ---
 
+## 2026-06-01 - Maya-Gate Readiness Probe (BP-135)
+
+- Gebaut: `GET /health/maya-gate` im Bluepilot-Builder. Der Endpunkt ruft die bestehenden
+  Gate-Client-Funktionen `assessBudget`, `assessCorridor` und `recordCost` mit synthetischen
+  Probe-Daten auf.
+- Ergebnis: Der Free-Render-Dienst braucht keine Shell mehr, um das Bluepilot -> maya-core
+  Token-Binding zu pruefen. Die Antwort enthaelt `mayaCoreConfigured` und pro Gate
+  `reachable`/`reason`, aber keine Secret-Werte.
+- Korrektur am Claude-Paket: Der Probe ist nicht streng read-only, weil `recordCost` einen
+  kleinen Cost-Record in maya-core erzeugen kann. Das ist als best-effort Readiness-Side-Effect
+  dokumentiert. `assessCorridor` nutzt korrekt `actionKind: 'push'` plus `dryRun: true`.
+- Beweis: `npm test` in `builder/` laeuft mit 18 Tests gruen, inklusive Token-Abwesenheitscheck
+  in der serialisierten Probe-Antwort. `npm run typecheck` ist gruen.
+- Roter Faden weiter: Nach Merge und Render-Deploy `/health/maya-gate` live abrufen. Wenn Budget
+  und Corridor `reachable: true` und Cost `recorded: true` melden, ist das Maya-Gate-Binding
+  bewiesen und Phase-A-Probelauf kann separat geplant werden.
+
 ## 2026-06-01 - BP-131 Identifier Scrub (BP-134)
 
 - Gebaut: Die verbliebenen konkreten DB-Ressourcenkennungen in `contracts/BP-131.json` und

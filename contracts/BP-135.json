@@ -65,7 +65,7 @@
   "claims": [
     "GET /health/maya-gate is handled in builder/src/health.ts using the existing health handler pattern.",
     "The probe calls assessBudget, assessCorridor, and recordCost from builder/src/mayaBuilderGateClient.ts; it does not construct its own fetch/auth path.",
-    "The corridor probe uses actionKind 'push' with dryRun true, not the invalid actionKind 'dry_run'.",
+    "The corridor probe uses actionKind 'push' with dryRun true, not the invalid underscore action-kind literal.",
     "The response includes mayaCoreConfigured and per-gate reachable/reason/status fields, but never includes secret values.",
     "The probe performs no irreversible Builder action. recordCost is a tiny best-effort maya-core readiness write and is documented as the only side effect."
   ],
@@ -77,7 +77,7 @@
   "dod": [
     "GET /health/maya-gate returns JSON with mayaCoreConfigured plus budget, corridor, and cost probe results.",
     "Unit tests cover all gates reachable and gate unavailable cases, and assert a fake token value is not serialized.",
-    "The probe uses actionKind 'push' with dryRun true and does not introduce a new 'dry_run' literal.",
+    "The probe uses actionKind 'push' with dryRun true and does not introduce the invalid underscore action-kind literal.",
     "No Builder execution/orchestrator/write-path module is imported by builder/src/health.ts.",
     "npm test in builder/ passes.",
     "npm run typecheck in builder/ passes.",
