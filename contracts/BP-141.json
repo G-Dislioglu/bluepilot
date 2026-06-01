@@ -1,0 +1,126 @@
+{
+  "task_id": "BP-141",
+  "task_name": "Guarded sandbox real-write trigger",
+  "created": "2026-06-01",
+  "scope": "bluepilot/builder/sandbox-real-write",
+  "mode": "critical",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "safety",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Prepare the first real Builder write into G-Dislioglu/bluepilot-sandbox only, building on BP-140 target-aware SmartPush. Flip only the bluepilot-sandbox target profile to allow real writes, add a guarded POST /probe/sandbox-real-write endpoint, and force that endpoint to use one fixed harmless sandbox file with targetProfileId='bluepilot-sandbox' and dryRun:false. The endpoint stays closed unless BLUEPILOT_SANDBOX_REAL_WRITE_ENABLED is true and the request carries the exact confirmation phrase. Maya corridor kill-switches remain external/manual; this task does not set secrets or perform a live write.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "contracts/BP-140.json",
+    "builder/src/builderTargetProfiles.ts",
+    "builder/src/server.ts",
+    "builder/src/probeDryRun.ts",
+    "builder/src/sandboxWriteProbe.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/tests/sandboxWriteProbe.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BP-141.json",
+    "builder/src/builderTargetProfiles.ts",
+    "builder/src/sandboxRealWrite.ts",
+    "builder/src/server.ts",
+    "builder/tests/sandboxRealWrite.test.ts",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BP-141.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusBuildPipeline.ts",
+    "builder/src/mayaBuilderGateClient.ts",
+    "builder/src/providers.ts",
+    "builder/src/builderScopeResolver.ts",
+    "builder/src/opusPatchMode.ts",
+    "builder/src/probeDryRun.ts",
+    "builder/src/sandboxWriteProbe.ts",
+    "builder/tests/!(sandboxRealWrite.test.ts)",
+    "contracts/BP-0*.json",
+    "contracts/BP-1[0-3][0-9].json",
+    "contracts/BP-140.json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not modify SmartPush, the orchestrator, providers, Maya gate client, patch mode, repo index, dry-run probe, or sandbox write-readiness probe.",
+    "Do not change the soulmatch target profile or default fallback.",
+    "Do not let the request body choose targetProfileId, dryRun, scope, targetFile, repo, branch, or instruction.",
+    "Do not set, log, return, or commit MAYA_* or GITHUB_* secret values.",
+    "Do not set MAYA_BUILDER_REPO_WRITE_ENABLED, MAYA_BUILDER_OPERATOR_APPROVED_WRITE, or BLUEPILOT_SANDBOX_REAL_WRITE_ENABLED in code.",
+    "Do not perform a live GitHub write during implementation or tests.",
+    "Do not use skipDeploy:true for the real-write trigger, because that skips the push phase entirely."
+  ],
+  "claims": [
+    "Only the bluepilot-sandbox target profile changes: writePolicy becomes sandbox_real_write and pushAllowed becomes true. Soulmatch and the default fallback remain unchanged.",
+    "A new POST /probe/sandbox-real-write route is dispatched from server.ts.",
+    "The route returns 403 and does not call orchestrateTask unless BLUEPILOT_SANDBOX_REAL_WRITE_ENABLED is exactly true.",
+    "The route returns 400 and does not call orchestrateTask unless the body contains confirm='real-write-to-bluepilot-sandbox'.",
+    "The route resolves the bluepilot-sandbox profile and asserts repo='G-Dislioglu/bluepilot-sandbox', branch='main', pushAllowed=true, and writePolicy='sandbox_real_write' before it calls orchestrateTask.",
+    "The single orchestrateTask call hard-codes targetProfileId='bluepilot-sandbox', dryRun=false, scope and targetFile to one fixed harmless sandbox path, and skipInlinePostPushChecks=true. It does not set skipDeploy:true.",
+    "The response summarizes the orchestrator result without serializing secrets or accepting a caller-provided target."
+  ],
+  "assumptions": [
+    "BP-140 is merged: SmartPush uses targetProfile.repo for direct GitHub patch writes.",
+    "Live BP-139 readiness is green: POST /probe/sandbox-write-check returned status='writable' against G-Dislioglu/bluepilot-sandbox.",
+    "The Maya corridor remains the final write gate. If MAYA_BUILDER_REPO_WRITE_ENABLED or MAYA_BUILDER_OPERATOR_APPROVED_WRITE is off, the real push should be blocked before a commit.",
+    "The fixed one-file scope keeps the safety policy in the smallest practical class and avoids broad or caller-controlled edits."
+  ],
+  "dod": [
+    "builderTargetProfiles.ts adds sandbox_real_write to the write policy type and changes only the bluepilot-sandbox profile to pushAllowed:true and writePolicy:'sandbox_real_write'.",
+    "POST /probe/sandbox-real-write returns 403 with env flag off, 400 without the confirm phrase, and 405 for non-POST.",
+    "Tests prove the endpoint does not call orchestrateTask for closed gates or failed repo guard.",
+    "Tests prove the orchestrateTask call uses literal targetProfileId 'bluepilot-sandbox', dryRun:false, a fixed scope/targetFile, skipInlinePostPushChecks:true, and does not include skipDeploy:true.",
+    "Source check: the request body cannot override repo, branch, targetProfileId, dryRun, scope, targetFile, instruction, or skipDeploy.",
+    "npm test in builder/ passes.",
+    "npm run typecheck in builder/ passes.",
+    "node tools/verify-task-lock.cjs BP-141 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check",
+    "review_packet"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-141 --preflight",
+    "npm test",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BP-141 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "A live write would be required during implementation or tests.",
+    "SmartPush or orchestrator core changes become necessary.",
+    "The endpoint cannot force a fixed sandbox target and fixed one-file scope.",
+    "The default soulmatch target cannot remain unchanged.",
+    "A secret value would need to be logged, returned, or committed.",
+    "Maya kill-switches would need to be set in code."
+  ],
+  "prior_task_findings": "Claude's first BP-140/BP-141 planning was corrected after local code review found SmartPush was still hard-coded to G-Dislioglu/soulmatch. BP-140 fixed target-aware pass-through only. Before this task, the live BP-139 readiness probe returned writable for G-Dislioglu/bluepilot-sandbox. This BP-141 additionally corrects Claude's BP-141 draft by fixing the scope to one harmless sandbox path and by forbidding skipDeploy:true, because skipDeploy would skip the push phase.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "session_log",
+    "review_packet"
+  ],
+  "baseline_ref": "e90c0b1"
+}
