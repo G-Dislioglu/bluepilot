@@ -1,0 +1,106 @@
+{
+  "task_id": "BP-143",
+  "task_name": "One-Shot Write Permit design (design-only, no build)",
+  "created": "2026-06-01",
+  "scope": "bluepilot/docs/oneshot-write-permit-design",
+  "mode": "standard",
+  "task_type": "doc_task",
+  "risk_class": "low",
+  "impact_class": "docs",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Capture the One-Shot Write Permit architecture as a design-only document: replace the three standing write env-flags with per-act, single-use, time-limited permits that separate capability (the machine can write), permission (this one write is approved), and policy (who may issue). Record Codex's two hard requirements (content-hash binding and atomic single-use), four further same-risk-class decisions, the three autonomy levels, the kill-switch role, and the two-service build that BP-144 will carry out. No code, no register, no corridor change, no flag runtime change.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "contracts/BP-141.json",
+    "contracts/BP-142.json",
+    "review-packets/BP-142.md",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/opusPatchMode.ts",
+    "builder/src/builderApprovalArtifacts.ts",
+    "builder/src/mayaBuilderGateClient.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**"
+  ],
+  "allowed_files": [
+    "contracts/BP-143.json",
+    "docs/BP-143-ONESHOT-WRITE-PERMIT-DESIGN.md",
+    "review-packets/BP-143.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "builder/**",
+    "package.json",
+    "builder/package.json",
+    "contracts/BP-0*.json",
+    "contracts/BP-1[0-3][0-9].json",
+    "contracts/BP-14[0-2].json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "STATE.md",
+    "AGENTS.md",
+    ".specify/**",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not write any code, register, route, schema, or test.",
+    "Do not change the runtime behavior of the three write flags.",
+    "Do not modify the Maya corridor, opusSmartPush, opusPatchMode, or any builder module.",
+    "Do not update the anchor docs (CLAUDE-CONTEXT, SESSION-LOG, STATE); their refresh is a separate noted thread.",
+    "Do not start the BP-144 build in this task."
+  ],
+  "claims": [
+    "docs/BP-143-ONESHOT-WRITE-PERMIT-DESIGN.md exists and is design-only with an explicit no-build banner naming BP-144 as the build contract.",
+    "The document separates capability, permission, and policy, and defines the permit data model (permitId, issuer, target, op, expectedBaseSha, contentHash, expiry, usedAt, status, policySnapshot, auditRef).",
+    "The document records Codex's two hard requirements in intent: content-hash binding to the concrete write, and server-side atomic single-use (compare-and-set).",
+    "The document adds four further same-risk-class decisions: hash recomputed at the builder byte-exit, create-vs-update plus base-sha pin, a policy-independent protected-path floor, and one-attempt retry semantics.",
+    "The document states BP-144 is a two-service build: maya-core register plus atomic consume, and bluepilot threading permit fields through corridor and SmartPush, noting assessCorridor does not yet know these fields.",
+    "The document keeps MAYA_BUILDER_REPO_WRITE_ENABLED as a fail-closed kill-switch and marks the two builder flags for replacement by permits.",
+    "The permit mechanism is described as a genuine new build, not a small docking onto the existing approval_ticket and sha256 helper."
+  ],
+  "assumptions": [
+    "Phase B is live as of 2026-06-01; the first real sandbox write succeeded (commit f95fa11).",
+    "Local main is at 019e7bf; STATE.md and SESSION-LOG.md are current to BP-142.",
+    "builderApprovalArtifacts already provides approvalId, an approval_ticket, and a sha256 helper, but no permit register, no atomic consume, no expiry, and no write-binding exist yet.",
+    "The permit register will live in maya-core (aicos-registry/master); the GitHub PAT and the actual write live in bluepilot-builder."
+  ],
+  "dod": [
+    "docs/BP-143-ONESHOT-WRITE-PERMIT-DESIGN.md exists under docs/ and contains a no-build banner naming BP-144.",
+    "The document contains the permit data model, the state machine (issued -> consumed atomically -> done/failed, one permit = one attempt), the two hard requirements, the four further decisions, the three autonomy levels, and the kill-switch role.",
+    "The document contains the two-service BP-144 section naming assessCorridor as not yet knowing the permit fields.",
+    "contracts/BP-143.json validates as task_type doc_task with no code or tool files in allowed_files.",
+    "review-packets/BP-143.md records the design scope, the corrections folded in, and verification evidence.",
+    "node tools/verify-task-lock.cjs BP-143 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "content_check",
+    "runtime_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-143 --preflight",
+    "node tools/verify-task-lock.cjs BP-143 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "Writing any code, register, route, schema, or test becomes necessary.",
+    "Changing the corridor, SmartPush, or any builder module becomes necessary.",
+    "Changing the runtime behavior of any write flag becomes necessary.",
+    "A new architecture decision outside the permit design becomes necessary."
+  ],
+  "prior_task_findings": "BP-142 cleared the final adapter blocker and Phase B went live: idea -> builder phases -> four gates -> Maya corridor -> verified sandbox commit f95fa11. The three standing write flags are unsafe as a permanent state. BP-143 designs the One-Shot Write Permit that replaces them; the build is deferred to BP-144 as a two-service change. Codex confirmed the design document is good enough and supplied two hard requirements plus the assessCorridor and STATE.md branch findings.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "session_log",
+    "review_packet"
+  ],
+  "baseline_ref": "019e7bf"
+}
