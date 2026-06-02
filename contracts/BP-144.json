@@ -1,0 +1,109 @@
+{
+  "task_id": "BP-144",
+  "task_name": "Write permit contentHash canon - stage 1",
+  "created": "2026-06-02",
+  "scope": "bluepilot/builder/write-permit-contenthash-canon-stage-1",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "safety",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add the Bluepilot side of the shared one-shot write permit contentHash canon: a pure, side-effect-free canonicalization and SHA-256 helper with the fixed cross-repo test vector. This is stage 1 only: no permit register, no corridor change, no SmartPush/write-path change, no runtime flag change, and no live write.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "docs/BP-143-ONESHOT-WRITE-PERMIT-DESIGN.md",
+    "C:/Users/guerc/Downloads/BP-144-STUFE1-CONTENTHASH-KANON (1).md",
+    "builder/package.json",
+    "builder/tsconfig.json"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BP-144.json",
+    "builder/src/writePermitContentHash.ts",
+    "builder/tests/writePermitContentHash.test.ts",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BP-144.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/opusPatchMode.ts",
+    "builder/src/mayaBuilderGateClient.ts",
+    "builder/src/sandboxRealWrite.ts",
+    "builder/src/server.ts",
+    "builder/src/health.ts",
+    "builder/src/probeDryRun.ts",
+    "contracts/BP-0*.json",
+    "contracts/BP-1[0-3][0-9].json",
+    "contracts/BP-14[0-3].json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not implement a permit register, consume operation, expiry, policy, or corridor check.",
+    "Do not modify SmartPush, the Maya gate client, the sandbox real-write endpoint, target profiles, providers, or server routes.",
+    "Do not add dependencies or change package scripts.",
+    "Do not perform a live GitHub write or call a live Maya endpoint.",
+    "Do not introduce new Opus-branded names for this new helper."
+  ],
+  "claims": [
+    "builder/src/writePermitContentHash.ts exports a pure canonical byte builder and computeWritePermitContentHash helper.",
+    "The canonical byte form length-prefixes repo, branch, path, op, baseSha, and content in that exact order with 8-digit byte lengths and a colon.",
+    "The helper hashes raw canonical bytes with SHA-256 and returns lowercase hex prefixed by sha256:.",
+    "The fixed shared vector G-Dislioglu/bluepilot-sandbox main probe/hash-vector.txt create empty-baseSha hello-LF yields sha256:4cf2991e34c573d82852a5293d9fae147c0bec2249fa9c71cae75b8ef7728576.",
+    "Tests prove the fixed vector, byte sensitivity, and coordinate binding without network, DB, token, or write side effects."
+  ],
+  "assumptions": [
+    "The same contentHash canon is implemented in maya-core in a paired branch for BP-144 stage 1.",
+    "The downloaded BP-144 stage-1 spec is the user-approved source, but Codex verifies the vector independently before implementing.",
+    "Stage 2 and 3 will wire permits through maya-core and Bluepilot later; this task deliberately does not."
+  ],
+  "dod": [
+    "builder/src/writePermitContentHash.ts exists and has no runtime side effects.",
+    "builder/tests/writePermitContentHash.test.ts passes and asserts the fixed vector exactly.",
+    "npm test in builder/ passes.",
+    "npm run typecheck in builder/ passes.",
+    "node tools/verify-task-lock.cjs BP-144 --verify exits 0.",
+    "git diff --check exits 0.",
+    "No forbidden write-path, corridor, provider, package, or tool files changed."
+  ],
+  "evidence_required": [
+    "test_result",
+    "review_packet"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-144 --preflight",
+    "npm test",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BP-144 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "The fixed vector cannot be reproduced exactly.",
+    "A permit register, corridor change, SmartPush change, or live write becomes necessary.",
+    "A package or dependency change becomes necessary.",
+    "The paired maya-core implementation cannot use the same canon."
+  ],
+  "prior_task_findings": "BP-143 documented the one-shot permit design. Claude's BP-144 stage-1 spec was corrected against local paths and independently verified: the test vector hash is sha256:4cf2991e34c573d82852a5293d9fae147c0bec2249fa9c71cae75b8ef7728576. This task implements only the shared contentHash canon in Bluepilot; the maya-core side is built in a paired branch under maya-core local rules.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "session_log",
+    "review_packet"
+  ],
+  "baseline_ref": "9715e51"
+}
