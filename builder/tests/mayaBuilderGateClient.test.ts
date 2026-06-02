@@ -121,3 +121,52 @@ test('maya builder gate sends gate token and records cost through maya-core endp
     }
   }
 });
+
+test('maya builder gate forwards write permit corridor fields', async () => {
+  const originalMayaCoreUrl = process.env.MAYA_CORE_URL;
+  const originalGateToken = process.env.MAYA_CORE_GATE_TOKEN;
+
+  try {
+    process.env.MAYA_CORE_URL = 'https://maya-core.example';
+    process.env.MAYA_CORE_GATE_TOKEN = 'secret-token';
+
+    let corridorBody: Record<string, unknown> = {};
+    setMayaBuilderGateFetchForTests(async (_input, init) => {
+      corridorBody = JSON.parse(String(init?.body || '{}')) as Record<string, unknown>;
+      return jsonResponse({ allowed: true, reason: 'permit_consumed' }) as any;
+    });
+
+    const decision = await assessCorridor({
+      intent: 'write permitted file',
+      actionKind: 'push',
+      permitId: 'permit-123',
+      repo: 'G-Dislioglu/bluepilot-sandbox',
+      branch: 'main',
+      path: '.bluepilot/permit.md',
+      op: 'create',
+      baseSha: '',
+      contentHash: 'sha256:abc',
+      contentLen: 13
+    });
+
+    assert.equal(decision.allowed, true);
+    assert.equal(corridorBody.permitId, 'permit-123');
+    assert.equal(corridorBody.repo, 'G-Dislioglu/bluepilot-sandbox');
+    assert.equal(corridorBody.path, '.bluepilot/permit.md');
+    assert.equal(corridorBody.op, 'create');
+    assert.equal(corridorBody.contentHash, 'sha256:abc');
+    assert.equal(corridorBody.contentLen, 13);
+  } finally {
+    resetMayaBuilderGateClientForTests();
+    if (originalMayaCoreUrl === undefined) {
+      delete process.env.MAYA_CORE_URL;
+    } else {
+      process.env.MAYA_CORE_URL = originalMayaCoreUrl;
+    }
+    if (originalGateToken === undefined) {
+      delete process.env.MAYA_CORE_GATE_TOKEN;
+    } else {
+      process.env.MAYA_CORE_GATE_TOKEN = originalGateToken;
+    }
+  }
+});

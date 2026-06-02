@@ -1,7 +1,7 @@
 # STATE - Bluepilot
 
 > Momentaufnahme nach `docs/CLAUDE-CONTEXT.md` und `docs/SESSION-LOG.md`.
-> Stand: 2026-05-31.
+> Stand: 2026-06-02.
 
 ## Branch und Stand
 
@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bp-144-contenthash-canon`.
+- Aktueller Arbeitsbranch: `bp-145-byte-output-permit-enforcement`.
 - Nach Abschluss von BP-126 enthaelt Bluepilot ein separates TypeScript-Subpackage unter
   `builder/`.
 - BP-127 migriert die erste echte Builder-Code-Welle: 14 pure-logic Module unter `builder/src/`.
@@ -53,6 +53,9 @@
 - BP-144 Stufe 1 implementiert die gemeinsame `contentHash`-Kanonisierung fuer Write-Permits
   in Bluepilot und parallel in maya-core. Keine Permit-Registry, kein Korridor- oder
   Schreibpfad wurde in dieser Stufe geaendert.
+- BP-145 verdrahtet die Bluepilot-Seite der Permit-Enforcement-Stufe 3B: Permit-Felder werden
+  zum Korridor weitergereicht, der finale UTF-8-Content wird direkt am Byte-Ausgang gehasht,
+  und GitHub-Whole-File-Writes koennen explizit create-only oder update-only laufen.
 
 ## Phasen
 
@@ -64,7 +67,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-144.
+- Hoechster Contract: BP-145.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -123,6 +126,9 @@
 - BP-144: Write Permit contentHash Canon Stage 1; fuegt die seiteneffektfreie
   `contentHash`-Kanonisierung und den festen Cross-Repo-Testvektor hinzu. Dies schaltet nichts
   frei und aendert keinen Korridor- oder Schreibpfad.
+- BP-145: Write Permit Enforcement Stage 3B; erweitert den Bluepilot-Byte-Ausgang fuer
+  Permit-Payloads, finalen UTF-8-Hash und explizite Create/Update-GitHub-Semantik. Kein Live-
+  Write, kein Endpoint, keine Runtime-Flag-Aenderung.
 
 ## Maya-Anbindung
 
@@ -151,11 +157,12 @@
 
 Nach BP-125 ist das Anker-Projekt abgeschlossen. Danach gibt es zwei saubere Optionen:
 
-1. BP-144 Stufe 1 in Bluepilot und maya-core reviewen/mergen.
-2. Danach BP-144 Stufe 2 in maya-core schneiden: Permit-Register, atomarer Consume,
-   Expiry/Reuse/Hash-Mismatch-Tests.
-3. Erst danach Bluepilot-Durchreichung der Permit-Felder und Hash-Neuberechnung am Byte-Ausgang
-   bauen.
+1. BP-145 reviewen/mergen: Bluepilot sendet Permit-Felder, Hash und explizite Create/Update-
+   Semantik ohne Live-Write.
+2. Danach Stage 3C als eigenes Runbook/Contract schneiden: ein bewusst ausgestellter Permit,
+   ein echter Sandbox-Write, Reuse muss scheitern.
+3. Danach Write-Flags wieder schliessen und das Permit-Modell als dauerhafte Freigabe-Schicht
+   weiter verfeinern.
 
 Nicht beides still zusammenziehen, wenn Auth, Deploy, Live-Builder oder globale Steuerung beruehrt
 werden.

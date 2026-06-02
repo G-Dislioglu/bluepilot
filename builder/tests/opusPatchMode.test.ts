@@ -71,7 +71,65 @@ async function testPutFileContentUpdatesWithSha(): Promise<void> {
   assert.equal(JSON.stringify(result).includes('test-token'), false);
 }
 
+async function testPutFileContentCreateOnlySkipsInspectAndOmitsSha(): Promise<void> {
+  const calls: Array<{ url: string; init?: RequestInit }> = [];
+  const fetchImpl = (async (url, init) => {
+    calls.push({ url: String(url), init });
+    return jsonResponse(201, { commit: { sha: 'create-only-commit' } }, 'Created');
+  }) as typeof fetch;
+
+  const result = await putFileContent(
+    'G-Dislioglu',
+    'bluepilot-sandbox',
+    '.bluepilot/create-only.md',
+    'hello',
+    'create only',
+    'test-token',
+    fetchImpl as never,
+    { op: 'create' },
+  );
+
+  assert.equal(result.success, true);
+  assert.equal(result.commitSha, 'create-only-commit');
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].init?.method, 'PUT');
+
+  const putBody = JSON.parse(String(calls[0].init?.body)) as { content: string; sha?: string };
+  assert.equal(putBody.content, Buffer.from('hello').toString('base64'));
+  assert.equal('sha' in putBody, false);
+}
+
+async function testPutFileContentUpdateOnlyUsesExpectedShaWithoutInspect(): Promise<void> {
+  const calls: Array<{ url: string; init?: RequestInit }> = [];
+  const fetchImpl = (async (url, init) => {
+    calls.push({ url: String(url), init });
+    return jsonResponse(200, { commit: { sha: 'update-only-commit' } });
+  }) as typeof fetch;
+
+  const result = await putFileContent(
+    'G-Dislioglu',
+    'bluepilot-sandbox',
+    '.bluepilot/update-only.md',
+    'updated',
+    'update only',
+    'test-token',
+    fetchImpl as never,
+    { op: 'update', expectedBaseSha: 'expected-base-sha' },
+  );
+
+  assert.equal(result.success, true);
+  assert.equal(result.commitSha, 'update-only-commit');
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].init?.method, 'PUT');
+
+  const putBody = JSON.parse(String(calls[0].init?.body)) as { content: string; sha?: string };
+  assert.equal(putBody.content, Buffer.from('updated').toString('base64'));
+  assert.equal(putBody.sha, 'expected-base-sha');
+}
+
 await testPutFileContentCreatesWithoutSha();
 await testPutFileContentUpdatesWithSha();
+await testPutFileContentCreateOnlySkipsInspectAndOmitsSha();
+await testPutFileContentUpdateOnlyUsesExpectedShaWithoutInspect();
 
 console.log('opusPatchMode tests passed');

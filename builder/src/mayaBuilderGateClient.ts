@@ -37,6 +37,14 @@ export interface CorridorAssessInput {
   actionKind: 'write_file' | 'push' | 'deploy';
   dryRun?: boolean;
   approvedByOperator?: boolean;
+  permitId?: string;
+  repo?: string;
+  branch?: string;
+  path?: string;
+  op?: 'create' | 'update';
+  baseSha?: string;
+  contentHash?: string;
+  contentLen?: number;
 }
 
 export class MayaBuilderGateBlockedError extends Error {

@@ -1,0 +1,123 @@
+{
+  "task_id": "BP-145",
+  "task_name": "Write permit enforcement stage 3B - byte output and create/update guard",
+  "created": "2026-06-02",
+  "scope": "bluepilot/builder/write-permit-enforcement-stage-3b",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "safety",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Wire one-shot write permit fields through the Bluepilot builder write path without performing any live write. The final UTF-8 content bytes must be hashed immediately before corridor assessment, the corridor must receive permit coordinates, and the actual GitHub contents PUT must obey explicit create-only or update-only semantics derived from the permit.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "docs/BP-143-ONESHOT-WRITE-PERMIT-DESIGN.md",
+    "builder/src/writePermitContentHash.ts",
+    "builder/src/mayaBuilderGateClient.ts",
+    "builder/src/opusPatchMode.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/tests/opusPatchMode.test.ts",
+    "builder/tests/opusSmartPush.test.ts",
+    "builder/tests/mayaBuilderGateClient.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BP-145.json",
+    "builder/src/mayaBuilderGateClient.ts",
+    "builder/src/opusPatchMode.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/tests/mayaBuilderGateClient.test.ts",
+    "builder/tests/opusPatchMode.test.ts",
+    "builder/tests/opusSmartPush.test.ts",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BP-145.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/writePermitContentHash.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/providers.ts",
+    "builder/src/sandboxRealWrite.ts",
+    "builder/src/sandboxWriteProbe.ts",
+    "builder/src/server.ts",
+    "builder/src/health.ts",
+    "builder/src/probeDryRun.ts",
+    "contracts/BP-0*.json",
+    "contracts/BP-1[0-3][0-9].json",
+    "contracts/BP-14[0-4].json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not change maya-core from this repo.",
+    "Do not add or change runtime endpoints, package scripts, dependencies, or tools.",
+    "Do not perform a live GitHub write, call live maya-core, or alter Render environment variables.",
+    "Do not implement the live runbook or admin permit issuing path; that is stage 3C.",
+    "Do not add new Opus-branded function, feature, or task names."
+  ],
+  "claims": [
+    "CorridorAssessInput accepts optional one-shot permit fields: permitId, repo, branch, path, op, baseSha, contentHash, and contentLen, and forwards them unchanged to maya-core.",
+    "putFileContent keeps the existing no-mode behavior unchanged, but also accepts an optional explicit mode for create-only or update-only writes.",
+    "For create-only, putFileContent sends a PUT without sha and does not silently convert to update if the file exists.",
+    "For update-only, putFileContent sends exactly expectedBaseSha as sha and does not inspect GitHub for a replacement sha.",
+    "The permit-aware direct whole-file path computes contentHash from the final UTF-8 content string before base64 encoding, sends the permit coordinates to assessCorridor, and writes only after the corridor allows with reason permit_consumed.",
+    "If the permit corridor assessment is rejected, the GitHub write function is not called.",
+    "Existing non-permit behavior remains unchanged, including default-target /push behavior and non-default direct whole-file behavior without permitId."
+  ],
+  "assumptions": [
+    "maya-core BP-144 stage 3A is deployed separately and understands the permit fields.",
+    "builder/src/writePermitContentHash.ts is already present from BP-144 stage 1 and must not be modified here.",
+    "The first live stage 3C write will use op=create against the sandbox; update support is still implemented and tested to close the TOCTOU class.",
+    "Patch-job permit enforcement is intentionally not broadened in this task unless the final bytes are available at the same byte-output boundary."
+  ],
+  "dod": [
+    "builder/tests/mayaBuilderGateClient.test.ts proves permit fields are serialized to the corridor endpoint.",
+    "builder/tests/opusPatchMode.test.ts proves create-only, update-only, and existing no-mode behavior.",
+    "builder/tests/opusSmartPush.test.ts proves permit-consumed allows one direct write, corridor rejection prevents writes, and contentHash/contentLen match final UTF-8 content.",
+    "npm test in builder/ passes.",
+    "npm run typecheck in builder/ passes.",
+    "node tools/verify-task-lock.cjs BP-145 --verify exits 0.",
+    "git diff --check exits 0.",
+    "No live write, package change, tool change, server route change, or maya-core change occurs."
+  ],
+  "evidence_required": [
+    "test_result",
+    "review_packet"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-145 --preflight",
+    "npm test",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BP-145 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "The final UTF-8 content is not available before the corridor check.",
+    "The permit path would need a live write or live maya-core call to verify.",
+    "A package or dependency change becomes necessary.",
+    "The update-only path cannot pass expectedBaseSha directly to GitHub.",
+    "Patch-job permit enforcement would require guessing final bytes."
+  ],
+  "prior_task_findings": "BP-144 stage 3A is complete in maya-core at 758ab63: the corridor can require and consume permits server-side. Claude's stage 3B design was checked against local Bluepilot code: putFileContent currently performs GET then PUT and silently selects create or update from current GitHub state; the permit path must instead bind op=create/update and hash the final UTF-8 content before base64.",
+  "reuse_target": [
+    "next_task_pre_lock",
+    "session_log",
+    "review_packet"
+  ],
+  "baseline_ref": "07d7e08"
+}
