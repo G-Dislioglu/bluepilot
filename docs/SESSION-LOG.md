@@ -5,6 +5,25 @@
 
 ---
 
+## 2026-06-02 - Permit-gated Sandbox Write Trigger (BP-146 Stage 3C prep)
+
+- Gebaut: `POST /probe/sandbox-permit-write` als enger Live-Trigger fuer genau einen
+  permit-gebundenen Sandbox-Write. Der Endpunkt ist geschlossen ohne
+  `BLUEPILOT_SANDBOX_PERMIT_WRITE_ENABLED=true`, verlangt die Confirm-Phrase
+  `permit-write-to-bluepilot-sandbox` und akzeptiert nur `permitId` plus `contentBase64`.
+- Ergebnis: Repo, Branch, Pfad, Operation und Base-SHA sind im Code fest verdrahtet:
+  `G-Dislioglu/bluepilot-sandbox`, `main`, `.bluepilot/phase-3c-permit-write.md`,
+  `create`, leere Base-SHA. Der Aufrufer kann das Ziel nicht ueber den Body umbiegen.
+- Sicherheitsentscheidung: Kein Orchestrator-/Provider-Pfad, kein Live-Write im Task. Der Handler
+  ruft `smartPush` direkt mit `writePermit` auf, sodass die BP-145 Byte-Output- und
+  Korridor-Consume-Guards die eigentliche Freigabe pruefen.
+- Korrektur am Claude-Paket: Der alte `/probe/sandbox-real-write`-Pfad ist fuer 3C ungeeignet,
+  weil er `orchestrateTask` nutzt und keinen Permit an `smartPush` durchreicht. 3C braucht eine
+  feste Content-Quelle und einen direkten Permit-Write-Trigger.
+- Beweis: `npm test` in `builder/` laeuft mit 51 Tests gruen.
+- Roter Faden weiter: Nach Merge/Deploy stellt maya-core den Permit mit dem echten Store aus;
+  Bluepilot schreibt nur mit diesem Permit. Danach Reuse-Test und alle Write-Fenster wieder zu.
+
 ## 2026-06-02 - Write Permit Enforcement Byte Output (BP-145 Stage 3B)
 
 - Gebaut: Bluepilot reicht die One-Shot-Permit-Felder bis zum Maya-Korridor weiter und berechnet
