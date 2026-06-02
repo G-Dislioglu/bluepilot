@@ -2,16 +2,13 @@ import { createServer } from 'node:http';
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import type { BuilderTargetProfile } from '../src/builderTargetProfiles.js';
 import { getBuilderTargetProfile } from '../src/builderTargetProfiles.js';
-import type { OpusTaskInput, OpusTaskResult } from '../src/opusTaskOrchestrator.js';
+import type { OpusTaskResult } from '../src/opusTaskOrchestrator.js';
 import {
   buildSandboxRealWriteInput,
   handleSandboxRealWriteRequest,
   summarizeSandboxRealWriteResult,
 } from '../src/sandboxRealWrite.js';
-
-type OrchestratorCall = OpusTaskInput;
 
 function mockResult(overrides: Partial<OpusTaskResult> = {}): OpusTaskResult {
   return {
@@ -89,7 +86,7 @@ test('sandbox real-write input is fixed to sandbox, one file, real mode, and pus
   assert.equal(input.instruction.includes('2026-06-01T00:00:00.000Z'), true);
 });
 
-test('POST /probe/sandbox-real-write returns 403 when endpoint env is off', async () => {
+test('POST /probe/sandbox-real-write is retired even when the old endpoint env is off', async () => {
   let called = false;
 
   await withProbeServer({
@@ -104,15 +101,16 @@ test('POST /probe/sandbox-real-write returns 403 when endpoint env is off', asyn
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ confirm: 'real-write-to-bluepilot-sandbox' }),
     });
-    const body = await response.json() as { error: string };
+    const body = await response.json() as { error: string; replacement: string };
 
-    assert.equal(response.status, 403);
-    assert.equal(body.error, 'sandbox_real_write_disabled');
+    assert.equal(response.status, 410);
+    assert.equal(body.error, 'sandbox_real_write_retired');
+    assert.equal(body.replacement, '/probe/sandbox-permit-write');
     assert.equal(called, false);
   });
 });
 
-test('POST /probe/sandbox-real-write requires the exact confirmation phrase', async () => {
+test('POST /probe/sandbox-real-write is retired even when the old endpoint env is on', async () => {
   let called = false;
 
   await withProbeServer({
@@ -125,18 +123,18 @@ test('POST /probe/sandbox-real-write requires the exact confirmation phrase', as
     const response = await fetch(`${url}/probe/sandbox-real-write`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ confirm: 'wrong' }),
+      body: JSON.stringify({ confirm: 'real-write-to-bluepilot-sandbox' }),
     });
-    const body = await response.json() as { error: string; required: string };
+    const body = await response.json() as { error: string; replacement: string };
 
-    assert.equal(response.status, 400);
-    assert.equal(body.error, 'confirmation_required');
-    assert.equal(body.required, 'real-write-to-bluepilot-sandbox');
+    assert.equal(response.status, 410);
+    assert.equal(body.error, 'sandbox_real_write_retired');
+    assert.equal(body.replacement, '/probe/sandbox-permit-write');
     assert.equal(called, false);
   });
 });
 
-test('POST /probe/sandbox-real-write rejects caller-controlled fields before orchestration', async () => {
+test('POST /probe/sandbox-real-write ignores caller-controlled fields because the path is retired', async () => {
   let called = false;
 
   await withProbeServer({
@@ -156,87 +154,13 @@ test('POST /probe/sandbox-real-write rejects caller-controlled fields before orc
     });
     const body = await response.json() as { error: string };
 
-    assert.equal(response.status, 400);
-    assert.equal(body.error, 'unexpected_field:targetProfileId');
+    assert.equal(response.status, 410);
+    assert.equal(body.error, 'sandbox_real_write_retired');
     assert.equal(called, false);
   });
 });
 
-test('POST /probe/sandbox-real-write aborts if the profile no longer points at the sandbox', async () => {
-  let called = false;
-  const sandbox = getBuilderTargetProfile('bluepilot-sandbox');
-  assert.ok(sandbox);
-  const wrongProfile: BuilderTargetProfile = {
-    ...sandbox,
-    repo: 'G-Dislioglu/soulmatch',
-  };
-
-  await withProbeServer({
-    env: { BLUEPILOT_SANDBOX_REAL_WRITE_ENABLED: 'true' },
-    profileResolver: () => wrongProfile,
-    orchestrator: async () => {
-      called = true;
-      return mockResult();
-    },
-  }, async (url) => {
-    const response = await fetch(`${url}/probe/sandbox-real-write`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ confirm: 'real-write-to-bluepilot-sandbox' }),
-    });
-    const body = await response.json() as { error: string; detail: string };
-
-    assert.equal(response.status, 500);
-    assert.equal(body.error, 'sandbox_repo_guard_failed');
-    assert.equal(body.detail, 'sandbox_repo_mismatch');
-    assert.equal(called, false);
-  });
-});
-
-test('POST /probe/sandbox-real-write calls orchestrator with the fixed sandbox input', async () => {
-  const calls: OrchestratorCall[] = [];
-
-  await withProbeServer({
-    env: { BLUEPILOT_SANDBOX_REAL_WRITE_ENABLED: 'true' },
-    now: new Date('2026-06-01T00:00:00.000Z'),
-    orchestrator: async (input) => {
-      calls.push(input);
-      return mockResult({
-        status: 'success',
-        summary: 'sandbox write succeeded',
-        pushAllowed: true,
-        requiredExternalApproval: false,
-        landed: true,
-        verifiedCommit: 'commit-sha',
-        pushBlockedReason: undefined,
-      });
-    },
-  }, async (url) => {
-    const response = await fetch(`${url}/probe/sandbox-real-write`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ confirm: 'real-write-to-bluepilot-sandbox' }),
-    });
-    const body = await response.json() as { status: string; repository: string; verifiedCommit: string };
-
-    assert.equal(response.status, 200);
-    assert.equal(body.status, 'success');
-    assert.equal(body.repository, 'G-Dislioglu/bluepilot-sandbox');
-    assert.equal(body.verifiedCommit, 'commit-sha');
-  });
-
-  const call = calls[0];
-  assert.ok(call);
-  assert.equal(call.targetProfileId, 'bluepilot-sandbox');
-  assert.equal(call.dryRun, false);
-  assert.deepEqual(call.scope, ['.bluepilot/phase-b-real-write.md']);
-  assert.equal(call.targetFile, '.bluepilot/phase-b-real-write.md');
-  assert.equal(call.skipInlinePostPushChecks, true);
-  assert.equal(call.skipDeploy, undefined);
-  assert.equal(call.instruction.includes('Do not edit any other file.'), true);
-});
-
-test('GET /probe/sandbox-real-write returns method_not_allowed', async () => {
+test('GET /probe/sandbox-real-write is also retired', async () => {
   let called = false;
 
   await withProbeServer({
@@ -249,8 +173,8 @@ test('GET /probe/sandbox-real-write returns method_not_allowed', async () => {
     const response = await fetch(`${url}/probe/sandbox-real-write`);
     const body = await response.json() as { error: string };
 
-    assert.equal(response.status, 405);
-    assert.equal(body.error, 'method_not_allowed');
+    assert.equal(response.status, 410);
+    assert.equal(body.error, 'sandbox_real_write_retired');
     assert.equal(called, false);
   });
 });

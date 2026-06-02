@@ -5,6 +5,25 @@
 
 ---
 
+## 2026-06-02 - Legacy-Schreibpfade entschaerft (BP-148)
+
+- Gebaut: Der alte `POST /probe/sandbox-real-write`-Pfad ist dauerhaft retired und antwortet
+  mit HTTP 410 plus Verweis auf den Permit-Pfad. Das alte Flag
+  `BLUEPILOT_SANDBOX_REAL_WRITE_ENABLED` kann diesen Pfad nicht mehr oeffnen.
+- Gebaut: `POST /probe/sandbox-write-check` bleibt als Diagnose fuer GitHub-Schreibrechte in
+  `G-Dislioglu/bluepilot-sandbox` erhalten, ist aber default-off hinter
+  `BLUEPILOT_SANDBOX_WRITE_CHECK_ENABLED=true`.
+- Sicherheitsentscheidung: Nach dem ersten echten Permit-Write gibt es keinen
+  permit-umgehenden Content-Write-Probe mehr. Echte Inhalts-Writes laufen ueber
+  `/probe/sandbox-permit-write` und spaeter ueber Policy-ausgestellte One-Shot-Permits.
+- Korrektur am Claude-Paket: Das Ziel ist nicht, Maya dauerhaft unnoetig zu beschraenken.
+  Mayas spaetere direkte Schreibfaehigkeit soll unbuerokratisch innerhalb eines erlaubten
+  Policy-Rahmens passieren, aber nicht ueber Legacy-Bypass-Endpunkte.
+- Beweis: Lokaler Scan fand keine automatisierten Aufrufer fuer `/probe/sandbox-write-check`,
+  nur Contracts, Doku und Tests.
+- Roter Faden weiter: Naechster bewusster Schritt ist die Entscheidung, ob Permit-Enforcement
+  Dauerregel wird und wie Maya innerhalb enger Regeln selbst One-Shot-Permits ausstellen darf.
+
 ## 2026-06-02 - First Permit-Gated Sandbox Write (BP-147)
 
 - Geprueft: Die Kette BP-143..146 wurde live ausgeloest. Maya-core stellte Permit

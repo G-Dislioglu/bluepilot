@@ -5,11 +5,13 @@ const SANDBOX_REPO = 'bluepilot-sandbox';
 const SANDBOX_FULL_NAME = `${SANDBOX_OWNER}/${SANDBOX_REPO}` as const;
 const SANDBOX_BRANCH = 'main';
 const CONFIRMATION_PHRASE = 'write-to-bluepilot-sandbox';
+const WRITE_CHECK_ENV = 'BLUEPILOT_SANDBOX_WRITE_CHECK_ENABLED';
 const MAX_BODY_BYTES = 16 * 1024;
 
 type FetchLike = typeof fetch;
 
 interface SandboxWriteProbeOptions {
+  env?: NodeJS.ProcessEnv;
   fetchImpl?: FetchLike;
   token?: string;
   now?: Date;
@@ -226,6 +228,12 @@ export async function handleSandboxWriteProbeRequest(
 
   if (request.method !== 'POST') {
     writeJson(response, 405, { error: 'method_not_allowed' });
+    return true;
+  }
+
+  const env = options.env ?? process.env;
+  if (env[WRITE_CHECK_ENV] !== 'true') {
+    writeJson(response, 403, { error: 'sandbox_write_check_disabled', requiredEnv: WRITE_CHECK_ENV });
     return true;
   }
 
