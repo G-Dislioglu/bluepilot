@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bp-145-byte-output-permit-enforcement`.
+- Aktueller Arbeitsbranch: `bp-146-permit-live-runbook`.
 - Nach Abschluss von BP-126 enthaelt Bluepilot ein separates TypeScript-Subpackage unter
   `builder/`.
 - BP-127 migriert die erste echte Builder-Code-Welle: 14 pure-logic Module unter `builder/src/`.
@@ -56,6 +56,10 @@
 - BP-145 verdrahtet die Bluepilot-Seite der Permit-Enforcement-Stufe 3B: Permit-Felder werden
   zum Korridor weitergereicht, der finale UTF-8-Content wird direkt am Byte-Ausgang gehasht,
   und GitHub-Whole-File-Writes koennen explizit create-only oder update-only laufen.
+- BP-146 bereitet Stufe 3C vor: ein enger `POST /probe/sandbox-permit-write`-Trigger ruft
+  `smartPush` direkt mit einem One-Shot-Permit fuer die feste Datei
+  `.bluepilot/phase-3c-permit-write.md` im Sandbox-Repo auf. Kein Live-Write wurde in diesem
+  Task ausgefuehrt.
 
 ## Phasen
 
@@ -67,7 +71,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-145.
+- Hoechster Contract: BP-146.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -129,6 +133,10 @@
 - BP-145: Write Permit Enforcement Stage 3B; erweitert den Bluepilot-Byte-Ausgang fuer
   Permit-Payloads, finalen UTF-8-Hash und explizite Create/Update-GitHub-Semantik. Kein Live-
   Write, kein Endpoint, keine Runtime-Flag-Aenderung.
+- BP-146: Permit-gated Sandbox Write Stage 3C prep; ergaenzt
+  `POST /probe/sandbox-permit-write` als festen Sandbox-Write-Trigger fuer genau einen
+  `writePermit`-gebundenen Create auf `.bluepilot/phase-3c-permit-write.md`. Kein Live-Write
+  wurde waehrend des Tasks ausgefuehrt.
 
 ## Maya-Anbindung
 
@@ -157,12 +165,12 @@
 
 Nach BP-125 ist das Anker-Projekt abgeschlossen. Danach gibt es zwei saubere Optionen:
 
-1. BP-145 reviewen/mergen: Bluepilot sendet Permit-Felder, Hash und explizite Create/Update-
-   Semantik ohne Live-Write.
-2. Danach Stage 3C als eigenes Runbook/Contract schneiden: ein bewusst ausgestellter Permit,
-   ein echter Sandbox-Write, Reuse muss scheitern.
-3. Danach Write-Flags wieder schliessen und das Permit-Modell als dauerhafte Freigabe-Schicht
-   weiter verfeinern.
+1. BP-146 deployen: Bluepilot stellt den festen Permit-Write-Trigger bereit, bleibt aber ohne
+   `BLUEPILOT_SANDBOX_PERMIT_WRITE_ENABLED=true` geschlossen.
+2. Mit maya-core `scripts/issue-write-permit.ts` einen Permit fuer genau die feste Sandbox-Datei
+   ausstellen und den Runbook-Write einmal ausloesen.
+3. Reuse desselben Permit muss scheitern. Danach Write-Fenster wieder schliessen und das
+   Permit-Modell als dauerhafte Freigabe-Schicht weiter verfeinern.
 
 Nicht beides still zusammenziehen, wenn Auth, Deploy, Live-Builder oder globale Steuerung beruehrt
 werden.
