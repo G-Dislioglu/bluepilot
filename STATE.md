@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bp-142-non-default-whole-file-write`.
+- Aktueller Arbeitsbranch: `bp-144-contenthash-canon`.
 - Nach Abschluss von BP-126 enthaelt Bluepilot ein separates TypeScript-Subpackage unter
   `builder/`.
 - BP-127 migriert die erste echte Builder-Code-Welle: 14 pure-logic Module unter `builder/src/`.
@@ -49,6 +49,10 @@
   eine feste Datei in `G-Dislioglu/bluepilot-sandbox`.
 - BP-142 beseitigt den finalen Adapter-Blocker fuer diesen Write: Nicht-Default-Overwrites und
   neue Dateien koennen nun ueber die GitHub-Contents-API direkt ins Ziel-Repo geschrieben werden.
+- BP-143 dokumentiert das One-Shot-Write-Permit-Design als reinen Doku-Block.
+- BP-144 Stufe 1 implementiert die gemeinsame `contentHash`-Kanonisierung fuer Write-Permits
+  in Bluepilot und parallel in maya-core. Keine Permit-Registry, kein Korridor- oder
+  Schreibpfad wurde in dieser Stufe geaendert.
 
 ## Phasen
 
@@ -60,7 +64,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-142.
+- Hoechster Contract: BP-144.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -114,6 +118,11 @@
 - BP-142: Non-default whole-file write adapter; ergaenzt `putFileContent` und routet
   Nicht-Default-Overwrite/Create-Jobs ueber einen direkten GitHub-Contents-API-Write. Der
   Default-`soulmatch`-Overwrite-Pfad bleibt auf `/push`.
+- BP-143: One-Shot Write Permit Design; beschreibt Permit, atomaren Consume, Content-Bindung,
+  Kill-Switch-Rolle und den zweigeteilten Bau in maya-core und Bluepilot als Doku-Task.
+- BP-144: Write Permit contentHash Canon Stage 1; fuegt die seiteneffektfreie
+  `contentHash`-Kanonisierung und den festen Cross-Repo-Testvektor hinzu. Dies schaltet nichts
+  frei und aendert keinen Korridor- oder Schreibpfad.
 
 ## Maya-Anbindung
 
@@ -142,10 +151,11 @@
 
 Nach BP-125 ist das Anker-Projekt abgeschlossen. Danach gibt es zwei saubere Optionen:
 
-1. BP-142 reviewen/mergen und deployen.
-2. Danach den BP-141-Sandbox-Write genau einmal live ausfuehren und pruefen, dass
-   `.bluepilot/phase-b-real-write.md` nur in `G-Dislioglu/bluepilot-sandbox` entsteht.
-3. Nach dem echten Write alle Write-Env-Flags wieder schliessen.
+1. BP-144 Stufe 1 in Bluepilot und maya-core reviewen/mergen.
+2. Danach BP-144 Stufe 2 in maya-core schneiden: Permit-Register, atomarer Consume,
+   Expiry/Reuse/Hash-Mismatch-Tests.
+3. Erst danach Bluepilot-Durchreichung der Permit-Felder und Hash-Neuberechnung am Byte-Ausgang
+   bauen.
 
 Nicht beides still zusammenziehen, wenn Auth, Deploy, Live-Builder oder globale Steuerung beruehrt
 werden.

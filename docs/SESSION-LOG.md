@@ -5,6 +5,25 @@
 
 ---
 
+## 2026-06-02 - Write Permit contentHash Canon (BP-144 Stage 1)
+
+- Gebaut: `builder/src/writePermitContentHash.ts` als seiteneffektfreie Hash-Kanonisierung fuer
+  den kommenden One-Shot-Write-Permit. Die Funktion laengen-praefixiert Repo, Branch, Pfad,
+  Operation, Base-SHA und finale Content-Bytes und hasht diese kanonischen Bytes mit SHA-256.
+- Ergebnis: Bluepilot trifft den gemeinsam festgelegten Testvektor
+  `sha256:4cf2991e34c573d82852a5293d9fae147c0bec2249fa9c71cae75b8ef7728576`. Dadurch hat
+  Bluepilot dieselbe Sprache fuer `contentHash`, die maya-core als Aussteller ebenfalls
+  implementiert.
+- Sicherheitsentscheidung: Keine Permit-Registry, kein Consume, keine Korridor-, SmartPush-,
+  Provider-, Route-, Flag- oder Deploy-Aenderung. Dies ist nur Stufe 1 der gemeinsamen
+  Kanonisierung.
+- Korrektur am Claude-Paket: Der Testvektor wurde lokal unabhaengig reproduziert und die neue
+  Hilfsfunktion bewusst nicht mit altem Opus-Namensmuster benannt.
+- Beweis: `npm test` und `npm run typecheck` in `builder/`, `node tools/verify-task-lock.cjs
+  BP-144 --verify` und `git diff --check` sind fuer den lokalen Abschluss auszufuehren.
+- Roter Faden weiter: Erst wenn Bluepilot und maya-core denselben Vektor gruen treffen, folgt
+  die naechste Stufe: maya-core Permit-Register + atomarer Consume.
+
 ## 2026-06-01 - Non-default Whole-file Write Adapter (BP-142)
 
 - Gebaut: `putFileContent` in `opusPatchMode.ts` als direkter GitHub-Contents-API-Write fuer
