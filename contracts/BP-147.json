@@ -1,0 +1,93 @@
+{
+  "task_id": "BP-147",
+  "task_name": "Live proof of first permit-gated write",
+  "created": "2026-06-02",
+  "scope": "bluepilot/docs/permit-live-proof",
+  "mode": "standard",
+  "task_type": "doc_task",
+  "risk_class": "low",
+  "impact_class": "docs",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Record the first real permit-gated write to G-Dislioglu/bluepilot-sandbox as a verified milestone: permit issued, exactly one write succeeded, reuse blocked as already_consumed, and the Bluepilot write window closed (403 sandbox_permit_write_disabled). Document the deliberate intermediate enforcement state so a later session does not mistake the permit path for a permanent default rule. No code and no runtime change.",
+  "eligible_context": [
+    "STATE.md",
+    "docs/SESSION-LOG.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "contracts/BP-146.json",
+    "review-packets/BP-146.md",
+    "builder/src/sandboxPermitWrite.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BP-147.json",
+    "review-packets/BP-147.md",
+    "STATE.md",
+    "docs/SESSION-LOG.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "builder/**",
+    "package.json",
+    "contracts/BP-0*.json",
+    "contracts/BP-1[0-3][0-9].json",
+    "contracts/BP-14[0-6].json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "AGENTS.md",
+    ".specify/**",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not change any code, route, env behavior, or test.",
+    "Do not turn enforcement on or off; this task only records the observed run and required closed state.",
+    "Do not deactivate or modify the legacy /probe/sandbox-real-write path; that is a later cleanup task.",
+    "Do not touch maya-core; its anchor entry is a separate note under its own governance."
+  ],
+  "claims": [
+    "review-packets/BP-147.md records permit id 5b4121c2-d991-4b9b-afc8-d16e28d31aa3, contentHash sha256:4e459ee4..., contentLen 86, target sandbox path .bluepilot/phase-3c-permit-write.md, and op create.",
+    "It records the first write as write_succeeded with commit 5327082bb0804ff1728ee39b2744fcec79d32906, externally verified to exist with an 86-byte file.",
+    "It records the reuse attempt as write_blocked with reason already_consumed and pushed false, based on the live response and prior real-Postgres consume proof.",
+    "It records the close as HTTP 403 sandbox_permit_write_disabled and names the write flags that must remain false.",
+    "It records the deliberate intermediate state: the permit path is built and live-proven once, but permanent enforcement is a later explicit decision.",
+    "STATE.md and docs/SESSION-LOG.md get matching entries for the live proof."
+  ],
+  "assumptions": [
+    "bluepilot/main is at 289243f after the BP-146 merge.",
+    "The Bluepilot write window is closed after the test, confirmed by HTTP 403 sandbox_permit_write_disabled.",
+    "The maya-core write flags are operator-controlled Render secrets and must remain false after the test; this task documents that required closed state rather than changing it.",
+    "The reuse already_consumed result is taken from the live run output plus prior real-Postgres reproduction; it was not independently re-queried from the live register by this task."
+  ],
+  "dod": [
+    "review-packets/BP-147.md exists and contains the proof facts, the external verification note, and the enforcement-intermediate-state note.",
+    "STATE.md has a BP-147 / live-proof entry.",
+    "docs/SESSION-LOG.md has a dated 2026-06-02 live-proof entry.",
+    "contracts/BP-147.json validates as doc_task with no code files in allowed_files.",
+    "node tools/verify-task-lock.cjs BP-147 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "content_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-147 --preflight",
+    "node tools/verify-task-lock.cjs BP-147 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "Any code or runtime change becomes necessary.",
+    "Turning enforcement on/off becomes necessary.",
+    "Touching the legacy write path becomes necessary."
+  ],
+  "prior_task_findings": "BP-143 designed the one-shot write permit. BP-144 built the canonical contentHash and maya-core permit register plus atomic consume. BP-145 added the Bluepilot byte-output guard, UTF-8 hash before base64, and create/update GitHub semantics. BP-146 added the Bluepilot permit-write trigger and maya-core issue-write-permit script. BP-147 records the first live proof and closed state.",
+  "reuse_target": [
+    "session_log",
+    "review_packet"
+  ],
+  "baseline_ref": "289243f"
+}

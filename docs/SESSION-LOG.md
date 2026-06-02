@@ -5,6 +5,25 @@
 
 ---
 
+## 2026-06-02 - First Permit-Gated Sandbox Write (BP-147)
+
+- Geprueft: Die Kette BP-143..146 wurde live ausgeloest. Maya-core stellte Permit
+  `5b4121c2-d991-4b9b-afc8-d16e28d31aa3` fuer
+  `G-Dislioglu/bluepilot-sandbox` / `.bluepilot/phase-3c-permit-write.md` aus
+  (`op=create`, `contentHash=sha256:4e459ee4...`, `contentLen=86`).
+- Ergebnis: Der erste Aufruf von `POST /probe/sandbox-permit-write` landete mit
+  `write_succeeded`, `pushed=true`, `landed=true`, Commit
+  `5327082bb0804ff1728ee39b2744fcec79d32906`. Der zweite Aufruf mit demselben
+  Permit wurde mit `already_consumed` blockiert.
+- Extern verifiziert: `bluepilot-sandbox/main` zeigt auf Commit `5327082...`; die Datei
+  `.bluepilot/phase-3c-permit-write.md` existiert dort und ist 86 UTF-8-Bytes gross.
+- Sicherheitsentscheidung: Das Bluepilot-Schreibfenster wurde wieder geschlossen; der
+  Abschluss-Check lieferte HTTP 403 `sandbox_permit_write_disabled`. Die maya-core-
+  Write-Flags muessen ebenfalls geschlossen bleiben.
+- Roter Faden weiter: Permit-Gating ist einmal live bewiesen, aber permanentes Enforcement ist
+  eine spaetere ausdrueckliche Entscheidung. Naechste separate Blocks: Legacy-Write-Pfad
+  entschaerfen und Permit-Pfad fuer echte Builder-Aufgaben erweitern.
+
 ## 2026-06-02 - Permit-gated Sandbox Write Trigger (BP-146 Stage 3C prep)
 
 - Gebaut: `POST /probe/sandbox-permit-write` als enger Live-Trigger fuer genau einen
