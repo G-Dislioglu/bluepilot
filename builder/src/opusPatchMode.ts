@@ -17,6 +17,10 @@ type GitHubUpdateResponse = {
 
 type FetchLike = typeof outboundFetch;
 
+export type PutFileContentMode =
+  | { op: 'create'; expectedBaseSha?: string }
+  | { op: 'update'; expectedBaseSha: string };
+
 function githubContentsHeaders(token: string): Record<string, string> {
   return {
     Authorization: `token ${token}`,
@@ -110,19 +114,27 @@ export async function putFileContent(
   commitMessage: string,
   token: string,
   fetchImpl: FetchLike = outboundFetch,
+  mode?: PutFileContentMode,
 ): Promise<{ success: boolean; commitSha?: string; error?: string }> {
   const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${filePath}`;
   const headers = githubContentsHeaders(token);
 
   try {
     let sha: string | undefined;
-    const getResponse = await fetchImpl(url, { headers });
+    if (mode?.op === 'update') {
+      if (!mode.expectedBaseSha) {
+        return { success: false, error: 'update-only put requires expectedBaseSha' };
+      }
+      sha = mode.expectedBaseSha;
+    } else if (!mode) {
+      const getResponse = await fetchImpl(url, { headers });
 
-    if (getResponse.ok) {
-      const fileData = await getResponse.json() as GitHubContentsResponse;
-      sha = fileData.sha;
-    } else if (getResponse.status !== 404) {
-      return { success: false, error: `Failed to inspect file: ${getResponse.statusText || getResponse.status}` };
+      if (getResponse.ok) {
+        const fileData = await getResponse.json() as GitHubContentsResponse;
+        sha = fileData.sha;
+      } else if (getResponse.status !== 404) {
+        return { success: false, error: `Failed to inspect file: ${getResponse.statusText || getResponse.status}` };
+      }
     }
 
     const putBody: {

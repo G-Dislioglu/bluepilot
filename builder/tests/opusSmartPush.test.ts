@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 
 import { buildPatchViaPushFiles, smartPush } from '../src/opusSmartPush.js';
 import type { PatchEdit } from '../src/opusPatchMode.js';
+import { computeWritePermitContentHash } from '../src/writePermitContentHash.js';
 
 function testSmallFilesStayDeterministicOverwrite(): void {
   const patches: PatchEdit[] = [
@@ -319,6 +320,152 @@ async function testDefaultOverwriteStillUsesPushPath(): Promise<void> {
   });
 }
 
+async function testPermitConsumedAllowsDirectWholeFileCreate(): Promise<void> {
+  await withGitHubToken(async () => {
+    const content = 'permit says hello ae oe ue\n';
+    let corridorBody: Record<string, unknown> = {};
+    let capturedPut: unknown[] = [];
+
+    const result = await smartPush(
+      [{
+        file: '.bluepilot/permit-create.md',
+        mode: 'create',
+        content,
+      }],
+      'test permit create',
+      {
+        targetRepo: 'G-Dislioglu/bluepilot-sandbox',
+        writePermit: {
+          permitId: 'permit-create-1',
+          op: 'create',
+          branch: 'main',
+          baseSha: '',
+        },
+        assessCorridorImpl: async (input) => {
+          corridorBody = input as unknown as Record<string, unknown>;
+          return {
+            allowed: true,
+            reason: 'permit_consumed',
+            gateAvailable: true,
+          };
+        },
+        putFileContentImpl: async (...args) => {
+          capturedPut = args;
+          return { success: true, commitSha: 'permit-create-commit' };
+        },
+      },
+    );
+
+    const expectedHash = computeWritePermitContentHash({
+      repo: 'G-Dislioglu/bluepilot-sandbox',
+      branch: 'main',
+      path: '.bluepilot/permit-create.md',
+      op: 'create',
+      baseSha: '',
+      content,
+    });
+
+    assert.equal(result.pushed, true);
+    assert.equal(result.commitHash, 'permit-create-commit');
+    assert.equal(corridorBody.permitId, 'permit-create-1');
+    assert.equal(corridorBody.repo, 'G-Dislioglu/bluepilot-sandbox');
+    assert.equal(corridorBody.path, '.bluepilot/permit-create.md');
+    assert.equal(corridorBody.op, 'create');
+    assert.equal(corridorBody.baseSha, '');
+    assert.equal(corridorBody.contentHash, expectedHash);
+    assert.equal(corridorBody.contentLen, Buffer.byteLength(content, 'utf8'));
+    assert.deepEqual(capturedPut.slice(0, 6), [
+      'G-Dislioglu',
+      'bluepilot-sandbox',
+      '.bluepilot/permit-create.md',
+      content,
+      'test permit create',
+      'test-token',
+    ]);
+    assert.equal(capturedPut[6], undefined);
+    assert.deepEqual(capturedPut[7], { op: 'create', expectedBaseSha: '' });
+  });
+}
+
+async function testPermitCorridorRejectionPreventsWrite(): Promise<void> {
+  await withGitHubToken(async () => {
+    let putCalled = false;
+
+    const result = await smartPush(
+      [{
+        file: '.bluepilot/permit-rejected.md',
+        mode: 'create',
+        content: 'must not write',
+      }],
+      'test permit rejected',
+      {
+        targetRepo: 'G-Dislioglu/bluepilot-sandbox',
+        writePermit: {
+          permitId: 'permit-rejected-1',
+          op: 'create',
+          branch: 'main',
+          baseSha: '',
+        },
+        assessCorridorImpl: async () => ({
+          allowed: false,
+          reason: 'hash_mismatch',
+          gateAvailable: true,
+        }),
+        putFileContentImpl: async () => {
+          putCalled = true;
+          return { success: true, commitSha: 'should-not-happen' };
+        },
+      },
+    );
+
+    assert.equal(result.pushed, false);
+    assert.equal(putCalled, false);
+    assert.match(result.error ?? '', /maya_builder_corridor_blocked:hash_mismatch/);
+  });
+}
+
+async function testPermitPathRejectsPatchJobsBeforeWrite(): Promise<void> {
+  await withGitHubToken(async () => {
+    let corridorCalled = false;
+    let patchCalled = false;
+
+    const result = await smartPush(
+      [{
+        file: 'README.md',
+        mode: 'patch',
+        patches: [{ search: 'old', replace: 'new' }],
+      }],
+      'test permit patch rejected',
+      {
+        targetRepo: 'G-Dislioglu/bluepilot-sandbox',
+        writePermit: {
+          permitId: 'permit-patch-1',
+          op: 'update',
+          branch: 'main',
+          baseSha: 'base-sha',
+        },
+        assessCorridorImpl: async () => {
+          corridorCalled = true;
+          return {
+            allowed: true,
+            reason: 'permit_consumed',
+            gateAvailable: true,
+          };
+        },
+        applyPatchImpl: async () => {
+          patchCalled = true;
+          return { success: true };
+        },
+      },
+    );
+
+    assert.equal(result.pushed, false);
+    assert.equal(corridorCalled, false);
+    assert.equal(patchCalled, false);
+    assert.match(result.error ?? '', /supports exactly one whole-file/);
+  });
+}
+
 await testProvidedTargetRepoReachesDirectPatch();
 await testDefaultTargetRepoStaysSoulmatch();
 await testMalformedTargetRepoFailsBeforeGateOrWrite();
@@ -326,5 +473,8 @@ await testRawFallbackReadsFromProvidedTargetRepo();
 await testNonDefaultOverwriteUsesDirectWholeFileWrite();
 await testNonDefaultOverwriteRequiresGitHubToken();
 await testDefaultOverwriteStillUsesPushPath();
+await testPermitConsumedAllowsDirectWholeFileCreate();
+await testPermitCorridorRejectionPreventsWrite();
+await testPermitPathRejectsPatchJobsBeforeWrite();
 
 console.log('opusSmartPush tests passed');

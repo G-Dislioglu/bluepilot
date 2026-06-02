@@ -6,12 +6,13 @@
 import { readFile as fsReadFile } from 'node:fs/promises';
 import path from 'node:path';
 import { decideChangeMode } from './opusChangeRouter.js';
-import { applyPatch, applyPatches, PatchEdit, putFileContent } from './opusPatchMode.js';
+import { applyPatch, applyPatches, PatchEdit, putFileContent, type PutFileContentMode } from './opusPatchMode.js';
 import { getAuthUrl } from './opusBridgeConfig.js';
 import { waitForPushResult } from './pushResultWaiter.js';
 import { outboundFetch } from './outboundHttp.js';
 import { type BuilderSideEffectsContract } from './builderSideEffects.js';
 import { assessCorridor } from './mayaBuilderGateClient.js';
+import { computeWritePermitContentHash, type WritePermitOperation } from './writePermitContentHash.js';
 
 // Wie lange wir maximal auf den execution-result-Callback aus der
 // GitHub Action warten, bevor wir den Push als nicht-gelandet werten.
@@ -57,6 +58,12 @@ interface SmartPushOptions {
   sourceAsyncJobId?: string;
   sideEffects?: BuilderSideEffectsContract;
   targetRepo?: string | null;
+  writePermit?: {
+    permitId: string;
+    op: WritePermitOperation;
+    branch?: string;
+    baseSha?: string;
+  };
   applyPatchImpl?: typeof applyPatch;
   putFileContentImpl?: typeof putFileContent;
   assessCorridorImpl?: typeof assessCorridor;
@@ -164,29 +171,9 @@ export async function smartPush(
   const putFileContentForTarget = options?.putFileContentImpl ?? putFileContent;
   const assessCorridorForTarget = options?.assessCorridorImpl ?? assessCorridor;
   const outboundFetchForTarget = options?.outboundFetchImpl ?? outboundFetch;
+  const writePermit = options?.writePermit;
   const modes: Record<string, 'ambiguous' | 'overwrite' | 'create' | 'patch'> = {};
   const errors: string[] = [];
-
-  const corridor = await assessCorridorForTarget({
-    intent: [
-      message,
-      ...files.map((file) => file.file),
-    ].join('\n'),
-    actionKind: 'push',
-    approvedByOperator: process.env.MAYA_BUILDER_OPERATOR_APPROVED_WRITE === 'true',
-  });
-
-  if (!corridor.allowed) {
-    return {
-      pushed: false,
-      filesCount: files.length,
-      modes,
-      asyncDispatch: false,
-      error: `maya_builder_corridor_blocked:${corridor.reason}`,
-      durationMs: Date.now() - start,
-      landed: false,
-    };
-  }
 
   const overwrites: Array<{ file: string; content: string }> = [];
   const patchJobs: Array<{ file: string; patches: PatchEdit[] }> = [];
@@ -208,6 +195,36 @@ export async function smartPush(
     }
   }
 
+  if (writePermit && (overwrites.length !== 1 || patchJobs.length > 0)) {
+    errors.push('write permit path supports exactly one whole-file create/update');
+  }
+  if (writePermit && targetRepo.isDefault) {
+    errors.push('write permit path requires a direct target repo, not the default /push dispatcher');
+  }
+
+  if (!writePermit) {
+    const corridor = await assessCorridorForTarget({
+      intent: [
+        message,
+        ...files.map((file) => file.file),
+      ].join('\n'),
+      actionKind: 'push',
+      approvedByOperator: process.env.MAYA_BUILDER_OPERATOR_APPROVED_WRITE === 'true',
+    });
+
+    if (!corridor.allowed) {
+      return {
+        pushed: false,
+        filesCount: files.length,
+        modes,
+        asyncDispatch: false,
+        error: `maya_builder_corridor_blocked:${corridor.reason}`,
+        durationMs: Date.now() - start,
+        landed: false,
+      };
+    }
+  }
+
   // Tracke die taskIds aus /push-Dispatches, um danach auf
   // execution-result-Callbacks zu warten. Erst wenn für alle
   // dispatchten Tasks ein committed:true-Callback eintraf,
@@ -217,13 +234,49 @@ export async function smartPush(
   let directWritesSucceeded = 0;
 
   // Overwrites via internal /push endpoint (chunked, via GitHub Action)
-  if (overwrites.length > 0) {
+  if (overwrites.length > 0 && !(writePermit && errors.length > 0)) {
     if (!targetRepo.isDefault) {
       const ghToken = process.env.GITHUB_PAT || process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '';
       if (!ghToken) {
         errors.push(`overwrite requires GitHub token for non-default target ${targetRepo.fullName}`);
       } else {
         for (const overwrite of overwrites) {
+          let putMode: PutFileContentMode | undefined;
+
+          if (writePermit) {
+            const branch = writePermit.branch ?? 'main';
+            const baseSha = writePermit.baseSha ?? '';
+            const contentHash = computeWritePermitContentHash({
+              repo: targetRepo.fullName,
+              branch,
+              path: overwrite.file,
+              op: writePermit.op,
+              baseSha,
+              content: overwrite.content,
+            });
+            const corridor = await assessCorridorForTarget({
+              intent: [message, overwrite.file].join('\n'),
+              actionKind: 'push',
+              permitId: writePermit.permitId,
+              repo: targetRepo.fullName,
+              branch,
+              path: overwrite.file,
+              op: writePermit.op,
+              baseSha,
+              contentHash,
+              contentLen: Buffer.byteLength(overwrite.content, 'utf8'),
+            });
+
+            if (!corridor.allowed || corridor.reason !== 'permit_consumed') {
+              errors.push(`maya_builder_corridor_blocked:${corridor.reason}`);
+              continue;
+            }
+
+            putMode = writePermit.op === 'create'
+              ? { op: 'create', expectedBaseSha: baseSha }
+              : { op: 'update', expectedBaseSha: baseSha };
+          }
+
           const result = await putFileContentForTarget(
             targetRepo.owner,
             targetRepo.name,
@@ -231,6 +284,8 @@ export async function smartPush(
             overwrite.content,
             message,
             ghToken,
+            undefined,
+            putMode,
           );
           if (!result.success) {
             errors.push(`overwrite failed for ${overwrite.file}: ${result.error}`);
@@ -272,7 +327,7 @@ export async function smartPush(
 
   // Patches via GitHub API directly (no size limit)
   const ghToken = process.env.GITHUB_PAT || process.env.GITHUB_TOKEN || process.env.GH_TOKEN || '';
-  for (const job of patchJobs) {
+  for (const job of writePermit && errors.length > 0 ? [] : patchJobs) {
     if (!ghToken) {
       asyncDispatch = true;
       // Fallback: resolve the replacement locally. Small files go as

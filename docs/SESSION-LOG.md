@@ -5,6 +5,27 @@
 
 ---
 
+## 2026-06-02 - Write Permit Enforcement Byte Output (BP-145 Stage 3B)
+
+- Gebaut: Bluepilot reicht die One-Shot-Permit-Felder bis zum Maya-Korridor weiter und berechnet
+  den `contentHash` aus dem finalen UTF-8-Content direkt vor dem GitHub-Write. Der Permit-Pfad
+  ist auf genau einen Whole-File-Create/Update begrenzt; Patch-Jobs werden in dieser Stufe nicht
+  geraten oder still erlaubt.
+- Ergebnis: `putFileContent` behaelt das alte Auto-Create/Update-Verhalten ohne Mode, kann fuer
+  Permit-Writes aber explizit `create` ohne `sha` oder `update` mit `expectedBaseSha` ausfuehren.
+  Damit wird GitHub selbst zur zweiten Schranke gegen TOCTOU.
+- Sicherheitsentscheidung: Kein Live-Write, kein neuer Endpoint, keine Runtime-Flag-Aenderung,
+  kein maya-core-Code. Der GitHub-PUT wird nur aufgerufen, wenn der Korridor mit
+  `reason: "permit_consumed"` erlaubt.
+- Korrektur am Claude-Paket: Die finale Byte-Grenze wurde lokal am echten Code geprueft:
+  `Buffer.from(content).toString('base64')` bedeutet Hash ueber UTF-8-Content vor Base64. Der
+  Permit-Pfad bleibt bewusst eng, statt Patch-Finalbytes zu erraten.
+- Beweis: `npm test` in `builder/` laeuft mit 45 Tests gruen; `npm run typecheck` ist gruen.
+  Neue Tests beweisen Permit-Payload-Weitergabe, create-only/update-only und Write-Block bei
+  Korridor-Ablehnung.
+- Roter Faden weiter: Stage 3C ist der eine echte Sandbox-Write mit bewusst ausgestelltem Permit
+  und Reuse-Beweis. Erst danach wieder alle Write-Schalter geschlossen halten.
+
 ## 2026-06-02 - Write Permit contentHash Canon (BP-144 Stage 1)
 
 - Gebaut: `builder/src/writePermitContentHash.ts` als seiteneffektfreie Hash-Kanonisierung fuer
