@@ -1,0 +1,113 @@
+{
+  "task_id": "BP-148",
+  "task_name": "Defuse legacy sandbox write paths",
+  "created": "2026-06-02",
+  "scope": "bluepilot/builder/legacy-write-path-defuse",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "safety",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "After the first permit-gated sandbox write has been proven, close the remaining legacy write bypasses without removing Maya's future autonomy. Retire POST /probe/sandbox-real-write permanently with HTTP 410, regardless of its old env flag, and put POST /probe/sandbox-write-check behind a new explicit diagnostic flag BLUEPILOT_SANDBOX_WRITE_CHECK_ENABLED. Real content writes should continue only through the permit/policy path, where future Maya policy can issue one-shot permits directly inside an approved scope.",
+  "eligible_context": [
+    "STATE.md",
+    "docs/SESSION-LOG.md",
+    "contracts/BP-147.json",
+    "review-packets/BP-147.md",
+    "builder/src/sandboxRealWrite.ts",
+    "builder/src/sandboxWriteProbe.ts",
+    "builder/src/sandboxPermitWrite.ts",
+    "builder/tests/sandboxRealWrite.test.ts",
+    "builder/tests/sandboxWriteProbe.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BP-148.json",
+    "builder/src/sandboxRealWrite.ts",
+    "builder/src/sandboxWriteProbe.ts",
+    "builder/tests/sandboxRealWrite.test.ts",
+    "builder/tests/sandboxWriteProbe.test.ts",
+    "STATE.md",
+    "docs/SESSION-LOG.md",
+    "review-packets/BP-148.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/sandboxPermitWrite.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/opusPatchMode.ts",
+    "builder/src/mayaBuilderGateClient.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/providers.ts",
+    "contracts/BP-0*.json",
+    "contracts/BP-1[0-3][0-9].json",
+    "contracts/BP-14[0-7].json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "AGENTS.md",
+    ".specify/**",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not delete the legacy implementation wholesale; make the retired path unreachable with a small, clear 410 response.",
+    "Do not change /probe/sandbox-permit-write or the permit-gated write path.",
+    "Do not change maya-core, permit registers, corridor policy, GitHub write adapters, target profiles, provider code, or package dependencies.",
+    "Do not remove future Maya autonomy. Future direct writes by Maya must happen through policy-issued one-shot permits, not through legacy bypass endpoints.",
+    "Do not set or change Render environment values in code."
+  ],
+  "claims": [
+    "POST /probe/sandbox-real-write returns HTTP 410 with a retired/replacement message even if BLUEPILOT_SANDBOX_REAL_WRITE_ENABLED is true, and it never calls orchestrateTask.",
+    "POST /probe/sandbox-write-check is closed by default with HTTP 403 unless BLUEPILOT_SANDBOX_WRITE_CHECK_ENABLED is exactly true.",
+    "When BLUEPILOT_SANDBOX_WRITE_CHECK_ENABLED is true, sandbox-write-check keeps the existing confirmation phrase, fixed sandbox target, token secrecy, create-and-delete behavior, and status payload.",
+    "No automated local caller for /probe/sandbox-write-check exists in the current tree; contracts, docs, and tests are the only references.",
+    "The permit-gated path from BP-146 remains the only real content-write probe path and is not modified by this task."
+  ],
+  "assumptions": [
+    "bluepilot/main is at a35df3c after BP-147.",
+    "The first permit-gated write has been proven and the bluepilot permit write window is closed.",
+    "Future Maya self-directed writes will be implemented by policy/permit issuance, so this task should remove bypasses without weakening that intended direction."
+  ],
+  "dod": [
+    "builder/src/sandboxRealWrite.ts returns 410 for /probe/sandbox-real-write before reading env, body, profile, or orchestrator.",
+    "builder/src/sandboxWriteProbe.ts checks BLUEPILOT_SANDBOX_WRITE_CHECK_ENABLED before reading body or touching GitHub.",
+    "Tests prove real-write stays retired with the old flag on and off, and write-check does not call GitHub while its new flag is off.",
+    "Tests prove write-check still works with the new flag on and the confirmation phrase present.",
+    "STATE.md and docs/SESSION-LOG.md record BP-148 and preserve the future policy/permit path for Maya autonomy.",
+    "review-packets/BP-148.md records scope, safety invariants, no automated write-check caller, and verification.",
+    "npm test and npm run typecheck in builder/ pass.",
+    "node tools/verify-task-lock.cjs BP-148 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-148 --preflight",
+    "npm test",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BP-148 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "Any change to permit-gated write behavior becomes necessary.",
+    "Any maya-core change becomes necessary.",
+    "Any package or dependency change becomes necessary.",
+    "Any automated caller for sandbox-write-check is found and would need coordinated runtime changes."
+  ],
+  "prior_task_findings": "BP-147 documented the first real permit-gated sandbox write and the closed state afterward. BP-148 follows by defusing legacy write bypasses while keeping the intended future path: Maya may later write directly within policy by issuing one-shot permits, not by using legacy probe endpoints.",
+  "reuse_target": [
+    "session_log",
+    "review_packet"
+  ],
+  "baseline_ref": "a35df3c"
+}

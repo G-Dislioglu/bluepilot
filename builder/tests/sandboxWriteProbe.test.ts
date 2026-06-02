@@ -19,9 +19,11 @@ function jsonResponse(status: number, body: unknown): Response {
 async function withProbeServer(
   fetchImpl: typeof fetch,
   run: (url: string) => Promise<void>,
+  env: NodeJS.ProcessEnv = { BLUEPILOT_SANDBOX_WRITE_CHECK_ENABLED: 'true' },
 ): Promise<void> {
   const server = createServer((request, response) => {
     void handleSandboxWriteProbeRequest(request, response, {
+      env,
       fetchImpl,
       token: 'test-secret-token',
       now: new Date('2026-06-01T00:00:00.000Z'),
@@ -113,6 +115,28 @@ test('sandbox write check reports not_configured without a token and does not ca
 
   assert.equal(result.status, 'not_configured');
   assert.equal(called, false);
+});
+
+test('POST /probe/sandbox-write-check is disabled by default before parsing or GitHub access', async () => {
+  let called = false;
+  const fetchImpl = (async () => {
+    called = true;
+    return jsonResponse(500, {});
+  }) as typeof fetch;
+
+  await withProbeServer(fetchImpl, async (url) => {
+    const response = await fetch(`${url}/probe/sandbox-write-check`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ confirm: 'write-to-bluepilot-sandbox' }),
+    });
+    const body = await response.json() as { error: string; requiredEnv: string };
+
+    assert.equal(response.status, 403);
+    assert.equal(body.error, 'sandbox_write_check_disabled');
+    assert.equal(body.requiredEnv, 'BLUEPILOT_SANDBOX_WRITE_CHECK_ENABLED');
+    assert.equal(called, false);
+  }, {});
 });
 
 test('POST /probe/sandbox-write-check requires explicit confirmation before writing', async () => {

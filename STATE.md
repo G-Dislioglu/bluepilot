@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bp-147-live-proof-docs`.
+- Aktueller Arbeitsbranch: `bp-148-legacy-write-paths`.
 - Nach Abschluss von BP-126 enthaelt Bluepilot ein separates TypeScript-Subpackage unter
   `builder/`.
 - BP-127 migriert die erste echte Builder-Code-Welle: 14 pure-logic Module unter `builder/src/`.
@@ -65,6 +65,11 @@
   `G-Dislioglu/bluepilot-sandbox` als Commit `5327082bb0804ff1728ee39b2744fcec79d32906`,
   ein zweiter Versuch wurde mit `already_consumed` blockiert, und das Bluepilot-Schreibfenster
   wurde wieder mit HTTP 403 `sandbox_permit_write_disabled` geschlossen.
+- BP-148 entschaerft die Legacy-Schreibpfade nach dem Permit-Beweis:
+  `/probe/sandbox-real-write` ist dauerhaft retired (HTTP 410), und
+  `/probe/sandbox-write-check` ist nur noch mit
+  `BLUEPILOT_SANDBOX_WRITE_CHECK_ENABLED=true` erreichbar. Der spaetere direkte Maya-Write soll
+  ueber Policy und One-Shot-Permits laufen, nicht ueber Legacy-Bypass-Endpunkte.
 
 ## Phasen
 
@@ -76,7 +81,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-147.
+- Hoechster Contract: BP-148.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -145,6 +150,10 @@
 - BP-147: Live proof documentation; dokumentiert den ersten echten permit-gated Sandbox-Write,
   den Reuse-Block `already_consumed`, den extern verifizierten Sandbox-Commit `5327082...` und
   den wieder geschlossenen Bluepilot-Zustand. Keine Code- oder Runtime-Aenderung.
+- BP-148: Legacy write path defuse; `/probe/sandbox-real-write` antwortet dauerhaft 410 und
+  kann auch mit altem Flag keinen Write mehr starten. `/probe/sandbox-write-check` bleibt als
+  Diagnosewerkzeug erhalten, ist aber default-off hinter
+  `BLUEPILOT_SANDBOX_WRITE_CHECK_ENABLED`. Der Permit-/Policy-Pfad bleibt unveraendert.
 
 ## Maya-Anbindung
 
@@ -173,9 +182,9 @@
 
 Nach BP-125 ist das Anker-Projekt abgeschlossen. Danach gibt es zwei saubere Optionen:
 
-1. Den alten `/probe/sandbox-real-write`-Pfad bewusst entschaerfen oder als Legacy markieren,
-   damit kuenftige echte Writes nicht versehentlich am Permit-System vorbei laufen.
-2. Separat entscheiden, ob `MAYA_BUILDER_WRITE_PERMIT_ENFORCEMENT` zur Dauerregel werden soll.
+1. Separat entscheiden, ob `MAYA_BUILDER_WRITE_PERMIT_ENFORCEMENT` zur Dauerregel werden soll.
+2. Mayas spaetere direkte Schreibautonomie als Policy-Entscheidung umsetzen: innerhalb enger
+   Regeln darf Maya selbst One-Shot-Permits ausstellen, ausserhalb eskaliert sie an den Menschen.
 3. Erst danach den Permit-Pfad von der festen Probe-Datei auf echte, begrenzte Builder-Aufgaben
    erweitern.
 
