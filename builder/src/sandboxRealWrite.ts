@@ -26,7 +26,7 @@ const SANDBOX_PROFILE_ID = 'bluepilot-sandbox';
 const SANDBOX_REPO = 'G-Dislioglu/bluepilot-sandbox';
 const SANDBOX_BRANCH = 'main';
 const SANDBOX_TARGET_FILE = '.bluepilot/phase-b-real-write.md';
-const RETIRED_REPLACEMENT = '/probe/sandbox-permit-write';
+const RETIRED_REPLACEMENT = '/probe/sandbox-write';
 
 export async function handleSandboxRealWriteRequest(
   request: IncomingMessage,

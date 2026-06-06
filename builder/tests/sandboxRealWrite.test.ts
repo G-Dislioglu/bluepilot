@@ -105,7 +105,7 @@ test('POST /probe/sandbox-real-write is retired even when the old endpoint env i
 
     assert.equal(response.status, 410);
     assert.equal(body.error, 'sandbox_real_write_retired');
-    assert.equal(body.replacement, '/probe/sandbox-permit-write');
+    assert.equal(body.replacement, '/probe/sandbox-write');
     assert.equal(called, false);
   });
 });
@@ -129,7 +129,7 @@ test('POST /probe/sandbox-real-write is retired even when the old endpoint env i
 
     assert.equal(response.status, 410);
     assert.equal(body.error, 'sandbox_real_write_retired');
-    assert.equal(body.replacement, '/probe/sandbox-permit-write');
+    assert.equal(body.replacement, '/probe/sandbox-write');
     assert.equal(called, false);
   });
 });

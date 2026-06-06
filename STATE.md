@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bp-148-legacy-write-paths`.
+- Aktueller Arbeitsbranch: `main`.
 - Nach Abschluss von BP-126 enthaelt Bluepilot ein separates TypeScript-Subpackage unter
   `builder/`.
 - BP-127 migriert die erste echte Builder-Code-Welle: 14 pure-logic Module unter `builder/src/`.
@@ -70,6 +70,12 @@
   `/probe/sandbox-write-check` ist nur noch mit
   `BLUEPILOT_SANDBOX_WRITE_CHECK_ENABLED=true` erreichbar. Der spaetere direkte Maya-Write soll
   ueber Policy und One-Shot-Permits laufen, nicht ueber Legacy-Bypass-Endpunkte.
+- BP-149 ersetzt den alten Permit-Demo-Trigger durch `POST /probe/sandbox-write`.
+  Die Env-Wache `BLUEPILOT_SANDBOX_PERMIT_WRITE_ENABLED=true` bleibt, aber
+  Losungswort, Permit-ID und fester Demo-Dateiname sind entfernt. Der Handler
+  akzeptiert nur `{ path, contentBase64 }`, validiert den Pfad, schreibt nur in
+  `G-Dislioglu/bluepilot-sandbox` und entscheidet per GitHub-SHA zwischen create
+  und update.
 
 ## Phasen
 
@@ -81,7 +87,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-148.
+- Hoechster Contract: BP-149.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -154,6 +160,11 @@
   kann auch mit altem Flag keinen Write mehr starten. `/probe/sandbox-write-check` bleibt als
   Diagnosewerkzeug erhalten, ist aber default-off hinter
   `BLUEPILOT_SANDBOX_WRITE_CHECK_ENABLED`. Der Permit-/Policy-Pfad bleibt unveraendert.
+- BP-149: Freie Maya-Sandbox-Steuerung Teil 1; neuer `POST /probe/sandbox-write`
+  akzeptiert nur `{ path, contentBase64 }`, nutzt weiter das Sandbox-Env-Gate und
+  schreibt wiederholbar per GitHub Contents API create/update in
+  `G-Dislioglu/bluepilot-sandbox`. Haupt-Builder-Korridor und SmartPush bleiben
+  unberuehrt.
 
 ## Maya-Anbindung
 

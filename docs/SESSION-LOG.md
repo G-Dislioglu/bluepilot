@@ -5,6 +5,17 @@
 
 ---
 
+## 2026-06-06 - BP-149 Maya sandbox write door
+
+- Gebaut: Der alte Permit-Demo-Trigger `/probe/sandbox-permit-write` wurde durch
+  `POST /probe/sandbox-write` ersetzt.
+- Die Env-Wache `BLUEPILOT_SANDBOX_PERMIT_WRITE_ENABLED=true` bleibt erhalten, aber
+  Losungswort, Permit-ID und fester Dateiname sind entfernt.
+- Der neue Handler akzeptiert nur `{ path, contentBase64 }`, validiert den Pfad,
+  schreibt ausschliesslich nach `G-Dislioglu/bluepilot-sandbox` und entscheidet per
+  GitHub-SHA zwischen create und update.
+- `/probe/sandbox-real-write` bleibt retired und zeigt nun auf `/probe/sandbox-write`.
+
 ## 2026-06-02 - Legacy-Schreibpfade entschaerft (BP-148)
 
 - Gebaut: Der alte `POST /probe/sandbox-real-write`-Pfad ist dauerhaft retired und antwortet

@@ -2,7 +2,7 @@ import { createServer } from 'node:http';
 
 import { handleHealthRequest } from './health.js';
 import { handleProbeDryRunRequest } from './probeDryRun.js';
-import { handleSandboxPermitWriteRequest } from './sandboxPermitWrite.js';
+import { handleSandboxWriteRequest } from './sandboxWrite.js';
 import { handleSandboxRealWriteRequest } from './sandboxRealWrite.js';
 import { handleSandboxWriteProbeRequest } from './sandboxWriteProbe.js';
 
@@ -11,7 +11,7 @@ const host = process.env.HOST ?? '0.0.0.0';
 
 const server = createServer((request, response) => {
   void (async () => {
-    if (await handleSandboxPermitWriteRequest(request, response)) {
+    if (await handleSandboxWriteRequest(request, response)) {
       return;
     }
 
