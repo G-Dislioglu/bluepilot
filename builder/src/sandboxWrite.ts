@@ -20,6 +20,12 @@ interface RequestBody {
   op?: unknown;
 }
 
+export interface SandboxWritePrevious {
+  existed: boolean;
+  sha?: string;
+  contentBase64?: string;
+}
+
 export interface SandboxWritePayload {
   service: 'bluepilot-builder';
   repository: typeof SANDBOX_REPO;
@@ -27,15 +33,17 @@ export interface SandboxWritePayload {
   path: string;
   timestamp: string;
   status: 'write_succeeded' | 'write_blocked';
+  op: 'write' | 'delete';
   contentLen: number;
   pushed: boolean;
   landed: boolean;
+  previous: SandboxWritePrevious;
   commit?: string;
   reason?: string;
 }
 
 type GitHubFileState =
-  | { exists: true; sha: string }
+  | { exists: true; sha: string; contentBase64: string }
   | { exists: false };
 
 const SANDBOX_REPO = 'G-Dislioglu/bluepilot-sandbox';
@@ -86,9 +94,19 @@ export async function handleSandboxWriteRequest(
     return true;
   }
 
-  let content: string;
+  let op: 'write' | 'delete';
   try {
-    content = decodeBase64Utf8(body.contentBase64);
+    op = normalizeOperation(body.op);
+  } catch {
+    writeJson(response, 400, { error: 'invalid_operation' });
+    return true;
+  }
+
+  let content = '';
+  try {
+    if (op === 'write') {
+      content = decodeBase64Utf8(body.contentBase64);
+    }
   } catch (error) {
     writeJson(response, 400, { error: error instanceof Error ? error.message : 'invalid_content_base64' });
     return true;
@@ -106,6 +124,26 @@ export async function handleSandboxWriteRequest(
 
   try {
     const state = await getSandboxFileState(path, token, fetchImpl);
+    const previous = summarizePreviousState(state);
+
+    if (op === 'delete') {
+      if (!state.exists) {
+        writeJson(response, 200, summarizeBlockedSandboxWriteResult({
+          path,
+          content,
+          op,
+          now,
+          previous,
+          reason: 'delete_target_missing',
+        }));
+        return true;
+      }
+
+      const result = await deleteSandboxFile(path, state.sha, token, fetchImpl);
+      writeJson(response, 200, summarizeDeletedSandboxWriteResult(result, path, now, previous));
+      return true;
+    }
+
     const putMode: PutFileContentMode = state.exists
       ? { op: 'update', expectedBaseSha: state.sha }
       : { op: 'create', expectedBaseSha: '' };
@@ -120,7 +158,7 @@ export async function handleSandboxWriteRequest(
       putMode,
     );
 
-    writeJson(response, 200, summarizeSandboxWriteResult(result, path, content, now));
+    writeJson(response, 200, summarizeSandboxWriteResult(result, path, content, now, previous));
   } catch (error) {
     writeJson(response, 500, {
       error: 'sandbox_write_failed',
@@ -136,6 +174,7 @@ function summarizeSandboxWriteResult(
   path: string,
   content: string,
   now = new Date(),
+  previous: SandboxWritePrevious,
 ): SandboxWritePayload {
   const pushed = Boolean(result.success && result.commitSha);
 
@@ -146,11 +185,69 @@ function summarizeSandboxWriteResult(
     path,
     timestamp: now.toISOString(),
     status: pushed ? 'write_succeeded' : 'write_blocked',
+    op: 'write',
     contentLen: Buffer.byteLength(content, 'utf8'),
     pushed,
     landed: pushed,
+    previous,
     ...(result.commitSha ? { commit: result.commitSha } : {}),
     ...(!pushed ? { reason: result.error || 'write_not_landed' } : {}),
+  };
+}
+
+function summarizeDeletedSandboxWriteResult(
+  result: { success: boolean; commitSha?: string; error?: string },
+  path: string,
+  now: Date,
+  previous: SandboxWritePrevious,
+): SandboxWritePayload {
+  const pushed = Boolean(result.success && result.commitSha);
+
+  return {
+    service: 'bluepilot-builder',
+    repository: SANDBOX_REPO,
+    branch: SANDBOX_BRANCH,
+    path,
+    timestamp: now.toISOString(),
+    status: pushed ? 'write_succeeded' : 'write_blocked',
+    op: 'delete',
+    contentLen: 0,
+    pushed,
+    landed: pushed,
+    previous,
+    ...(result.commitSha ? { commit: result.commitSha } : {}),
+    ...(!pushed ? { reason: result.error || 'delete_not_landed' } : {}),
+  };
+}
+
+function summarizeBlockedSandboxWriteResult({
+  path,
+  content,
+  op,
+  now,
+  previous,
+  reason,
+}: {
+  path: string;
+  content: string;
+  op: 'write' | 'delete';
+  now: Date;
+  previous: SandboxWritePrevious;
+  reason: string;
+}): SandboxWritePayload {
+  return {
+    service: 'bluepilot-builder',
+    repository: SANDBOX_REPO,
+    branch: SANDBOX_BRANCH,
+    path,
+    timestamp: now.toISOString(),
+    status: 'write_blocked',
+    op,
+    contentLen: Buffer.byteLength(content, 'utf8'),
+    pushed: false,
+    landed: false,
+    previous,
+    reason,
   };
 }
 
@@ -164,12 +261,19 @@ async function getSandboxFileState(path: string, token: string, fetchImpl: Fetch
   });
 
   if (response.ok) {
-    const body = await response.json() as { sha?: unknown };
+    const body = await response.json() as { sha?: unknown; content?: unknown; encoding?: unknown };
     if (typeof body.sha !== 'string' || !body.sha) {
       throw new Error('github_file_sha_missing');
     }
 
-    return { exists: true, sha: body.sha };
+    const contentBase64 = typeof body.content === 'string'
+      ? body.content.replace(/\s+/g, '')
+      : '';
+    if (body.encoding !== 'base64' || !contentBase64) {
+      throw new Error('github_file_content_missing');
+    }
+
+    return { exists: true, sha: body.sha, contentBase64 };
   }
 
   if (response.status === 404) {
@@ -177,6 +281,51 @@ async function getSandboxFileState(path: string, token: string, fetchImpl: Fetch
   }
 
   throw new Error(`github_file_inspect_failed:${response.status}`);
+}
+
+function summarizePreviousState(state: GitHubFileState): SandboxWritePrevious {
+  if (!state.exists) {
+    return { existed: false };
+  }
+
+  return {
+    existed: true,
+    sha: state.sha,
+    contentBase64: state.contentBase64,
+  };
+}
+
+async function deleteSandboxFile(
+  path: string,
+  sha: string,
+  token: string,
+  fetchImpl: FetchLike,
+): Promise<{ success: boolean; commitSha?: string; error?: string }> {
+  const url = `https://api.github.com/repos/${SANDBOX_OWNER}/${SANDBOX_NAME}/contents/${encodePath(path)}`;
+  const response = await fetchImpl(url, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `token ${token}`,
+      Accept: 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      message: `Maya sandbox undo: ${path}`,
+      sha,
+      branch: SANDBOX_BRANCH,
+    }),
+  });
+  const body = await response.json().catch(() => null) as { commit?: { sha?: unknown }; message?: unknown } | null;
+
+  if (!response.ok) {
+    const detail = typeof body?.message === 'string' ? body.message : `http_${response.status}`;
+    return { success: false, error: `delete_failed:${detail}` };
+  }
+
+  const commitSha = typeof body?.commit?.sha === 'string' ? body.commit.sha : '';
+  return commitSha
+    ? { success: true, commitSha }
+    : { success: false, error: 'delete_commit_missing' };
 }
 
 function normalizeSandboxPath(value: unknown): string {
@@ -224,6 +373,18 @@ function decodeBase64Utf8(value: unknown): string {
   }
 
   return base64Utf8Decoder.decode(decoded);
+}
+
+function normalizeOperation(value: unknown): 'write' | 'delete' {
+  if (value === undefined || value === null || value === '' || value === 'write') {
+    return 'write';
+  }
+
+  if (value === 'delete') {
+    return 'delete';
+  }
+
+  throw new Error('invalid_operation');
 }
 
 async function readJsonBody(request: IncomingMessage): Promise<RequestBody> {

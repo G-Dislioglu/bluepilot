@@ -176,7 +176,7 @@ test('POST /probe/sandbox-write creates missing files and updates existing files
       getCount += 1;
       return getCount === 1
         ? jsonResponse(404, {})
-        : jsonResponse(200, { sha: 'existing-sha' });
+        : jsonResponse(200, { sha: 'existing-sha', content: encodeBase64Utf8('old\n'), encoding: 'base64' });
     }) as unknown as HandlerOptions['fetchImpl'],
     putFileContentImpl: async (...args) => {
       calls.push(args);
@@ -192,13 +192,31 @@ test('POST /probe/sandbox-write creates missing files and updates existing files
           contentBase64: encodeBase64Utf8(content),
         }),
       });
-      const body = await response.json() as { status: string; pushed: boolean; landed: boolean; commit: string; path: string };
+      const body = await response.json() as {
+        status: string;
+        pushed: boolean;
+        landed: boolean;
+        commit: string;
+        path: string;
+        op: string;
+        previous: { existed: boolean; sha?: string; contentBase64?: string };
+      };
 
       assert.equal(response.status, 200);
       assert.equal(body.status, 'write_succeeded');
       assert.equal(body.pushed, true);
       assert.equal(body.landed, true);
       assert.equal(body.path, '.bluepilot/maya/task.md');
+      assert.equal(body.op, 'write');
+      if (content === 'first\n') {
+        assert.deepEqual(body.previous, { existed: false });
+      } else {
+        assert.deepEqual(body.previous, {
+          existed: true,
+          sha: 'existing-sha',
+          contentBase64: encodeBase64Utf8('old\n'),
+        });
+      }
     }
   });
 
@@ -233,6 +251,96 @@ test('POST /probe/sandbox-write returns write_blocked when put does not land', a
     assert.equal(body.pushed, false);
     assert.equal(body.landed, false);
     assert.equal(body.reason, 'put_failed');
+  });
+});
+
+test('POST /probe/sandbox-write deletes existing files for undo', async () => {
+  const fetchCalls: Array<{ url: string; method: string }> = [];
+
+  await withProbeServer({
+    env: { BLUEPILOT_SANDBOX_PERMIT_WRITE_ENABLED: 'true', GITHUB_TOKEN: 'token' },
+    now: new Date('2026-06-06T12:00:00.000Z'),
+    fetchImpl: (async (url: string | URL | Request, init?: RequestInit) => {
+      fetchCalls.push({ url: String(url), method: init?.method || 'GET' });
+      if (init?.method === 'DELETE') {
+        return jsonResponse(200, { commit: { sha: 'delete-commit' } });
+      }
+
+      return jsonResponse(200, {
+        sha: 'existing-sha',
+        content: encodeBase64Utf8('previous\n'),
+        encoding: 'base64',
+      });
+    }) as unknown as HandlerOptions['fetchImpl'],
+  }, async (url) => {
+    const response = await fetch(`${url}/probe/sandbox-write`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        path: '.bluepilot/maya/task.md',
+        op: 'delete',
+      }),
+    });
+    const body = await response.json() as {
+      status: string;
+      pushed: boolean;
+      landed: boolean;
+      commit: string;
+      op: string;
+      previous: { existed: boolean; sha?: string; contentBase64?: string };
+    };
+
+    assert.equal(response.status, 200);
+    assert.equal(body.status, 'write_succeeded');
+    assert.equal(body.pushed, true);
+    assert.equal(body.landed, true);
+    assert.equal(body.commit, 'delete-commit');
+    assert.equal(body.op, 'delete');
+    assert.deepEqual(body.previous, {
+      existed: true,
+      sha: 'existing-sha',
+      contentBase64: encodeBase64Utf8('previous\n'),
+    });
+  });
+
+  assert.deepEqual(fetchCalls.map((call) => call.method), ['GET', 'DELETE']);
+});
+
+test('POST /probe/sandbox-write blocks delete when file is missing', async () => {
+  let deleteCalled = false;
+
+  await withProbeServer({
+    env: { BLUEPILOT_SANDBOX_PERMIT_WRITE_ENABLED: 'true', GITHUB_TOKEN: 'token' },
+    fetchImpl: (async (_url: string | URL | Request, init?: RequestInit) => {
+      if (init?.method === 'DELETE') {
+        deleteCalled = true;
+      }
+      return jsonResponse(404, {});
+    }) as unknown as HandlerOptions['fetchImpl'],
+  }, async (url) => {
+    const response = await fetch(`${url}/probe/sandbox-write`, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        path: '.bluepilot/maya/missing.md',
+        op: 'delete',
+      }),
+    });
+    const body = await response.json() as {
+      status: string;
+      pushed: boolean;
+      landed: boolean;
+      reason: string;
+      previous: { existed: boolean };
+    };
+
+    assert.equal(response.status, 200);
+    assert.equal(body.status, 'write_blocked');
+    assert.equal(body.pushed, false);
+    assert.equal(body.landed, false);
+    assert.equal(body.reason, 'delete_target_missing');
+    assert.deepEqual(body.previous, { existed: false });
+    assert.equal(deleteCalled, false);
   });
 });
 
