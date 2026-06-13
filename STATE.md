@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-015-live-aicos-fetch-cache-contract`.
+- Aktueller Arbeitsbranch: `bpk-016-pr-review-manual-receipts`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -126,6 +126,9 @@
 - BPK-015 ergaenzt einen side-effect-freien Live-AICOS-Fetch-/Cache-Readiness-Vertrag. Endpoint-
   Referenz, Auth-Referenz, Cache-TTL, Stale-Verhalten, Quarantaene und Fetch-Limits werden
   geprueft, ohne AICOS live aufzurufen oder Cache-Persistenz anzulegen.
+- BPK-016 ergaenzt einen side-effect-freien Manual-PR-/Review-Receipt-Normalizer. Operator-
+  uebergebene PR-Metadaten werden in BPK-012-kompatible Review-Records ueberfuehrt oder
+  quarantaenisiert, ohne GitHub aufzurufen.
 
 ## Phasen
 
@@ -137,7 +140,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-015.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-016.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -250,6 +253,8 @@
   Controls und Visual-Evidence-Gates hinzu. Keine UI-Dateien.
 - BPK-015: Live AICOS fetch/cache contract; fuegt eine reine Readiness-Klassifizierung fuer
   Endpoint/Auth/Cache/Quarantaene hinzu. Kein Live-Fetch, kein Cache-Write.
+- BPK-016: PR review manual receipts; fuegt eine reine Normalisierungsschicht fuer manuell
+  uebergebene PR-/Review-Receipts hinzu. Kein GitHub-Connector, kein Merge.
 
 ## Maya-Anbindung
 
@@ -276,18 +281,15 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-015 ist die angeforderte Viererfolge abgeschlossen: PR/Review Execution, Runtime
-Dry-Run Adapter Contract, Cockpit UI Implementation Plan und Live AICOS Fetch/Cache Contract
-liegen als reine Contract-/Planungsschicht vor.
+Nach BPK-016 ist die manuelle PR/Review-Receipt-Schicht vorbereitet. Der naechste Block darf nur
+Runtime Dry-Run Route Contract oeffnen.
 
 Naechste Hauptbloecke:
 
-1. PR/Review Connector oder manuelle PR-Ausfuehrung: echte PR-Metadaten einsammeln und gegen
-   BPK-012 pruefen.
-2. Runtime Dry-Run Route: BPK-013 bewusst in eine Route verdrahten, falls Operator und Checks
+1. Runtime Dry-Run Route: BPK-013 bewusst in eine Route verdrahten, falls Operator und Checks
    zustimmen.
-3. Cockpit Read-Only UI: BPK-014 mit Browser-/Screenshot-Evidence umsetzen.
-4. Live AICOS Connector: BPK-015 mit BPK-010 Intake verbinden, erst mit Auth-/Cache-Gate.
+2. Cockpit Read-Only UI: BPK-014 mit Browser-/Screenshot-Evidence umsetzen.
+3. Live AICOS Connector: BPK-015 mit BPK-010 Intake verbinden, erst mit Auth-/Cache-Gate.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:

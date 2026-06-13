@@ -5,6 +5,18 @@
 
 ---
 
+## 2026-06-13 - BPK-016 PR Review Manual Receipts
+
+- Gebaut: `builder/src/bpkPrReviewManualReceipts.ts` als side-effect-freier Normalizer fuer
+  manuell uebergebene PR-/Review-Receipts.
+- Verhalten: Gueltige Receipts werden zu BPK-012-kompatiblen Review-Records; ungueltige PR-URLs,
+  Decisions, Checks, fehlende Commits oder doppelte Tasks werden quarantaenisiert.
+- Sicherheitsentscheidung: Kein GitHub-Connector, keine PR-Erstellung, kein Merge, kein Workflow,
+  keine Runtime und keine UI.
+- Beweis: fokussierter Manual-Receipt-Test und Typecheck muessen vor Commit gruen sein.
+- Roter Faden weiter: Runtime Dry-Run Route Contract darf erst nach BPK-016-Verify und
+  Review-Packet geoeffnet werden.
+
 ## 2026-06-13 - BPK-015 Live AICOS Fetch/Cache Contract
 
 - Gebaut: `builder/src/liveAicosFetchCacheContract.ts` als side-effect-freier Readiness-Vertrag

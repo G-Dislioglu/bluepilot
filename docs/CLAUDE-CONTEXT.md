@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-015-live-aicos-fetch-cache-contract`.
+- Aktueller BPK-Arbeitsbranch: `bpk-016-pr-review-manual-receipts`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -149,6 +149,9 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 - BPK-015: `builder/src/liveAicosFetchCacheContract.ts` klassifiziert Live-AICOS-Fetch-/Cache-
   Readiness. Endpoint- und Auth-Referenzen, TTL, Stale-Verhalten, Quarantaene und Limits werden
   geprueft. Es gibt keinen Live-Fetch und keinen Cache-Write.
+- BPK-016: `builder/src/bpkPrReviewManualReceipts.ts` normalisiert manuell uebergebene PR-/
+  Review-Receipts in BPK-012-kompatible Records oder Quarantaene. Es gibt keinen GitHub-
+  Connector und keinen Merge.
 
 ## Maya-Anbindung
 
@@ -194,19 +197,18 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-015 ist die angeforderte Viererfolge abgeschlossen, wenn:
+Nach BPK-016 darf erst Runtime Dry-Run Route Contract geoeffnet werden, wenn:
 
-- das Review-Packet fuer BPK-015 existiert,
-- `npx tsx --test tests/liveAicosFetchCacheContract.test.ts` und `npm run typecheck` in
+- das Review-Packet fuer BPK-016 existiert,
+- `npx tsx --test tests/bpkPrReviewManualReceipts.test.ts` und `npm run typecheck` in
   `builder/` gruen sind,
-- `node tools/verify-task-lock.cjs BPK-015 --verify` gruen ist,
+- `node tools/verify-task-lock.cjs BPK-016 --verify` gruen ist,
 - `git diff --check` gruen ist,
 - keine Runtime-, Auth-, DB-, Deploy-, Live-Write-, GitHub-Merge-, Live-AICOS- oder UI-Freigabe
   still mitgezogen wurde.
 
 Naechste Hauptbloecke:
 
-1. PR/Review Connector oder manuelle PR-Ausfuehrung.
-2. Runtime Dry-Run Route.
-3. Cockpit Read-Only UI.
-4. Live AICOS Connector.
+1. Runtime Dry-Run Route.
+2. Cockpit Read-Only UI.
+3. Live AICOS Connector.
