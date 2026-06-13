@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-009-cockpit-projection-adoption-contract`.
+- Aktueller Arbeitsbranch: `bpk-010-live-aicos-card-binding-intake`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -108,6 +108,9 @@
 - BPK-009 ergaenzt einen side-effect-freien Cockpit-Projection-Adoption-Vertrag. Er wandelt
   Readiness- und Runtime-Integrationsstatus in ein Cockpit-ViewModel fuer spaetere UI-Adoption,
   ohne UI-Dateien, Routen oder Runtime-Aktionen zu bauen.
+- BPK-010 ergaenzt einen side-effect-freien AICOS-Card-Intake-Normalizer. Angelieferte Card-
+  Snapshots werden validiert, normalisiert, dedupliziert und bei Fehlern quarantaenisiert, ohne
+  AICOS live aufzurufen.
 
 ## Phasen
 
@@ -119,7 +122,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-009.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-010.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -220,6 +223,8 @@
 - BPK-009: Cockpit projection adoption contract; fuegt ein reines Cockpit-ViewModel fuer
   Operator-Inspection hinzu. Blockierte und Review-Zustaende bleiben sichtbar, aber nicht
   ausfuehrbar.
+- BPK-010: Live AICOS/Card binding intake; fuegt eine reine Intake-Schicht hinzu, die
+  uebergebene AICOS-Card-Snapshots prueft und nur sichere DispatchConditionCard-Daten weitergibt.
 
 ## Maya-Anbindung
 
@@ -246,15 +251,12 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-009 ist Cockpit Projection Adoption als Contract-Schicht vorbereitet. UI und Runtime
-bleiben geschlossen; der naechste Block darf nur Live AICOS/Card Binding als Intake-Vertrag
-oeffnen.
+Nach BPK-010 ist Live AICOS/Card Binding als Intake-Schicht vorbereitet. Es gibt weiterhin keinen
+Live-Fetch; der naechste Block darf nur Merge/Release Sequencing oeffnen.
 
 Naechste Hauptbloecke:
 
-1. Live AICOS/Card Binding: echte Card-Snapshots nur ueber einen eigenen Intake-/Cache-Vertrag
-   anbinden.
-2. Merge/Release Sequencing: BPK-Branches in sicherer Reihenfolge reviewen, mergen und ggf.
+1. Merge/Release Sequencing: BPK-Branches in sicherer Reihenfolge reviewen, mergen und ggf.
    Release Notes schneiden.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption

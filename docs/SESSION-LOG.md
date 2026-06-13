@@ -5,6 +5,19 @@
 
 ---
 
+## 2026-06-13 - BPK-010 Live AICOS/Card Binding Intake
+
+- Gebaut: `builder/src/aicosCardBindingIntake.ts` als side-effect-freier Intake-Normalizer fuer
+  angelieferte AICOS-Card-Snapshots.
+- Verhalten: Gueltige Snapshots werden zu `DispatchConditionCard`-kompatiblen Daten; ungueltige,
+  doppelte, unsafe-path oder evidence-lose Snapshots werden mit deterministischen Gruenden
+  quarantaenisiert.
+- Sicherheitsentscheidung: Kein Live-AICOS-Aufruf, kein Cache, keine Persistenz, keine Route,
+  kein Provider, keine DB, kein GitHub-Write und keine UI. Dispatch-Semantik bleibt unveraendert.
+- Beweis: fokussierter AICOS-Card-Intake-Test und Typecheck muessen vor Commit gruen sein.
+- Roter Faden weiter: BPK Branch Merge/Release Sequencing darf erst nach BPK-010-Verify und
+  Review-Packet geoeffnet werden.
+
 ## 2026-06-13 - BPK-009 Cockpit Projection Adoption Contract
 
 - Gebaut: `builder/src/cockpitProjectionAdoptionContract.ts` als side-effect-freier Cockpit-
