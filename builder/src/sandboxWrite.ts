@@ -2,22 +2,23 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import { TextDecoder } from 'node:util';
 
 import { outboundFetch } from './outboundHttp.js';
-import { putFileContent, type PutFileContentMode } from './opusPatchMode.js';
+import { smartPush } from './opusSmartPush.js';
 
-type PutFileContentImpl = typeof putFileContent;
+type SmartPushImpl = typeof smartPush;
 type FetchLike = typeof outboundFetch;
 
 interface SandboxWriteOptions {
   env?: NodeJS.ProcessEnv;
   now?: Date;
   fetchImpl?: FetchLike;
-  putFileContentImpl?: PutFileContentImpl;
+  smartPushImpl?: SmartPushImpl;
 }
 
 interface RequestBody {
   path?: unknown;
   contentBase64?: unknown;
   op?: unknown;
+  permitId?: unknown;
 }
 
 export interface SandboxWritePrevious {
@@ -38,6 +39,8 @@ export interface SandboxWritePayload {
   pushed: boolean;
   landed: boolean;
   previous: SandboxWritePrevious;
+  permitId?: string;
+  permitOp?: 'create' | 'update';
   commit?: string;
   reason?: string;
 }
@@ -112,6 +115,22 @@ export async function handleSandboxWriteRequest(
     return true;
   }
 
+  if (op === 'delete') {
+    writeJson(response, 403, {
+      error: 'sandbox_delete_requires_dedicated_permit',
+      reason: 'delete_undo_permit_not_contractualized',
+    });
+    return true;
+  }
+
+  let permitId: string;
+  try {
+    permitId = normalizePermitId(body.permitId);
+  } catch {
+    writeJson(response, 400, { error: 'permit_id_required' });
+    return true;
+  }
+
   const token = env.GITHUB_PAT || env.GITHUB_TOKEN || env.GH_TOKEN || '';
   if (!token) {
     writeJson(response, 500, { error: 'github_token_missing' });
@@ -119,46 +138,35 @@ export async function handleSandboxWriteRequest(
   }
 
   const fetchImpl = options.fetchImpl ?? outboundFetch;
-  const putFileContentImpl = options.putFileContentImpl ?? putFileContent;
+  const smartPushImpl = options.smartPushImpl ?? smartPush;
   const now = options.now ?? new Date();
 
   try {
     const state = await getSandboxFileState(path, token, fetchImpl);
     const previous = summarizePreviousState(state);
 
-    if (op === 'delete') {
-      if (!state.exists) {
-        writeJson(response, 200, summarizeBlockedSandboxWriteResult({
-          path,
-          content,
-          op,
-          now,
-          previous,
-          reason: 'delete_target_missing',
-        }));
-        return true;
-      }
-
-      const result = await deleteSandboxFile(path, state.sha, token, fetchImpl);
-      writeJson(response, 200, summarizeDeletedSandboxWriteResult(result, path, now, previous));
-      return true;
-    }
-
-    const putMode: PutFileContentMode = state.exists
-      ? { op: 'update', expectedBaseSha: state.sha }
-      : { op: 'create', expectedBaseSha: '' };
-    const result = await putFileContentImpl(
-      SANDBOX_OWNER,
-      SANDBOX_NAME,
-      path,
-      content,
+    const permitOp = state.exists ? 'update' : 'create';
+    const smartPushMode = state.exists ? 'overwrite' : 'create';
+    const baseSha = state.exists ? state.sha : '';
+    const result = await smartPushImpl(
+      [{
+        file: path,
+        mode: smartPushMode,
+        content,
+      }],
       `Maya sandbox write: ${path}`,
-      token,
-      fetchImpl,
-      putMode,
+      {
+        targetRepo: SANDBOX_REPO,
+        writePermit: {
+          permitId,
+          op: permitOp,
+          branch: SANDBOX_BRANCH,
+          baseSha,
+        },
+      },
     );
 
-    writeJson(response, 200, summarizeSandboxWriteResult(result, path, content, now, previous));
+    writeJson(response, 200, summarizeSandboxWriteResult(result, path, content, now, previous, permitId, permitOp));
   } catch (error) {
     writeJson(response, 500, {
       error: 'sandbox_write_failed',
@@ -170,13 +178,15 @@ export async function handleSandboxWriteRequest(
 }
 
 function summarizeSandboxWriteResult(
-  result: Awaited<ReturnType<PutFileContentImpl>>,
+  result: Awaited<ReturnType<SmartPushImpl>>,
   path: string,
   content: string,
   now = new Date(),
   previous: SandboxWritePrevious,
+  permitId: string,
+  permitOp: 'create' | 'update',
 ): SandboxWritePayload {
-  const pushed = Boolean(result.success && result.commitSha);
+  const pushed = Boolean(result.pushed && result.landed !== false);
 
   return {
     service: 'bluepilot-builder',
@@ -190,64 +200,10 @@ function summarizeSandboxWriteResult(
     pushed,
     landed: pushed,
     previous,
-    ...(result.commitSha ? { commit: result.commitSha } : {}),
+    permitId,
+    permitOp,
+    ...(result.commitHash ? { commit: result.commitHash } : {}),
     ...(!pushed ? { reason: result.error || 'write_not_landed' } : {}),
-  };
-}
-
-function summarizeDeletedSandboxWriteResult(
-  result: { success: boolean; commitSha?: string; error?: string },
-  path: string,
-  now: Date,
-  previous: SandboxWritePrevious,
-): SandboxWritePayload {
-  const pushed = Boolean(result.success && result.commitSha);
-
-  return {
-    service: 'bluepilot-builder',
-    repository: SANDBOX_REPO,
-    branch: SANDBOX_BRANCH,
-    path,
-    timestamp: now.toISOString(),
-    status: pushed ? 'write_succeeded' : 'write_blocked',
-    op: 'delete',
-    contentLen: 0,
-    pushed,
-    landed: pushed,
-    previous,
-    ...(result.commitSha ? { commit: result.commitSha } : {}),
-    ...(!pushed ? { reason: result.error || 'delete_not_landed' } : {}),
-  };
-}
-
-function summarizeBlockedSandboxWriteResult({
-  path,
-  content,
-  op,
-  now,
-  previous,
-  reason,
-}: {
-  path: string;
-  content: string;
-  op: 'write' | 'delete';
-  now: Date;
-  previous: SandboxWritePrevious;
-  reason: string;
-}): SandboxWritePayload {
-  return {
-    service: 'bluepilot-builder',
-    repository: SANDBOX_REPO,
-    branch: SANDBOX_BRANCH,
-    path,
-    timestamp: now.toISOString(),
-    status: 'write_blocked',
-    op,
-    contentLen: Buffer.byteLength(content, 'utf8'),
-    pushed: false,
-    landed: false,
-    previous,
-    reason,
   };
 }
 
@@ -293,39 +249,6 @@ function summarizePreviousState(state: GitHubFileState): SandboxWritePrevious {
     sha: state.sha,
     contentBase64: state.contentBase64,
   };
-}
-
-async function deleteSandboxFile(
-  path: string,
-  sha: string,
-  token: string,
-  fetchImpl: FetchLike,
-): Promise<{ success: boolean; commitSha?: string; error?: string }> {
-  const url = `https://api.github.com/repos/${SANDBOX_OWNER}/${SANDBOX_NAME}/contents/${encodePath(path)}`;
-  const response = await fetchImpl(url, {
-    method: 'DELETE',
-    headers: {
-      Authorization: `token ${token}`,
-      Accept: 'application/vnd.github.v3+json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      message: `Maya sandbox undo: ${path}`,
-      sha,
-      branch: SANDBOX_BRANCH,
-    }),
-  });
-  const body = await response.json().catch(() => null) as { commit?: { sha?: unknown }; message?: unknown } | null;
-
-  if (!response.ok) {
-    const detail = typeof body?.message === 'string' ? body.message : `http_${response.status}`;
-    return { success: false, error: `delete_failed:${detail}` };
-  }
-
-  const commitSha = typeof body?.commit?.sha === 'string' ? body.commit.sha : '';
-  return commitSha
-    ? { success: true, commitSha }
-    : { success: false, error: 'delete_commit_missing' };
 }
 
 function normalizeSandboxPath(value: unknown): string {
@@ -375,6 +298,19 @@ function decodeBase64Utf8(value: unknown): string {
   return base64Utf8Decoder.decode(decoded);
 }
 
+function normalizePermitId(value: unknown): string {
+  if (typeof value !== 'string') {
+    throw new Error('permit_id_required');
+  }
+
+  const permitId = value.trim();
+  if (!permitId || permitId.length > 160 || !/^[A-Za-z0-9._:-]+$/.test(permitId)) {
+    throw new Error('permit_id_required');
+  }
+
+  return permitId;
+}
+
 function normalizeOperation(value: unknown): 'write' | 'delete' {
   if (value === undefined || value === null || value === '' || value === 'write') {
     return 'write';
@@ -412,7 +348,7 @@ async function readJsonBody(request: IncomingMessage): Promise<RequestBody> {
     throw new Error('json_object_required');
   }
 
-  const allowed = new Set(['path', 'contentBase64', 'op']);
+  const allowed = new Set(['path', 'contentBase64', 'op', 'permitId']);
   const unexpected = Object.keys(parsed).find((key) => !allowed.has(key));
   if (unexpected) {
     throw new Error(`unexpected_field:${unexpected}`);

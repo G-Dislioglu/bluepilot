@@ -5,6 +5,22 @@
 
 ---
 
+## 2026-06-13 - BPK-002 Permit-Generalisierung
+
+- Gebaut: `POST /probe/sandbox-write` verlangt fuer Write-Operationen jetzt eine
+  syntaktisch enge `permitId`, bevor GitHub-Dateistatus oder Schreibkorridor beruehrt werden.
+- Gebaut: Der Endpoint nutzt nach read-only State-Inspection den bestehenden
+  `smartPush(..., { targetRepo, writePermit })`-Pfad als einzigen Consume-/Write-Korridor.
+  Neue Dateien werden als Permit-Op `create` gebunden, bestehende Dateien als `update`
+  mit aktueller `baseSha`.
+- Sicherheitsentscheidung: Delete/Undo wird in diesem Block bewusst vor jeder GitHub-Mutation
+  mit `sandbox_delete_requires_dedicated_permit` blockiert. Dafuer braucht es spaeter einen
+  eigenen Permit-Vertrag.
+- Beweis: `npm test` und `npm run typecheck` in `builder/` sind gruen. Die neuen Tests decken
+  Missing-Permit, Create/Update-Permit-Wiring, SmartPush-Blockpropagation und Delete-Block ab.
+- Roter Faden weiter: BPK-003 darf erst nach gruenem BPK-002-Verify und Review-Packet
+  geoeffnet werden.
+
 ## 2026-06-13 - BPK-001 Doc-Drift-Hygiene
 
 - Gebaut: Der neue Arbeitsanker `docs/CODEX-RICHTUNGSBRIEF-optimized.md` wurde aus dem

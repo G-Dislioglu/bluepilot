@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-001-doc-drift-hygiene`.
+- Aktueller BPK-Arbeitsbranch: `bpk-002-permit-generalisierung`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -106,6 +106,10 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
   Der Handler akzeptiert nur `{ path, contentBase64 }` plus optional `op`,
   validiert Pfade, schreibt nur in `G-Dislioglu/bluepilot-sandbox` und
   entscheidet per GitHub-SHA zwischen create/update beziehungsweise delete.
+- BPK-002: `POST /probe/sandbox-write` ist wieder an den bestehenden Permit-Korridor
+  gebunden. Write-Operationen verlangen `permitId`, bestimmen create/update plus `baseSha`
+  aus dem Sandbox-Dateistatus und rufen `smartPush(writePermit)` auf. Delete/Undo wird bis zu
+  einem eigenen Permit-Vertrag fail-closed blockiert.
 
 ## Maya-Anbindung
 
@@ -151,12 +155,11 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-001 darf erst BPK-002 geoeffnet werden, wenn:
+Nach BPK-002 darf erst BPK-003 geoeffnet werden, wenn:
 
-- `docs/CLAUDE-CONTEXT.md`, `docs/SESSION-LOG.md` und `STATE.md` BP-149-
-  konsistent sind,
-- das Review-Packet fuer BPK-001 existiert,
-- `node tools/verify-task-lock.cjs BPK-001 --verify` gruen ist,
+- das Review-Packet fuer BPK-002 existiert,
+- `npm test` und `npm run typecheck` in `builder/` gruen sind,
+- `node tools/verify-task-lock.cjs BPK-002 --verify` gruen ist,
 - `git diff --check` gruen ist,
-- keine Runtime-, Auth-, DB-, Deploy- oder Write-Freigabe still mitgezogen
-  wurde.
+- keine Runtime-, Auth-, DB-, Deploy- oder Live-Write-Freigabe still mitgezogen wurde,
+- Delete/Undo weiter blockiert bleibt, bis ein separater Permit-Vertrag existiert.

@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-001-doc-drift-hygiene`.
+- Aktueller Arbeitsbranch: `bpk-002-permit-generalisierung`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -83,6 +83,10 @@
   https://maya-core.onrender.com/api/maya/memory?origin=bluepilot` antwortet HTTP 401
   `{"error":"unauthorized"}`. Bewertung: `live-auth-required`; ohne Gate-Token wird
   kein authentifizierter Bluepilot-Memory-Erfolg behauptet.
+- BPK-002 generalisiert den Permit-Pfad auf `POST /probe/sandbox-write`: Write-Operationen
+  verlangen `permitId`, leiten nach read-only Sandbox-Dateistatus ueber
+  `smartPush(writePermit)` in `G-Dislioglu/bluepilot-sandbox` und blockieren Delete/Undo bis
+  zu einem dedizierten Permit-Vertrag.
 
 ## Phasen
 
@@ -94,7 +98,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-001.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-002.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -172,6 +176,10 @@
   schreibt wiederholbar per GitHub Contents API create/update in
   `G-Dislioglu/bluepilot-sandbox`. Haupt-Builder-Korridor und SmartPush bleiben
   unberuehrt.
+- BPK-002: Permit generalization; `POST /probe/sandbox-write` ist kein direkter
+  GitHub-Contents-Write mehr. Der Endpoint verlangt `permitId`, berechnet create/update plus
+  `baseSha` aus dem Sandbox-Dateistatus und ruft den bestehenden `smartPush(writePermit)`-
+  Korridor auf. Delete/Undo bleibt fail-closed.
 
 ## Maya-Anbindung
 
@@ -198,16 +206,16 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-001 ist der Anker wieder BP-149-konsistent. Danach ist der BPK-Pfad massgeblich:
+Nach BPK-002 ist der Sandbox-Write wieder an den bestehenden Permit-Korridor gebunden. Danach
+ist der BPK-Pfad massgeblich:
 
-1. BPK-002 Permit-Generalisierung.
-2. BPK-003 WorkerPacket-to-WLP-Adapter.
-3. Card-Conditioned Dispatch.
-4. Pre-Registered Claims.
-5. CLI-Deduplizierung / Schema-Generierung.
-6. Dispatch / Frontend zuletzt.
+1. BPK-003 WorkerPacket-to-WLP-Adapter.
+2. Card-Conditioned Dispatch.
+3. Pre-Registered Claims.
+4. CLI-Deduplizierung / Schema-Generierung.
+5. Dispatch / Frontend zuletzt.
 
-Die alten Optionen bleiben historische Richtung, werden aber nicht vor BPK-002 gezogen:
+Die alten Optionen bleiben historische Richtung, werden aber nicht vor BPK-003 gezogen:
 
 1. Separat entscheiden, ob `MAYA_BUILDER_WRITE_PERMIT_ENFORCEMENT` zur Dauerregel werden soll.
 2. Mayas spaetere direkte Schreibautonomie als Policy-Entscheidung umsetzen: innerhalb enger
