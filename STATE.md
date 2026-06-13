@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-013-runtime-dry-run-adapter-contract`.
+- Aktueller Arbeitsbranch: `bpk-014-cockpit-ui-implementation-plan`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -120,6 +120,9 @@
 - BPK-013 ergaenzt einen side-effect-freien Runtime-Dry-Run-Adapter-Vertrag. Er erzeugt aus dem
   Runtime-Integrationsvertrag eine trockene Invocation-Planung mit geschlossenen Provider-, DB-,
   GitHub-, Deploy- und Runtime-Route-Gates.
+- BPK-014 ergaenzt einen side-effect-freien Cockpit-UI-Implementation-Planer. Er erzeugt aus dem
+  Cockpit-Projection-Vertrag Screens, deaktivierte Controls und Visual-Evidence-Gates, ohne UI-
+  Dateien zu erstellen.
 
 ## Phasen
 
@@ -131,7 +134,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-013.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-014.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -240,6 +243,8 @@
   und Review-Metadaten hinzu. Keine PR-Erstellung, kein Merge, kein GitHub-API-Aufruf.
 - BPK-013: Runtime dry-run adapter contract; fuegt eine reine Adapter-Planung fuer trockene
   Runtime-Invocation hinzu. Keine Route, kein Orchestrator-Aufruf, kein Provider, kein Write.
+- BPK-014: Cockpit UI implementation plan; fuegt eine reine Planungsfunktion fuer Screens,
+  Controls und Visual-Evidence-Gates hinzu. Keine UI-Dateien.
 
 ## Maya-Anbindung
 
@@ -266,13 +271,12 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-013 ist Runtime Dry-Run Adapter als Contract-Schicht vorbereitet. Runtime bleibt
-unangetastet; der naechste Block darf nur Cockpit UI Implementation Plan oeffnen.
+Nach BPK-014 ist Cockpit UI Implementation als Plan vorbereitet. Es gibt weiterhin keine UI-
+Dateien; der naechste Block darf nur Live AICOS Fetch/Cache als Contract oeffnen.
 
 Naechste Hauptbloecke:
 
-1. Cockpit UI Implementation: erst nach Contract-Stabilitaet und mit Sicht-Test-Evidence.
-2. Live AICOS Fetch/Cache: erst nach Intake-Stabilitaet und mit Auth-/Cache-Vertrag.
+1. Live AICOS Fetch/Cache: erst nach Intake-Stabilitaet und mit Auth-/Cache-Vertrag.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:

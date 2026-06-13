@@ -5,6 +5,19 @@
 
 ---
 
+## 2026-06-13 - BPK-014 Cockpit UI Implementation Plan
+
+- Gebaut: `builder/src/cockpitUiImplementationPlan.ts` als side-effect-freier Planer fuer eine
+  spaetere Cockpit-UI-Umsetzung.
+- Verhalten: Der Plan erzeugt Screens, deaktivierte Controls, Visual-Evidence-Gates und
+  naechste Aktionen aus dem Cockpit-Projection-Vertrag. Invalides Modell oder aktivierte
+  Executable Actions blockieren.
+- Sicherheitsentscheidung: Keine UI-Dateien, kein CSS/HTML/React, keine Route, kein Screenshot,
+  keine Runtime-Aktion und keine Package-/Deploy-Aenderung.
+- Beweis: fokussierter Cockpit-UI-Plan-Test und Typecheck muessen vor Commit gruen sein.
+- Roter Faden weiter: Live AICOS Fetch/Cache Contract darf erst nach BPK-014-Verify und
+  Review-Packet geoeffnet werden.
+
 ## 2026-06-13 - BPK-013 Runtime Dry-Run Adapter Contract
 
 - Gebaut: `builder/src/runtimeDryRunAdapterContract.ts` als side-effect-freier Adapter-Vertrag
