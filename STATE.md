@@ -144,6 +144,10 @@
 - BPK-021 mountet eine default-off Cockpit-Read-Only-Route unter `/cockpit/read-only`. Sie
   rendert BPK-018-HTML als Sample-Preview oder aus uebergebenem Cockpit-Modell, ohne Runtime-,
   Provider-, DB-, GitHub- oder Live-AICOS-Aktion.
+- BPK-022 ergaenzt einen isolierten Live-AICOS-Network-Connector. Er fetched nur bei ready
+  BPK-015-Vertrag, HTTPS-URL und Auth-Token-Provider und routet Payloads sofort durch BPK-019,
+  ohne Route, Scheduler, Cache-Persistenz, DB, GitHub, Cockpit-Live-Quelle oder Runtime-
+  Ausfuehrung.
 
 ## Phasen
 
@@ -155,7 +159,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-021.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-022.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -280,6 +284,9 @@
   Contract-Plan zurueckgibt. Kein Orchestrator, kein Provider, kein Write.
 - BPK-021: Cockpit route mounting read-only; mountet eine default-off Route fuer statisches
   Cockpit HTML. Keine ausfuehrbaren Actions, keine Live-Datenquelle.
+- BPK-022: Live AICOS network connector; fetched Card-Payloads nur ueber explizite HTTPS-URL
+  und Auth-Token-Provider bei ready Fetch-/Cache-Vertrag und leitet danach durch Intake. Keine
+  Route, keine Persistenz, keine Cockpit- oder Runtime-Verdrahtung.
 
 ## Maya-Anbindung
 
@@ -306,13 +313,14 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-021 ist der Hauptblock Cockpit Route Mounting abgeschlossen: die Route ist gemountet,
-aber default-off und read-only.
+Nach BPK-022 ist der Hauptblock Live AICOS Network Connector abgeschlossen: Der Fetch-Layer
+existiert, bleibt aber ungemountet und ohne Persistenz.
 
 Naechste Hauptbloecke:
 
-1. Live AICOS Network Connector: echten Fetch hinter BPK-015 und BPK-019 legen.
-2. Branch/PR Consolidation: BPK-012 bis BPK-021 reviewen und in Merge-Reihenfolge bringen.
+1. Branch/PR Consolidation: BPK-012 bis BPK-022 reviewen und in Merge-Reihenfolge bringen.
+2. Cockpit Live Model Source Decision: entscheiden, ob BPK-022 Daten spaeter in BPK-009/BPK-018
+   Cockpit-Modelle speisen darf.
 3. Runtime Execution Decision: entscheiden, ob `/probe/runtime-dry-run` jemals echte dry-run
    Ausfuehrung statt nur Contract-Plan liefern darf.
 

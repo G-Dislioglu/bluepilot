@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-021-cockpit-route-mounting-read-only`.
+- Aktueller BPK-Arbeitsbranch: `bpk-022-live-aicos-network-connector`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -167,6 +167,10 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 - BPK-021: `builder/src/cockpitReadOnlyRoute.ts` mountet ueber `server.ts` eine default-off
   Route `/cockpit/read-only`. Sie rendert statisches Cockpit-HTML aus BPK-018, ohne Runtime-
   oder Live-Datenquelle.
+- BPK-022: `builder/src/liveAicosNetworkConnector.ts` fetched Live-AICOS-Card-Payloads nur bei
+  ready BPK-015-Vertrag, HTTPS-URL und Auth-Token-Provider und routet sie sofort durch BPK-019.
+  Es gibt keine Route, keine Cache-Persistenz, keine DB, keine GitHub-Aktion und keine Cockpit-
+  Live-Datenquelle.
 
 ## Maya-Anbindung
 
@@ -212,19 +216,18 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-021 ist Cockpit Route Mounting abgeschlossen, wenn:
+Nach BPK-022 ist Live AICOS Network Connector abgeschlossen, wenn:
 
-- das Review-Packet fuer BPK-021 existiert,
-- `npx tsx --test tests/cockpitReadOnlyRoute.test.ts` und `npm run typecheck` in
+- das Review-Packet fuer BPK-022 existiert,
+- `npx tsx --test tests/liveAicosNetworkConnector.test.ts` und `npm run typecheck` in
   `builder/` gruen sind,
-- eine lokale Playwright-Route-Screenshot-Evidence erzeugt und geprueft wurde,
-- `node tools/verify-task-lock.cjs BPK-021 --verify` gruen ist,
+- `node tools/verify-task-lock.cjs BPK-022 --verify` gruen ist,
 - `git diff --check` gruen ist,
-- keine Runtime-, Auth-, DB-, Deploy-, Live-Write-, GitHub-Merge-, Live-AICOS- oder UI-Freigabe
-  still mitgezogen wurde.
+- keine Route, kein Scheduler, kein Cache-Write, keine DB, kein GitHub, keine Cockpit-Live-
+  Datenquelle und keine Runtime-Ausfuehrung still mitgezogen wurde.
 
 Naechste Hauptbloecke:
 
-1. Live AICOS Network Connector.
-2. Branch/PR Consolidation.
+1. Branch/PR Consolidation.
+2. Cockpit Live Model Source Decision.
 3. Runtime Execution Decision.

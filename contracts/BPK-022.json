@@ -1,0 +1,111 @@
+{
+  "task_id": "BPK-022",
+  "task_name": "bluepilot-live-aicos-network-connector-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/live-aicos-network-connector",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "external_read_boundary",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add an isolated Live AICOS network connector that can fetch card payload JSON only after a ready BPK-015 contract, HTTPS endpoint, auth token provider, and injected or default fetcher are present, then immediately route the payload through the BPK-019 intake adapter. Do not mount a route, persist cache, call DB, call GitHub, change cockpit wiring, change runtime execution, or change package dependencies.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "contracts/BPK-015.json",
+    "contracts/BPK-019.json",
+    "review-packets/BPK-019.md",
+    "builder/src/liveAicosFetchCacheContract.ts",
+    "builder/src/liveAicosConnectorThroughIntake.ts",
+    "builder/src/liveAicosNetworkConnector.ts",
+    "builder/tests/liveAicosNetworkConnector.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BPK-022.json",
+    "builder/src/liveAicosNetworkConnector.ts",
+    "builder/tests/liveAicosNetworkConnector.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-022.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    ".github/**",
+    "builder/src/server.ts",
+    "builder/src/cockpitReadOnlyRoute.ts",
+    "builder/src/runtimeDryRunRoute.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/providers.ts",
+    "builder/src/outboundHttp.ts",
+    "builder/src/db.ts",
+    "builder/scripts/**",
+    "builder/data/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not add a server route, scheduled job, persistent cache, database read/write, GitHub call, runtime execution, cockpit live data binding, package dependency, workflow, or deployment change.",
+    "Do not serialize auth token values in returned results, logs, review packets, or docs.",
+    "Do not change BPK-015 or BPK-019 semantics."
+  ],
+  "claims": [
+    "A live AICOS network read can be represented as an isolated connector without mounting it.",
+    "The connector must fail closed unless the BPK-015 contract is ready and liveFetchAllowed is true.",
+    "The connector must accept only explicit HTTPS endpoint URLs without embedded credentials.",
+    "Fetched payloads must pass through the BPK-019 intake adapter before any accepted cards are returned.",
+    "Auth token values must only be used in request headers and must not appear in connector results."
+  ],
+  "assumptions": [
+    "The endpoint URL is supplied by a future caller and is separate from the non-secret endpointRef in the BPK-015 contract.",
+    "The auth token provider is supplied at call time and is not stored in contract artifacts.",
+    "A later block may decide whether this connector feeds a route, cache, or cockpit model source."
+  ],
+  "dod": [
+    "builder/src/liveAicosNetworkConnector.ts exports a fetchLiveAicosCardsThroughIntake function.",
+    "The function blocks closed contracts, non-HTTPS endpoints, missing auth tokens, non-2xx HTTP responses, invalid JSON, malformed payloads, and endpointRef/sourceRef mismatch.",
+    "The function uses an injected fetcher in tests and does not require live network access for verification.",
+    "builder/tests/liveAicosNetworkConnector.test.ts covers success, closed contract, invalid endpoint, missing token, HTTP failure, malformed payload, source mismatch, and no mutation.",
+    "STATE.md and docs/SESSION-LOG.md record BPK-022.",
+    "review-packets/BPK-022.md records scope, safety invariants, gates, and verification.",
+    "The focused connector test and npm run typecheck in builder/ pass.",
+    "node tools/verify-task-lock.cjs BPK-022 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "npx tsx --test tests/liveAicosNetworkConnector.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-022 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "A route, cache persistence, DB call, GitHub call, runtime execution, cockpit data binding, package change, workflow change, deployment change, or real AICOS credential becomes necessary.",
+    "Changing BPK-015 or BPK-019 behavior becomes necessary."
+  ],
+  "prior_task_findings": "BPK-015 created a readiness contract for live AICOS fetch/cache. BPK-019 routes already delivered AICOS payloads through the card intake. BPK-022 may add the missing isolated network fetch layer but must not mount or persist it.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "5208e85"
+}

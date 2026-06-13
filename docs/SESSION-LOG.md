@@ -5,6 +5,21 @@
 
 ---
 
+## 2026-06-13 - BPK-022 Live AICOS Network Connector
+
+- Gebaut: `builder/src/liveAicosNetworkConnector.ts` als isolierter Netzwerk-Connector fuer
+  Live-AICOS-Card-Payloads.
+- Verhalten: Der Connector fetched nur bei ready BPK-015-Vertrag, `liveFetchAllowed`, expliziter
+  HTTPS-URL ohne eingebettete Credentials und Auth-Token-Provider. Das Ergebnis wird sofort durch
+  den bestehenden BPK-019-Intake-Adapter geleitet.
+- Sicherheitsentscheidung: Keine Route, kein Scheduler, kein Cache-Write, keine DB, kein GitHub,
+  keine Cockpit-Live-Datenquelle und keine Runtime-Ausfuehrung. Tokenwerte werden nur fuer den
+  Request-Header genutzt und nicht im Result serialisiert.
+- Beweis: fokussierter Network-Connector-Test, Typecheck, Task-Lock-Verify und Diff-Check muessen
+  vor Commit gruen sein.
+- Roter Faden weiter: Naechster gebuendelter Hauptblock ist Branch/PR Consolidation plus Cockpit
+  Live Model Source Decision, bevor Runtime Execution geoeffnet wird.
+
 ## 2026-06-13 - BPK-021 Cockpit Route Mounting Read-Only
 
 - Gebaut: `builder/src/cockpitReadOnlyRoute.ts` und Mount in `builder/src/server.ts` fuer
@@ -14,8 +29,8 @@
   Minimalvalidierung.
 - Sicherheitsentscheidung: Read-only HTML, keine ausfuehrbaren Actions, keine Runtime-Aktion,
   kein Provider, keine DB, kein GitHub-Write, kein Deploy und kein Live-AICOS.
-- Beweis: fokussierter Route-Test, Typecheck und lokaler Playwright-Screenshot muessen vor
-  Commit gruen sein.
+- Beweis: fokussierter Route-Test, Typecheck, lokaler Playwright-Screenshot, Task-Lock-Verify,
+  Diff-Check und voller Builder-Testlauf waren vor Commit gruen.
 - Roter Faden weiter: Naechster Hauptblock ist Live AICOS Network Connector, nicht Runtime
   Execution.
 
