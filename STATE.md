@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-006-cli-schema-generation`.
+- Aktueller Arbeitsbranch: `bpk-007-dispatch-frontend-readiness`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -99,6 +99,9 @@
 - BPK-006 ergaenzt einen deterministischen BPK-Governance-Manifest-Generator. Er dedupliziert
   Required-Commands aus BPK-003 bis BPK-006, haelt Schema-Definitionen fuer die neuen
   Governance-Artefakte fest und normalisiert den bestehenden Builder-Repo-Index wieder gruen.
+- BPK-007 ergaenzt eine side-effect-freie Dispatch-/Frontend-Readiness-Projektion. Sie verbindet
+  WLP-Contract-Draft, Card-Conditioned-Dispatch-Plan und Pre-Registered-Claims-Gate zu einem
+  Statusobjekt fuer spaetere Runtime- und Cockpit-Adoption, ohne Runtime oder UI zu oeffnen.
 
 ## Phasen
 
@@ -110,7 +113,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-006.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-007.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -202,6 +205,9 @@
   Claims gegen explizite Registrierungen mit Evidence prueft. Keine Runtime-Integration.
 - BPK-006: CLI/schema generation; fuegt einen direkten Node-Generator fuer das
   BPK-Governance-Manifest hinzu und normalisiert das bestehende Repo-Index-Artefakt.
+- BPK-007: Dispatch/frontend readiness; fuegt eine reine Projektion hinzu, die die BPK-003 bis
+  BPK-005 Gates zu `dispatch_ready`, `frontend_review` oder `blocked` zusammenfuehrt. Keine
+  Runtime- oder UI-Integration.
 
 ## Maya-Anbindung
 
@@ -228,14 +234,23 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-006 sind CLI-/Schema-Artefakte fuer die neuen Governance-Gates dedupliziert und
-generiert. Danach ist der
-BPK-Pfad massgeblich:
+Nach BPK-007 ist der angeforderte BPK-Pfad abgeschlossen: WorkerPacket/WLP-Adapter,
+Card-Conditioned Dispatch, Pre-Registered Claims, CLI-/Schema-Manifest und Dispatch-/Frontend-
+Readiness liegen als reine Contract-/Adapter-Schicht vor.
 
-1. Dispatch / Frontend zuletzt.
+Naechste Hauptbloecke:
 
-Die alten Optionen bleiben historische Richtung, werden aber nicht vor Dispatch / Frontend
-gezogen:
+1. Runtime Adoption Sequencing: entscheiden, welche Readiness-Projektion in welchen Runtime-Pfad
+   darf.
+2. Cockpit Projection Adoption: die vorhandene Projektion fuer eine UI-Sicht vorbereiten, aber
+   erst mit Sicht-Test-Evidence.
+3. Live AICOS/Card Binding: echte Card-Snapshots nur ueber einen eigenen Intake-/Cache-Vertrag
+   anbinden.
+4. Merge/Release Sequencing: BPK-Branches in sicherer Reihenfolge reviewen, mergen und ggf.
+   Release Notes schneiden.
+
+Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
+vermischt:
 
 1. Separat entscheiden, ob `MAYA_BUILDER_WRITE_PERMIT_ENFORCEMENT` zur Dauerregel werden soll.
 2. Mayas spaetere direkte Schreibautonomie als Policy-Entscheidung umsetzen: innerhalb enger

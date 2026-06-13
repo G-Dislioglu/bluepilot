@@ -5,6 +5,20 @@
 
 ---
 
+## 2026-06-13 - BPK-007 Dispatch / Frontend zuletzt
+
+- Gebaut: `builder/src/dispatchFrontendReadiness.ts` als side-effect-freie Projektion aus
+  WLP-Contract-Draft, Card-Conditioned-Dispatch-Plan und Pre-Registered-Claims-Gate.
+- Verhalten: Die Projektion liefert `dispatch_ready`, `frontend_review` oder `blocked`.
+  Dispatch ist nur erlaubt, wenn Card-Gate und Claim-Gate erlauben und der Contract explizite
+  Evidence-Anforderungen hat.
+- Sicherheitsentscheidung: Frontend bekommt nur ein spaeter konsumierbares Statusmodell; keine
+  UI-Datei, keine Server-Route, kein Orchestrator, kein Provider, kein Push, kein Live-Write.
+- Beweis: fokussierter Readiness-Test und Typecheck muessen vor Commit gruen sein.
+- Roter Faden weiter: Die angeforderte BPK-Sequenz ist nach Verify/Commit/Push abgeschlossen.
+  Naechste Hauptbloecke sind Runtime Adoption Sequencing, Cockpit Projection Adoption, Live
+  AICOS/Card Binding und Merge/Release Sequencing.
+
 ## 2026-06-13 - BPK-006 CLI-Deduplizierung / Schema-Generierung
 
 - Gebaut: `builder/scripts/generate-bpk-governance-manifest.mjs` erzeugt ein deterministisches

@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-006-cli-schema-generation`.
+- Aktueller BPK-Arbeitsbranch: `bpk-007-dispatch-frontend-readiness`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -122,6 +122,9 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 - BPK-006: `builder/scripts/generate-bpk-governance-manifest.mjs` erzeugt ein dedupliziertes
   Command-/Schema-Manifest fuer BPK-003 bis BPK-006. `builder/data/builder-repo-index.json`
   ist wieder generator-normalisiert; `npm test` im Builder ist gruen.
+- BPK-007: `builder/src/dispatchFrontendReadiness.ts` fuehrt WLP-Contract-Draft,
+  Card-Conditioned-Dispatch-Plan und Pre-Registered-Claims-Gate in eine side-effect-freie
+  Readiness-Projektion zusammen. Dispatch bleibt zu, Frontend bleibt nur Projektion.
 
 ## Maya-Anbindung
 
@@ -167,13 +170,19 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-006 darf erst Dispatch / Frontend zuletzt geoeffnet werden, wenn:
+Nach BPK-007 ist die angeforderte BPK-Sequenz abgeschlossen. Weitere Arbeit darf erst wieder als
+eigener Contract geoeffnet werden:
 
-- das Review-Packet fuer BPK-006 existiert,
-- `npm test` und `npm run typecheck` in `builder/` gruen sind,
-- `node scripts/generate-bpk-governance-manifest.mjs --check` und
-  `node scripts/generate-repo-index.mjs --check` gruen sind,
-- `node tools/verify-task-lock.cjs BPK-006 --verify` gruen ist,
+- das Review-Packet fuer BPK-007 existiert,
+- `npx tsx --test tests/dispatchFrontendReadiness.test.ts` und `npm run typecheck` in
+  `builder/` gruen sind,
+- `node tools/verify-task-lock.cjs BPK-007 --verify` gruen ist,
 - `git diff --check` gruen ist,
-- keine Runtime-, Auth-, DB-, Deploy- oder Live-Write-Freigabe still mitgezogen wurde,
-- Dispatch / Frontend weiterhin nur als letzter, eigener Contract geoeffnet wird.
+- keine Runtime-, Auth-, DB-, Deploy-, Live-Write- oder UI-Freigabe still mitgezogen wurde.
+
+Naechste Hauptbloecke:
+
+1. Runtime Adoption Sequencing.
+2. Cockpit Projection Adoption.
+3. Live AICOS/Card Binding.
+4. Merge/Release Sequencing.
