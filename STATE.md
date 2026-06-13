@@ -175,6 +175,14 @@
   Fresh/Stale-Pruefung, ohne Durable Store.
 - BPK-034 ergaenzt einen Runtime-Execution-Route-Contract. Request/Response wird validiert, aber
   auch ein Erfolg erlaubt keine Execution.
+- BPK-035 ergaenzt einen Cockpit-Live-Model-Route-Source-Contract. Ein materialisiertes Modell
+  kann als kuenftige Quelle fuer `/cockpit/read-only` klassifiziert werden, ohne Route-Aenderung.
+- BPK-036 ergaenzt einen Live-AICOS-Memory-Cache-Lifecycle-Guard. Max-Age, Stale-Policy und
+  Invalidation-Ref werden geprueft, ohne Persistenz.
+- BPK-037 ergaenzt Runtime-Execution-Route-Mount-Readiness. BPK-030 und BPK-034 werden
+  zusammengefuehrt, ohne Mount und ohne Execution.
+- BPK-038 ergaenzt eine PR-Receipt-Artifact-File-Loader-Decision. Sichere lokale JSON-Pfade
+  koennen bewertet werden, ohne Dateien zu lesen.
 
 ## Phasen
 
@@ -186,7 +194,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-034.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-038.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -338,6 +346,13 @@
   Pruefung. Kein Durable Store.
 - BPK-034: Runtime execution route contract; validiert kuenftigen Request/Response, aber
   `executionAllowed:false`.
+- BPK-035: Cockpit live model route source contract; entscheidet kuenftige Quelle fuer
+  `/cockpit/read-only`. Keine Route-Aenderung.
+- BPK-036: Live AICOS memory cache lifecycle guard; prueft Max-Age/Stale/Invalidation. Keine
+  Persistenz.
+- BPK-037: Runtime execution route mount readiness; kombiniert Preflight und Contract. Kein
+  Mount.
+- BPK-038: PR receipt artifact file loader decision; bewertet sichere Pfade. Kein File-Read.
 
 ## Maya-Anbindung
 
@@ -364,20 +379,20 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-034 ist das gebuendelte Adapter/Contract Implementation Bundle abgeschlossen: PR-
-Receipt-Artefakte, Cockpit-Live-Modell, Memory-Cache und Runtime-Execution-Route haben enge
-interne Implementierungsbausteine, aber keine externen Side Effects.
+Nach BPK-038 ist das gebuendelte Route/Cache/Runtime/File Decision Bundle abgeschlossen: Cockpit-
+Quelle, Cache-Lifecycle, Runtime-Mount-Readiness und File-Loader-Zulassung sind entschieden, aber
+ohne externe Side Effects.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Live Model Route Source Contract: entscheiden, ob `/cockpit/read-only` spaeter ein
-   materialisiertes Modell annehmen darf, ohne Route zu aendern.
-2. Live AICOS Memory Cache Lifecycle Guard: max-age, stale policy und explicit invalidation als
-   reine Lifecycle-Regel festlegen.
-3. Runtime Execution Route Mount Readiness: BPK-034 gegen BPK-030 als Mount-Bereitschaft
-   zusammenfuehren, ohne Mount.
-4. PR Receipt Artifact File Loader Decision: entscheiden, ob lokale Receipt-Dateien ueberhaupt
-   gelesen werden duerfen und welche Pfadregeln gelten.
+1. Cockpit Route Source Mount Prep: default-off Source-Selector vorbereiten, ohne Route noch zu
+   aendern.
+2. Live AICOS Memory Cache Read Facade: Cache-Lifecycle und Entry-Read zu einer read-only Fassade
+   buendeln.
+3. Runtime Execution Route Mount Contract: Mount-Form fuer eine spaetere Route definieren, ohne
+   `server.ts`.
+4. PR Receipt File Loader Contract: Request/Response fuer einen spaeteren lokalen Loader
+   definieren, ohne Filesystem-Zugriff.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:

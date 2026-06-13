@@ -5,6 +5,24 @@
 
 ---
 
+## 2026-06-13 - BPK-035 bis BPK-038 Route/Cache/Runtime/File Decisions
+
+- Gebaut: vier side-effect-freie Readiness-/Decision-Schichten:
+  `cockpitLiveModelRouteSourceContract`, `liveAicosMemoryCacheLifecycleGuard`,
+  `runtimeExecutionRouteMountReadiness` und `prReceiptArtifactFileLoaderDecision`.
+- Verhalten: Cockpit-Live-Modelle koennen als kuenftige Quelle fuer `/cockpit/read-only`
+  klassifiziert werden; Memory-Cache-Eintraege bekommen Max-Age/Stale/Invalidation-Regeln;
+  Runtime-Execution-Mount-Readiness kombiniert Preflight und Route-Contract; PR-Receipt-Dateien
+  werden nur als kuenftige Leseentscheidung bewertet.
+- Sicherheitsentscheidung: Keine Route-Aenderung, kein File-Read, keine GitHub-Aktion, keine
+  Persistenz, keine DB, kein Provider, keine Runtime-Ausfuehrung, kein Deploy und keine Package-
+  Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sind die ersten tatsaechlichen Mount-/Loader-
+  Vorbereitungen, weiterhin einzeln und default-off: Cockpit Route Source Mount Prep, Memory
+  Cache Read Facade, Runtime Execution Route Mount Contract und PR Receipt File Loader Contract.
+
 ## 2026-06-13 - BPK-031 bis BPK-034 Adapter/Contract Implementation Bundle
 
 - Gebaut: vier enge Implementierungsbausteine:

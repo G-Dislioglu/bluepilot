@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-035",
+  "task_name": "bluepilot-cockpit-live-model-route-source-contract-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-035-038-route-cache-runtime-file-decisions",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "operator_cockpit",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free contract deciding whether the existing /cockpit/read-only route may later use a materialized live model as source, without changing routes, renderer, server files, runtime, or actions.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/cockpitLiveModelAdapter.ts", "builder/src/cockpitLiveModelRouteSourceContract.ts", "builder/tests/cockpitLiveModelRouteSourceContract.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-035.json", "contracts/BPK-036.json", "contracts/BPK-037.json", "contracts/BPK-038.json",
+    "builder/src/cockpitLiveModelRouteSourceContract.ts", "builder/src/liveAicosMemoryCacheLifecycleGuard.ts", "builder/src/runtimeExecutionRouteMountReadiness.ts", "builder/src/prReceiptArtifactFileLoaderDecision.ts",
+    "builder/tests/cockpitLiveModelRouteSourceContract.test.ts", "builder/tests/liveAicosMemoryCacheLifecycleGuard.test.ts", "builder/tests/runtimeExecutionRouteMountReadiness.test.ts", "builder/tests/prReceiptArtifactFileLoaderDecision.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-035.md", "review-packets/BPK-036.md", "review-packets/BPK-037.md", "review-packets/BPK-038.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not change cockpit route, renderer, server mount, runtime route, provider, DB, package, workflow, or deployment files.", "Do not make cockpit actions executable."],
+  "claims": ["Materialized live models can be approved as a future source for /cockpit/read-only.", "Route mutation remains closed.", "Operator review is required for live model source mode."],
+  "assumptions": ["Actual route source wiring remains a later contract."],
+  "dod": ["builder/src/cockpitLiveModelRouteSourceContract.ts exports contractCockpitLiveModelRouteSource.", "Ready, missing review, and unsupported route cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/cockpitLiveModelRouteSourceContract.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-035 --verify", "git diff --check"],
+  "stop_conditions": ["Route changes, renderer changes, server changes, runtime changes, provider calls, DB calls, package changes, or executable actions become necessary."],
+  "prior_task_findings": "BPK-032 materialized read-only cockpit models. BPK-035 may decide whether such models can become a future route source without wiring them.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "d40826e"
+}
