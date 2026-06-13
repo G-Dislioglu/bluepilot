@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-003-workerpacket-wlp-adapter`.
+- Aktueller Arbeitsbranch: `bpk-004-card-conditioned-dispatch`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -90,6 +90,9 @@
 - BPK-003 ergaenzt einen side-effect-freien WorkerPacket-to-WLP-Adapter. Er erzeugt aus
   expliziten Worker-Edit-Pfaden einen WLP-Contract-Draft, lehnt unsichere oder geschuetzte
   Pfade fail-closed ab und ist nicht in Runtime, Worker-Dispatch oder Push-Pfad integriert.
+- BPK-004 ergaenzt einen side-effect-freien Card-Conditioned-Dispatch-Planer. Er bindet
+  WLP-Contract-Drafts an explizite Card-Snapshots und entscheidet allow/review_required/blocked,
+  ohne AICOS, Runtime, Worker, Provider, Push oder Frontend zu beruehren.
 
 ## Phasen
 
@@ -101,7 +104,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-003.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-004.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -186,6 +189,9 @@
 - BPK-003: WorkerPacket-to-WLP adapter; fuegt eine reine Adapterfunktion hinzu, die validierte
   WorkerPacket/EditEnvelope-Daten in einen WLP-Contract-Draft uebertraegt. Keine Orchestrator-,
   Server-, Provider-, Push- oder Verifier-Aenderung.
+- BPK-004: Card-conditioned dispatch planning; fuegt eine reine Planungsfunktion hinzu, die
+  explizite Card-Snapshots gegen einen WLP-Contract-Draft prueft und Dispatch nur als
+  Planentscheidung erlaubt, downgradet oder blockiert. Keine Runtime-Integration.
 
 ## Maya-Anbindung
 
@@ -212,15 +218,14 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-003 ist die WorkerPacket-zu-WLP-Contract-Grenze als Adapter vorbereitet. Danach ist der
+Nach BPK-004 ist die Card-Bedingung als reine Planentscheidung vorbereitet. Danach ist der
 BPK-Pfad massgeblich:
 
-1. Card-Conditioned Dispatch.
-2. Pre-Registered Claims.
-3. CLI-Deduplizierung / Schema-Generierung.
-4. Dispatch / Frontend zuletzt.
+1. Pre-Registered Claims.
+2. CLI-Deduplizierung / Schema-Generierung.
+3. Dispatch / Frontend zuletzt.
 
-Die alten Optionen bleiben historische Richtung, werden aber nicht vor Card-Conditioned Dispatch
+Die alten Optionen bleiben historische Richtung, werden aber nicht vor Pre-Registered Claims
 gezogen:
 
 1. Separat entscheiden, ob `MAYA_BUILDER_WRITE_PERMIT_ENFORCEMENT` zur Dauerregel werden soll.

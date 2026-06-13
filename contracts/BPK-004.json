@@ -1,0 +1,107 @@
+{
+  "task_id": "BPK-004",
+  "task_name": "Card-Conditioned Dispatch",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/card-conditioned-dispatch-plan",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Introduce a side-effect-free card-conditioned dispatch planner that can bind a WLP contract draft to explicit AICOS/card references and decide whether dispatch may proceed, must remain review-only, or is blocked. The block must not integrate with runtime worker dispatch, server routes, providers, GitHub writes, or frontend.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "docs/CODEX-RICHTUNGSBRIEF-optimized.md",
+    "contracts/BPK-003.json",
+    "review-packets/BPK-003.md",
+    "builder/src/workerPacketWlpAdapter.ts",
+    "builder/src/cardConditionedDispatch.ts",
+    "builder/tests/cardConditionedDispatch.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BPK-004.json",
+    "builder/src/cardConditionedDispatch.ts",
+    "builder/tests/cardConditionedDispatch.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-004.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/server.ts",
+    "builder/src/architectPhase1.ts",
+    "builder/src/sandboxWrite.ts",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not call AICOS, maya-core, GitHub, providers, database, or runtime server.",
+    "Do not integrate the planner into orchestrateTask or live dispatch.",
+    "Do not infer card references from prose; only explicit requested card IDs may condition dispatch.",
+    "Do not add frontend UI in this block."
+  ],
+  "claims": [
+    "A WLP contract draft can be combined with explicit card references into a deterministic dispatch plan.",
+    "Missing, deprecated, blocked, or path-incompatible cards prevent automatic dispatch.",
+    "Review-only cards downgrade the plan to review_required without blocking evidence preservation.",
+    "The planner is side-effect-free and tested without live external systems."
+  ],
+  "assumptions": [
+    "BPK-003 produced the WorkerPacket-to-WLP adapter.",
+    "Card-conditioned dispatch is a pre-runtime decision surface, not live worker dispatch.",
+    "AICOS/card lookup remains external/read-only and supplies explicit card snapshots to this adapter."
+  ],
+  "dod": [
+    "builder/src/cardConditionedDispatch.ts exports side-effect-free planner types and functions.",
+    "The planner returns allow, review_required, or blocked with deterministic reasons.",
+    "The planner records card evidence snapshots without mutating the WLP contract draft.",
+    "builder/tests/cardConditionedDispatch.test.ts covers allow, missing card, blocked card, deprecated card, review-only card, and path mismatch.",
+    "STATE.md and docs/SESSION-LOG.md record BPK-004.",
+    "review-packets/BPK-004.md records scope, safety invariants, gates, and verification.",
+    "The focused cardConditionedDispatch test and npm run typecheck in builder/ pass.",
+    "node tools/verify-task-lock.cjs BPK-004 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "npx tsx --test tests/cardConditionedDispatch.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-004 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "Runtime dispatch integration becomes necessary.",
+    "Live AICOS, maya-core, GitHub, provider, database, or server calls become necessary.",
+    "Card references need to be inferred from prose.",
+    "Frontend work becomes necessary."
+  ],
+  "prior_task_findings": "BPK-003 created a pure WorkerPacket-to-WLP adapter. BPK-004 should add card-conditioned planning as another pure boundary, not wire it into live dispatch.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "b7f90a9"
+}

@@ -5,6 +5,20 @@
 
 ---
 
+## 2026-06-13 - BPK-004 Card-Conditioned Dispatch
+
+- Gebaut: `builder/src/cardConditionedDispatch.ts` als side-effect-freier Dispatch-Planer,
+  der WLP-Contract-Drafts an explizite Card-Snapshots bindet.
+- Verhalten: Der Planer entscheidet deterministisch `allow`, `review_required` oder `blocked`.
+  Fehlende, ungueltige, blockierte, deprecated oder pfad-inkompatible Cards blockieren;
+  Review-Cards stufen auf Review-only herunter.
+- Sicherheitsentscheidung: Keine AICOS-Live-Abfrage, kein Worker-Dispatch, kein Provider,
+  keine Server-Route, kein Push und kein Frontend.
+- Beweis: `npx tsx --test tests/cardConditionedDispatch.test.ts` und `npm run typecheck`
+  sind gruen.
+- Roter Faden weiter: Pre-Registered Claims darf erst nach BPK-004-Verify und Review-Packet
+  geoeffnet werden.
+
 ## 2026-06-13 - BPK-003 WorkerPacket-to-WLP-Adapter
 
 - Gebaut: `builder/src/workerPacketWlpAdapter.ts` als side-effect-freier Adapter von
