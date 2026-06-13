@@ -5,6 +5,25 @@
 
 ---
 
+## 2026-06-13 - BPK-043 bis BPK-046 Handler/Store/Loader Implementations
+
+- Gebaut: vier eng begrenzte Implementierungsschichten:
+  `cockpitRouteSourceHandlerSkeleton`, `liveAicosMemoryCacheStoreShell`,
+  `runtimeExecutionRouteHandlerSkeleton` und `prReceiptFileLoaderImplementation`.
+- Verhalten: Cockpit kann zwischen Sample- und geliefertem Live-Modell waehlen, ohne Route zu
+  mounten; Live-AICOS-Entries koennen in einem Prozessspeicher gehalten und gelesen werden;
+  Runtime-Execution-Requests werden gegen bestehende Contracts validiert, ohne auszufuehren;
+  PR-Receipt-JSON-Dateien koennen lokal unter Root-/Path-/Max-Byte-Guard geladen und durch den
+  bestehenden BPK-031-Import geschickt werden.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sind kontrollierte Adoption-Schritte: Cockpit
+  Handler Mount Readiness, Memory Cache Facade Store Binding, Runtime Handler Mount Readiness und
+  PR Receipt Loader Operator Runbook.
+
 ## 2026-06-13 - BPK-039 bis BPK-042 Mount/Facade/Loader Contracts
 
 - Gebaut: vier side-effect-freie Contract-/Facade-Schichten:

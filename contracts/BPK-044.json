@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-044",
+  "task_name": "bluepilot-live-aicos-memory-cache-store-shell-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-043-046-handler-store-loader-implementations",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "external_read_boundary",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add an in-process Live AICOS memory cache store shell for explicit entries, reusing existing memory entry read semantics and keeping durable persistence, DB, filesystem cache, scheduler, routes, package, workflow, and deployment changes out of scope.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/liveAicosMemoryCacheAdapter.ts", "builder/src/liveAicosMemoryCacheReadFacade.ts", "builder/src/liveAicosMemoryCacheStoreShell.ts", "builder/tests/liveAicosMemoryCacheStoreShell.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-043.json", "contracts/BPK-044.json", "contracts/BPK-045.json", "contracts/BPK-046.json",
+    "builder/src/cockpitRouteSourceHandlerSkeleton.ts", "builder/src/liveAicosMemoryCacheStoreShell.ts", "builder/src/runtimeExecutionRouteHandlerSkeleton.ts", "builder/src/prReceiptFileLoaderImplementation.ts",
+    "builder/tests/cockpitRouteSourceHandlerSkeleton.test.ts", "builder/tests/liveAicosMemoryCacheStoreShell.test.ts", "builder/tests/runtimeExecutionRouteHandlerSkeleton.test.ts", "builder/tests/prReceiptFileLoaderImplementation.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-043.md", "review-packets/BPK-044.md", "review-packets/BPK-045.md", "review-packets/BPK-046.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not add durable storage, DB writes, filesystem cache files, scheduler, routes, package changes, workflow changes, deployment files, or external calls."],
+  "claims": ["A memory-only store shell can hold explicit cache entries in process.", "Reads reuse the existing fresh/stale/missing semantics.", "Durable persistence remains closed."],
+  "assumptions": ["Process memory loss is acceptable for this shell."],
+  "dod": ["builder/src/liveAicosMemoryCacheStoreShell.ts exports createLiveAicosMemoryCacheStoreShell.", "Store/read, stale read, and invalidation cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/liveAicosMemoryCacheStoreShell.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-044 --verify", "git diff --check"],
+  "stop_conditions": ["Durable storage, DB, filesystem cache, scheduler, route, package, workflow, deployment, or external-call changes become necessary."],
+  "prior_task_findings": "BPK-040 exposed a read-only facade over explicit memory cache reads. BPK-044 may add an in-process store shell only.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "c81f05b"
+}

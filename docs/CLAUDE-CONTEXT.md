@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-039-042-mount-facade-loader-contracts`.
+- Aktueller BPK-Arbeitsbranch: `bpk-043-046-handler-store-loader-implementations`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -215,6 +215,18 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
   fuer eine spaetere Runtime-Execution-Route. Keine Servermutation und keine Execution.
 - BPK-042: `builder/src/prReceiptFileLoaderContract.ts` definiert einen Request/Response-
   Contract fuer spaeteres PR-Receipt-File-Loading. Auch Erfolg liest keine Datei.
+- BPK-043: `builder/src/cockpitRouteSourceHandlerSkeleton.ts` waehlt zwischen Sample- und
+  geliefertem Live-Cockpit-Modell nach ready BPK-039-Prep. Keine Route, keine Renderer-Aenderung,
+  Actions bleiben disabled.
+- BPK-044: `builder/src/liveAicosMemoryCacheStoreShell.ts` ergaenzt eine in-process Store-Shell
+  fuer explizite Live-AICOS-Memory-Entries. Reads nutzen die bestehende Fresh/Stale/Missing-
+  Semantik; durable Persistenz bleibt geschlossen.
+- BPK-045: `builder/src/runtimeExecutionRouteHandlerSkeleton.ts` validiert Runtime-Execution-
+  Requests gegen BPK-034/BPK-041. Keine Route-Mounts, kein Orchestrator und weiterhin
+  `executionAllowed:false`.
+- BPK-046: `builder/src/prReceiptFileLoaderImplementation.ts` liest lokale PR-Receipt-JSON-
+  Dateien nur unter BPK-038/BPK-042-, Root-, Path- und Max-Byte-Guard und importiert sie ueber
+  BPK-031. Kein GitHub, keine PR-Erstellung, kein Merge.
 
 ## Maya-Anbindung
 
@@ -260,19 +272,20 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-042 ist das Mount/Facade/Loader Contract Bundle abgeschlossen, wenn:
+Nach BPK-046 ist das Handler/Store/Loader Implementation Bundle abgeschlossen, wenn:
 
-- die Review-Packets fuer BPK-039 bis BPK-042 existieren,
-- die vier fokussierten Contract-/Facade-Tests und `npm run typecheck` in `builder/` gruen sind,
-- `node tools/verify-task-lock.cjs BPK-039 --verify` bis BPK-042 gruen sind,
+- die Review-Packets fuer BPK-043 bis BPK-046 existieren,
+- die vier fokussierten Handler-/Store-/Loader-Tests und `npm run typecheck` in `builder/` gruen
+  sind,
+- `node tools/verify-task-lock.cjs BPK-043 --verify` bis BPK-046 gruen sind,
 - `git diff --check` gruen ist,
-- keine Route-Aenderung, kein File-Read, keine GitHub-Aktion, keine Durable Persistenz, keine DB,
-  kein Provider, keine Runtime-Ausfuehrung, kein Deploy und keine Package-Aenderung still
-  mitgezogen wurde.
+- keine Server-Mounts, keine Renderer-Aenderung, keine Durable Persistenz, keine DB, kein
+  Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein Write, kein Deploy und
+  keine Package-Aenderung still mitgezogen wurde.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Route Source Handler Skeleton.
-2. Live AICOS Memory Cache Store Shell.
-3. Runtime Execution Route Handler Skeleton.
-4. PR Receipt File Loader Implementation.
+1. Cockpit Handler Mount Readiness.
+2. Memory Cache Facade Store Binding.
+3. Runtime Handler Mount Readiness.
+4. PR Receipt Loader Operator Runbook.

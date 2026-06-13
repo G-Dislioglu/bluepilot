@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-021-cockpit-route-mounting-read-only`.
+- Aktueller Arbeitsbranch: `bpk-043-046-handler-store-loader-implementations`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -191,6 +191,15 @@
   aber Servermutation und Execution bleiben aus.
 - BPK-042 ergaenzt einen PR-Receipt-File-Loader-Contract. Request/Response wird beschrieben,
   aber auch Erfolg liest keine Datei.
+- BPK-043 ergaenzt einen Cockpit-Route-Source-Handler-Skeleton. Er waehlt zwischen Sample- und
+  geliefertem Live-Cockpit-Modell nach ready BPK-039-Prep, ohne Route oder Renderer zu aendern.
+- BPK-044 ergaenzt eine Live-AICOS-Memory-Cache-Store-Shell. Explizite Entries koennen
+  in-process gehalten, gelesen und invalidiert werden; durable Persistenz bleibt geschlossen.
+- BPK-045 ergaenzt einen Runtime-Execution-Route-Handler-Skeleton. Er validiert gegen BPK-034
+  und BPK-041, ohne zu mounten, zu orchestrieren oder auszufuehren.
+- BPK-046 ergaenzt eine lokale PR-Receipt-File-Loader-Implementation. Sie liest nur unter
+  BPK-038/BPK-042-, Root-, Path- und Max-Byte-Guard und importiert ueber BPK-031; GitHub/PR/Merge
+  bleiben geschlossen.
 
 ## Phasen
 
@@ -202,7 +211,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-042.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-046.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -367,6 +376,14 @@
   Store.
 - BPK-041: Runtime execution route mount contract; Mount-Contract ohne Servermutation.
 - BPK-042: PR receipt file loader contract; Request/Response ohne File-Read.
+- BPK-043: Cockpit route source handler skeleton; Sample/Live-Modell-Auswahl ohne Route- oder
+  Renderer-Aenderung.
+- BPK-044: Live AICOS memory cache store shell; in-process Store/Read/Invalidate ohne Durable
+  Store.
+- BPK-045: Runtime execution route handler skeleton; Contract-Validierung ohne Mount und ohne
+  Execution.
+- BPK-046: PR receipt file loader implementation; lokaler JSON-Read unter engen Guards, Import
+  ueber BPK-031, keine GitHub-Aktion.
 
 ## Maya-Anbindung
 
@@ -393,20 +410,20 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-042 ist das gebuendelte Mount/Facade/Loader Contract Bundle abgeschlossen: Cockpit-
-Source, Memory-Cache-Read, Runtime-Mount und PR-Receipt-Loader haben Contract-/Facade-Schichten,
-aber keine externen Side Effects.
+Nach BPK-046 ist das gebuendelte Handler/Store/Loader Implementation Bundle abgeschlossen:
+Cockpit-Source-Auswahl, Memory-Cache-Store-Shell, Runtime-Execution-Handler-Skeleton und lokaler
+PR-Receipt-JSON-Loader sind eng implementiert, aber externe Side Effects bleiben geschlossen.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Route Source Handler Skeleton: Handler-Funktion vorbereiten, aber nicht in `server.ts`
-   mounten.
-2. Live AICOS Memory Cache Store Shell: in-process Store-Shell fuer explizite Entries, ohne
-   Durable Store.
-3. Runtime Execution Route Handler Skeleton: Handler-Funktion vorbereiten, aber nicht mounten und
-   nicht ausfuehren.
-4. PR Receipt File Loader Implementation: lokalen Loader innerhalb BPK-042-Regeln bauen, eng
-   begrenzt und ohne GitHub.
+1. Cockpit Handler Mount Readiness: pruefen, ob der Handler default-off in die bestehende
+   Cockpit-Route integriert werden darf, ohne Actions zu oeffnen.
+2. Memory Cache Facade Store Binding: Store-Shell und Read-Facade kontrolliert zusammenfuehren,
+   ohne Durable Store.
+3. Runtime Handler Mount Readiness: pruefen, ob der Runtime-Handler default-off gemountet werden
+   darf, ohne Execution zu oeffnen.
+4. PR Receipt Loader Operator Runbook: Operator-Prozess, erlaubte Roots und Evidence fuer lokale
+   Receipt-Loads dokumentieren.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:
