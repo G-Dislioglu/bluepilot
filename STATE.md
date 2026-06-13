@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-011-branch-merge-release-sequencing`.
+- Aktueller Arbeitsbranch: `bpk-012-pr-review-execution-contract`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -114,6 +114,9 @@
 - BPK-011 ergaenzt einen side-effect-freien BPK-Branch-Merge-/Release-Sequencing-Planer. Er
   ordnet Branch-Kandidaten, erkennt fehlende Vorgaenger, rote Checks und Review-Bedarf und
   erzeugt Release-Notiz-Abschnitte, ohne Git/GitHub-Aktionen auszufuehren.
+- BPK-012 ergaenzt einen side-effect-freien PR-/Review-Execution-Receipt-Evaluator. Er prueft
+  uebergebene PR-Metadaten gegen eine BPK-Release-Sequenz und blockiert fehlende PRs, Commit-
+  Mismatches, rote Checks oder Changes-Requested, ohne GitHub-Aktionen auszufuehren.
 
 ## Phasen
 
@@ -125,7 +128,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-011.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-012.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -230,6 +233,8 @@
   uebergebene AICOS-Card-Snapshots prueft und nur sichere DispatchConditionCard-Daten weitergibt.
 - BPK-011: BPK branch merge/release sequencing; fuegt einen reinen Planer fuer Branch-Reihenfolge,
   Blocker und Release Notes hinzu. Keine Merge-, PR-, GitHub- oder Deploy-Aktion.
+- BPK-012: PR/review execution contract; fuegt eine reine Receipt-Schicht fuer uebergebene PR-
+  und Review-Metadaten hinzu. Keine PR-Erstellung, kein Merge, kein GitHub-API-Aufruf.
 
 ## Maya-Anbindung
 
@@ -256,17 +261,15 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-011 ist die angeforderte Viererfolge abgeschlossen: Runtime Dispatch Integration
-Contract, Cockpit Projection Adoption Contract, Live AICOS/Card Binding Intake und Branch
-Merge/Release Sequencing liegen als reine Contract-/Planungsschicht vor.
+Nach BPK-012 ist PR/Review Execution als Receipt-Schicht vorbereitet. GitHub bleibt unangetastet;
+der naechste Block darf nur Runtime Dry-Run Adapter als Contract-Schicht oeffnen.
 
 Naechste Hauptbloecke:
 
-1. PR/Review Execution: BPK-008 bis BPK-011 als PRs pruefen und in Reihenfolge mergen.
-2. Runtime Dry-Run Adapter: erst nach Merge entscheiden, ob BPK-008 in einen trockenen
+1. Runtime Dry-Run Adapter: erst nach Merge entscheiden, ob BPK-008 in einen trockenen
    Runtime-Pfad verdrahtet wird.
-3. Cockpit UI Implementation: erst nach Contract-Stabilitaet und mit Sicht-Test-Evidence.
-4. Live AICOS Fetch/Cache: erst nach Intake-Stabilitaet und mit Auth-/Cache-Vertrag.
+2. Cockpit UI Implementation: erst nach Contract-Stabilitaet und mit Sicht-Test-Evidence.
+3. Live AICOS Fetch/Cache: erst nach Intake-Stabilitaet und mit Auth-/Cache-Vertrag.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:

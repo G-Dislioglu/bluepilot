@@ -5,6 +5,18 @@
 
 ---
 
+## 2026-06-13 - BPK-012 PR/Review Execution Contract
+
+- Gebaut: `builder/src/bpkPrReviewExecution.ts` als side-effect-freier Receipt-Evaluator fuer
+  uebergebene PR-/Review-Metadaten.
+- Verhalten: Missing PR, ungueltige PR-URL, Commit-Mismatch, nicht-gruene Checks und
+  Changes-Requested blockieren Merge-Readiness; Pending Review bleibt review-pflichtig.
+- Sicherheitsentscheidung: Kein PR-Create, kein GitHub-API-Aufruf, kein Merge, kein Push nach
+  `main`, keine Workflow-, Runtime- oder UI-Aenderung.
+- Beweis: fokussierter PR/Review-Execution-Test und Typecheck muessen vor Commit gruen sein.
+- Roter Faden weiter: Runtime Dry-Run Adapter darf erst nach BPK-012-Verify und Review-Packet
+  geoeffnet werden.
+
 ## 2026-06-13 - BPK-011 BPK Branch Merge/Release Sequencing
 
 - Gebaut: `builder/src/bpkBranchMergeReleaseSequencing.ts` als side-effect-freier Planer fuer
