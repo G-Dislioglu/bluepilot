@@ -5,6 +5,19 @@
 
 ---
 
+## 2026-06-13 - BPK-013 Runtime Dry-Run Adapter Contract
+
+- Gebaut: `builder/src/runtimeDryRunAdapterContract.ts` als side-effect-freier Adapter-Vertrag
+  fuer trockene Runtime-Invocation.
+- Verhalten: Nur `runtime_candidate` mit `dryRunAllowed:true` kann `ready` werden. Blockierte,
+  review-pflichtige oder write-faehige Integrationen werden nicht in diesen Dry-Run-Adapter
+  gehoben.
+- Sicherheitsentscheidung: Kein Server-Route, kein Orchestrator-Aufruf, kein Provider, keine DB,
+  kein GitHub-Write, kein Deploy, keine UI. Die Invocation bleibt ein Datenvertrag.
+- Beweis: fokussierter Runtime-Dry-Run-Adapter-Test und Typecheck muessen vor Commit gruen sein.
+- Roter Faden weiter: Cockpit UI Implementation Plan darf erst nach BPK-013-Verify und
+  Review-Packet geoeffnet werden.
+
 ## 2026-06-13 - BPK-012 PR/Review Execution Contract
 
 - Gebaut: `builder/src/bpkPrReviewExecution.ts` als side-effect-freier Receipt-Evaluator fuer

@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-012-pr-review-execution-contract`.
+- Aktueller Arbeitsbranch: `bpk-013-runtime-dry-run-adapter-contract`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -117,6 +117,9 @@
 - BPK-012 ergaenzt einen side-effect-freien PR-/Review-Execution-Receipt-Evaluator. Er prueft
   uebergebene PR-Metadaten gegen eine BPK-Release-Sequenz und blockiert fehlende PRs, Commit-
   Mismatches, rote Checks oder Changes-Requested, ohne GitHub-Aktionen auszufuehren.
+- BPK-013 ergaenzt einen side-effect-freien Runtime-Dry-Run-Adapter-Vertrag. Er erzeugt aus dem
+  Runtime-Integrationsvertrag eine trockene Invocation-Planung mit geschlossenen Provider-, DB-,
+  GitHub-, Deploy- und Runtime-Route-Gates.
 
 ## Phasen
 
@@ -128,7 +131,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-012.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-013.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -235,6 +238,8 @@
   Blocker und Release Notes hinzu. Keine Merge-, PR-, GitHub- oder Deploy-Aktion.
 - BPK-012: PR/review execution contract; fuegt eine reine Receipt-Schicht fuer uebergebene PR-
   und Review-Metadaten hinzu. Keine PR-Erstellung, kein Merge, kein GitHub-API-Aufruf.
+- BPK-013: Runtime dry-run adapter contract; fuegt eine reine Adapter-Planung fuer trockene
+  Runtime-Invocation hinzu. Keine Route, kein Orchestrator-Aufruf, kein Provider, kein Write.
 
 ## Maya-Anbindung
 
@@ -261,15 +266,13 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-012 ist PR/Review Execution als Receipt-Schicht vorbereitet. GitHub bleibt unangetastet;
-der naechste Block darf nur Runtime Dry-Run Adapter als Contract-Schicht oeffnen.
+Nach BPK-013 ist Runtime Dry-Run Adapter als Contract-Schicht vorbereitet. Runtime bleibt
+unangetastet; der naechste Block darf nur Cockpit UI Implementation Plan oeffnen.
 
 Naechste Hauptbloecke:
 
-1. Runtime Dry-Run Adapter: erst nach Merge entscheiden, ob BPK-008 in einen trockenen
-   Runtime-Pfad verdrahtet wird.
-2. Cockpit UI Implementation: erst nach Contract-Stabilitaet und mit Sicht-Test-Evidence.
-3. Live AICOS Fetch/Cache: erst nach Intake-Stabilitaet und mit Auth-/Cache-Vertrag.
+1. Cockpit UI Implementation: erst nach Contract-Stabilitaet und mit Sicht-Test-Evidence.
+2. Live AICOS Fetch/Cache: erst nach Intake-Stabilitaet und mit Auth-/Cache-Vertrag.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:
