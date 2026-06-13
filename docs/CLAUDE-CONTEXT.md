@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-004-card-conditioned-dispatch`.
+- Aktueller BPK-Arbeitsbranch: `bpk-005-pre-registered-claims`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -116,6 +116,9 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 - BPK-004: `builder/src/cardConditionedDispatch.ts` erzeugt side-effect-frei Card-
   conditioned Dispatch-Plaene. Explizite Card-Snapshots koennen Dispatch erlauben, auf Review
   herunterstufen oder blockieren; es gibt noch keine Runtime-Integration.
+- BPK-005: `builder/src/preRegisteredClaims.ts` prueft Contract-Claims gegen explizite
+  Vorregistrierungen mit Evidence. Ein review-pflichtiger oder blockierter Card-Plan wird
+  dadurch nicht zu `allow`.
 
 ## Maya-Anbindung
 
@@ -161,13 +164,13 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-004 darf erst Pre-Registered Claims geoeffnet werden, wenn:
+Nach BPK-005 darf erst CLI-Deduplizierung / Schema-Generierung geoeffnet werden, wenn:
 
-- das Review-Packet fuer BPK-004 existiert,
-- `npx tsx --test tests/cardConditionedDispatch.test.ts` und `npm run typecheck` in `builder/`
+- das Review-Packet fuer BPK-005 existiert,
+- `npx tsx --test tests/preRegisteredClaims.test.ts` und `npm run typecheck` in `builder/`
   gruen sind,
-- `node tools/verify-task-lock.cjs BPK-004 --verify` gruen ist,
+- `node tools/verify-task-lock.cjs BPK-005 --verify` gruen ist,
 - `git diff --check` gruen ist,
 - keine Runtime-, Auth-, DB-, Deploy- oder Live-Write-Freigabe still mitgezogen wurde,
-- der Card-Planer weiterhin nicht in Worker-Dispatch, Orchestrator oder Server-Routen integriert
+- das Claim-Gate weiterhin nicht in Worker-Dispatch, Orchestrator oder Server-Routen integriert
   ist.

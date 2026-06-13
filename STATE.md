@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-004-card-conditioned-dispatch`.
+- Aktueller Arbeitsbranch: `bpk-005-pre-registered-claims`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -93,6 +93,9 @@
 - BPK-004 ergaenzt einen side-effect-freien Card-Conditioned-Dispatch-Planer. Er bindet
   WLP-Contract-Drafts an explizite Card-Snapshots und entscheidet allow/review_required/blocked,
   ohne AICOS, Runtime, Worker, Provider, Push oder Frontend zu beruehren.
+- BPK-005 ergaenzt einen side-effect-freien Pre-Registered-Claims-Gate. Contract-Claims muessen
+  vor Dispatch exakt registriert und mit Evidence belegt sein; review/blockierte Card-Plaene
+  koennen dadurch nicht auf allow gehoben werden.
 
 ## Phasen
 
@@ -104,7 +107,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-004.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-005.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -192,6 +195,8 @@
 - BPK-004: Card-conditioned dispatch planning; fuegt eine reine Planungsfunktion hinzu, die
   explizite Card-Snapshots gegen einen WLP-Contract-Draft prueft und Dispatch nur als
   Planentscheidung erlaubt, downgradet oder blockiert. Keine Runtime-Integration.
+- BPK-005: Pre-registered claims; fuegt eine reine Claim-Gate-Funktion hinzu, die Contract-
+  Claims gegen explizite Registrierungen mit Evidence prueft. Keine Runtime-Integration.
 
 ## Maya-Anbindung
 
@@ -218,15 +223,14 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-004 ist die Card-Bedingung als reine Planentscheidung vorbereitet. Danach ist der
+Nach BPK-005 ist die Claim-Registrierung als reine Vor-Dispatch-Grenze vorbereitet. Danach ist der
 BPK-Pfad massgeblich:
 
-1. Pre-Registered Claims.
-2. CLI-Deduplizierung / Schema-Generierung.
-3. Dispatch / Frontend zuletzt.
+1. CLI-Deduplizierung / Schema-Generierung.
+2. Dispatch / Frontend zuletzt.
 
-Die alten Optionen bleiben historische Richtung, werden aber nicht vor Pre-Registered Claims
-gezogen:
+Die alten Optionen bleiben historische Richtung, werden aber nicht vor CLI-Deduplizierung /
+Schema-Generierung gezogen:
 
 1. Separat entscheiden, ob `MAYA_BUILDER_WRITE_PERMIT_ENFORCEMENT` zur Dauerregel werden soll.
 2. Mayas spaetere direkte Schreibautonomie als Policy-Entscheidung umsetzen: innerhalb enger

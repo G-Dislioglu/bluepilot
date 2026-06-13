@@ -5,6 +5,17 @@
 
 ---
 
+## 2026-06-13 - BPK-005 Pre-Registered Claims
+
+- Gebaut: `builder/src/preRegisteredClaims.ts` als side-effect-freier Claim-Gate vor Dispatch.
+- Verhalten: Alle Contract-Claims muessen exakt vorregistriert sein und mindestens eine Evidence-
+  Referenz haben. Fehlende, unerwartete, doppelte oder evidence-lose Registrierungen blockieren.
+- Sicherheitsentscheidung: Ein `review_required` oder `blocked` Card-Dispatch-Plan kann durch
+  Claim-Registrierung nicht zu `allow` gehoben werden. Keine Runtime-Integration.
+- Beweis: `npx tsx --test tests/preRegisteredClaims.test.ts` und `npm run typecheck` sind gruen.
+- Roter Faden weiter: CLI-Deduplizierung / Schema-Generierung darf erst nach BPK-005-Verify und
+  Review-Packet geoeffnet werden.
+
 ## 2026-06-13 - BPK-004 Card-Conditioned Dispatch
 
 - Gebaut: `builder/src/cardConditionedDispatch.ts` als side-effect-freier Dispatch-Planer,
