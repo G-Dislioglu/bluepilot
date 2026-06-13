@@ -5,6 +5,19 @@
 
 ---
 
+## 2026-06-13 - BPK-017 Runtime Dry-Run Route Contract
+
+- Gebaut: `builder/src/runtimeDryRunRouteContract.ts` als side-effect-freier Request/Response-
+  Vertrag fuer eine spaetere Runtime-Dry-Run-Route.
+- Verhalten: POST, Confirm-Phrase, passende Instruction und ein `ready` BPK-013-Plan sind
+  Pflicht. Blockierte oder review-pflichtige Plaene werden nicht als Erfolg dargestellt.
+- Sicherheitsentscheidung: Keine gemountete Route, kein `server.ts`, kein `probeDryRun.ts`, kein
+  Orchestrator, kein Provider, keine DB, kein GitHub-Write und keine UI.
+- Beweis: fokussierter Runtime-Dry-Run-Route-Contract-Test und Typecheck muessen vor Commit
+  gruen sein.
+- Roter Faden weiter: Cockpit Read-Only UI darf erst nach BPK-017-Verify und Review-Packet
+  geoeffnet werden.
+
 ## 2026-06-13 - BPK-016 PR Review Manual Receipts
 
 - Gebaut: `builder/src/bpkPrReviewManualReceipts.ts` als side-effect-freier Normalizer fuer

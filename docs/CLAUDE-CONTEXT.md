@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-016-pr-review-manual-receipts`.
+- Aktueller BPK-Arbeitsbranch: `bpk-017-runtime-dry-run-route-contract`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -152,6 +152,9 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 - BPK-016: `builder/src/bpkPrReviewManualReceipts.ts` normalisiert manuell uebergebene PR-/
   Review-Receipts in BPK-012-kompatible Records oder Quarantaene. Es gibt keinen GitHub-
   Connector und keinen Merge.
+- BPK-017: `builder/src/runtimeDryRunRouteContract.ts` validiert eine kuenftige Dry-Run-
+  Request-Form gegen einen BPK-013-Plan. Es gibt keine gemountete Server-Route und keinen
+  Orchestrator-Aufruf.
 
 ## Maya-Anbindung
 
@@ -197,18 +200,17 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-016 darf erst Runtime Dry-Run Route Contract geoeffnet werden, wenn:
+Nach BPK-017 darf erst Cockpit Read-Only UI geoeffnet werden, wenn:
 
-- das Review-Packet fuer BPK-016 existiert,
-- `npx tsx --test tests/bpkPrReviewManualReceipts.test.ts` und `npm run typecheck` in
+- das Review-Packet fuer BPK-017 existiert,
+- `npx tsx --test tests/runtimeDryRunRouteContract.test.ts` und `npm run typecheck` in
   `builder/` gruen sind,
-- `node tools/verify-task-lock.cjs BPK-016 --verify` gruen ist,
+- `node tools/verify-task-lock.cjs BPK-017 --verify` gruen ist,
 - `git diff --check` gruen ist,
 - keine Runtime-, Auth-, DB-, Deploy-, Live-Write-, GitHub-Merge-, Live-AICOS- oder UI-Freigabe
   still mitgezogen wurde.
 
 Naechste Hauptbloecke:
 
-1. Runtime Dry-Run Route.
-2. Cockpit Read-Only UI.
-3. Live AICOS Connector.
+1. Cockpit Read-Only UI.
+2. Live AICOS Connector.
