@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-018-cockpit-read-only-ui`.
+- Aktueller BPK-Arbeitsbranch: `bpk-019-live-aicos-connector-through-intake`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -158,6 +158,9 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 - BPK-018: `builder/src/cockpitReadOnlyHtml.ts` rendert BPK-009-Cockpit-Projektionen als
   statisches read-only HTML. Alle Actions bleiben disabled; es gibt keine Route und keine
   Runtime-Verdrahtung.
+- BPK-019: `builder/src/liveAicosConnectorThroughIntake.ts` routet bereits gelieferte
+  AICOS-Payloads nur bei ready BPK-015-Vertrag durch BPK-010-Intake. Es gibt keinen Live-Fetch
+  und keinen Cache-Write.
 
 ## Maya-Anbindung
 
@@ -203,17 +206,19 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-018 darf erst Live AICOS Connector geoeffnet werden, wenn:
+Nach BPK-019 ist die angeforderte Fortsetzung abgeschlossen, wenn:
 
-- das Review-Packet fuer BPK-018 existiert,
-- `npx tsx --test tests/cockpitReadOnlyHtml.test.ts` und `npm run typecheck` in
+- das Review-Packet fuer BPK-019 existiert,
+- `npx tsx --test tests/liveAicosConnectorThroughIntake.test.ts` und `npm run typecheck` in
   `builder/` gruen sind,
-- eine temporaere Static-Preview visuell/browserseitig geprueft wurde,
-- `node tools/verify-task-lock.cjs BPK-018 --verify` gruen ist,
+- `node tools/verify-task-lock.cjs BPK-019 --verify` gruen ist,
 - `git diff --check` gruen ist,
 - keine Runtime-, Auth-, DB-, Deploy-, Live-Write-, GitHub-Merge-, Live-AICOS- oder UI-Freigabe
   still mitgezogen wurde.
 
 Naechste Hauptbloecke:
 
-1. Live AICOS Connector.
+1. Runtime Route Mounting.
+2. Cockpit Route Mounting.
+3. Live AICOS Network Connector.
+4. Branch/PR Consolidation.

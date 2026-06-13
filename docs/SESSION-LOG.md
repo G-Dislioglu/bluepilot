@@ -5,6 +5,21 @@
 
 ---
 
+## 2026-06-13 - BPK-019 Live AICOS Connector Through Intake
+
+- Gebaut: `builder/src/liveAicosConnectorThroughIntake.ts` als side-effect-freier Adapter fuer
+  bereits gelieferte AICOS-Payloads.
+- Verhalten: Ein Payload wird nur bei ready BPK-015-Fetch-/Cache-Vertrag angenommen und immer
+  durch BPK-010-Intake normalisiert. Intake-Quarantaene wird `review_required`, nicht still
+  akzeptiert.
+- Sicherheitsentscheidung: Kein Live-Fetch, kein Cache-Write, kein Provider, keine DB, keine
+  Route, kein GitHub-Write, keine Runtime und keine UI.
+- Beweis: fokussierter Connector-through-Intake-Test, Typecheck und voller Builder-Testlauf
+  muessen vor Commit gruen sein.
+- Roter Faden weiter: Die angeforderte Fortsetzung ist nach BPK-019-Verify/Commit/Push
+  abgeschlossen. Naechste Hauptbloecke: Runtime Route Mounting, Cockpit Route Mounting, Live
+  AICOS Network Connector, Branch/PR Consolidation.
+
 ## 2026-06-13 - BPK-018 Cockpit Read-Only UI
 
 - Gebaut: `builder/src/cockpitReadOnlyHtml.ts` als side-effect-freier HTML-Renderer fuer
