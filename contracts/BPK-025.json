@@ -1,0 +1,106 @@
+{
+  "task_id": "BPK-025",
+  "task_name": "bluepilot-live-aicos-cache-persistence-decision-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-023-026-decision-bundle",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "external_read_boundary",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free decision layer for Live AICOS cache persistence, allowing only future memory-only caching when the fetch/cache contract and network result are safe, while durable persistence remains blocked until a separate storage contract exists.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/liveAicosFetchCacheContract.ts",
+    "builder/src/liveAicosNetworkConnector.ts",
+    "builder/src/liveAicosCachePersistenceDecision.ts",
+    "builder/tests/liveAicosCachePersistenceDecision.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BPK-023.json",
+    "contracts/BPK-024.json",
+    "contracts/BPK-025.json",
+    "contracts/BPK-026.json",
+    "builder/src/bpkBranchPrConsolidation.ts",
+    "builder/src/cockpitLiveModelSourceDecision.ts",
+    "builder/src/liveAicosCachePersistenceDecision.ts",
+    "builder/src/runtimeExecutionDecision.ts",
+    "builder/tests/bpkBranchPrConsolidation.test.ts",
+    "builder/tests/cockpitLiveModelSourceDecision.test.ts",
+    "builder/tests/liveAicosCachePersistenceDecision.test.ts",
+    "builder/tests/runtimeExecutionDecision.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-023.md",
+    "review-packets/BPK-024.md",
+    "review-packets/BPK-025.md",
+    "review-packets/BPK-026.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    ".github/**",
+    "builder/src/server.ts",
+    "builder/src/db.ts",
+    "builder/src/liveAicosNetworkConnector.ts",
+    "builder/scripts/**",
+    "builder/data/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not implement storage, durable cache, DB writes, filesystem cache files, scheduler, route, package changes, or workflow changes.",
+    "Do not change BPK-015 or BPK-022 semantics."
+  ],
+  "claims": [
+    "Memory-only cache readiness can be decided without implementing persistence.",
+    "Durable cache remains blocked until a separate storage contract exists.",
+    "Network review or quarantine prevents cache readiness."
+  ],
+  "assumptions": [
+    "A later block may build a memory-only adapter.",
+    "Durable storage needs a distinct authority and retention decision."
+  ],
+  "dod": [
+    "builder/src/liveAicosCachePersistenceDecision.ts exports decideLiveAicosCachePersistence.",
+    "Memory-only readiness requires cacheWriteAllowed and accepted network result.",
+    "Durable cache is blocked by explicit storage-contract requirement.",
+    "Network review yields review_required, not ready.",
+    "Focused tests, typecheck, task-lock verify, and diff-check pass."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "npx tsx --test tests/liveAicosCachePersistenceDecision.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-025 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "Storage implementation, DB, filesystem cache, route, scheduler, package, workflow, or deployment changes become necessary."
+  ],
+  "prior_task_findings": "BPK-015 allowed cache readiness classification and BPK-022 added network fetching. BPK-025 may decide persistence posture without storing data.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "9bbad06"
+}

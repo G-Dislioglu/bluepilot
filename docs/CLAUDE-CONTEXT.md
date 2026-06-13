@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-022-live-aicos-network-connector`.
+- Aktueller BPK-Arbeitsbranch: `bpk-023-026-consolidation-live-runtime-decisions`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -171,6 +171,17 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
   ready BPK-015-Vertrag, HTTPS-URL und Auth-Token-Provider und routet sie sofort durch BPK-019.
   Es gibt keine Route, keine Cache-Persistenz, keine DB, keine GitHub-Aktion und keine Cockpit-
   Live-Datenquelle.
+- BPK-023: `builder/src/bpkBranchPrConsolidation.ts` kombiniert Branch-Sequencing und manuelle
+  PR-Review-Receipts ohne GitHub-Aufruf, PR-Erstellung oder Merge.
+- BPK-024: `builder/src/cockpitLiveModelSourceDecision.ts` entscheidet, ob accepted Live-AICOS-
+  Daten spaeter als read-only Cockpit-Model-Quelle dienen duerfen. Ohne Operator-Review bleibt
+  Live-Sourcing review-pflichtig.
+- BPK-025: `builder/src/liveAicosCachePersistenceDecision.ts` entscheidet Cache-Persistenz nur
+  als Bereitschaft. Memory-only kann spaeter erlaubt werden; durable Cache bleibt bis zu einem
+  separaten Storage-Vertrag blockiert.
+- BPK-026: `builder/src/runtimeExecutionDecision.ts` entscheidet Runtime-Ausfuehrungsbereitschaft
+  ohne Ausfuehrung. Contract-only bleibt geschlossen, Dry-run-Ausfuehrung braucht Evidence,
+  Write-Ausfuehrung bleibt blockiert.
 
 ## Maya-Anbindung
 
@@ -216,18 +227,18 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-022 ist Live AICOS Network Connector abgeschlossen, wenn:
+Nach BPK-026 ist das Decision Bundle abgeschlossen, wenn:
 
-- das Review-Packet fuer BPK-022 existiert,
-- `npx tsx --test tests/liveAicosNetworkConnector.test.ts` und `npm run typecheck` in
-  `builder/` gruen sind,
-- `node tools/verify-task-lock.cjs BPK-022 --verify` gruen ist,
+- die Review-Packets fuer BPK-023 bis BPK-026 existieren,
+- die vier fokussierten Decision-Tests und `npm run typecheck` in `builder/` gruen sind,
+- `node tools/verify-task-lock.cjs BPK-023 --verify` bis BPK-026 gruen sind,
 - `git diff --check` gruen ist,
-- keine Route, kein Scheduler, kein Cache-Write, keine DB, kein GitHub, keine Cockpit-Live-
-  Datenquelle und keine Runtime-Ausfuehrung still mitgezogen wurde.
+- keine GitHub-Aktion, PR-Erstellung, Merge, Route, Cockpit-Wiring-Aenderung, Persistenz, DB,
+  Provider, Runtime-Ausfuehrung, Deploy- oder Package-Aenderung still mitgezogen wurde.
 
 Naechste Hauptbloecke:
 
-1. Branch/PR Consolidation.
-2. Cockpit Live Model Source Decision.
-3. Runtime Execution Decision.
+1. Branch/PR Receipt Intake Report.
+2. Cockpit Live Model Adapter Plan.
+3. Live AICOS Memory Cache Adapter Plan.
+4. Runtime Execution Mount Preflight.

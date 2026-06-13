@@ -148,6 +148,15 @@
   BPK-015-Vertrag, HTTPS-URL und Auth-Token-Provider und routet Payloads sofort durch BPK-019,
   ohne Route, Scheduler, Cache-Persistenz, DB, GitHub, Cockpit-Live-Quelle oder Runtime-
   Ausfuehrung.
+- BPK-023 ergaenzt eine side-effect-freie Branch/PR-Konsolidierung. Sie kombiniert BPK-011-
+  Sequencing mit BPK-012-Review-Receipts, ohne GitHub-Aufruf, PR-Erstellung oder Merge.
+- BPK-024 ergaenzt eine side-effect-freie Cockpit-Live-Model-Source-Decision. Live-AICOS-Daten
+  duerfen erst nach accepted Network Intake und Operator-Review als kuenftige read-only Cockpit-
+  Quelle gelten.
+- BPK-025 ergaenzt eine side-effect-freie Live-AICOS-Cache-Persistence-Decision. Memory-only
+  kann spaeter bereit sein; durable Cache bleibt bis zu einem separaten Storage-Vertrag blockiert.
+- BPK-026 ergaenzt eine side-effect-freie Runtime-Execution-Decision. Contract-only bleibt
+  geschlossen, Dry-run-Ausfuehrung braucht explizite Evidence, Write-Ausfuehrung bleibt blockiert.
 
 ## Phasen
 
@@ -159,7 +168,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-022.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-026.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -287,6 +296,14 @@
 - BPK-022: Live AICOS network connector; fetched Card-Payloads nur ueber explizite HTTPS-URL
   und Auth-Token-Provider bei ready Fetch-/Cache-Vertrag und leitet danach durch Intake. Keine
   Route, keine Persistenz, keine Cockpit- oder Runtime-Verdrahtung.
+- BPK-023: Branch/PR consolidation; kombiniert Sequencing und manuelle Review-Receipts. Keine
+  GitHub-Aktion, keine PR-Erstellung, kein Merge.
+- BPK-024: Cockpit live model source decision; entscheidet read-only Live-Quelle nur nach
+  accepted Network Intake und Operator-Review. Keine Cockpit-Verdrahtung.
+- BPK-025: Live AICOS cache persistence decision; erlaubt nur kuenftige Memory-only-Bereitschaft.
+  Durable Cache bleibt blockiert. Keine Persistenz.
+- BPK-026: Runtime execution decision; Dry-run-Ausfuehrung nur als spaetere Option mit Evidence,
+  Write-Ausfuehrung blockiert. Keine Runtime-Verdrahtung.
 
 ## Maya-Anbindung
 
@@ -313,16 +330,19 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-022 ist der Hauptblock Live AICOS Network Connector abgeschlossen: Der Fetch-Layer
-existiert, bleibt aber ungemountet und ohne Persistenz.
+Nach BPK-026 ist das gebuendelte Decision Bundle abgeschlossen: Branch/PR, Cockpit-Live-Quelle,
+Live-AICOS-Cache und Runtime-Ausfuehrung haben Entscheidungsschichten, aber keine externen
+Side Effects.
 
 Naechste Hauptbloecke:
 
-1. Branch/PR Consolidation: BPK-012 bis BPK-022 reviewen und in Merge-Reihenfolge bringen.
-2. Cockpit Live Model Source Decision: entscheiden, ob BPK-022 Daten spaeter in BPK-009/BPK-018
-   Cockpit-Modelle speisen darf.
-3. Runtime Execution Decision: entscheiden, ob `/probe/runtime-dry-run` jemals echte dry-run
-   Ausfuehrung statt nur Contract-Plan liefern darf.
+1. Branch/PR Receipt Intake Report: PR-Receipts strukturiert aufnehmen und gegen BPK-023
+   auswerten, ohne GitHub-Aktion.
+2. Cockpit Live Model Adapter Plan: accepted Live-AICOS-Cards in ein kuenftiges read-only
+   Cockpit-Modell planen, ohne Route/Wiring.
+3. Live AICOS Memory Cache Adapter Plan: Memory-only Cache-Adapter planen, ohne Durable Store.
+4. Runtime Execution Mount Preflight: Evidence fuer einen spaeteren Dry-run-Execution-Mount
+   sammeln, ohne Route zu aendern.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:

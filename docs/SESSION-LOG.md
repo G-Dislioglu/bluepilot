@@ -5,6 +5,25 @@
 
 ---
 
+## 2026-06-13 - BPK-023 bis BPK-026 Decision Bundle
+
+- Gebaut: vier side-effect-freie Entscheidungsschichten:
+  `bpkBranchPrConsolidation`, `cockpitLiveModelSourceDecision`,
+  `liveAicosCachePersistenceDecision` und `runtimeExecutionDecision`.
+- Verhalten: Branch/PR-Konsolidierung kombiniert vorhandene Sequenz- und Receipt-Pruefung ohne
+  GitHub-Aufruf. Cockpit-Live-Quelle bleibt read-only und braucht accepted Network Intake plus
+  Operator-Review. AICOS-Cache erlaubt nur kuenftige Memory-only-Bereitschaft; durable Cache bleibt
+  blockiert. Runtime-Ausfuehrung bleibt contract-only, ausser ein spaeterer Dry-run-Execution-Pfad
+  bringt Operator-, Maya-Gate-, Provider-Isolation- und Laufzeit-Evidence.
+- Sicherheitsentscheidung: Keine PR-Erstellung, kein Merge, keine Route, keine Cockpit-Wiring-
+  Aenderung, keine Persistenz, keine DB, kein GitHub, kein Provider, keine Runtime-Ausfuehrung,
+  kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechster Hauptblock ist kontrollierte Operationalisierung: PR-Receipt-
+  Intake/Report, Cockpit-Live-Model-Adapter-Plan, Memory-only-Cache-Adapter-Plan und Runtime-
+  Execution-Mount-Preflight, weiterhin ohne automatische Writes.
+
 ## 2026-06-13 - BPK-022 Live AICOS Network Connector
 
 - Gebaut: `builder/src/liveAicosNetworkConnector.ts` als isolierter Netzwerk-Connector fuer

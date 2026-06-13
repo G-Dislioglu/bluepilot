@@ -1,0 +1,110 @@
+{
+  "task_id": "BPK-024",
+  "task_name": "bluepilot-cockpit-live-model-source-decision-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-023-026-decision-bundle",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "operator_cockpit",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free decision layer for whether the read-only cockpit may use accepted Live AICOS data as a future model source, without changing cockpit routes, renderers, runtime actions, or live wiring.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/cockpitProjectionAdoptionContract.ts",
+    "builder/src/liveAicosNetworkConnector.ts",
+    "builder/src/cockpitLiveModelSourceDecision.ts",
+    "builder/tests/cockpitLiveModelSourceDecision.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BPK-023.json",
+    "contracts/BPK-024.json",
+    "contracts/BPK-025.json",
+    "contracts/BPK-026.json",
+    "builder/src/bpkBranchPrConsolidation.ts",
+    "builder/src/cockpitLiveModelSourceDecision.ts",
+    "builder/src/liveAicosCachePersistenceDecision.ts",
+    "builder/src/runtimeExecutionDecision.ts",
+    "builder/tests/bpkBranchPrConsolidation.test.ts",
+    "builder/tests/cockpitLiveModelSourceDecision.test.ts",
+    "builder/tests/liveAicosCachePersistenceDecision.test.ts",
+    "builder/tests/runtimeExecutionDecision.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-023.md",
+    "review-packets/BPK-024.md",
+    "review-packets/BPK-025.md",
+    "review-packets/BPK-026.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    ".github/**",
+    "builder/src/server.ts",
+    "builder/src/cockpitReadOnlyRoute.ts",
+    "builder/src/cockpitReadOnlyHtml.ts",
+    "builder/src/runtimeDryRunRoute.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/providers.ts",
+    "builder/src/db.ts",
+    "builder/scripts/**",
+    "builder/data/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not change the cockpit route, renderer, server mount, runtime route, live connector, or package files.",
+    "Do not make cockpit actions executable."
+  ],
+  "claims": [
+    "Live AICOS can become a future cockpit model source only after accepted network intake and operator review.",
+    "Sample/manual cockpit modes remain distinct from live AICOS sourcing.",
+    "Read-only and disabled-action invariants remain mandatory."
+  ],
+  "assumptions": [
+    "A later block may build the actual read-only live model adapter.",
+    "This block only decides readiness."
+  ],
+  "dod": [
+    "builder/src/cockpitLiveModelSourceDecision.ts exports decideCockpitLiveModelSource.",
+    "Live AICOS source readiness requires accepted network result and operator review reference.",
+    "Network blockers block live source readiness.",
+    "Sample-only mode keeps live source closed.",
+    "Focused tests, typecheck, task-lock verify, and diff-check pass."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "npx tsx --test tests/cockpitLiveModelSourceDecision.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-024 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "Route, renderer, runtime, provider, DB, GitHub, live wiring, package, or workflow changes become necessary."
+  ],
+  "prior_task_findings": "BPK-021 mounted a read-only cockpit route and BPK-022 added an unmounted Live AICOS network connector. BPK-024 may decide future source readiness without wiring them together.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "9bbad06"
+}
