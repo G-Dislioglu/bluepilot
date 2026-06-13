@@ -183,6 +183,14 @@
   zusammengefuehrt, ohne Mount und ohne Execution.
 - BPK-038 ergaenzt eine PR-Receipt-Artifact-File-Loader-Decision. Sichere lokale JSON-Pfade
   koennen bewertet werden, ohne Dateien zu lesen.
+- BPK-039 ergaenzt Cockpit-Route-Source-Mount-Prep. Eine kuenftige Source-Selector-
+  Verdrahtung fuer `/cockpit/read-only` wird vorbereitet, ohne Route oder Server zu aendern.
+- BPK-040 ergaenzt eine Live-AICOS-Memory-Cache-Read-Facade. Fresh Read und Lifecycle-Guard
+  werden gebuendelt, ohne Persistenz.
+- BPK-041 ergaenzt einen Runtime-Execution-Route-Mount-Contract. Mount-Form wird beschrieben,
+  aber Servermutation und Execution bleiben aus.
+- BPK-042 ergaenzt einen PR-Receipt-File-Loader-Contract. Request/Response wird beschrieben,
+  aber auch Erfolg liest keine Datei.
 
 ## Phasen
 
@@ -194,7 +202,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-038.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-042.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -353,6 +361,12 @@
 - BPK-037: Runtime execution route mount readiness; kombiniert Preflight und Contract. Kein
   Mount.
 - BPK-038: PR receipt artifact file loader decision; bewertet sichere Pfade. Kein File-Read.
+- BPK-039: Cockpit route source mount prep; bereitet default-off Source-Selector vor. Kein
+  Mount.
+- BPK-040: Live AICOS memory cache read facade; read-only Fassade ueber fresh Memory Entry. Kein
+  Store.
+- BPK-041: Runtime execution route mount contract; Mount-Contract ohne Servermutation.
+- BPK-042: PR receipt file loader contract; Request/Response ohne File-Read.
 
 ## Maya-Anbindung
 
@@ -379,20 +393,20 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-038 ist das gebuendelte Route/Cache/Runtime/File Decision Bundle abgeschlossen: Cockpit-
-Quelle, Cache-Lifecycle, Runtime-Mount-Readiness und File-Loader-Zulassung sind entschieden, aber
-ohne externe Side Effects.
+Nach BPK-042 ist das gebuendelte Mount/Facade/Loader Contract Bundle abgeschlossen: Cockpit-
+Source, Memory-Cache-Read, Runtime-Mount und PR-Receipt-Loader haben Contract-/Facade-Schichten,
+aber keine externen Side Effects.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Route Source Mount Prep: default-off Source-Selector vorbereiten, ohne Route noch zu
-   aendern.
-2. Live AICOS Memory Cache Read Facade: Cache-Lifecycle und Entry-Read zu einer read-only Fassade
-   buendeln.
-3. Runtime Execution Route Mount Contract: Mount-Form fuer eine spaetere Route definieren, ohne
-   `server.ts`.
-4. PR Receipt File Loader Contract: Request/Response fuer einen spaeteren lokalen Loader
-   definieren, ohne Filesystem-Zugriff.
+1. Cockpit Route Source Handler Skeleton: Handler-Funktion vorbereiten, aber nicht in `server.ts`
+   mounten.
+2. Live AICOS Memory Cache Store Shell: in-process Store-Shell fuer explizite Entries, ohne
+   Durable Store.
+3. Runtime Execution Route Handler Skeleton: Handler-Funktion vorbereiten, aber nicht mounten und
+   nicht ausfuehren.
+4. PR Receipt File Loader Implementation: lokalen Loader innerhalb BPK-042-Regeln bauen, eng
+   begrenzt und ohne GitHub.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:

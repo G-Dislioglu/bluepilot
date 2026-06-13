@@ -5,6 +5,23 @@
 
 ---
 
+## 2026-06-13 - BPK-039 bis BPK-042 Mount/Facade/Loader Contracts
+
+- Gebaut: vier side-effect-freie Contract-/Facade-Schichten:
+  `cockpitRouteSourceMountPrep`, `liveAicosMemoryCacheReadFacade`,
+  `runtimeExecutionRouteMountContract` und `prReceiptFileLoaderContract`.
+- Verhalten: Cockpit-Source-Mount wird vorbereitet, Memory-Cache-Read wird als read-only
+  Fassade gebuendelt, Runtime-Execution-Route bekommt einen Mount-Contract, und PR-Receipt-
+  File-Loader bekommt einen Request/Response-Contract.
+- Sicherheitsentscheidung: Keine Route-Aenderung, kein File-Read, keine GitHub-Aktion, keine
+  Persistenz, keine DB, kein Provider, keine Runtime-Ausfuehrung, kein Deploy und keine Package-
+  Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sind die echten, aber weiterhin default-off
+  Integrationsschichten: Cockpit Route Source Handler, Memory Cache Store Shell, Runtime
+  Execution Route Handler Skeleton und PR Receipt File Loader Implementation.
+
 ## 2026-06-13 - BPK-035 bis BPK-038 Route/Cache/Runtime/File Decisions
 
 - Gebaut: vier side-effect-freie Readiness-/Decision-Schichten:
