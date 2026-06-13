@@ -1,0 +1,100 @@
+{
+  "task_id": "BPK-001",
+  "task_name": "Doc Drift Hygiene",
+  "created": "2026-06-13",
+  "scope": "bluepilot/anchor/doc-drift-hygiene",
+  "mode": "standard",
+  "task_type": "doc_task",
+  "risk_class": "medium",
+  "impact_class": "governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Bring docs/CLAUDE-CONTEXT.md back to the real BP-149 state recorded in STATE.md, install the optimized Codex direction brief as the current working anchor, and record a hard live-request fact for the maya-core /api/maya/memory path without changing runtime behavior.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "docs/CODEX-RICHTUNGSBRIEF-optimized.md",
+    "tools/maya-memory.cjs",
+    "tools/maya-memory-remote-client.cjs",
+    "builder/src/sandboxWrite.ts",
+    "builder/src/server.ts",
+    "contracts/BP-148.json",
+    "review-packets/BP-148.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BPK-001.json",
+    "docs/CODEX-RICHTUNGSBRIEF-optimized.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-001.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "builder/**",
+    "package.json",
+    "package-lock.json",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not change runtime code, builder routes, permit behavior, maya-core code, deployment settings, package files, or feature goals.",
+    "Do not perform a sandbox write, GitHub write, DB write, or Render environment change.",
+    "Do not claim authenticated maya-core memory usage unless the request proves it.",
+    "Do not open BPK-002 until BPK-001 gates are green."
+  ],
+  "claims": [
+    "docs/CLAUDE-CONTEXT.md no longer claims BP-121/BP-125-era state as current.",
+    "docs/CLAUDE-CONTEXT.md records BP-126 through BP-149 at anchor level, including builder subpackage, Render deploy, permit-gated sandbox write proof, retired legacy endpoints, and POST /probe/sandbox-write.",
+    "docs/CLAUDE-CONTEXT.md records the hard fact from a real request to https://maya-core.onrender.com/api/maya/memory?origin=bluepilot.",
+    "docs/CODEX-RICHTUNGSBRIEF-optimized.md exists and resolves the Claude brief's encoding, repo-context, forbidden-file, GOAL_DELTA, push, API-test, and autonomy ambiguities.",
+    "STATE.md and docs/SESSION-LOG.md record BPK-001 without altering runtime truth."
+  ],
+  "assumptions": [
+    "This local repo is the BP-149 Bluepilot candidate because STATE.md records BP-149 and git HEAD is c7c3c97.",
+    "The original Claude brief is an external AI output and must be corrected against this repo before becoming binding.",
+    "The current machine has no MAYA_CORE_GATE_TOKEN or MAYA_BUILDER_GATE_TOKEN environment value available for authenticated memory proof."
+  ],
+  "dod": [
+    "docs/CODEX-RICHTUNGSBRIEF-optimized.md is present and ASCII-clean.",
+    "docs/CLAUDE-CONTEXT.md is updated to BP-149 anchor truth.",
+    "The maya-core memory route live-request result is recorded as live-auth-required, not guessed.",
+    "docs/SESSION-LOG.md and STATE.md record BPK-001.",
+    "review-packets/BPK-001.md records critical review, changed files, gates, evidence, and next block.",
+    "node tools/verify-task-lock.cjs BPK-001 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "content_check",
+    "link_check"
+  ],
+  "required_commands": [
+    "Invoke-WebRequest -Uri https://maya-core.onrender.com/api/maya/memory?origin=bluepilot -Method Get",
+    "node tools/verify-task-lock.cjs BPK-001 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "Any runtime or builder code change becomes necessary.",
+    "Any secret, token, DB, Render, or GitHub write operation becomes necessary.",
+    "The current repo cannot be confirmed as the BP-149 Bluepilot repo.",
+    "A forbidden file must be touched."
+  ],
+  "prior_task_findings": "STATE.md already records BP-149, while docs/CLAUDE-CONTEXT.md still speaks from the old BP-121/BP-125 anchor era. The optimized direction brief corrects the external Claude text before implementation.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "c7c3c97"
+}

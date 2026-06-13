@@ -5,6 +5,23 @@
 
 ---
 
+## 2026-06-13 - BPK-001 Doc-Drift-Hygiene
+
+- Gebaut: Der neue Arbeitsanker `docs/CODEX-RICHTUNGSBRIEF-optimized.md` wurde aus dem
+  externen Claude/Codex-Richtungsbrief bereinigt: Encoding repariert, Repo-Kontext geklaert,
+  FORBIDDEN_FILES/GOAL_DELTA/Push-Regel/API-Test/Autonomie operationalisiert.
+- Gebaut: `docs/CLAUDE-CONTEXT.md` wurde auf die echte BP-149-Wahrheit aus `STATE.md`
+  gehoben. Der Anker beschreibt jetzt Builder-Subpackage, Render-Service
+  `bluepilot-builder`, BP-147 Permit-Write-Proof, retired Legacy-Endpunkte und den
+  BP-149-Pfad `POST /probe/sandbox-write`.
+- Geprueft: Echte Anfrage an
+  `https://maya-core.onrender.com/api/maya/memory?origin=bluepilot` lieferte HTTP 401
+  mit `{"error":"unauthorized"}`. Harte Bewertung: `live-auth-required`.
+- Sicherheitsentscheidung: Kein Runtime-Code, kein Builder-Code, keine Auth-/Token-/DB- oder
+  Deploy-Aenderung. Ohne Gate-Token wird kein authentifizierter Bluepilot-Memory-Erfolg
+  behauptet; lokaler Offline-Fallback bleibt korrekt.
+- Roter Faden weiter: BPK-002 darf erst nach gruenem BPK-001-Verify geoeffnet werden.
+
 ## 2026-06-06 - BP-149 Maya sandbox write door
 
 - Gebaut: Der alte Permit-Demo-Trigger `/probe/sandbox-permit-write` wurde durch

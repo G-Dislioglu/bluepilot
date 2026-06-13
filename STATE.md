@@ -1,7 +1,7 @@
 # STATE - Bluepilot
 
 > Momentaufnahme nach `docs/CLAUDE-CONTEXT.md` und `docs/SESSION-LOG.md`.
-> Stand: 2026-06-02.
+> Stand: 2026-06-13.
 
 ## Branch und Stand
 
@@ -13,7 +13,10 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `main`.
+- Aktueller Arbeitsbranch: `bpk-001-doc-drift-hygiene`.
+- BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
+  BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
+  Arbeitsanker fuer den BPK-Pfad.
 - Nach Abschluss von BP-126 enthaelt Bluepilot ein separates TypeScript-Subpackage unter
   `builder/`.
 - BP-127 migriert die erste echte Builder-Code-Welle: 14 pure-logic Module unter `builder/src/`.
@@ -76,6 +79,10 @@
   akzeptiert nur `{ path, contentBase64 }`, validiert den Pfad, schreibt nur in
   `G-Dislioglu/bluepilot-sandbox` und entscheidet per GitHub-SHA zwischen create
   und update.
+- BPK-001 prueft den maya-core Memory-Pfad live: `GET
+  https://maya-core.onrender.com/api/maya/memory?origin=bluepilot` antwortet HTTP 401
+  `{"error":"unauthorized"}`. Bewertung: `live-auth-required`; ohne Gate-Token wird
+  kein authentifizierter Bluepilot-Memory-Erfolg behauptet.
 
 ## Phasen
 
@@ -87,7 +94,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-001.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -191,7 +198,16 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BP-125 ist das Anker-Projekt abgeschlossen. Danach gibt es zwei saubere Optionen:
+Nach BPK-001 ist der Anker wieder BP-149-konsistent. Danach ist der BPK-Pfad massgeblich:
+
+1. BPK-002 Permit-Generalisierung.
+2. BPK-003 WorkerPacket-to-WLP-Adapter.
+3. Card-Conditioned Dispatch.
+4. Pre-Registered Claims.
+5. CLI-Deduplizierung / Schema-Generierung.
+6. Dispatch / Frontend zuletzt.
+
+Die alten Optionen bleiben historische Richtung, werden aber nicht vor BPK-002 gezogen:
 
 1. Separat entscheiden, ob `MAYA_BUILDER_WRITE_PERMIT_ENFORCEMENT` zur Dauerregel werden soll.
 2. Mayas spaetere direkte Schreibautonomie als Policy-Entscheidung umsetzen: innerhalb enger
