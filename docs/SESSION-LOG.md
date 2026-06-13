@@ -5,6 +5,19 @@
 
 ---
 
+## 2026-06-13 - BPK-009 Cockpit Projection Adoption Contract
+
+- Gebaut: `builder/src/cockpitProjectionAdoptionContract.ts` als side-effect-freier Cockpit-
+  Adoptionsvertrag fuer spaetere UI-Nutzung.
+- Verhalten: Readiness-Projektion und Runtime-Integrationsvertrag werden zu einem
+  cockpit-faehigen Modell mit `ready`, `review`, `blocked` oder `invalid`.
+- Sicherheitsentscheidung: Blockierte und Review-Zustaende sind fuer Operator-Inspection
+  renderbar, aber alle ausfuehrbaren Aktionen bleiben deaktiviert. Keine UI-Dateien, keine
+  Route, keine Runtime-Aktion.
+- Beweis: fokussierter Cockpit-Adoption-Test und Typecheck muessen vor Commit gruen sein.
+- Roter Faden weiter: Live AICOS/Card Binding Intake darf erst nach BPK-009-Verify und
+  Review-Packet geoeffnet werden.
+
 ## 2026-06-13 - BPK-008 Runtime Dispatch Integration Contract
 
 - Gebaut: `builder/src/runtimeDispatchIntegrationContract.ts` als side-effect-freier
