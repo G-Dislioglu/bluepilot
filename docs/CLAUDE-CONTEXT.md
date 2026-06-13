@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-010-live-aicos-card-binding-intake`.
+- Aktueller BPK-Arbeitsbranch: `bpk-011-branch-merge-release-sequencing`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -134,6 +134,9 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 - BPK-010: `builder/src/aicosCardBindingIntake.ts` normalisiert und prueft angelieferte
   AICOS-Card-Snapshots. Ungueltige, doppelte oder evidence-lose Cards werden quarantaenisiert;
   es gibt keinen Live-AICOS-Aufruf.
+- BPK-011: `builder/src/bpkBranchMergeReleaseSequencing.ts` plant BPK-Branch-Merge-/Release-
+  Reihenfolge, Blocker und Release Notes aus uebergebenen Metadaten. Es gibt keine GitHub-,
+  Merge-, PR- oder Deploy-Aktion.
 
 ## Maya-Anbindung
 
@@ -179,15 +182,19 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-010 darf erst BPK Branch Merge/Release Sequencing geoeffnet werden, wenn:
+Nach BPK-011 ist die angeforderte Viererfolge abgeschlossen, wenn:
 
-- das Review-Packet fuer BPK-010 existiert,
-- `npx tsx --test tests/aicosCardBindingIntake.test.ts` und `npm run typecheck` in
+- das Review-Packet fuer BPK-011 existiert,
+- `npx tsx --test tests/bpkBranchMergeReleaseSequencing.test.ts` und `npm run typecheck` in
   `builder/` gruen sind,
-- `node tools/verify-task-lock.cjs BPK-010 --verify` gruen ist,
+- `node tools/verify-task-lock.cjs BPK-011 --verify` gruen ist,
 - `git diff --check` gruen ist,
-- keine Runtime-, Auth-, DB-, Deploy-, Live-Write- oder UI-Freigabe still mitgezogen wurde.
+- keine Runtime-, Auth-, DB-, Deploy-, Live-Write-, GitHub-Merge- oder UI-Freigabe still
+  mitgezogen wurde.
 
 Naechste Hauptbloecke:
 
-1. Merge/Release Sequencing.
+1. PR/Review Execution.
+2. Runtime Dry-Run Adapter.
+3. Cockpit UI Implementation.
+4. Live AICOS Fetch/Cache.

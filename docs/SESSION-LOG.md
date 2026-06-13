@@ -5,6 +5,20 @@
 
 ---
 
+## 2026-06-13 - BPK-011 BPK Branch Merge/Release Sequencing
+
+- Gebaut: `builder/src/bpkBranchMergeReleaseSequencing.ts` als side-effect-freier Planer fuer
+  BPK-Branch-Reihenfolge, Blocker, Review-Items und Release-Notiz-Bullets.
+- Verhalten: Fehlende Vorgaenger, doppelte Task-IDs, blockierte Kandidaten und nicht-gruene
+  Checks blockieren Release-Readiness; review-pflichtige Kandidaten halten den Plan in Review.
+- Sicherheitsentscheidung: Kein Git-Merge, kein Push nach `main`, keine PR-Erstellung, kein
+  GitHub-API-Aufruf, kein Workflow, kein Deploy und keine Runtime/UI-Aenderung.
+- Beweis: fokussierter Sequencing-Test, Typecheck und danach voller Builder-Testlauf muessen vor
+  Commit gruen sein.
+- Roter Faden weiter: Die angeforderte Viererfolge ist nach BPK-011-Verify/Commit/Push
+  abgeschlossen. Naechste Hauptbloecke: PR/Review Execution, Runtime Dry-Run Adapter, Cockpit UI
+  Implementation, Live AICOS Fetch/Cache.
+
 ## 2026-06-13 - BPK-010 Live AICOS/Card Binding Intake
 
 - Gebaut: `builder/src/aicosCardBindingIntake.ts` als side-effect-freier Intake-Normalizer fuer

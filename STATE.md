@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-010-live-aicos-card-binding-intake`.
+- Aktueller Arbeitsbranch: `bpk-011-branch-merge-release-sequencing`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -111,6 +111,9 @@
 - BPK-010 ergaenzt einen side-effect-freien AICOS-Card-Intake-Normalizer. Angelieferte Card-
   Snapshots werden validiert, normalisiert, dedupliziert und bei Fehlern quarantaenisiert, ohne
   AICOS live aufzurufen.
+- BPK-011 ergaenzt einen side-effect-freien BPK-Branch-Merge-/Release-Sequencing-Planer. Er
+  ordnet Branch-Kandidaten, erkennt fehlende Vorgaenger, rote Checks und Review-Bedarf und
+  erzeugt Release-Notiz-Abschnitte, ohne Git/GitHub-Aktionen auszufuehren.
 
 ## Phasen
 
@@ -122,7 +125,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-010.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-011.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -225,6 +228,8 @@
   ausfuehrbar.
 - BPK-010: Live AICOS/Card binding intake; fuegt eine reine Intake-Schicht hinzu, die
   uebergebene AICOS-Card-Snapshots prueft und nur sichere DispatchConditionCard-Daten weitergibt.
+- BPK-011: BPK branch merge/release sequencing; fuegt einen reinen Planer fuer Branch-Reihenfolge,
+  Blocker und Release Notes hinzu. Keine Merge-, PR-, GitHub- oder Deploy-Aktion.
 
 ## Maya-Anbindung
 
@@ -251,13 +256,17 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-010 ist Live AICOS/Card Binding als Intake-Schicht vorbereitet. Es gibt weiterhin keinen
-Live-Fetch; der naechste Block darf nur Merge/Release Sequencing oeffnen.
+Nach BPK-011 ist die angeforderte Viererfolge abgeschlossen: Runtime Dispatch Integration
+Contract, Cockpit Projection Adoption Contract, Live AICOS/Card Binding Intake und Branch
+Merge/Release Sequencing liegen als reine Contract-/Planungsschicht vor.
 
 Naechste Hauptbloecke:
 
-1. Merge/Release Sequencing: BPK-Branches in sicherer Reihenfolge reviewen, mergen und ggf.
-   Release Notes schneiden.
+1. PR/Review Execution: BPK-008 bis BPK-011 als PRs pruefen und in Reihenfolge mergen.
+2. Runtime Dry-Run Adapter: erst nach Merge entscheiden, ob BPK-008 in einen trockenen
+   Runtime-Pfad verdrahtet wird.
+3. Cockpit UI Implementation: erst nach Contract-Stabilitaet und mit Sicht-Test-Evidence.
+4. Live AICOS Fetch/Cache: erst nach Intake-Stabilitaet und mit Auth-/Cache-Vertrag.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:
