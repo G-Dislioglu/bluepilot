@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-043-046-handler-store-loader-implementations`.
+- Aktueller Arbeitsbranch: `bpk-047-050-mount-readiness-binding-runbook`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -200,6 +200,15 @@
 - BPK-046 ergaenzt eine lokale PR-Receipt-File-Loader-Implementation. Sie liest nur unter
   BPK-038/BPK-042-, Root-, Path- und Max-Byte-Guard und importiert ueber BPK-031; GitHub/PR/Merge
   bleiben geschlossen.
+- BPK-047 ergaenzt Cockpit-Handler-Mount-Readiness. Ready Handler Output, Default-off-Env-Gate
+  und Route-Module-Ref werden geprueft, ohne Server, Route oder Renderer zu aendern.
+- BPK-048 ergaenzt Memory-Cache-Facade-Store-Binding. Die in-process Store-Shell speist die
+  Read-Facade unter Lifecycle-Checks; Durable Store bleibt geschlossen.
+- BPK-049 ergaenzt Runtime-Handler-Mount-Readiness. Ready Handler Output und Mount-Contract
+  werden geprueft, ohne Mount, Orchestrator oder Execution.
+- BPK-050 ergaenzt einen PR-Receipt-Loader-Operator-Runbook-Contract. Loader-Evidence,
+  Operator-Freigabe, Root-Policy und Evidence-Refs werden beschrieben, ohne File-Read oder
+  externe Aktion.
 
 ## Phasen
 
@@ -211,7 +220,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-046.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-050.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -384,6 +393,13 @@
   Execution.
 - BPK-046: PR receipt file loader implementation; lokaler JSON-Read unter engen Guards, Import
   ueber BPK-031, keine GitHub-Aktion.
+- BPK-047: Cockpit handler mount readiness; default-off Mount-Bereitschaft ohne Server- oder
+  Route-Aenderung.
+- BPK-048: Memory cache facade store binding; Store-Shell und Read-Facade gebunden ohne Durable
+  Store.
+- BPK-049: Runtime handler mount readiness; default-off Mount-Bereitschaft ohne Execution.
+- BPK-050: PR receipt loader operator runbook; Operator-Prozess als Contract ohne File-Read oder
+  externe Aktion.
 
 ## Maya-Anbindung
 
@@ -410,20 +426,20 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-046 ist das gebuendelte Handler/Store/Loader Implementation Bundle abgeschlossen:
-Cockpit-Source-Auswahl, Memory-Cache-Store-Shell, Runtime-Execution-Handler-Skeleton und lokaler
-PR-Receipt-JSON-Loader sind eng implementiert, aber externe Side Effects bleiben geschlossen.
+Nach BPK-050 ist das gebuendelte Mount-Readiness/Binding/Runbook Bundle abgeschlossen:
+Cockpit- und Runtime-Handler koennen als mount-ready bewertet werden, Store und Read-Facade sind
+kontrolliert gebunden, und PR-Receipt-Loader-Nutzung ist als Operator-Runbook beschrieben; externe
+Side Effects bleiben geschlossen.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Handler Mount Readiness: pruefen, ob der Handler default-off in die bestehende
-   Cockpit-Route integriert werden darf, ohne Actions zu oeffnen.
-2. Memory Cache Facade Store Binding: Store-Shell und Read-Facade kontrolliert zusammenfuehren,
-   ohne Durable Store.
-3. Runtime Handler Mount Readiness: pruefen, ob der Runtime-Handler default-off gemountet werden
-   darf, ohne Execution zu oeffnen.
-4. PR Receipt Loader Operator Runbook: Operator-Prozess, erlaubte Roots und Evidence fuer lokale
-   Receipt-Loads dokumentieren.
+1. Cockpit Default-off Mount Contract: konkrete Server-Mount-Form beschreiben, weiterhin ohne
+   `server.ts`-Aenderung.
+2. Memory Cache Operator Invalidation Contract: manuelle Invalidation kontrollieren, ohne
+   Scheduler oder Durable Store.
+3. Runtime Default-off Mount Contract: konkrete Server-Mount-Form beschreiben, weiterhin ohne
+   Execution.
+4. PR Receipt Loader Evidence Pack: Loader-/Runbook-Evidence buendeln, ohne GitHub oder Merge.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:

@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-043-046-handler-store-loader-implementations`.
+- Aktueller BPK-Arbeitsbranch: `bpk-047-050-mount-readiness-binding-runbook`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -227,6 +227,14 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 - BPK-046: `builder/src/prReceiptFileLoaderImplementation.ts` liest lokale PR-Receipt-JSON-
   Dateien nur unter BPK-038/BPK-042-, Root-, Path- und Max-Byte-Guard und importiert sie ueber
   BPK-031. Kein GitHub, keine PR-Erstellung, kein Merge.
+- BPK-047: `builder/src/cockpitHandlerMountReadiness.ts` bewertet, ob der BPK-043-Cockpit-
+  Handler default-off mount-ready ist. Keine Server-, Route- oder Renderer-Aenderung.
+- BPK-048: `builder/src/memoryCacheFacadeStoreBinding.ts` bindet die BPK-044-Store-Shell an die
+  BPK-040-Read-Facade ueber Lifecycle-Checks. Kein Durable Store.
+- BPK-049: `builder/src/runtimeHandlerMountReadiness.ts` bewertet, ob der BPK-045-Runtime-
+  Handler default-off mount-ready ist. Keine Route, kein Orchestrator und keine Execution.
+- BPK-050: `builder/src/prReceiptLoaderOperatorRunbook.ts` erzeugt einen Operator-Runbook-
+  Contract fuer BPK-046-Loader-Evidence. Keine File-Reads, GitHub-Aktionen, PRs oder Merges.
 
 ## Maya-Anbindung
 
@@ -272,12 +280,12 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-046 ist das Handler/Store/Loader Implementation Bundle abgeschlossen, wenn:
+Nach BPK-050 ist das Mount-Readiness/Binding/Runbook Bundle abgeschlossen, wenn:
 
-- die Review-Packets fuer BPK-043 bis BPK-046 existieren,
-- die vier fokussierten Handler-/Store-/Loader-Tests und `npm run typecheck` in `builder/` gruen
+- die Review-Packets fuer BPK-047 bis BPK-050 existieren,
+- die vier fokussierten Readiness-/Binding-/Runbook-Tests und `npm run typecheck` in `builder/` gruen
   sind,
-- `node tools/verify-task-lock.cjs BPK-043 --verify` bis BPK-046 gruen sind,
+- `node tools/verify-task-lock.cjs BPK-047 --verify` bis BPK-050 gruen sind,
 - `git diff --check` gruen ist,
 - keine Server-Mounts, keine Renderer-Aenderung, keine Durable Persistenz, keine DB, kein
   Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein Write, kein Deploy und
@@ -285,7 +293,7 @@ Nach BPK-046 ist das Handler/Store/Loader Implementation Bundle abgeschlossen, w
 
 Naechste Hauptbloecke:
 
-1. Cockpit Handler Mount Readiness.
-2. Memory Cache Facade Store Binding.
-3. Runtime Handler Mount Readiness.
-4. PR Receipt Loader Operator Runbook.
+1. Cockpit Default-off Mount Contract.
+2. Memory Cache Operator Invalidation Contract.
+3. Runtime Default-off Mount Contract.
+4. PR Receipt Loader Evidence Pack.

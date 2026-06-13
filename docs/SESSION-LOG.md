@@ -5,6 +5,24 @@
 
 ---
 
+## 2026-06-13 - BPK-047 bis BPK-050 Mount Readiness / Binding / Runbook
+
+- Gebaut: vier kontrollierte Adoption-Schichten:
+  `cockpitHandlerMountReadiness`, `memoryCacheFacadeStoreBinding`,
+  `runtimeHandlerMountReadiness` und `prReceiptLoaderOperatorRunbook`.
+- Verhalten: Cockpit- und Runtime-Handler koennen als mount-ready bewertet werden, ohne Server
+  oder Routen zu aendern; Store-Shell und Read-Facade werden ueber Lifecycle-Checks gebunden;
+  PR-Receipt-Loader-Nutzung wird als Operator-Runbook-Contract beschrieben.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sind Server-Mount-Entscheidungen und Live-Operator-
+  Verfahren nur als Default-off-/Policy-Schichten: Cockpit Default-off Mount Contract, Memory
+  Cache Operator Invalidation Contract, Runtime Default-off Mount Contract und PR Receipt Loader
+  Evidence Pack.
+
 ## 2026-06-13 - BPK-043 bis BPK-046 Handler/Store/Loader Implementations
 
 - Gebaut: vier eng begrenzte Implementierungsschichten:
