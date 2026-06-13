@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-019-live-aicos-connector-through-intake`.
+- Aktueller Arbeitsbranch: `bpk-020-runtime-route-mounting-dry-run`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -138,6 +138,9 @@
 - BPK-019 ergaenzt einen side-effect-freien Live-AICOS-Connector-through-Intake-Adapter. Ein
   uebergebener AICOS-Payload wird nur bei ready BPK-015-Vertrag akzeptiert und dann durch
   BPK-010-Intake normalisiert.
+- BPK-020 mountet eine default-off Runtime-Dry-Run-Contract-Route unter
+  `/probe/runtime-dry-run`. Sie gibt nur einen BPK-013/BPK-017-Plan zurueck, ruft keinen
+  Orchestrator auf und bleibt ohne `BLUEPILOT_RUNTIME_DRY_RUN_ROUTE_ENABLED=true` geschlossen.
 
 ## Phasen
 
@@ -149,7 +152,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-019.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-020.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -270,6 +273,8 @@
   Projection-Modelle hinzu. Keine Route, keine Runtime, alle Actions disabled.
 - BPK-019: Live AICOS connector through intake; fuegt einen reinen Adapter fuer bereits
   uebergebene AICOS-Payloads hinzu. Kein Fetch, kein Cache-Write, Intake bleibt Pflicht.
+- BPK-020: Runtime route mounting dry run; mountet eine default-off Route, die nur den
+  Contract-Plan zurueckgibt. Kein Orchestrator, kein Provider, kein Write.
 
 ## Maya-Anbindung
 
@@ -296,15 +301,16 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-019 ist die angeforderte Fortsetzung abgeschlossen: Manual PR Receipts, Runtime Dry-Run
-Route Contract, Cockpit Read-Only UI und Live AICOS Connector through Intake liegen vor.
+Nach BPK-020 ist der Hauptblock Runtime Route Mounting abgeschlossen: die Route ist gemountet,
+aber default-off und contract-only.
 
 Naechste Hauptbloecke:
 
-1. Runtime Route Mounting: BPK-017 bewusst in `server.ts` verdrahten, nur dry-run und gated.
-2. Cockpit Route Mounting: BPK-018 read-only HTML ueber eine Route ausliefern.
-3. Live AICOS Network Connector: echten Fetch hinter BPK-015 und BPK-019 legen.
-4. Branch/PR Consolidation: BPK-012 bis BPK-019 reviewen und in Merge-Reihenfolge bringen.
+1. Cockpit Route Mounting: BPK-018 read-only HTML ueber eine Route ausliefern.
+2. Live AICOS Network Connector: echten Fetch hinter BPK-015 und BPK-019 legen.
+3. Branch/PR Consolidation: BPK-012 bis BPK-020 reviewen und in Merge-Reihenfolge bringen.
+4. Runtime Execution Decision: entscheiden, ob `/probe/runtime-dry-run` jemals echte dry-run
+   Ausfuehrung statt nur Contract-Plan liefern darf.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:

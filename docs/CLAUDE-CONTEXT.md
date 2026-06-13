@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-019-live-aicos-connector-through-intake`.
+- Aktueller BPK-Arbeitsbranch: `bpk-020-runtime-route-mounting-dry-run`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -161,6 +161,9 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 - BPK-019: `builder/src/liveAicosConnectorThroughIntake.ts` routet bereits gelieferte
   AICOS-Payloads nur bei ready BPK-015-Vertrag durch BPK-010-Intake. Es gibt keinen Live-Fetch
   und keinen Cache-Write.
+- BPK-020: `builder/src/runtimeDryRunRoute.ts` mountet ueber `server.ts` eine default-off Route
+  `/probe/runtime-dry-run`. Sie gibt nur einen BPK-013/BPK-017-Contract-Plan zurueck und ruft
+  keinen Orchestrator auf.
 
 ## Maya-Anbindung
 
@@ -206,19 +209,19 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-019 ist die angeforderte Fortsetzung abgeschlossen, wenn:
+Nach BPK-020 ist Runtime Route Mounting abgeschlossen, wenn:
 
-- das Review-Packet fuer BPK-019 existiert,
-- `npx tsx --test tests/liveAicosConnectorThroughIntake.test.ts` und `npm run typecheck` in
+- das Review-Packet fuer BPK-020 existiert,
+- `npx tsx --test tests/runtimeDryRunRoute.test.ts` und `npm run typecheck` in
   `builder/` gruen sind,
-- `node tools/verify-task-lock.cjs BPK-019 --verify` gruen ist,
+- `node tools/verify-task-lock.cjs BPK-020 --verify` gruen ist,
 - `git diff --check` gruen ist,
 - keine Runtime-, Auth-, DB-, Deploy-, Live-Write-, GitHub-Merge-, Live-AICOS- oder UI-Freigabe
   still mitgezogen wurde.
 
 Naechste Hauptbloecke:
 
-1. Runtime Route Mounting.
-2. Cockpit Route Mounting.
-3. Live AICOS Network Connector.
-4. Branch/PR Consolidation.
+1. Cockpit Route Mounting.
+2. Live AICOS Network Connector.
+3. Branch/PR Consolidation.
+4. Runtime Execution Decision.

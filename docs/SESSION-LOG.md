@@ -5,6 +5,18 @@
 
 ---
 
+## 2026-06-13 - BPK-020 Runtime Route Mounting Dry Run
+
+- Gebaut: `builder/src/runtimeDryRunRoute.ts` und Mount in `builder/src/server.ts` fuer
+  `POST /probe/runtime-dry-run`.
+- Verhalten: Die Route ist default-off hinter `BLUEPILOT_RUNTIME_DRY_RUN_ROUTE_ENABLED=true`.
+  Wenn offen, validiert sie den BPK-017-Request-Contract und gibt nur einen BPK-013-Dry-Run-
+  Plan zurueck.
+- Sicherheitsentscheidung: Kein Orchestrator-Aufruf, kein Provider, keine DB, kein GitHub-Write,
+  kein Deploy, kein Live-AICOS. Dies ist eine gemountete Contract-Oberflaeche, keine Ausfuehrung.
+- Beweis: fokussierter Route-Test und Typecheck muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechster Hauptblock ist Cockpit Route Mounting, nicht Runtime Execution.
+
 ## 2026-06-13 - BPK-019 Live AICOS Connector Through Intake
 
 - Gebaut: `builder/src/liveAicosConnectorThroughIntake.ts` als side-effect-freier Adapter fuer

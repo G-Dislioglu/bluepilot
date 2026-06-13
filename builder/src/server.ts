@@ -2,6 +2,7 @@ import { createServer } from 'node:http';
 
 import { handleHealthRequest } from './health.js';
 import { handleProbeDryRunRequest } from './probeDryRun.js';
+import { handleRuntimeDryRunRouteRequest } from './runtimeDryRunRoute.js';
 import { handleSandboxWriteRequest } from './sandboxWrite.js';
 import { handleSandboxRealWriteRequest } from './sandboxRealWrite.js';
 import { handleSandboxWriteProbeRequest } from './sandboxWriteProbe.js';
@@ -24,6 +25,10 @@ const server = createServer((request, response) => {
     }
 
     if (await handleProbeDryRunRequest(request, response)) {
+      return;
+    }
+
+    if (await handleRuntimeDryRunRouteRequest(request, response)) {
       return;
     }
 
