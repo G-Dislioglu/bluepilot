@@ -5,6 +5,23 @@
 
 ---
 
+## 2026-06-14 - BPK-055 bis BPK-058 Implementation Plans / Evidence Promotion
+
+- Gebaut: vier reine Plan-/Gate-Schichten:
+  `cockpitMountImplementationPlan`, `memoryCacheInvalidationEvidenceBinding`,
+  `runtimeMountImplementationPlan` und `prReceiptEvidencePromotionGate`.
+- Verhalten: Cockpit- und Runtime-Mounts bekommen Implementation-Plaene, aber keine Datei wird
+  gemountet; Memory-Invalidation-Evidence wird an Store/Facade-Binding geknuepft; PR-Receipt-
+  Evidence kann in Release-Governance promoted werden, aber ohne Merge oder externe Aktion.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sind Implementation-Preflight und Governance:
+  Cockpit Mount Patch Preflight, Memory Cache Invalidation Audit Trail, Runtime Mount Patch
+  Preflight und PR Receipt Governance Release Decision.
+
 ## 2026-06-13 - BPK-051 bis BPK-054 Default-off Mounts / Invalidation / Evidence
 
 - Gebaut: vier reine Contract-/Evidence-Schichten:

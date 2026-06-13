@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-051-054-default-off-mounts-invalidation-evidence`.
+- Aktueller Arbeitsbranch: `bpk-055-058-implementation-plan-evidence-promotion`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -217,6 +217,14 @@
   beschrieben, Execution bleibt geschlossen.
 - BPK-054 ergaenzt ein PR-Receipt-Loader-Evidence-Pack. Loader- und Runbook-Evidence werden
   review-only gebuendelt; Merge und externe Aktionen bleiben false.
+- BPK-055 ergaenzt einen Cockpit-Mount-Implementation-Plan. Geplante Server-/Route-Dateien und
+  Gates werden beschrieben, aber nicht geaendert.
+- BPK-056 ergaenzt Memory-Cache-Invalidation-Evidence-Binding. Invalidation-Evidence wird an
+  die bestehende Store/Facade-Bindung geknuepft.
+- BPK-057 ergaenzt einen Runtime-Mount-Implementation-Plan. Geplante Server-/Route-Dateien und
+  Gates werden beschrieben, Execution bleibt nicht ausgefuehrt.
+- BPK-058 ergaenzt ein PR-Receipt-Evidence-Promotion-Gate. Evidence darf in Release-Governance
+  promoted werden, Merge und externe Aktionen bleiben false.
 
 ## Phasen
 
@@ -228,7 +236,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-054.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-058.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -412,6 +420,11 @@
 - BPK-052: Memory cache operator invalidation contract; operator-gated in-process Invalidation.
 - BPK-053: Runtime default-off mount contract; Mount-Form ohne Execution.
 - BPK-054: PR receipt loader evidence pack; review-only Evidence ohne Merge.
+- BPK-055: Cockpit mount implementation plan; geplante Dateien/Gates ohne Umsetzung.
+- BPK-056: Memory cache invalidation evidence binding; Invalidation-Evidence an Binding
+  geknuepft.
+- BPK-057: Runtime mount implementation plan; geplante Dateien/Gates ohne Execution.
+- BPK-058: PR receipt evidence promotion gate; Release-Governance-Promotion ohne Merge.
 
 ## Maya-Anbindung
 
@@ -438,20 +451,18 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-054 ist das gebuendelte Default-off Mounts/Invalidation/Evidence Bundle abgeschlossen:
-Cockpit- und Runtime-Mounts sind als default-off Contracts beschrieben, Memory-Invalidation ist
-operator-gated in-process, und PR-Receipt-Loader-Evidence ist review-only gebuendelt; externe Side
-Effects bleiben geschlossen.
+Nach BPK-058 ist das gebuendelte Implementation-Plan/Evidence-Promotion Bundle abgeschlossen:
+Cockpit- und Runtime-Mounts sind als Implementation-Plaene beschrieben, Memory-Invalidation-
+Evidence ist an Store/Facade-Binding geknuepft, und PR-Receipt-Evidence kann review-only promoted
+werden; externe Side Effects bleiben geschlossen.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Mount Implementation Plan: planen, welche Server-Aenderung spaeter noetig waere,
-   weiterhin ohne Umsetzung.
-2. Memory Cache Invalidation Evidence Binding: Invalidation-Evidence an Binding/Facade knuepfen.
-3. Runtime Mount Implementation Plan: planen, welche Server-Aenderung spaeter noetig waere,
-   weiterhin ohne Execution.
-4. PR Receipt Evidence Promotion Gate: klaeren, wann Evidence in Release-Governance promoted
-   werden darf, ohne Merge.
+1. Cockpit Mount Patch Preflight: geplanten Patch vor Server-Aenderung vorpruefen.
+2. Memory Cache Invalidation Audit Trail: Invalidation-Evidence auditierbar machen.
+3. Runtime Mount Patch Preflight: geplanten Patch vor Server-Aenderung vorpruefen.
+4. PR Receipt Governance Release Decision: Promotion in Release-Governance entscheiden, ohne
+   Merge.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:

@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-051-054-default-off-mounts-invalidation-evidence`.
+- Aktueller BPK-Arbeitsbranch: `bpk-055-058-implementation-plan-evidence-promotion`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -243,6 +243,14 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
   Handler-Mount als default-off Contract. Keine Route, kein Orchestrator und keine Execution.
 - BPK-054: `builder/src/prReceiptLoaderEvidencePack.ts` buendelt Loader-/Runbook-Evidence
   review-only. Kein File-Read, kein GitHub, kein PR, kein Merge.
+- BPK-055: `builder/src/cockpitMountImplementationPlan.ts` plant den kuenftigen Cockpit-Mount
+  aus BPK-051. Keine Server- oder Route-Datei wird geaendert.
+- BPK-056: `builder/src/memoryCacheInvalidationEvidenceBinding.ts` bindet BPK-052-
+  Invalidation-Evidence an die BPK-048 Store/Facade-Bindung. Kein Durable Store.
+- BPK-057: `builder/src/runtimeMountImplementationPlan.ts` plant den kuenftigen Runtime-Mount
+  aus BPK-053. Keine Route, kein Orchestrator und keine Execution.
+- BPK-058: `builder/src/prReceiptEvidencePromotionGate.ts` gated BPK-054 Evidence-Promotion in
+  Release-Governance. Kein Merge und keine externe Aktion.
 
 ## Maya-Anbindung
 
@@ -288,12 +296,12 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-054 ist das Default-off Mounts/Invalidation/Evidence Bundle abgeschlossen, wenn:
+Nach BPK-058 ist das Implementation-Plan/Evidence-Promotion Bundle abgeschlossen, wenn:
 
-- die Review-Packets fuer BPK-051 bis BPK-054 existieren,
-- die vier fokussierten Contract-/Invalidation-/Evidence-Tests und `npm run typecheck` in `builder/` gruen
+- die Review-Packets fuer BPK-055 bis BPK-058 existieren,
+- die vier fokussierten Plan-/Evidence-/Promotion-Tests und `npm run typecheck` in `builder/` gruen
   sind,
-- `node tools/verify-task-lock.cjs BPK-051 --verify` bis BPK-054 gruen sind,
+- `node tools/verify-task-lock.cjs BPK-055 --verify` bis BPK-058 gruen sind,
 - `git diff --check` gruen ist,
 - keine Server-Mounts, keine Renderer-Aenderung, keine Durable Persistenz, keine DB, kein
   Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein Write, kein Deploy und
@@ -301,7 +309,7 @@ Nach BPK-054 ist das Default-off Mounts/Invalidation/Evidence Bundle abgeschloss
 
 Naechste Hauptbloecke:
 
-1. Cockpit Mount Implementation Plan.
-2. Memory Cache Invalidation Evidence Binding.
-3. Runtime Mount Implementation Plan.
-4. PR Receipt Evidence Promotion Gate.
+1. Cockpit Mount Patch Preflight.
+2. Memory Cache Invalidation Audit Trail.
+3. Runtime Mount Patch Preflight.
+4. PR Receipt Governance Release Decision.
