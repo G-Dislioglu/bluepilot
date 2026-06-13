@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-014-cockpit-ui-implementation-plan`.
+- Aktueller BPK-Arbeitsbranch: `bpk-015-live-aicos-fetch-cache-contract`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -146,6 +146,9 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 - BPK-014: `builder/src/cockpitUiImplementationPlan.ts` erzeugt aus dem Cockpit-
   Projection-Vertrag einen UI-Umsetzungsplan mit Screens, deaktivierten Controls und Visual-
   Evidence-Gates. Es gibt noch keine UI-Dateien.
+- BPK-015: `builder/src/liveAicosFetchCacheContract.ts` klassifiziert Live-AICOS-Fetch-/Cache-
+  Readiness. Endpoint- und Auth-Referenzen, TTL, Stale-Verhalten, Quarantaene und Limits werden
+  geprueft. Es gibt keinen Live-Fetch und keinen Cache-Write.
 
 ## Maya-Anbindung
 
@@ -191,16 +194,19 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-014 darf erst Live AICOS Fetch/Cache Contract geoeffnet werden, wenn:
+Nach BPK-015 ist die angeforderte Viererfolge abgeschlossen, wenn:
 
-- das Review-Packet fuer BPK-014 existiert,
-- `npx tsx --test tests/cockpitUiImplementationPlan.test.ts` und `npm run typecheck` in
+- das Review-Packet fuer BPK-015 existiert,
+- `npx tsx --test tests/liveAicosFetchCacheContract.test.ts` und `npm run typecheck` in
   `builder/` gruen sind,
-- `node tools/verify-task-lock.cjs BPK-014 --verify` gruen ist,
+- `node tools/verify-task-lock.cjs BPK-015 --verify` gruen ist,
 - `git diff --check` gruen ist,
-- keine Runtime-, Auth-, DB-, Deploy-, Live-Write-, GitHub-Merge- oder UI-Freigabe still
-  mitgezogen wurde.
+- keine Runtime-, Auth-, DB-, Deploy-, Live-Write-, GitHub-Merge-, Live-AICOS- oder UI-Freigabe
+  still mitgezogen wurde.
 
 Naechste Hauptbloecke:
 
-1. Live AICOS Fetch/Cache.
+1. PR/Review Connector oder manuelle PR-Ausfuehrung.
+2. Runtime Dry-Run Route.
+3. Cockpit Read-Only UI.
+4. Live AICOS Connector.

@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-014-cockpit-ui-implementation-plan`.
+- Aktueller Arbeitsbranch: `bpk-015-live-aicos-fetch-cache-contract`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -123,6 +123,9 @@
 - BPK-014 ergaenzt einen side-effect-freien Cockpit-UI-Implementation-Planer. Er erzeugt aus dem
   Cockpit-Projection-Vertrag Screens, deaktivierte Controls und Visual-Evidence-Gates, ohne UI-
   Dateien zu erstellen.
+- BPK-015 ergaenzt einen side-effect-freien Live-AICOS-Fetch-/Cache-Readiness-Vertrag. Endpoint-
+  Referenz, Auth-Referenz, Cache-TTL, Stale-Verhalten, Quarantaene und Fetch-Limits werden
+  geprueft, ohne AICOS live aufzurufen oder Cache-Persistenz anzulegen.
 
 ## Phasen
 
@@ -134,7 +137,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-014.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-015.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -245,6 +248,8 @@
   Runtime-Invocation hinzu. Keine Route, kein Orchestrator-Aufruf, kein Provider, kein Write.
 - BPK-014: Cockpit UI implementation plan; fuegt eine reine Planungsfunktion fuer Screens,
   Controls und Visual-Evidence-Gates hinzu. Keine UI-Dateien.
+- BPK-015: Live AICOS fetch/cache contract; fuegt eine reine Readiness-Klassifizierung fuer
+  Endpoint/Auth/Cache/Quarantaene hinzu. Kein Live-Fetch, kein Cache-Write.
 
 ## Maya-Anbindung
 
@@ -271,12 +276,18 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-014 ist Cockpit UI Implementation als Plan vorbereitet. Es gibt weiterhin keine UI-
-Dateien; der naechste Block darf nur Live AICOS Fetch/Cache als Contract oeffnen.
+Nach BPK-015 ist die angeforderte Viererfolge abgeschlossen: PR/Review Execution, Runtime
+Dry-Run Adapter Contract, Cockpit UI Implementation Plan und Live AICOS Fetch/Cache Contract
+liegen als reine Contract-/Planungsschicht vor.
 
 Naechste Hauptbloecke:
 
-1. Live AICOS Fetch/Cache: erst nach Intake-Stabilitaet und mit Auth-/Cache-Vertrag.
+1. PR/Review Connector oder manuelle PR-Ausfuehrung: echte PR-Metadaten einsammeln und gegen
+   BPK-012 pruefen.
+2. Runtime Dry-Run Route: BPK-013 bewusst in eine Route verdrahten, falls Operator und Checks
+   zustimmen.
+3. Cockpit Read-Only UI: BPK-014 mit Browser-/Screenshot-Evidence umsetzen.
+4. Live AICOS Connector: BPK-015 mit BPK-010 Intake verbinden, erst mit Auth-/Cache-Gate.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:

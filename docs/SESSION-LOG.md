@@ -5,6 +5,20 @@
 
 ---
 
+## 2026-06-13 - BPK-015 Live AICOS Fetch/Cache Contract
+
+- Gebaut: `builder/src/liveAicosFetchCacheContract.ts` als side-effect-freier Readiness-Vertrag
+  fuer einen spaeteren Live-AICOS-Fetch-/Cache-Connector.
+- Verhalten: Endpoint-Referenz, Auth-Referenz, Cache-TTL, Stale-Verhalten, Quarantaene und
+  Fetch-Limits werden geprueft. Token-aehnliche Auth-Werte werden blockiert.
+- Sicherheitsentscheidung: Kein Live-AICOS-Aufruf, kein Cache-Write, keine Persistenz, keine
+  Route, kein Provider, keine DB, kein GitHub-Write, keine UI und kein Deploy.
+- Beweis: fokussierter Fetch/Cache-Contract-Test, Typecheck und voller Builder-Testlauf muessen
+  vor Commit gruen sein.
+- Roter Faden weiter: Die angeforderte Viererfolge ist nach BPK-015-Verify/Commit/Push
+  abgeschlossen. Naechste Hauptbloecke: PR/Review Connector oder manuelle PR-Ausfuehrung,
+  Runtime Dry-Run Route, Cockpit Read-Only UI, Live AICOS Connector.
+
 ## 2026-06-13 - BPK-014 Cockpit UI Implementation Plan
 
 - Gebaut: `builder/src/cockpitUiImplementationPlan.ts` als side-effect-freier Planer fuer eine
