@@ -5,6 +5,19 @@
 
 ---
 
+## 2026-06-13 - BPK-006 CLI-Deduplizierung / Schema-Generierung
+
+- Gebaut: `builder/scripts/generate-bpk-governance-manifest.mjs` erzeugt ein deterministisches
+  Manifest fuer BPK-003 bis BPK-006: deduplizierte `required_commands` plus Schema-Definitionen
+  fuer WorkerPacket/WLP-Draft, Card-Conditioned Dispatch und Pre-Registered Claims.
+- Gebaut: `builder/data/bpk-governance-manifest.json` als committed Generator-Artefakt.
+- Korrigiert: `builder/data/builder-repo-index.json` wurde mit dem bestehenden Generator
+  normalisiert; der zuvor rote Repo-Index-Check ist wieder gruen.
+- Beweis: `npm test` in `builder/` laeuft vollstaendig gruen mit 58/58 Tests. Zusaetzlich sind
+  Manifest-Check, Repo-Index-Check und Typecheck gruen.
+- Roter Faden weiter: Dispatch / Frontend zuletzt darf erst nach BPK-006-Verify und
+  Review-Packet geoeffnet werden.
+
 ## 2026-06-13 - BPK-005 Pre-Registered Claims
 
 - Gebaut: `builder/src/preRegisteredClaims.ts` als side-effect-freier Claim-Gate vor Dispatch.

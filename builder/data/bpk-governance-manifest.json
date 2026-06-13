@@ -1,0 +1,262 @@
+{
+  "manifestVersion": 1,
+  "sourceContracts": [
+    {
+      "taskId": "BPK-003",
+      "taskName": "WorkerPacket-to-WLP-Adapter",
+      "taskType": "code_task",
+      "mode": "standard",
+      "riskClass": "medium"
+    },
+    {
+      "taskId": "BPK-004",
+      "taskName": "Card-Conditioned Dispatch",
+      "taskType": "code_task",
+      "mode": "standard",
+      "riskClass": "medium"
+    },
+    {
+      "taskId": "BPK-005",
+      "taskName": "Pre-Registered Claims",
+      "taskType": "code_task",
+      "mode": "standard",
+      "riskClass": "medium"
+    },
+    {
+      "taskId": "BPK-006",
+      "taskName": "CLI-Deduplizierung / Schema-Generierung",
+      "taskType": "code_task",
+      "mode": "standard",
+      "riskClass": "medium"
+    }
+  ],
+  "commandManifest": [
+    {
+      "command": "git diff --check",
+      "taskIds": [
+        "BPK-003",
+        "BPK-004",
+        "BPK-005",
+        "BPK-006"
+      ]
+    },
+    {
+      "command": "node scripts/generate-bpk-governance-manifest.mjs --check",
+      "taskIds": [
+        "BPK-006"
+      ]
+    },
+    {
+      "command": "node scripts/generate-repo-index.mjs --check",
+      "taskIds": [
+        "BPK-006"
+      ]
+    },
+    {
+      "command": "node tools/verify-task-lock.cjs BPK-003 --verify",
+      "taskIds": [
+        "BPK-003"
+      ]
+    },
+    {
+      "command": "node tools/verify-task-lock.cjs BPK-004 --verify",
+      "taskIds": [
+        "BPK-004"
+      ]
+    },
+    {
+      "command": "node tools/verify-task-lock.cjs BPK-005 --verify",
+      "taskIds": [
+        "BPK-005"
+      ]
+    },
+    {
+      "command": "node tools/verify-task-lock.cjs BPK-006 --verify",
+      "taskIds": [
+        "BPK-006"
+      ]
+    },
+    {
+      "command": "npm run typecheck",
+      "taskIds": [
+        "BPK-003",
+        "BPK-004",
+        "BPK-005",
+        "BPK-006"
+      ]
+    },
+    {
+      "command": "npx tsx --test tests/bpkGovernanceManifest.test.ts",
+      "taskIds": [
+        "BPK-006"
+      ]
+    },
+    {
+      "command": "npx tsx --test tests/cardConditionedDispatch.test.ts",
+      "taskIds": [
+        "BPK-004"
+      ]
+    },
+    {
+      "command": "npx tsx --test tests/preRegisteredClaims.test.ts",
+      "taskIds": [
+        "BPK-005"
+      ]
+    },
+    {
+      "command": "npx tsx --test tests/workerPacketWlpAdapter.test.ts",
+      "taskIds": [
+        "BPK-003"
+      ]
+    }
+  ],
+  "schemas": {
+    "workerPacketWlpDraft": {
+      "type": "object",
+      "required": [
+        "task_id",
+        "mode",
+        "task_type",
+        "allowed_files",
+        "forbidden_files",
+        "evidence_required",
+        "reuse_target",
+        "worker_packet"
+      ],
+      "properties": {
+        "task_id": {
+          "type": "string",
+          "pattern": "^[A-Z0-9][A-Z0-9-]{1,80}$"
+        },
+        "mode": {
+          "enum": [
+            "lite",
+            "standard",
+            "critical",
+            "dual-control"
+          ]
+        },
+        "task_type": {
+          "enum": [
+            "code_task",
+            "doc_task",
+            "ui_task",
+            "config_task",
+            "governance_task"
+          ]
+        },
+        "allowed_files": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "forbidden_files": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "evidence_required": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "reuse_target": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "next_task_pre_lock",
+              "session_log",
+              "aicos_card_candidate",
+              "review_packet"
+            ]
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "cardConditionedDispatchPlan": {
+      "type": "object",
+      "required": [
+        "decision",
+        "dispatchAllowed",
+        "reviewRequired",
+        "reasons",
+        "contractTaskId",
+        "cards"
+      ],
+      "properties": {
+        "decision": {
+          "enum": [
+            "allow",
+            "review_required",
+            "blocked"
+          ]
+        },
+        "dispatchAllowed": {
+          "type": "boolean"
+        },
+        "reviewRequired": {
+          "type": "boolean"
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "contractTaskId": {
+          "type": "string"
+        },
+        "cards": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "preRegisteredClaimsGate": {
+      "type": "object",
+      "required": [
+        "decision",
+        "dispatchAllowed",
+        "reviewRequired",
+        "reasons",
+        "registeredClaims"
+      ],
+      "properties": {
+        "decision": {
+          "enum": [
+            "allow",
+            "review_required",
+            "blocked"
+          ]
+        },
+        "dispatchAllowed": {
+          "type": "boolean"
+        },
+        "reviewRequired": {
+          "type": "boolean"
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "registeredClaims": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}

@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-005-pre-registered-claims`.
+- Aktueller Arbeitsbranch: `bpk-006-cli-schema-generation`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -96,6 +96,9 @@
 - BPK-005 ergaenzt einen side-effect-freien Pre-Registered-Claims-Gate. Contract-Claims muessen
   vor Dispatch exakt registriert und mit Evidence belegt sein; review/blockierte Card-Plaene
   koennen dadurch nicht auf allow gehoben werden.
+- BPK-006 ergaenzt einen deterministischen BPK-Governance-Manifest-Generator. Er dedupliziert
+  Required-Commands aus BPK-003 bis BPK-006, haelt Schema-Definitionen fuer die neuen
+  Governance-Artefakte fest und normalisiert den bestehenden Builder-Repo-Index wieder gruen.
 
 ## Phasen
 
@@ -107,7 +110,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-005.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-006.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -197,6 +200,8 @@
   Planentscheidung erlaubt, downgradet oder blockiert. Keine Runtime-Integration.
 - BPK-005: Pre-registered claims; fuegt eine reine Claim-Gate-Funktion hinzu, die Contract-
   Claims gegen explizite Registrierungen mit Evidence prueft. Keine Runtime-Integration.
+- BPK-006: CLI/schema generation; fuegt einen direkten Node-Generator fuer das
+  BPK-Governance-Manifest hinzu und normalisiert das bestehende Repo-Index-Artefakt.
 
 ## Maya-Anbindung
 
@@ -223,14 +228,14 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-005 ist die Claim-Registrierung als reine Vor-Dispatch-Grenze vorbereitet. Danach ist der
+Nach BPK-006 sind CLI-/Schema-Artefakte fuer die neuen Governance-Gates dedupliziert und
+generiert. Danach ist der
 BPK-Pfad massgeblich:
 
-1. CLI-Deduplizierung / Schema-Generierung.
-2. Dispatch / Frontend zuletzt.
+1. Dispatch / Frontend zuletzt.
 
-Die alten Optionen bleiben historische Richtung, werden aber nicht vor CLI-Deduplizierung /
-Schema-Generierung gezogen:
+Die alten Optionen bleiben historische Richtung, werden aber nicht vor Dispatch / Frontend
+gezogen:
 
 1. Separat entscheiden, ob `MAYA_BUILDER_WRITE_PERMIT_ENFORCEMENT` zur Dauerregel werden soll.
 2. Mayas spaetere direkte Schreibautonomie als Policy-Entscheidung umsetzen: innerhalb enger

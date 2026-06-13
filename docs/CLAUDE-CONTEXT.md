@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-005-pre-registered-claims`.
+- Aktueller BPK-Arbeitsbranch: `bpk-006-cli-schema-generation`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -119,6 +119,9 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 - BPK-005: `builder/src/preRegisteredClaims.ts` prueft Contract-Claims gegen explizite
   Vorregistrierungen mit Evidence. Ein review-pflichtiger oder blockierter Card-Plan wird
   dadurch nicht zu `allow`.
+- BPK-006: `builder/scripts/generate-bpk-governance-manifest.mjs` erzeugt ein dedupliziertes
+  Command-/Schema-Manifest fuer BPK-003 bis BPK-006. `builder/data/builder-repo-index.json`
+  ist wieder generator-normalisiert; `npm test` im Builder ist gruen.
 
 ## Maya-Anbindung
 
@@ -164,13 +167,13 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-005 darf erst CLI-Deduplizierung / Schema-Generierung geoeffnet werden, wenn:
+Nach BPK-006 darf erst Dispatch / Frontend zuletzt geoeffnet werden, wenn:
 
-- das Review-Packet fuer BPK-005 existiert,
-- `npx tsx --test tests/preRegisteredClaims.test.ts` und `npm run typecheck` in `builder/`
-  gruen sind,
-- `node tools/verify-task-lock.cjs BPK-005 --verify` gruen ist,
+- das Review-Packet fuer BPK-006 existiert,
+- `npm test` und `npm run typecheck` in `builder/` gruen sind,
+- `node scripts/generate-bpk-governance-manifest.mjs --check` und
+  `node scripts/generate-repo-index.mjs --check` gruen sind,
+- `node tools/verify-task-lock.cjs BPK-006 --verify` gruen ist,
 - `git diff --check` gruen ist,
 - keine Runtime-, Auth-, DB-, Deploy- oder Live-Write-Freigabe still mitgezogen wurde,
-- das Claim-Gate weiterhin nicht in Worker-Dispatch, Orchestrator oder Server-Routen integriert
-  ist.
+- Dispatch / Frontend weiterhin nur als letzter, eigener Contract geoeffnet wird.
