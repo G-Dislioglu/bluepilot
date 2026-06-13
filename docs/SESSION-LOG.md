@@ -5,6 +5,23 @@
 
 ---
 
+## 2026-06-13 - BPK-027 bis BPK-030 Operational Preflight Bundle
+
+- Gebaut: vier side-effect-freie Operationalisierungs-Planer:
+  `branchPrReceiptIntakeReport`, `cockpitLiveModelAdapterPlan`,
+  `liveAicosMemoryCacheAdapterPlan` und `runtimeExecutionMountPreflight`.
+- Verhalten: PR-Receipts werden nur normalisiert und berichtet; Live-AICOS-Cards werden nur als
+  kuenftiges read-only Cockpit-Modell geplant; Memory-Cache wird nur als TTL-/Expiry-Plan
+  berechnet; Runtime-Ausfuehrung bekommt nur einen Mount-Preflight fuer eine spaetere neue Route.
+- Sicherheitsentscheidung: Keine GitHub-Aktion, keine PR-Erstellung, kein Merge, keine Route,
+  keine Cockpit-Verdrahtung, keine Persistenz, keine DB, kein Provider, keine Runtime-
+  Ausfuehrung, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sind echte, eng begrenzte Adapter-Implementierungen:
+  PR-Receipt-Artifact-Import, Cockpit-Live-Model-Adapter, Memory-only Cache-Adapter und Runtime-
+  Execution-Route-Contract, weiterhin ohne automatische Writes.
+
 ## 2026-06-13 - BPK-023 bis BPK-026 Decision Bundle
 
 - Gebaut: vier side-effect-freie Entscheidungsschichten:

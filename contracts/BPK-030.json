@@ -1,0 +1,97 @@
+{
+  "task_id": "BPK-030",
+  "task_name": "bluepilot-runtime-execution-mount-preflight-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-027-030-operational-preflight-bundle",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "runtime_boundary",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free preflight for a future runtime dry-run execution mount, validating route name, default-off env gate, confirm phrase, runbook evidence, and ready runtime execution decision without changing routes, server files, orchestrator, providers, DB, GitHub, writes, or deploy.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/runtimeExecutionDecision.ts",
+    "builder/src/runtimeExecutionMountPreflight.ts",
+    "builder/tests/runtimeExecutionMountPreflight.test.ts"
+  ],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-027.json",
+    "contracts/BPK-028.json",
+    "contracts/BPK-029.json",
+    "contracts/BPK-030.json",
+    "builder/src/branchPrReceiptIntakeReport.ts",
+    "builder/src/cockpitLiveModelAdapterPlan.ts",
+    "builder/src/liveAicosMemoryCacheAdapterPlan.ts",
+    "builder/src/runtimeExecutionMountPreflight.ts",
+    "builder/tests/branchPrReceiptIntakeReport.test.ts",
+    "builder/tests/cockpitLiveModelAdapterPlan.test.ts",
+    "builder/tests/liveAicosMemoryCacheAdapterPlan.test.ts",
+    "builder/tests/runtimeExecutionMountPreflight.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-027.md",
+    "review-packets/BPK-028.md",
+    "review-packets/BPK-029.md",
+    "review-packets/BPK-030.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    ".github/**",
+    "builder/src/server.ts",
+    "builder/src/runtimeDryRunRoute.ts",
+    "builder/src/probeDryRun.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/providers.ts",
+    "builder/src/db.ts",
+    "builder/scripts/**",
+    "builder/data/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not mount or change runtime routes, call orchestrator, call providers, call DB, call GitHub, write files, deploy, change workflows, or change packages.",
+    "Do not mutate existing dry-run routes."
+  ],
+  "claims": [
+    "A future runtime execution mount can be preflighted without route mutation.",
+    "Existing routes must not be mutated by the execution mount path.",
+    "Default-off env gate, confirm phrase, and operator runbook are required evidence."
+  ],
+  "assumptions": [
+    "BPK-026 has already decided dry-run execution readiness.",
+    "A later contract would perform any actual route mount."
+  ],
+  "dod": [
+    "builder/src/runtimeExecutionMountPreflight.ts exports preflightRuntimeExecutionMount.",
+    "The preflight accepts only a new probe route, default-off env gate, sufficient confirm phrase, and runbook evidence.",
+    "Existing route mutation blocks.",
+    "Focused test, typecheck, task-lock verify, and diff-check pass."
+  ],
+  "evidence_required": ["test_result"],
+  "required_commands": [
+    "npx tsx --test tests/runtimeExecutionMountPreflight.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-030 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "Runtime route changes, orchestrator calls, provider calls, DB calls, GitHub calls, writes, deployment, package, workflow, or existing-route mutation become necessary."
+  ],
+  "prior_task_findings": "BPK-026 decided runtime execution readiness without execution. BPK-030 may preflight a future mount but must not change routes.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "00fa035"
+}

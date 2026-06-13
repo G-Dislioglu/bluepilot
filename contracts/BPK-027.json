@@ -1,0 +1,97 @@
+{
+  "task_id": "BPK-027",
+  "task_name": "bluepilot-branch-pr-receipt-intake-report-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-027-030-operational-preflight-bundle",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "release_governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free PR receipt intake report that normalizes manual PR review receipts and evaluates them through BPK-023 without calling GitHub, opening PRs, merging, or changing workflows.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/bpkPrReviewManualReceipts.ts",
+    "builder/src/bpkBranchPrConsolidation.ts",
+    "builder/src/branchPrReceiptIntakeReport.ts",
+    "builder/tests/branchPrReceiptIntakeReport.test.ts"
+  ],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-027.json",
+    "contracts/BPK-028.json",
+    "contracts/BPK-029.json",
+    "contracts/BPK-030.json",
+    "builder/src/branchPrReceiptIntakeReport.ts",
+    "builder/src/cockpitLiveModelAdapterPlan.ts",
+    "builder/src/liveAicosMemoryCacheAdapterPlan.ts",
+    "builder/src/runtimeExecutionMountPreflight.ts",
+    "builder/tests/branchPrReceiptIntakeReport.test.ts",
+    "builder/tests/cockpitLiveModelAdapterPlan.test.ts",
+    "builder/tests/liveAicosMemoryCacheAdapterPlan.test.ts",
+    "builder/tests/runtimeExecutionMountPreflight.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-027.md",
+    "review-packets/BPK-028.md",
+    "review-packets/BPK-029.md",
+    "review-packets/BPK-030.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    ".github/**",
+    "builder/src/server.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/providers.ts",
+    "builder/src/db.ts",
+    "builder/scripts/**",
+    "builder/data/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not call GitHub, create PRs, merge, change workflows, change package files, or mutate external state.",
+    "Do not change BPK-016 or BPK-023 semantics."
+  ],
+  "claims": [
+    "Manual PR receipts can be normalized and reported without GitHub access.",
+    "Required PR receipt coverage blocks merge readiness when incomplete.",
+    "Quarantined receipts become review evidence."
+  ],
+  "assumptions": [
+    "Receipts are supplied by an operator or later connector.",
+    "This block reports readiness only."
+  ],
+  "dod": [
+    "builder/src/branchPrReceiptIntakeReport.ts exports buildBranchPrReceiptIntakeReport.",
+    "The report includes normalization summary, consolidation result, coverage, blockers, review items, and report lines.",
+    "Focused tests cover ready merge, incomplete coverage, and quarantined receipt review.",
+    "Review packet and anchors record the result.",
+    "Focused test, typecheck, task-lock verify, and diff-check pass."
+  ],
+  "evidence_required": ["test_result"],
+  "required_commands": [
+    "npx tsx --test tests/branchPrReceiptIntakeReport.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-027 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "GitHub calls, PR creation, merge, workflow changes, package changes, or external state mutation become necessary."
+  ],
+  "prior_task_findings": "BPK-023 composed branch sequencing and PR review receipts. BPK-027 may add an intake report around manual receipts without external side effects.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "00fa035"
+}

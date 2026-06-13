@@ -1,0 +1,93 @@
+{
+  "task_id": "BPK-029",
+  "task_name": "bluepilot-live-aicos-memory-cache-adapter-plan-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-027-030-operational-preflight-bundle",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "external_read_boundary",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free plan for a future memory-only Live AICOS cache adapter, computing TTL evidence without durable storage, filesystem cache, DB writes, route changes, scheduler, or package changes.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/liveAicosCachePersistenceDecision.ts",
+    "builder/src/liveAicosNetworkConnector.ts",
+    "builder/src/liveAicosMemoryCacheAdapterPlan.ts",
+    "builder/tests/liveAicosMemoryCacheAdapterPlan.test.ts"
+  ],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-027.json",
+    "contracts/BPK-028.json",
+    "contracts/BPK-029.json",
+    "contracts/BPK-030.json",
+    "builder/src/branchPrReceiptIntakeReport.ts",
+    "builder/src/cockpitLiveModelAdapterPlan.ts",
+    "builder/src/liveAicosMemoryCacheAdapterPlan.ts",
+    "builder/src/runtimeExecutionMountPreflight.ts",
+    "builder/tests/branchPrReceiptIntakeReport.test.ts",
+    "builder/tests/cockpitLiveModelAdapterPlan.test.ts",
+    "builder/tests/liveAicosMemoryCacheAdapterPlan.test.ts",
+    "builder/tests/runtimeExecutionMountPreflight.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-027.md",
+    "review-packets/BPK-028.md",
+    "review-packets/BPK-029.md",
+    "review-packets/BPK-030.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    ".github/**",
+    "builder/src/server.ts",
+    "builder/src/db.ts",
+    "builder/scripts/**",
+    "builder/data/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not implement storage, DB writes, filesystem cache files, scheduler, route, package, workflow, or deployment changes.",
+    "Do not change BPK-025 semantics."
+  ],
+  "claims": [
+    "Memory-only cache adapter readiness can be planned without storing data.",
+    "TTL and expiry evidence can be computed as pure data.",
+    "Durable cache remains closed."
+  ],
+  "assumptions": [
+    "A later contract may implement in-process memory caching.",
+    "Durable cache requires a separate storage contract."
+  ],
+  "dod": [
+    "builder/src/liveAicosMemoryCacheAdapterPlan.ts exports planLiveAicosMemoryCacheAdapter.",
+    "Ready plan computes expiry from TTL and accepted network result.",
+    "Missing cache ref requires review and durable mode blocks.",
+    "Focused test, typecheck, task-lock verify, and diff-check pass."
+  ],
+  "evidence_required": ["test_result"],
+  "required_commands": [
+    "npx tsx --test tests/liveAicosMemoryCacheAdapterPlan.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-029 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "Storage implementation, DB writes, filesystem cache, route, scheduler, package, workflow, or deployment changes become necessary."
+  ],
+  "prior_task_findings": "BPK-025 decided cache persistence posture. BPK-029 may plan memory-only adapter readiness without persistence.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "00fa035"
+}

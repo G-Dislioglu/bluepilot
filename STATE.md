@@ -157,6 +157,16 @@
   kann spaeter bereit sein; durable Cache bleibt bis zu einem separaten Storage-Vertrag blockiert.
 - BPK-026 ergaenzt eine side-effect-freie Runtime-Execution-Decision. Contract-only bleibt
   geschlossen, Dry-run-Ausfuehrung braucht explizite Evidence, Write-Ausfuehrung bleibt blockiert.
+- BPK-027 ergaenzt einen side-effect-freien Branch/PR-Receipt-Intake-Report. Manuelle PR-
+  Receipts werden normalisiert und gegen BPK-023 ausgewertet, ohne GitHub-Aufruf, PR-Erstellung
+  oder Merge.
+- BPK-028 ergaenzt einen side-effect-freien Cockpit-Live-Model-Adapter-Plan. Accepted Live-
+  AICOS-Cards koennen als kuenftiges read-only Cockpit-Panel geplant werden, ohne Route oder
+  Renderer zu aendern.
+- BPK-029 ergaenzt einen side-effect-freien Live-AICOS-Memory-Cache-Adapter-Plan. TTL und
+  Expiry werden berechnet, aber es wird nichts persistiert.
+- BPK-030 ergaenzt einen side-effect-freien Runtime-Execution-Mount-Preflight. Eine spaetere
+  neue Runtime-Execution-Route wird vorgeprueft, ohne bestehende Routen zu mutieren.
 
 ## Phasen
 
@@ -168,7 +178,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-026.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-030.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -304,6 +314,14 @@
   Durable Cache bleibt blockiert. Keine Persistenz.
 - BPK-026: Runtime execution decision; Dry-run-Ausfuehrung nur als spaetere Option mit Evidence,
   Write-Ausfuehrung blockiert. Keine Runtime-Verdrahtung.
+- BPK-027: Branch/PR receipt intake report; normalisiert manuelle PR-Receipts und erzeugt
+  Coverage-/Merge-Readiness-Report. Keine GitHub-Aktion.
+- BPK-028: Cockpit live model adapter plan; plant read-only Live-AICOS-Panel im Cockpit-Modell.
+  Keine Route, kein Renderer-Wiring.
+- BPK-029: Live AICOS memory cache adapter plan; plant Memory-only Cache mit TTL-Evidence. Keine
+  Persistenz.
+- BPK-030: Runtime execution mount preflight; prueft neue Route/Env-Gate/Runbook fuer spaeteren
+  Mount. Keine Route-Aenderung.
 
 ## Maya-Anbindung
 
@@ -330,19 +348,20 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-026 ist das gebuendelte Decision Bundle abgeschlossen: Branch/PR, Cockpit-Live-Quelle,
-Live-AICOS-Cache und Runtime-Ausfuehrung haben Entscheidungsschichten, aber keine externen
-Side Effects.
+Nach BPK-030 ist das gebuendelte Operational Preflight Bundle abgeschlossen: Branch/PR, Cockpit-
+Live-Modell, Memory-Cache und Runtime-Mount haben Report-/Plan-/Preflight-Schichten, aber keine
+externen Side Effects.
 
 Naechste Hauptbloecke:
 
-1. Branch/PR Receipt Intake Report: PR-Receipts strukturiert aufnehmen und gegen BPK-023
-   auswerten, ohne GitHub-Aktion.
-2. Cockpit Live Model Adapter Plan: accepted Live-AICOS-Cards in ein kuenftiges read-only
-   Cockpit-Modell planen, ohne Route/Wiring.
-3. Live AICOS Memory Cache Adapter Plan: Memory-only Cache-Adapter planen, ohne Durable Store.
-4. Runtime Execution Mount Preflight: Evidence fuer einen spaeteren Dry-run-Execution-Mount
-   sammeln, ohne Route zu aendern.
+1. PR Receipt Artifact Import: lokale Receipt-Artefakte strukturiert importieren, ohne GitHub-
+   API.
+2. Cockpit Live Model Adapter Implementation: accepted Live-AICOS-Cards in ein Cockpit-Model
+   transformieren, aber Route-Wiring separat halten.
+3. Live AICOS Memory Cache Adapter Implementation: in-process Memory-only Cache bauen, ohne
+   Durable Store.
+4. Runtime Execution Route Contract: Request/Response-Vertrag fuer spaetere Execution-Route
+   definieren, ohne Mount.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:
