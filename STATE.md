@@ -167,6 +167,14 @@
   Expiry werden berechnet, aber es wird nichts persistiert.
 - BPK-030 ergaenzt einen side-effect-freien Runtime-Execution-Mount-Preflight. Eine spaetere
   neue Runtime-Execution-Route wird vorgeprueft, ohne bestehende Routen zu mutieren.
+- BPK-031 ergaenzt einen side-effect-freien PR-Receipt-Artifact-Import. Uebergebene Objekte oder
+  JSON-Strings werden in den BPK-027-Report ueberfuehrt, ohne Filesystem-Load oder GitHub.
+- BPK-032 ergaenzt einen side-effect-freien Cockpit-Live-Model-Adapter. Ready Plaene werden als
+  read-only Cockpit-Modell materialisiert, ohne Route-Wiring.
+- BPK-033 ergaenzt einen In-Memory-Live-AICOS-Cache-Adapter. Eintraege sind explizite Objekte mit
+  Fresh/Stale-Pruefung, ohne Durable Store.
+- BPK-034 ergaenzt einen Runtime-Execution-Route-Contract. Request/Response wird validiert, aber
+  auch ein Erfolg erlaubt keine Execution.
 
 ## Phasen
 
@@ -178,7 +186,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-030.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-034.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -322,6 +330,14 @@
   Persistenz.
 - BPK-030: Runtime execution mount preflight; prueft neue Route/Env-Gate/Runbook fuer spaeteren
   Mount. Keine Route-Aenderung.
+- BPK-031: PR receipt artifact import; importiert supplied object/JSON in BPK-027. Kein
+  Filesystem-Load, kein GitHub.
+- BPK-032: Cockpit live model adapter; materialisiert read-only Cockpit-Modell. Kein Route-
+  Wiring.
+- BPK-033: Live AICOS memory cache adapter; explizite In-Memory-Eintraege mit Fresh/Stale-
+  Pruefung. Kein Durable Store.
+- BPK-034: Runtime execution route contract; validiert kuenftigen Request/Response, aber
+  `executionAllowed:false`.
 
 ## Maya-Anbindung
 
@@ -348,20 +364,20 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-030 ist das gebuendelte Operational Preflight Bundle abgeschlossen: Branch/PR, Cockpit-
-Live-Modell, Memory-Cache und Runtime-Mount haben Report-/Plan-/Preflight-Schichten, aber keine
-externen Side Effects.
+Nach BPK-034 ist das gebuendelte Adapter/Contract Implementation Bundle abgeschlossen: PR-
+Receipt-Artefakte, Cockpit-Live-Modell, Memory-Cache und Runtime-Execution-Route haben enge
+interne Implementierungsbausteine, aber keine externen Side Effects.
 
 Naechste Hauptbloecke:
 
-1. PR Receipt Artifact Import: lokale Receipt-Artefakte strukturiert importieren, ohne GitHub-
-   API.
-2. Cockpit Live Model Adapter Implementation: accepted Live-AICOS-Cards in ein Cockpit-Model
-   transformieren, aber Route-Wiring separat halten.
-3. Live AICOS Memory Cache Adapter Implementation: in-process Memory-only Cache bauen, ohne
-   Durable Store.
-4. Runtime Execution Route Contract: Request/Response-Vertrag fuer spaetere Execution-Route
-   definieren, ohne Mount.
+1. Cockpit Live Model Route Source Contract: entscheiden, ob `/cockpit/read-only` spaeter ein
+   materialisiertes Modell annehmen darf, ohne Route zu aendern.
+2. Live AICOS Memory Cache Lifecycle Guard: max-age, stale policy und explicit invalidation als
+   reine Lifecycle-Regel festlegen.
+3. Runtime Execution Route Mount Readiness: BPK-034 gegen BPK-030 als Mount-Bereitschaft
+   zusammenfuehren, ohne Mount.
+4. PR Receipt Artifact File Loader Decision: entscheiden, ob lokale Receipt-Dateien ueberhaupt
+   gelesen werden duerfen und welche Pfadregeln gelten.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:

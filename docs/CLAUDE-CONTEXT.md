@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-027-030-operational-preflight-bundle`.
+- Aktueller BPK-Arbeitsbranch: `bpk-031-034-adapter-contract-implementation-bundle`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -190,6 +190,14 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
   Cache mit TTL-/Expiry-Evidence, ohne Speicher zu schreiben.
 - BPK-030: `builder/src/runtimeExecutionMountPreflight.ts` prueft eine kuenftige neue Runtime-
   Execution-Route vor, ohne bestehende Routen oder Serverdateien zu aendern.
+- BPK-031: `builder/src/prReceiptArtifactImport.ts` importiert uebergebene PR-Receipt-Artefakte
+  als Objekt oder JSON-String in den BPK-027-Report. Kein Filesystem-Load und kein GitHub.
+- BPK-032: `builder/src/cockpitLiveModelAdapter.ts` materialisiert ready BPK-028-Plaene als
+  read-only Cockpit-Modell. Route-Wiring und executable Actions bleiben geschlossen.
+- BPK-033: `builder/src/liveAicosMemoryCacheAdapter.ts` erzeugt und liest explizite In-Memory-
+  Cache-Eintraege mit Fresh/Stale-Pruefung. Kein Durable Store.
+- BPK-034: `builder/src/runtimeExecutionRouteContract.ts` definiert den Request/Response-Vertrag
+  fuer eine spaetere Runtime-Execution-Route. Auch Erfolg bleibt `executionAllowed:false`.
 
 ## Maya-Anbindung
 
@@ -235,18 +243,19 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-030 ist das Operational Preflight Bundle abgeschlossen, wenn:
+Nach BPK-034 ist das Adapter/Contract Implementation Bundle abgeschlossen, wenn:
 
-- die Review-Packets fuer BPK-027 bis BPK-030 existieren,
-- die vier fokussierten Operational-Preflight-Tests und `npm run typecheck` in `builder/` gruen sind,
-- `node tools/verify-task-lock.cjs BPK-027 --verify` bis BPK-030 gruen sind,
+- die Review-Packets fuer BPK-031 bis BPK-034 existieren,
+- die vier fokussierten Adapter-/Contract-Tests und `npm run typecheck` in `builder/` gruen sind,
+- `node tools/verify-task-lock.cjs BPK-031 --verify` bis BPK-034 gruen sind,
 - `git diff --check` gruen ist,
-- keine GitHub-Aktion, PR-Erstellung, Merge, Route, Cockpit-Wiring-Aenderung, Persistenz, DB,
-  Provider, Runtime-Ausfuehrung, Deploy- oder Package-Aenderung still mitgezogen wurde.
+- keine Datei-Artefakt-Lader, GitHub-Aktion, PR-Erstellung, Merge, Route, Cockpit-Wiring-
+  Aenderung, Durable Persistenz, DB, Provider, Runtime-Ausfuehrung, Deploy- oder Package-
+  Aenderung still mitgezogen wurde.
 
 Naechste Hauptbloecke:
 
-1. PR Receipt Artifact Import.
-2. Cockpit Live Model Adapter Implementation.
-3. Live AICOS Memory Cache Adapter Implementation.
-4. Runtime Execution Route Contract.
+1. Cockpit Live Model Route Source Contract.
+2. Live AICOS Memory Cache Lifecycle Guard.
+3. Runtime Execution Route Mount Readiness.
+4. PR Receipt Artifact File Loader Decision.

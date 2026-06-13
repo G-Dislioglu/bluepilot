@@ -5,6 +5,24 @@
 
 ---
 
+## 2026-06-13 - BPK-031 bis BPK-034 Adapter/Contract Implementation Bundle
+
+- Gebaut: vier enge Implementierungsbausteine:
+  `prReceiptArtifactImport`, `cockpitLiveModelAdapter`, `liveAicosMemoryCacheAdapter` und
+  `runtimeExecutionRouteContract`.
+- Verhalten: PR-Receipt-Artefakte werden nur aus uebergebenen Objekten/JSON-Strings importiert;
+  Cockpit-Live-Modelle werden materialisiert, aber nicht geroutet; Live-AICOS-Cache-Eintraege
+  bleiben explizite In-Memory-Objekte; Runtime-Execution-Route bleibt Request/Response-Contract
+  mit `executionAllowed:false`.
+- Sicherheitsentscheidung: Keine Datei-Artefakt-Lader, keine GitHub-Aktion, keine PR-Erstellung,
+  kein Merge, kein Route-Mount, keine Cockpit-Verdrahtung, kein Durable Store, keine DB, kein
+  Provider, keine Runtime-Ausfuehrung, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sind kontrollierte Wiring-Readiness: Cockpit Live
+  Model Route Source Contract, Memory Cache Lifecycle Guard, Runtime Execution Route Mount
+  Readiness und PR Receipt Artifact File Loader Decision.
+
 ## 2026-06-13 - BPK-027 bis BPK-030 Operational Preflight Bundle
 
 - Gebaut: vier side-effect-freie Operationalisierungs-Planer:
