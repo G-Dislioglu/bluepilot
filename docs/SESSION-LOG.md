@@ -5,6 +5,19 @@
 
 ---
 
+## 2026-06-13 - BPK-018 Cockpit Read-Only UI
+
+- Gebaut: `builder/src/cockpitReadOnlyHtml.ts` als side-effect-freier HTML-Renderer fuer
+  BPK-009-Cockpit-Projektionen.
+- Verhalten: Ready-, Review- und Blocked-Zustaende werden als statisches Cockpit HTML gerendert;
+  alle Actions bleiben disabled und Modelltexte werden escaped.
+- Sicherheitsentscheidung: Keine gemountete Route, keine Runtime-Aktion, kein Provider, keine DB,
+  kein GitHub-Write, kein Deploy und kein Live-AICOS-Aufruf.
+- Beweis: fokussierter Renderer-Test, Typecheck und temporaerer Static-Preview-Check muessen vor
+  Commit gruen sein.
+- Roter Faden weiter: Live AICOS Connector through Intake darf erst nach BPK-018-Verify und
+  Review-Packet geoeffnet werden.
+
 ## 2026-06-13 - BPK-017 Runtime Dry-Run Route Contract
 
 - Gebaut: `builder/src/runtimeDryRunRouteContract.ts` als side-effect-freier Request/Response-

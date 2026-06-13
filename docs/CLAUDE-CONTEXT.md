@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-017-runtime-dry-run-route-contract`.
+- Aktueller BPK-Arbeitsbranch: `bpk-018-cockpit-read-only-ui`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -155,6 +155,9 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 - BPK-017: `builder/src/runtimeDryRunRouteContract.ts` validiert eine kuenftige Dry-Run-
   Request-Form gegen einen BPK-013-Plan. Es gibt keine gemountete Server-Route und keinen
   Orchestrator-Aufruf.
+- BPK-018: `builder/src/cockpitReadOnlyHtml.ts` rendert BPK-009-Cockpit-Projektionen als
+  statisches read-only HTML. Alle Actions bleiben disabled; es gibt keine Route und keine
+  Runtime-Verdrahtung.
 
 ## Maya-Anbindung
 
@@ -200,17 +203,17 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-017 darf erst Cockpit Read-Only UI geoeffnet werden, wenn:
+Nach BPK-018 darf erst Live AICOS Connector geoeffnet werden, wenn:
 
-- das Review-Packet fuer BPK-017 existiert,
-- `npx tsx --test tests/runtimeDryRunRouteContract.test.ts` und `npm run typecheck` in
+- das Review-Packet fuer BPK-018 existiert,
+- `npx tsx --test tests/cockpitReadOnlyHtml.test.ts` und `npm run typecheck` in
   `builder/` gruen sind,
-- `node tools/verify-task-lock.cjs BPK-017 --verify` gruen ist,
+- eine temporaere Static-Preview visuell/browserseitig geprueft wurde,
+- `node tools/verify-task-lock.cjs BPK-018 --verify` gruen ist,
 - `git diff --check` gruen ist,
 - keine Runtime-, Auth-, DB-, Deploy-, Live-Write-, GitHub-Merge-, Live-AICOS- oder UI-Freigabe
   still mitgezogen wurde.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Read-Only UI.
-2. Live AICOS Connector.
+1. Live AICOS Connector.

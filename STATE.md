@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-017-runtime-dry-run-route-contract`.
+- Aktueller Arbeitsbranch: `bpk-018-cockpit-read-only-ui`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -132,6 +132,9 @@
 - BPK-017 ergaenzt einen side-effect-freien Runtime-Dry-Run-Route-Vertrag. Eine kuenftige
   HTTP-Request-Form wird gegen einen BPK-013-Plan validiert, ohne `server.ts`, Route oder
   Orchestrator zu verdrahten.
+- BPK-018 ergaenzt einen read-only Cockpit-HTML-Renderer. BPK-009-Projektionen koennen als
+  statisches HTML mit deaktivierten Actions dargestellt werden, ohne Route oder Runtime-
+  Verdrahtung.
 
 ## Phasen
 
@@ -143,7 +146,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-017.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-018.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -260,6 +263,8 @@
   uebergebene PR-/Review-Receipts hinzu. Kein GitHub-Connector, kein Merge.
 - BPK-017: Runtime dry-run route contract; fuegt eine reine HTTP-aehnliche Request/Response-
   Contract-Schicht hinzu. Keine gemountete Route, kein Runtime-Call.
+- BPK-018: Cockpit read-only UI; fuegt einen reinen statischen HTML-Renderer fuer Cockpit-
+  Projection-Modelle hinzu. Keine Route, keine Runtime, alle Actions disabled.
 
 ## Maya-Anbindung
 
@@ -286,13 +291,12 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-017 ist Runtime Dry-Run Route als Contract-Schicht vorbereitet. Der naechste Block darf
-nur Cockpit Read-Only UI oeffnen.
+Nach BPK-018 ist die erste Cockpit Read-Only UI als Renderer vorbereitet. Der naechste Block darf
+nur Live AICOS Connector through Intake oeffnen.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Read-Only UI: BPK-014 mit Browser-/Screenshot-Evidence umsetzen.
-2. Live AICOS Connector: BPK-015 mit BPK-010 Intake verbinden, erst mit Auth-/Cache-Gate.
+1. Live AICOS Connector: BPK-015 mit BPK-010 Intake verbinden, erst mit Auth-/Cache-Gate.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:
