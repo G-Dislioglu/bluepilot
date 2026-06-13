@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-020-runtime-route-mounting-dry-run`.
+- Aktueller Arbeitsbranch: `bpk-021-cockpit-route-mounting-read-only`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -141,6 +141,9 @@
 - BPK-020 mountet eine default-off Runtime-Dry-Run-Contract-Route unter
   `/probe/runtime-dry-run`. Sie gibt nur einen BPK-013/BPK-017-Plan zurueck, ruft keinen
   Orchestrator auf und bleibt ohne `BLUEPILOT_RUNTIME_DRY_RUN_ROUTE_ENABLED=true` geschlossen.
+- BPK-021 mountet eine default-off Cockpit-Read-Only-Route unter `/cockpit/read-only`. Sie
+  rendert BPK-018-HTML als Sample-Preview oder aus uebergebenem Cockpit-Modell, ohne Runtime-,
+  Provider-, DB-, GitHub- oder Live-AICOS-Aktion.
 
 ## Phasen
 
@@ -152,7 +155,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-020.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-021.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -275,6 +278,8 @@
   uebergebene AICOS-Payloads hinzu. Kein Fetch, kein Cache-Write, Intake bleibt Pflicht.
 - BPK-020: Runtime route mounting dry run; mountet eine default-off Route, die nur den
   Contract-Plan zurueckgibt. Kein Orchestrator, kein Provider, kein Write.
+- BPK-021: Cockpit route mounting read-only; mountet eine default-off Route fuer statisches
+  Cockpit HTML. Keine ausfuehrbaren Actions, keine Live-Datenquelle.
 
 ## Maya-Anbindung
 
@@ -301,15 +306,14 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-020 ist der Hauptblock Runtime Route Mounting abgeschlossen: die Route ist gemountet,
-aber default-off und contract-only.
+Nach BPK-021 ist der Hauptblock Cockpit Route Mounting abgeschlossen: die Route ist gemountet,
+aber default-off und read-only.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Route Mounting: BPK-018 read-only HTML ueber eine Route ausliefern.
-2. Live AICOS Network Connector: echten Fetch hinter BPK-015 und BPK-019 legen.
-3. Branch/PR Consolidation: BPK-012 bis BPK-020 reviewen und in Merge-Reihenfolge bringen.
-4. Runtime Execution Decision: entscheiden, ob `/probe/runtime-dry-run` jemals echte dry-run
+1. Live AICOS Network Connector: echten Fetch hinter BPK-015 und BPK-019 legen.
+2. Branch/PR Consolidation: BPK-012 bis BPK-021 reviewen und in Merge-Reihenfolge bringen.
+3. Runtime Execution Decision: entscheiden, ob `/probe/runtime-dry-run` jemals echte dry-run
    Ausfuehrung statt nur Contract-Plan liefern darf.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption

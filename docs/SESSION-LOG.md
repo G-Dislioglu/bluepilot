@@ -5,6 +5,20 @@
 
 ---
 
+## 2026-06-13 - BPK-021 Cockpit Route Mounting Read-Only
+
+- Gebaut: `builder/src/cockpitReadOnlyRoute.ts` und Mount in `builder/src/server.ts` fuer
+  `/cockpit/read-only`.
+- Verhalten: Die Route ist default-off hinter `BLUEPILOT_COCKPIT_READ_ONLY_ROUTE_ENABLED=true`.
+  GET rendert eine sichere Sample-Preview, POST rendert ein uebergebenes Cockpit-Modell nach
+  Minimalvalidierung.
+- Sicherheitsentscheidung: Read-only HTML, keine ausfuehrbaren Actions, keine Runtime-Aktion,
+  kein Provider, keine DB, kein GitHub-Write, kein Deploy und kein Live-AICOS.
+- Beweis: fokussierter Route-Test, Typecheck und lokaler Playwright-Screenshot muessen vor
+  Commit gruen sein.
+- Roter Faden weiter: Naechster Hauptblock ist Live AICOS Network Connector, nicht Runtime
+  Execution.
+
 ## 2026-06-13 - BPK-020 Runtime Route Mounting Dry Run
 
 - Gebaut: `builder/src/runtimeDryRunRoute.ts` und Mount in `builder/src/server.ts` fuer

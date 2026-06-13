@@ -1,5 +1,6 @@
 import { createServer } from 'node:http';
 
+import { handleCockpitReadOnlyRouteRequest } from './cockpitReadOnlyRoute.js';
 import { handleHealthRequest } from './health.js';
 import { handleProbeDryRunRequest } from './probeDryRun.js';
 import { handleRuntimeDryRunRouteRequest } from './runtimeDryRunRoute.js';
@@ -29,6 +30,10 @@ const server = createServer((request, response) => {
     }
 
     if (await handleRuntimeDryRunRouteRequest(request, response)) {
+      return;
+    }
+
+    if (await handleCockpitReadOnlyRouteRequest(request, response)) {
       return;
     }
 
