@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-047-050-mount-readiness-binding-runbook`.
+- Aktueller BPK-Arbeitsbranch: `bpk-051-054-default-off-mounts-invalidation-evidence`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -235,6 +235,14 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
   Handler default-off mount-ready ist. Keine Route, kein Orchestrator und keine Execution.
 - BPK-050: `builder/src/prReceiptLoaderOperatorRunbook.ts` erzeugt einen Operator-Runbook-
   Contract fuer BPK-046-Loader-Evidence. Keine File-Reads, GitHub-Aktionen, PRs oder Merges.
+- BPK-051: `builder/src/cockpitDefaultOffMountContract.ts` beschreibt den kuenftigen Cockpit-
+  Handler-Mount als default-off Contract. Keine Server- oder Route-Aenderung.
+- BPK-052: `builder/src/memoryCacheOperatorInvalidationContract.ts` invalidiert Memory-Cache-
+  Entries nur operator-gated und in-process. Kein Durable Store, kein Scheduler.
+- BPK-053: `builder/src/runtimeDefaultOffMountContract.ts` beschreibt den kuenftigen Runtime-
+  Handler-Mount als default-off Contract. Keine Route, kein Orchestrator und keine Execution.
+- BPK-054: `builder/src/prReceiptLoaderEvidencePack.ts` buendelt Loader-/Runbook-Evidence
+  review-only. Kein File-Read, kein GitHub, kein PR, kein Merge.
 
 ## Maya-Anbindung
 
@@ -280,12 +288,12 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-050 ist das Mount-Readiness/Binding/Runbook Bundle abgeschlossen, wenn:
+Nach BPK-054 ist das Default-off Mounts/Invalidation/Evidence Bundle abgeschlossen, wenn:
 
-- die Review-Packets fuer BPK-047 bis BPK-050 existieren,
-- die vier fokussierten Readiness-/Binding-/Runbook-Tests und `npm run typecheck` in `builder/` gruen
+- die Review-Packets fuer BPK-051 bis BPK-054 existieren,
+- die vier fokussierten Contract-/Invalidation-/Evidence-Tests und `npm run typecheck` in `builder/` gruen
   sind,
-- `node tools/verify-task-lock.cjs BPK-047 --verify` bis BPK-050 gruen sind,
+- `node tools/verify-task-lock.cjs BPK-051 --verify` bis BPK-054 gruen sind,
 - `git diff --check` gruen ist,
 - keine Server-Mounts, keine Renderer-Aenderung, keine Durable Persistenz, keine DB, kein
   Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein Write, kein Deploy und
@@ -293,7 +301,7 @@ Nach BPK-050 ist das Mount-Readiness/Binding/Runbook Bundle abgeschlossen, wenn:
 
 Naechste Hauptbloecke:
 
-1. Cockpit Default-off Mount Contract.
-2. Memory Cache Operator Invalidation Contract.
-3. Runtime Default-off Mount Contract.
-4. PR Receipt Loader Evidence Pack.
+1. Cockpit Mount Implementation Plan.
+2. Memory Cache Invalidation Evidence Binding.
+3. Runtime Mount Implementation Plan.
+4. PR Receipt Evidence Promotion Gate.

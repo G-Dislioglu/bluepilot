@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-047-050-mount-readiness-binding-runbook`.
+- Aktueller Arbeitsbranch: `bpk-051-054-default-off-mounts-invalidation-evidence`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -209,6 +209,14 @@
 - BPK-050 ergaenzt einen PR-Receipt-Loader-Operator-Runbook-Contract. Loader-Evidence,
   Operator-Freigabe, Root-Policy und Evidence-Refs werden beschrieben, ohne File-Read oder
   externe Aktion.
+- BPK-051 ergaenzt einen Cockpit-Default-off-Mount-Contract. Die kuenftige Mount-Form wird
+  beschrieben, ohne `server.ts`, Route oder Renderer zu aendern.
+- BPK-052 ergaenzt einen Memory-Cache-Operator-Invalidation-Contract. Invalidation braucht
+  Confirm, Operator-Freigabe und Reason-Ref und betrifft nur den in-process Store.
+- BPK-053 ergaenzt einen Runtime-Default-off-Mount-Contract. Die kuenftige Mount-Form wird
+  beschrieben, Execution bleibt geschlossen.
+- BPK-054 ergaenzt ein PR-Receipt-Loader-Evidence-Pack. Loader- und Runbook-Evidence werden
+  review-only gebuendelt; Merge und externe Aktionen bleiben false.
 
 ## Phasen
 
@@ -220,7 +228,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-050.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-054.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -400,6 +408,10 @@
 - BPK-049: Runtime handler mount readiness; default-off Mount-Bereitschaft ohne Execution.
 - BPK-050: PR receipt loader operator runbook; Operator-Prozess als Contract ohne File-Read oder
   externe Aktion.
+- BPK-051: Cockpit default-off mount contract; Mount-Form ohne Server-Aenderung.
+- BPK-052: Memory cache operator invalidation contract; operator-gated in-process Invalidation.
+- BPK-053: Runtime default-off mount contract; Mount-Form ohne Execution.
+- BPK-054: PR receipt loader evidence pack; review-only Evidence ohne Merge.
 
 ## Maya-Anbindung
 
@@ -426,20 +438,20 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-050 ist das gebuendelte Mount-Readiness/Binding/Runbook Bundle abgeschlossen:
-Cockpit- und Runtime-Handler koennen als mount-ready bewertet werden, Store und Read-Facade sind
-kontrolliert gebunden, und PR-Receipt-Loader-Nutzung ist als Operator-Runbook beschrieben; externe
-Side Effects bleiben geschlossen.
+Nach BPK-054 ist das gebuendelte Default-off Mounts/Invalidation/Evidence Bundle abgeschlossen:
+Cockpit- und Runtime-Mounts sind als default-off Contracts beschrieben, Memory-Invalidation ist
+operator-gated in-process, und PR-Receipt-Loader-Evidence ist review-only gebuendelt; externe Side
+Effects bleiben geschlossen.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Default-off Mount Contract: konkrete Server-Mount-Form beschreiben, weiterhin ohne
-   `server.ts`-Aenderung.
-2. Memory Cache Operator Invalidation Contract: manuelle Invalidation kontrollieren, ohne
-   Scheduler oder Durable Store.
-3. Runtime Default-off Mount Contract: konkrete Server-Mount-Form beschreiben, weiterhin ohne
-   Execution.
-4. PR Receipt Loader Evidence Pack: Loader-/Runbook-Evidence buendeln, ohne GitHub oder Merge.
+1. Cockpit Mount Implementation Plan: planen, welche Server-Aenderung spaeter noetig waere,
+   weiterhin ohne Umsetzung.
+2. Memory Cache Invalidation Evidence Binding: Invalidation-Evidence an Binding/Facade knuepfen.
+3. Runtime Mount Implementation Plan: planen, welche Server-Aenderung spaeter noetig waere,
+   weiterhin ohne Execution.
+4. PR Receipt Evidence Promotion Gate: klaeren, wann Evidence in Release-Governance promoted
+   werden darf, ohne Merge.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:

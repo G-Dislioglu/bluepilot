@@ -5,6 +5,24 @@
 
 ---
 
+## 2026-06-13 - BPK-051 bis BPK-054 Default-off Mounts / Invalidation / Evidence
+
+- Gebaut: vier reine Contract-/Evidence-Schichten:
+  `cockpitDefaultOffMountContract`, `memoryCacheOperatorInvalidationContract`,
+  `runtimeDefaultOffMountContract` und `prReceiptLoaderEvidencePack`.
+- Verhalten: Cockpit- und Runtime-Mounts werden nur als default-off Contract-Formen beschrieben,
+  ohne Server zu aendern; Memory-Cache-Invalidation ist operator-gated und nur in-process; PR-
+  Receipt-Loader-Evidence wird review-only gebuendelt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sind die ersten Implementation-Readiness-Schritte fuer
+  default-off Mounts und Operator-Verfahren: Cockpit Mount Implementation Plan, Memory Cache
+  Invalidation Evidence Binding, Runtime Mount Implementation Plan und PR Receipt Evidence
+  Promotion Gate.
+
 ## 2026-06-13 - BPK-047 bis BPK-050 Mount Readiness / Binding / Runbook
 
 - Gebaut: vier kontrollierte Adoption-Schichten:
