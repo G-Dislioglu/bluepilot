@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-002-permit-generalisierung`.
+- Aktueller Arbeitsbranch: `bpk-003-workerpacket-wlp-adapter`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -87,6 +87,9 @@
   verlangen `permitId`, leiten nach read-only Sandbox-Dateistatus ueber
   `smartPush(writePermit)` in `G-Dislioglu/bluepilot-sandbox` und blockieren Delete/Undo bis
   zu einem dedizierten Permit-Vertrag.
+- BPK-003 ergaenzt einen side-effect-freien WorkerPacket-to-WLP-Adapter. Er erzeugt aus
+  expliziten Worker-Edit-Pfaden einen WLP-Contract-Draft, lehnt unsichere oder geschuetzte
+  Pfade fail-closed ab und ist nicht in Runtime, Worker-Dispatch oder Push-Pfad integriert.
 
 ## Phasen
 
@@ -98,7 +101,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-002.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-003.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -180,6 +183,9 @@
   GitHub-Contents-Write mehr. Der Endpoint verlangt `permitId`, berechnet create/update plus
   `baseSha` aus dem Sandbox-Dateistatus und ruft den bestehenden `smartPush(writePermit)`-
   Korridor auf. Delete/Undo bleibt fail-closed.
+- BPK-003: WorkerPacket-to-WLP adapter; fuegt eine reine Adapterfunktion hinzu, die validierte
+  WorkerPacket/EditEnvelope-Daten in einen WLP-Contract-Draft uebertraegt. Keine Orchestrator-,
+  Server-, Provider-, Push- oder Verifier-Aenderung.
 
 ## Maya-Anbindung
 
@@ -206,16 +212,16 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-002 ist der Sandbox-Write wieder an den bestehenden Permit-Korridor gebunden. Danach
-ist der BPK-Pfad massgeblich:
+Nach BPK-003 ist die WorkerPacket-zu-WLP-Contract-Grenze als Adapter vorbereitet. Danach ist der
+BPK-Pfad massgeblich:
 
-1. BPK-003 WorkerPacket-to-WLP-Adapter.
-2. Card-Conditioned Dispatch.
-3. Pre-Registered Claims.
-4. CLI-Deduplizierung / Schema-Generierung.
-5. Dispatch / Frontend zuletzt.
+1. Card-Conditioned Dispatch.
+2. Pre-Registered Claims.
+3. CLI-Deduplizierung / Schema-Generierung.
+4. Dispatch / Frontend zuletzt.
 
-Die alten Optionen bleiben historische Richtung, werden aber nicht vor BPK-003 gezogen:
+Die alten Optionen bleiben historische Richtung, werden aber nicht vor Card-Conditioned Dispatch
+gezogen:
 
 1. Separat entscheiden, ob `MAYA_BUILDER_WRITE_PERMIT_ENFORCEMENT` zur Dauerregel werden soll.
 2. Mayas spaetere direkte Schreibautonomie als Policy-Entscheidung umsetzen: innerhalb enger

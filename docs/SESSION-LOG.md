@@ -5,6 +5,20 @@
 
 ---
 
+## 2026-06-13 - BPK-003 WorkerPacket-to-WLP-Adapter
+
+- Gebaut: `builder/src/workerPacketWlpAdapter.ts` als side-effect-freier Adapter von
+  WorkerPacket/EditEnvelope-Daten zu einem WLP-Contract-Draft.
+- Sicherheitsentscheidung: Der Adapter schreibt keine Dateien, startet keine Worker, ruft keinen
+  Provider auf, pusht nicht und ist nicht in `orchestrateTask` oder Runtime-Routen integriert.
+- Fail-closed: Ungueltige Task-Metadaten, leere Edits, doppelte Edit-Pfade, unsichere Pfade,
+  fehlende UI-Persona und geschuetzte Pfade werden mit deterministischen Fehlercodes abgelehnt.
+- Beweis: `npx tsx --test tests/workerPacketWlpAdapter.test.ts` und `npm run typecheck` sind
+  gruen. Der vollstaendige `npm test`-Lauf wurde versucht; 53/54 Tests waren gruen, der
+  bestehende Repo-Index-Normalisierungscheck scheiterte unabhaengig von BPK-003.
+- Roter Faden weiter: Card-Conditioned Dispatch darf erst nach BPK-003-Verify und Review-Packet
+  geoeffnet werden.
+
 ## 2026-06-13 - BPK-002 Permit-Generalisierung
 
 - Gebaut: `POST /probe/sandbox-write` verlangt fuer Write-Operationen jetzt eine

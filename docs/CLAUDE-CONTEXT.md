@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-002-permit-generalisierung`.
+- Aktueller BPK-Arbeitsbranch: `bpk-003-workerpacket-wlp-adapter`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -110,6 +110,9 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
   gebunden. Write-Operationen verlangen `permitId`, bestimmen create/update plus `baseSha`
   aus dem Sandbox-Dateistatus und rufen `smartPush(writePermit)` auf. Delete/Undo wird bis zu
   einem eigenen Permit-Vertrag fail-closed blockiert.
+- BPK-003: `builder/src/workerPacketWlpAdapter.ts` erzeugt side-effect-frei WLP-Contract-
+  Drafts aus expliziten WorkerPacket/EditEnvelope-Daten. Der Adapter lehnt ungueltige Metadaten,
+  doppelte oder unsichere Edit-Pfade und geschuetzte Pfade ab. Keine Runtime-Integration.
 
 ## Maya-Anbindung
 
@@ -155,11 +158,12 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-002 darf erst BPK-003 geoeffnet werden, wenn:
+Nach BPK-003 darf erst Card-Conditioned Dispatch geoeffnet werden, wenn:
 
-- das Review-Packet fuer BPK-002 existiert,
-- `npm test` und `npm run typecheck` in `builder/` gruen sind,
-- `node tools/verify-task-lock.cjs BPK-002 --verify` gruen ist,
+- das Review-Packet fuer BPK-003 existiert,
+- `npx tsx --test tests/workerPacketWlpAdapter.test.ts` und `npm run typecheck` in `builder/`
+  gruen sind,
+- `node tools/verify-task-lock.cjs BPK-003 --verify` gruen ist,
 - `git diff --check` gruen ist,
 - keine Runtime-, Auth-, DB-, Deploy- oder Live-Write-Freigabe still mitgezogen wurde,
-- Delete/Undo weiter blockiert bleibt, bis ein separater Permit-Vertrag existiert.
+- der Adapter weiterhin nicht in Worker-Dispatch, Orchestrator oder Server-Routen integriert ist.
