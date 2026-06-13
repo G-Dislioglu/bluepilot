@@ -5,6 +5,20 @@
 
 ---
 
+## 2026-06-13 - BPK-008 Runtime Dispatch Integration Contract
+
+- Gebaut: `builder/src/runtimeDispatchIntegrationContract.ts` als side-effect-freier
+  Integrationsvertrag fuer spaetere Runtime-Adoption.
+- Verhalten: BPK-007-Readiness-Projektionen werden als `runtime_candidate`, `operator_review`
+  oder `blocked` klassifiziert. Dry-run und write-faehiger Runtime-Dispatch bleiben getrennt.
+- Sicherheitsentscheidung: Write-faehige Adoption verlangt eine explizite Authority-Referenz.
+  Der Block fuegt keine Route, keinen Orchestrator-Aufruf, keinen Provider, keine DB, keinen
+  GitHub-Write und keine UI hinzu.
+- Beweis: fokussierter Runtime-Integration-Contract-Test und Typecheck muessen vor Commit gruen
+  sein.
+- Roter Faden weiter: Cockpit Projection Adoption darf erst nach BPK-008-Verify und
+  Review-Packet geoeffnet werden.
+
 ## 2026-06-13 - BPK-007 Dispatch / Frontend zuletzt
 
 - Gebaut: `builder/src/dispatchFrontendReadiness.ts` als side-effect-freie Projektion aus

@@ -1,0 +1,111 @@
+{
+  "task_id": "BPK-008",
+  "task_name": "bluepilot-runtime-dispatch-integration-contract-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/runtime-dispatch-integration-contract",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free runtime dispatch integration contract model that classifies whether a BPK-007 dispatch/frontend readiness projection is eligible for dry-run-only runtime adoption, operator-reviewed adoption, or blocked. Do not add runtime routes, orchestrator calls, provider calls, database writes, GitHub writes, package changes, or frontend files.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "contracts/BPK-007.json",
+    "review-packets/BPK-007.md",
+    "builder/src/dispatchFrontendReadiness.ts",
+    "builder/src/runtimeDispatchIntegrationContract.ts",
+    "builder/tests/runtimeDispatchIntegrationContract.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BPK-008.json",
+    "builder/src/runtimeDispatchIntegrationContract.ts",
+    "builder/tests/runtimeDispatchIntegrationContract.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-008.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusClaimGate.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/server.ts",
+    "builder/src/architectPhase1.ts",
+    "builder/src/dispatchFrontendReadiness.ts",
+    "builder/src/cardConditionedDispatch.ts",
+    "builder/src/preRegisteredClaims.ts",
+    "builder/src/workerPacketWlpAdapter.ts",
+    "builder/scripts/**",
+    "builder/data/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not add an executable runtime route or worker dispatch.",
+    "Do not call providers, GitHub, database, maya-core, or external services.",
+    "Do not add package scripts, dependencies, environment variables, deployment notes, or frontend files.",
+    "Do not change BPK-007 readiness semantics."
+  ],
+  "claims": [
+    "Runtime adoption can be classified from the BPK-007 readiness projection without executing dispatch.",
+    "Dry-run adoption and write-capable adoption are separate statuses.",
+    "Write-capable runtime adoption requires an explicit authority reference.",
+    "Blocked or review-only readiness cannot become runtime dispatch allowed."
+  ],
+  "assumptions": [
+    "BPK-007 is committed and available as the readiness projection source.",
+    "This block prepares the runtime boundary contract only; executable integration belongs to a later block.",
+    "Authority references are opaque evidence strings, not live permit checks."
+  ],
+  "dod": [
+    "builder/src/runtimeDispatchIntegrationContract.ts exports side-effect-free runtime adoption types and classifier.",
+    "The classifier distinguishes runtime_candidate, operator_review, and blocked.",
+    "The classifier separates dry-run eligibility from write-capable dispatch allowance.",
+    "builder/tests/runtimeDispatchIntegrationContract.test.ts covers dry-run candidate, write candidate, missing authority review, blocked readiness, review readiness, and missing evidence.",
+    "STATE.md and docs/SESSION-LOG.md record BPK-008.",
+    "review-packets/BPK-008.md records scope, safety invariants, gates, and verification.",
+    "The focused runtime integration contract test and npm run typecheck in builder/ pass.",
+    "node tools/verify-task-lock.cjs BPK-008 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "npx tsx --test tests/runtimeDispatchIntegrationContract.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-008 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "Executable runtime integration becomes necessary.",
+    "A provider, GitHub, database, maya-core, deployment, or frontend change becomes necessary.",
+    "Changing BPK-007 behavior becomes necessary."
+  ],
+  "prior_task_findings": "BPK-007 produced a pure dispatch/frontend readiness projection. BPK-008 should classify runtime adoption eligibility without opening runtime dispatch.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "6de169e"
+}

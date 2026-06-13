@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-007-dispatch-frontend-readiness`.
+- Aktueller Arbeitsbranch: `bpk-008-runtime-dispatch-integration-contract`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -102,6 +102,9 @@
 - BPK-007 ergaenzt eine side-effect-freie Dispatch-/Frontend-Readiness-Projektion. Sie verbindet
   WLP-Contract-Draft, Card-Conditioned-Dispatch-Plan und Pre-Registered-Claims-Gate zu einem
   Statusobjekt fuer spaetere Runtime- und Cockpit-Adoption, ohne Runtime oder UI zu oeffnen.
+- BPK-008 ergaenzt einen side-effect-freien Runtime-Dispatch-Integrationsvertrag. Er klassifiziert
+  BPK-007-Projektionen als dry-run-faehige Kandidaten, operator-review oder blockiert, ohne eine
+  Runtime-Route, Provider, DB, GitHub-Write oder UI zu oeffnen.
 
 ## Phasen
 
@@ -113,7 +116,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-007.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-008.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -208,6 +211,9 @@
 - BPK-007: Dispatch/frontend readiness; fuegt eine reine Projektion hinzu, die die BPK-003 bis
   BPK-005 Gates zu `dispatch_ready`, `frontend_review` oder `blocked` zusammenfuehrt. Keine
   Runtime- oder UI-Integration.
+- BPK-008: Runtime dispatch integration contract; fuegt eine reine Klassifizierungsschicht fuer
+  spaetere Runtime-Adoption hinzu. Dry-run, operator-review und write-faehige Adoption bleiben
+  getrennt.
 
 ## Maya-Anbindung
 
@@ -234,19 +240,17 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-007 ist der angeforderte BPK-Pfad abgeschlossen: WorkerPacket/WLP-Adapter,
-Card-Conditioned Dispatch, Pre-Registered Claims, CLI-/Schema-Manifest und Dispatch-/Frontend-
-Readiness liegen als reine Contract-/Adapter-Schicht vor.
+Nach BPK-008 ist Runtime Adoption Sequencing als Contract-Schicht vorbereitet. Die Runtime bleibt
+geschlossen; der naechste Block darf nur Cockpit Projection Adoption als Projektionsvertrag
+oeffnen.
 
 Naechste Hauptbloecke:
 
-1. Runtime Adoption Sequencing: entscheiden, welche Readiness-Projektion in welchen Runtime-Pfad
-   darf.
-2. Cockpit Projection Adoption: die vorhandene Projektion fuer eine UI-Sicht vorbereiten, aber
+1. Cockpit Projection Adoption: die vorhandene Projektion fuer eine UI-Sicht vorbereiten, aber
    erst mit Sicht-Test-Evidence.
-3. Live AICOS/Card Binding: echte Card-Snapshots nur ueber einen eigenen Intake-/Cache-Vertrag
+2. Live AICOS/Card Binding: echte Card-Snapshots nur ueber einen eigenen Intake-/Cache-Vertrag
    anbinden.
-4. Merge/Release Sequencing: BPK-Branches in sicherer Reihenfolge reviewen, mergen und ggf.
+3. Merge/Release Sequencing: BPK-Branches in sicherer Reihenfolge reviewen, mergen und ggf.
    Release Notes schneiden.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
