@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-059-062-patch-preflight-audit-release-decision`.
+- Aktueller BPK-Arbeitsbranch: `bpk-063-066-patch-candidates-audit-export-handoff`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -259,6 +259,17 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
   gegen Plan, Route, Env-Gate und Execution-Closed-Gate. Keine Route und keine Execution.
 - BPK-062: `builder/src/prReceiptGovernanceReleaseDecision.ts` bewertet PR-Receipt-Promotion
   fuer Release-Governance. Kein Merge und keine externe Aktion.
+- BPK-063: `builder/src/cockpitServerPatchCandidate.ts` erzeugt Cockpit-Server-Patch-
+  Kandidaten aus BPK-059-Preflight. Patch-Anwendung, Servermutation und Route-Mutation bleiben
+  geschlossen.
+- BPK-064: `builder/src/memoryCacheAuditExportContract.ts` beschreibt Memory-Cache-Audit-Export
+  aus BPK-060-Audit-Trail. Datei-Write, Durable Store und externe Aktionen bleiben geschlossen.
+- BPK-065: `builder/src/runtimeServerPatchCandidate.ts` erzeugt Runtime-Server-Patch-Kandidaten
+  aus BPK-061-Preflight. Patch-Anwendung, Servermutation, Route-Mutation und Execution bleiben
+  geschlossen.
+- BPK-066: `builder/src/releaseGovernanceHandoffPacket.ts` buendelt BPK-062-
+  Release-Governance-Entscheidungen fuer Operator-Handoff. Merge und externe Aktionen bleiben
+  geschlossen.
 
 ## Maya-Anbindung
 
@@ -304,12 +315,12 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-062 ist das Patch-Preflight/Audit/Release-Decision Bundle abgeschlossen, wenn:
+Nach BPK-066 ist das Patch-Candidate/Audit-Export/Handoff Bundle abgeschlossen, wenn:
 
-- die Review-Packets fuer BPK-059 bis BPK-062 existieren,
-- die vier fokussierten Preflight-/Audit-/Decision-Tests und `npm run typecheck` in `builder/` gruen
-  sind,
-- `node tools/verify-task-lock.cjs BPK-059 --verify` bis BPK-062 gruen sind,
+- die Review-Packets fuer BPK-063 bis BPK-066 existieren,
+- die vier fokussierten Candidate-/Export-/Handoff-Tests und `npm run typecheck` in `builder/`
+  gruen sind,
+- `node tools/verify-task-lock.cjs BPK-063 --verify` bis BPK-066 gruen sind,
 - `git diff --check` gruen ist,
 - keine Server-Mounts, keine Renderer-Aenderung, keine Durable Persistenz, keine DB, kein
   Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein Write, kein Deploy und
@@ -317,7 +328,7 @@ Nach BPK-062 ist das Patch-Preflight/Audit/Release-Decision Bundle abgeschlossen
 
 Naechste Hauptbloecke:
 
-1. Cockpit Server Patch Candidate.
-2. Memory Cache Audit Export Contract.
-3. Runtime Server Patch Candidate.
-4. Release Governance Handoff Packet.
+1. Cockpit Server Patch Application Readiness.
+2. Memory Cache Audit Export Evidence Pack.
+3. Runtime Server Patch Application Readiness.
+4. Release Governance Operator Approval Gate.

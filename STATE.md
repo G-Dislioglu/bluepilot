@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-059-062-patch-preflight-audit-release-decision`.
+- Aktueller Arbeitsbranch: `bpk-063-066-patch-candidates-audit-export-handoff`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -437,6 +437,11 @@
 - BPK-060: Memory cache invalidation audit trail; auditierbarer Trail ohne Durable Store.
 - BPK-061: Runtime mount patch preflight; Patch-Vorpruefung ohne Execution.
 - BPK-062: PR receipt governance release decision; Release-Governance-Entscheidung ohne Merge.
+- BPK-063: Cockpit server patch candidate; konkrete Patch-Kandidaten-Daten ohne Anwendung.
+- BPK-064: Memory cache audit export contract; Export-Manifest ohne Datei-Write oder Durable Store.
+- BPK-065: Runtime server patch candidate; konkrete Patch-Kandidaten-Daten ohne Anwendung oder
+  Execution.
+- BPK-066: Release governance handoff packet; Operator-Handoff ohne Merge oder externe Aktion.
 
 ## Maya-Anbindung
 
@@ -463,18 +468,19 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-062 ist das gebuendelte Patch-Preflight/Audit/Release-Decision Bundle abgeschlossen:
-Cockpit- und Runtime-Mount-Patches sind vorgeprueft, Memory-Invalidation ist auditierbar, und
-PR-Receipt-Promotion ist fuer Release-Governance entschieden; externe Side Effects bleiben
-geschlossen.
+Nach BPK-066 ist das gebuendelte Patch-Candidate/Audit-Export/Handoff Bundle abgeschlossen:
+Cockpit- und Runtime-Mount-Patches liegen als Kandidaten vor, Memory-Invalidation-Audit ist
+exportfaehig beschrieben, und PR-Receipt-Release-Governance ist fuer Operator-Handoff
+gebuendelt; externe Side Effects bleiben geschlossen.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Server Patch Candidate: konkrete Patch-Kandidaten-Daten erzeugen, ohne anzuwenden.
-2. Memory Cache Audit Export Contract: Audit-Trail exportfaehig beschreiben, ohne Datei-Write.
-3. Runtime Server Patch Candidate: konkrete Patch-Kandidaten-Daten erzeugen, ohne anzuwenden.
-4. Release Governance Handoff Packet: Release-Entscheidung an Operator-Handoff binden, ohne
-   Merge.
+1. Cockpit Server Patch Application Readiness: Operator- und Diff-Gates fuer spaetere Anwendung.
+2. Memory Cache Audit Export Evidence Pack: Export-Evidence als pruefbares Paket ohne Write.
+3. Runtime Server Patch Application Readiness: Runtime-Patch-Anwendungsvorbereitung ohne
+   Execution.
+4. Release Governance Operator Approval Gate: explizite Approval-Schwelle vor Merge/externen
+   Aktionen.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:

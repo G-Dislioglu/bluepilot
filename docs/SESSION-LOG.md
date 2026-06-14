@@ -5,6 +5,25 @@
 
 ---
 
+## 2026-06-14 - BPK-063 bis BPK-066 Patch Candidates / Audit Export / Handoff
+
+- Gebaut: vier reine Candidate-/Export-/Handoff-Schichten:
+  `cockpitServerPatchCandidate`, `memoryCacheAuditExportContract`,
+  `runtimeServerPatchCandidate` und `releaseGovernanceHandoffPacket`.
+- Verhalten: Cockpit- und Runtime-Patch-Preflights werden in konkrete Patch-Kandidaten
+  ueberfuehrt, aber nicht angewendet; Memory-Cache-Audit-Trails bekommen einen Export-Contract
+  ohne Datei-Write; Release-Governance-Entscheidungen werden in ein Operator-Handoff-Packet
+  gebuendelt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sind die Anwendungsvorbereitung und Operator-Gates
+  vor jeder echten Mutation: Cockpit Server Patch Application Readiness, Memory Cache Audit
+  Export Evidence Pack, Runtime Server Patch Application Readiness und Release Governance
+  Operator Approval Gate.
+
 ## 2026-06-14 - BPK-059 bis BPK-062 Patch Preflight / Audit / Release Decision
 
 - Gebaut: vier reine Preflight-/Audit-/Decision-Schichten:
