@@ -5,6 +5,22 @@
 
 ---
 
+## 2026-06-14 - BPK-087 bis BPK-090 Permit / Handoff Prep Evidence
+
+- Gebaut: vier reine Evidence-Pack-Schichten:
+  `cockpitPatchPermitPrepEvidence`, `memoryCacheAuditExportPermitPrepEvidence`,
+  `runtimePatchPermitPrepEvidence` und `releaseGovernanceHandoffPrepEvidence`.
+- Verhalten: Permit-Prep- und Handoff-Prep-Metadaten werden mit Evidence- und Reviewer-Bezuegen
+  fuer Operator-Review gebuendelt; es wird kein Permit ausgestellt, kein Patch angewendet, kein
+  Export geschrieben, keine Runtime ausgefuehrt und keine Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Permit-Issuance-Readiness und Approved-
+  Action-Readiness vorbereiten, weiterhin ohne Issuance, Write, Execution oder Merge.
+
 ## 2026-06-14 - BPK-083 bis BPK-086 Approved Action Permit / Handoff Prep
 
 - Gebaut: vier reine Prep-Schichten:

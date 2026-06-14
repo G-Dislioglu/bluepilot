@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-083-086-approved-action-prep`.
+- Aktueller BPK-Arbeitsbranch: `bpk-087-090-prep-evidence-bundle`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -329,6 +329,18 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 - BPK-086: `builder/src/releaseGovernanceApprovedActionHandoffPrep.ts` bereitet Handoff-
   Metadaten fuer approved Release-Governance-Entscheidungen vor. Merge und externe Aktionen
   bleiben geschlossen.
+- BPK-087: `builder/src/cockpitPatchPermitPrepEvidence.ts` buendelt Cockpit-Patch-Permit-Prep-
+  Metadaten mit Evidence- und Reviewer-Bezuegen. Permit-Ausstellung, Patch-Anwendung,
+  Servermutation und Route-Mutation bleiben geschlossen.
+- BPK-088: `builder/src/memoryCacheAuditExportPermitPrepEvidence.ts` buendelt Memory-Cache-
+  Audit-Export-Permit-Prep-Metadaten mit Evidence- und Reviewer-Bezuegen. Permit-Ausstellung,
+  Datei-Write, Durable Store und externe Aktionen bleiben geschlossen.
+- BPK-089: `builder/src/runtimePatchPermitPrepEvidence.ts` buendelt Runtime-Patch-Permit-Prep-
+  Metadaten mit Evidence- und Reviewer-Bezuegen. Permit-Ausstellung, Patch-Anwendung,
+  Servermutation, Route-Mutation und Execution bleiben geschlossen.
+- BPK-090: `builder/src/releaseGovernanceHandoffPrepEvidence.ts` buendelt Release-Governance-
+  Handoff-Prep-Metadaten mit Evidence- und Reviewer-Bezuegen. Merge und externe Aktionen bleiben
+  geschlossen.
 
 ## Maya-Anbindung
 
@@ -374,12 +386,12 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-086 ist das Approved-Action-Permit/Handoff-Prep Bundle abgeschlossen, wenn:
+Nach BPK-090 ist das Permit-/Handoff-Prep-Evidence Bundle abgeschlossen, wenn:
 
-- die Review-Packets fuer BPK-083 bis BPK-086 existieren,
-- die vier fokussierten Permit-/Handoff-Prep-Tests und `npm run typecheck` in `builder/` gruen
+- die Review-Packets fuer BPK-087 bis BPK-090 existieren,
+- die vier fokussierten Permit-/Handoff-Prep-Evidence-Tests und `npm run typecheck` in `builder/` gruen
   sind,
-- `node tools/verify-task-lock.cjs BPK-083 --verify` bis BPK-086 gruen sind,
+- `node tools/verify-task-lock.cjs BPK-087 --verify` bis BPK-090 gruen sind,
 - `git diff --check` gruen ist,
 - keine Server-Mounts, keine Renderer-Aenderung, keine Durable Persistenz, keine DB, kein
   Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein Write, kein Deploy und
@@ -387,7 +399,7 @@ Nach BPK-086 ist das Approved-Action-Permit/Handoff-Prep Bundle abgeschlossen, w
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Permit Prep Evidence.
-2. Memory Cache Audit Export Permit Prep Evidence.
-3. Runtime Patch Permit Prep Evidence.
-4. Release Governance Handoff Prep Evidence.
+1. Cockpit Patch Permit Issuance Readiness.
+2. Memory Cache Audit Export Permit Issuance Readiness.
+3. Runtime Patch Permit Issuance Readiness.
+4. Release Governance Approved Action Readiness.

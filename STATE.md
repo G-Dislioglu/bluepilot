@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-083-086-approved-action-prep`.
+- Aktueller Arbeitsbranch: `bpk-087-090-prep-evidence-bundle`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -468,6 +468,13 @@
 - BPK-085: Runtime patch approved action permit prep; Permit-Vorbereitung ohne Execution.
 - BPK-086: Release governance approved action handoff prep; Handoff-Vorbereitung ohne Merge oder
   externe Aktion.
+- BPK-087: Cockpit patch permit prep evidence; Permit-Prep-Evidence ohne Permit-Ausstellung oder
+  Patch-Apply.
+- BPK-088: Memory cache audit export permit prep evidence; Export-Permit-Prep-Evidence ohne
+  Datei-Write.
+- BPK-089: Runtime patch permit prep evidence; Runtime-Permit-Prep-Evidence ohne Execution.
+- BPK-090: Release governance handoff prep evidence; Handoff-Prep-Evidence ohne Merge oder
+  externe Aktion.
 
 ## Maya-Anbindung
 
@@ -494,16 +501,17 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-086 ist das gebuendelte Approved-Action-Permit/Handoff-Prep Bundle abgeschlossen:
-Approved Decisions werden in Permit-Request- oder Handoff-Metadaten fuer spaetere Task-Locks
-uebersetzt; externe Side Effects bleiben geschlossen.
+Nach BPK-090 ist das gebuendelte Permit-/Handoff-Prep-Evidence Bundle abgeschlossen:
+Permit-Prep- und Handoff-Prep-Metadaten werden beweisbar fuer Operator-Review gebuendelt;
+externe Side Effects bleiben geschlossen.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Permit Prep Evidence: Permit-Prep beweisbar buendeln.
-2. Memory Cache Audit Export Permit Prep Evidence: Export-Permit-Prep beweisbar buendeln.
-3. Runtime Patch Permit Prep Evidence: Runtime-Permit-Prep beweisbar buendeln.
-4. Release Governance Handoff Prep Evidence: Handoff-Prep beweisbar buendeln.
+1. Cockpit Patch Permit Issuance Readiness: Permit-Ausstellung weiter nur als Readiness pruefen.
+2. Memory Cache Audit Export Permit Issuance Readiness: Export-Permit-Ausstellung nur vorbereiten.
+3. Runtime Patch Permit Issuance Readiness: Runtime-Permit-Ausstellung ohne Execution vorbereiten.
+4. Release Governance Approved Action Readiness: Handoff-Aktion ohne Merge oder externe Aktion
+   pruefen.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:
