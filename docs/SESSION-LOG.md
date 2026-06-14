@@ -5,6 +5,23 @@
 
 ---
 
+## 2026-06-14 - BPK-099 bis BPK-102 Authority Review Intake
+
+- Gebaut: vier reine Authority-Review-Intake-Schichten:
+  `cockpitPatchAuthorityReviewIntake`, `memoryCacheAuditExportAuthorityReviewIntake`,
+  `runtimePatchAuthorityReviewIntake` und `releaseGovernanceAuthorityReviewIntake`.
+- Verhalten: Request-Packets werden fuer spaetere Authority-Review angenommen und mit Authority-
+  Review-, Reviewer- und Intake-Evidence-Bezuegen versehen; es wird kein Permit ausgestellt,
+  kein Patch angewendet, kein Export geschrieben, keine Runtime ausgefuehrt und keine Release-
+  Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sollten Authority-Review-Decision-Gates vorbereiten,
+  ohne Issuance, Write, Execution oder Merge.
+
 ## 2026-06-14 - BPK-095 bis BPK-098 Issuance / Approved Action Request Packets
 
 - Gebaut: vier reine Request-Packet-Schichten:

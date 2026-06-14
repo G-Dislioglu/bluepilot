@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-095-098-request-packets`.
+- Aktueller Arbeitsbranch: `bpk-099-102-authority-review-intake`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -491,6 +491,13 @@
   Execution.
 - BPK-098: Release governance approved action request packet; Release-Action-Anfrage ohne Merge
   oder externe Aktion.
+- BPK-099: Cockpit patch authority review intake; Request-Packet-Intake ohne Permit-Ausstellung
+  oder Patch-Apply.
+- BPK-100: Memory cache audit export authority review intake; Request-Packet-Intake ohne
+  Datei-Write.
+- BPK-101: Runtime patch authority review intake; Request-Packet-Intake ohne Execution.
+- BPK-102: Release governance authority review intake; Request-Packet-Intake ohne Merge oder
+  externe Aktion.
 
 ## Maya-Anbindung
 
@@ -517,18 +524,18 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-098 ist das gebuendelte Issuance-/Approved-Action-Request-Packet Bundle abgeschlossen:
-Readiness-Artefakte werden in Request-Packets fuer spaetere Authority-Review uebersetzt; externe
-Side Effects bleiben geschlossen.
+Nach BPK-102 ist das gebuendelte Authority-Review-Intake Bundle abgeschlossen:
+Request-Packets werden fuer spaetere Authority-Review angenommen; externe Side Effects bleiben
+geschlossen.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Authority Review Intake: Request-Packet fuer Review annehmen, ohne Issuance.
-2. Memory Cache Audit Export Authority Review Intake: Export-Request fuer Review annehmen, ohne
+1. Cockpit Patch Authority Review Decision Gate: Review-Entscheidung als Gate, ohne Issuance.
+2. Memory Cache Audit Export Authority Review Decision Gate: Review-Entscheidung ohne
    Datei-Write.
-3. Runtime Patch Authority Review Intake: Runtime-Request fuer Review annehmen, ohne Execution.
-4. Release Governance Authority Review Intake: Release-Action-Request fuer Review annehmen, ohne
-   Merge oder externe Aktion.
+3. Runtime Patch Authority Review Decision Gate: Review-Entscheidung ohne Execution.
+4. Release Governance Authority Review Decision Gate: Review-Entscheidung ohne Merge oder
+   externe Aktion.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:
