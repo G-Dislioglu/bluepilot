@@ -1,6 +1,7 @@
 import { createServer } from 'node:http';
 
 import { handleHealthRequest } from './health.js';
+import { handlePermitApplyRequest } from './permitApply.js';
 import { handleProbeDryRunRequest } from './probeDryRun.js';
 import { handleSandboxWriteRequest } from './sandboxWrite.js';
 import { handleSandboxRealWriteRequest } from './sandboxRealWrite.js';
@@ -20,6 +21,10 @@ const server = createServer((request, response) => {
     }
 
     if (await handleSandboxWriteProbeRequest(request, response)) {
+      return;
+    }
+
+    if (await handlePermitApplyRequest(request, response)) {
       return;
     }
 
