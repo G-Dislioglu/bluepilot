@@ -1,0 +1,102 @@
+{
+  "task_id": "BP-149",
+  "task_name": "Maya sandbox write door",
+  "created": "2026-06-06",
+  "scope": "bluepilot/builder/maya-sandbox-write-door",
+  "mode": "standard",
+  "task_type": "doc_task",
+  "risk_class": "medium",
+  "impact_class": "safety",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Reconcile the missing BP-149 anchor documents for the historical /probe/sandbox-write implementation that existed before BP-150 retired it. Record that BP-149 replaced the fixed permit demo trigger with an env-gated, caller-path sandbox writer against G-Dislioglu/bluepilot-sandbox, including optional delete/undo behavior, and explicitly mark that route as later retired by BP-150.",
+  "eligible_context": [
+    "STATE.md",
+    "docs/SESSION-LOG.md",
+    "contracts/BP-148.json",
+    "review-packets/BP-148.md",
+    "contracts/BP-150.json",
+    "review-packets/BP-150.md",
+    "builder/src/sandboxWrite.ts",
+    "builder/tests/sandboxWrite.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BP-149.json",
+    "review-packets/BP-149.md",
+    "STATE.md",
+    "docs/SESSION-LOG.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "builder/**",
+    "contracts/BP-0*.json",
+    "contracts/BP-1[0-3][0-9].json",
+    "contracts/BP-14[0-8].json",
+    "contracts/BP-150.json",
+    "review-packets/BP-0*.md",
+    "review-packets/BP-1[0-3][0-9].md",
+    "review-packets/BP-14[0-8].md",
+    "review-packets/BP-150.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "AGENTS.md",
+    ".specify/**",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not reintroduce /probe/sandbox-write code or tests.",
+    "Do not change the BP-150 retired route.",
+    "Do not touch SmartPush, the Maya gate client, permit registers, providers, package files, or tools.",
+    "Do not perform a live GitHub write.",
+    "Do not implement the Codex-as-Executor path in this reconciliation."
+  ],
+  "claims": [
+    "BP-149 existed as historical work in the pre-BP-150 Bluepilot tree, not merely as a stray STATE.md sentence.",
+    "The historical route was env-gated by BLUEPILOT_SANDBOX_PERMIT_WRITE_ENABLED but did not require a permitId/writePermit/corridor consume.",
+    "The historical route targeted only G-Dislioglu/bluepilot-sandbox on main, accepted a validated path plus contentBase64 for writes, and accepted op:'delete' for undo/delete.",
+    "BP-150 later retired the route with HTTP 410 and removed the content write/delete body.",
+    "This reconciliation changes documentation only and does not reopen the retired route."
+  ],
+  "assumptions": [
+    "origin/main is at or after ba19c33, where BP-150 has already retired /probe/sandbox-write.",
+    "The repository history available locally is shallow/grafted; c7c3c97 is the evidence-bearing pre-BP-150 snapshot for BP-149 behavior.",
+    "The missing BP-149 contract and review packet are an anchor-doc drift, not a reason to re-create the retired implementation."
+  ],
+  "dod": [
+    "contracts/BP-149.json exists and records BP-149 as historical documentation, not an active route contract.",
+    "review-packets/BP-149.md exists and records the git evidence, actual historical route behavior, and BP-150 retirement.",
+    "STATE.md and docs/SESSION-LOG.md no longer understate the optional delete/undo behavior from c7c3c97.",
+    "No builder code, test, route, runtime flag, or package file changes.",
+    "node tools/verify-task-lock.cjs BP-149 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "content_check"
+  ],
+  "required_commands": [
+    "git show c7c3c97:builder/src/sandboxWrite.ts",
+    "git show c7c3c97:builder/tests/sandboxWrite.test.ts",
+    "node tools/verify-task-lock.cjs BP-149 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "Any code change becomes necessary.",
+    "Any BP-150 route behavior change becomes necessary.",
+    "Any live write is requested as proof.",
+    "Any executor/autonomy wiring change becomes necessary."
+  ],
+  "prior_task_findings": "BP-148 defused earlier legacy write paths. BP-149 then introduced an env-gated but permitless /probe/sandbox-write door for Maya sandbox writes and undo/delete metadata. BP-150 later retired that side door and removed its write/delete body. This BP-149 document is a retrospective reconciliation of missing anchor artifacts.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "HEAD"
+}

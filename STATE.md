@@ -73,9 +73,9 @@
 - BP-149 ersetzt den alten Permit-Demo-Trigger durch `POST /probe/sandbox-write`.
   Die Env-Wache `BLUEPILOT_SANDBOX_PERMIT_WRITE_ENABLED=true` bleibt, aber
   Losungswort, Permit-ID und fester Demo-Dateiname sind entfernt. Der Handler
-  akzeptiert nur `{ path, contentBase64 }`, validiert den Pfad, schreibt nur in
-  `G-Dislioglu/bluepilot-sandbox` und entscheidet per GitHub-SHA zwischen create
-  und update.
+  akzeptiert nur `{ path, contentBase64, op? }`, validiert den Pfad, schreibt nur
+  in `G-Dislioglu/bluepilot-sandbox`, entscheidet per GitHub-SHA zwischen create
+  und update und erlaubt `op:"delete"` fuer Undo/Delete.
 - BP-150 retired diese permitlose Seitentuer wieder: `/probe/sandbox-write`
   antwortet nur noch HTTP 410, und der Content-Write-/Delete-Koerper wurde aus
   `builder/src/sandboxWrite.ts` entfernt. `opusSmartPush` und der bewiesene
@@ -165,8 +165,8 @@
   Diagnosewerkzeug erhalten, ist aber default-off hinter
   `BLUEPILOT_SANDBOX_WRITE_CHECK_ENABLED`. Der Permit-/Policy-Pfad bleibt unveraendert.
 - BP-149: Freie Maya-Sandbox-Steuerung Teil 1; neuer `POST /probe/sandbox-write`
-  akzeptiert nur `{ path, contentBase64 }`, nutzt weiter das Sandbox-Env-Gate und
-  schreibt wiederholbar per GitHub Contents API create/update in
+  akzeptiert nur `{ path, contentBase64, op? }`, nutzt weiter das Sandbox-Env-Gate
+  und schreibt wiederholbar per GitHub Contents API create/update/delete in
   `G-Dislioglu/bluepilot-sandbox`. Haupt-Builder-Korridor und SmartPush bleiben
   unberuehrt.
 - BP-150: Sandbox write retire; `POST /probe/sandbox-write` bleibt als klares
