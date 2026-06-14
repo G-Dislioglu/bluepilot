@@ -1,0 +1,31 @@
+{
+  "task_id": "BPK-104",
+  "task_name": "bluepilot-memory-cache-audit-export-authority-review-decision-gate-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-103-106-authority-review-decision-gates",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "memory_cache_governance",
+  "goal": "Add a side-effect-free authority-review decision gate for memory-cache audit export authority-review intake while keeping permit issuance, file writes, durable persistence, external actions, packages, workflows, deployment, DB, providers, GitHub, and writes closed.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/memoryCacheAuditExportAuthorityReviewIntake.ts", "builder/src/memoryCacheAuditExportAuthorityReviewDecisionGate.ts", "builder/tests/memoryCacheAuditExportAuthorityReviewDecisionGate.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-103.json", "contracts/BPK-104.json", "contracts/BPK-105.json", "contracts/BPK-106.json",
+    "builder/src/cockpitPatchAuthorityReviewDecisionGate.ts", "builder/src/memoryCacheAuditExportAuthorityReviewDecisionGate.ts", "builder/src/runtimePatchAuthorityReviewDecisionGate.ts", "builder/src/releaseGovernanceAuthorityReviewDecisionGate.ts",
+    "builder/tests/cockpitPatchAuthorityReviewDecisionGate.test.ts", "builder/tests/memoryCacheAuditExportAuthorityReviewDecisionGate.test.ts", "builder/tests/runtimePatchAuthorityReviewDecisionGate.test.ts", "builder/tests/releaseGovernanceAuthorityReviewDecisionGate.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-103.md", "review-packets/BPK-104.md", "review-packets/BPK-105.md", "review-packets/BPK-106.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not issue permits, write export files, add durable persistence, call external systems, call providers, call DB, call GitHub, change package files, workflows, deployment files, or write files."],
+  "claims": ["Memory-cache audit export authority-review intake can be reduced to an approve/defer/reject gate without issuing a permit.", "Decision, authority, and rationale refs are required.", "Only approve can be ready; defer and reject remain blocked."],
+  "assumptions": ["Actual permit issue preflight, issuance, and export writing require later task locks."],
+  "dod": ["builder/src/memoryCacheAuditExportAuthorityReviewDecisionGate.ts exports decideMemoryCacheAuditExportAuthorityReview.", "Approved, missing decision ref, and rejected decision cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/memoryCacheAuditExportAuthorityReviewDecisionGate.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-104 --verify", "git diff --check"],
+  "stop_conditions": ["Permit issuance, file writes, durable persistence, external calls, DB, GitHub, package, workflow, deployment, or write changes become necessary."],
+  "prior_task_findings": "BPK-100 accepted memory-cache audit export request packets for authority review without issuing a permit.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "e2fc143"
+}

@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-099-102-authority-review-intake`.
+- Aktueller BPK-Arbeitsbranch: `bpk-103-106-authority-review-decision-gates`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -377,6 +377,18 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 - BPK-102: `builder/src/releaseGovernanceAuthorityReviewIntake.ts` nimmt Release-Governance-
   Approved-Action-Request-Packets fuer Authority Review an. Merge und externe Aktionen bleiben
   geschlossen.
+- BPK-103: `builder/src/cockpitPatchAuthorityReviewDecisionGate.ts` bewertet Cockpit-Patch-
+  Authority-Review-Intake gegen explizite Authority-Entscheidungen. Permit-Ausstellung,
+  Patch-Anwendung, Servermutation und Route-Mutation bleiben geschlossen.
+- BPK-104: `builder/src/memoryCacheAuditExportAuthorityReviewDecisionGate.ts` bewertet Memory-
+  Cache-Audit-Export-Authority-Review-Intake gegen explizite Authority-Entscheidungen. Permit-
+  Ausstellung, Datei-Write, Durable Store und externe Aktionen bleiben geschlossen.
+- BPK-105: `builder/src/runtimePatchAuthorityReviewDecisionGate.ts` bewertet Runtime-Patch-
+  Authority-Review-Intake gegen explizite Authority-Entscheidungen. Permit-Ausstellung,
+  Patch-Anwendung, Servermutation, Route-Mutation und Execution bleiben geschlossen.
+- BPK-106: `builder/src/releaseGovernanceAuthorityReviewDecisionGate.ts` bewertet Release-
+  Governance-Authority-Review-Intake gegen explizite Authority-Entscheidungen. Merge und externe
+  Aktionen bleiben geschlossen.
 
 ## Maya-Anbindung
 
@@ -422,12 +434,12 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-102 ist das Authority-Review-Intake Bundle abgeschlossen, wenn:
+Nach BPK-106 ist das Authority-Review-Decision-Gate Bundle abgeschlossen, wenn:
 
-- die Review-Packets fuer BPK-099 bis BPK-102 existieren,
-- die vier fokussierten Authority-Review-Intake-Tests und `npm run typecheck` in `builder/` gruen
+- die Review-Packets fuer BPK-103 bis BPK-106 existieren,
+- die vier fokussierten Authority-Review-Decision-Gate-Tests und `npm run typecheck` in `builder/` gruen
   sind,
-- `node tools/verify-task-lock.cjs BPK-099 --verify` bis BPK-102 gruen sind,
+- `node tools/verify-task-lock.cjs BPK-103 --verify` bis BPK-106 gruen sind,
 - `git diff --check` gruen ist,
 - keine Server-Mounts, keine Renderer-Aenderung, keine Durable Persistenz, keine DB, kein
   Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein Write, kein Deploy und
@@ -435,7 +447,7 @@ Nach BPK-102 ist das Authority-Review-Intake Bundle abgeschlossen, wenn:
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Authority Review Decision Gate.
-2. Memory Cache Audit Export Authority Review Decision Gate.
-3. Runtime Patch Authority Review Decision Gate.
-4. Release Governance Authority Review Decision Gate.
+1. Cockpit Patch Permit Issue Preflight.
+2. Memory Cache Audit Export Permit Issue Preflight.
+3. Runtime Patch Permit Issue Preflight.
+4. Release Governance Approved Action Preflight.

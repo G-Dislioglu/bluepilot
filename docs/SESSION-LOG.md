@@ -5,6 +5,25 @@
 
 ---
 
+## 2026-06-14 - BPK-103 bis BPK-106 Authority Review Decision Gates
+
+- Gebaut: vier reine Authority-Review-Decision-Gates:
+  `cockpitPatchAuthorityReviewDecisionGate`,
+  `memoryCacheAuditExportAuthorityReviewDecisionGate`,
+  `runtimePatchAuthorityReviewDecisionGate` und
+  `releaseGovernanceAuthorityReviewDecisionGate`.
+- Verhalten: Authority-Review-Intake wird in explizite `approve`, `defer` oder `reject`
+  Entscheidungen ueberfuehrt. Nur `approve` kann den naechsten Task-Lock oeffnen; es wird kein
+  Permit ausgestellt, kein Patch angewendet, kein Export geschrieben, keine Runtime ausgefuehrt
+  und keine Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sollten Permit-Issue- oder Approved-Action-Preflight
+  vorbereiten, weiterhin ohne Issuance, Write, Execution oder Merge.
+
 ## 2026-06-14 - BPK-099 bis BPK-102 Authority Review Intake
 
 - Gebaut: vier reine Authority-Review-Intake-Schichten:

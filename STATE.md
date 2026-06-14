@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-099-102-authority-review-intake`.
+- Aktueller Arbeitsbranch: `bpk-103-106-authority-review-decision-gates`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -498,6 +498,13 @@
 - BPK-101: Runtime patch authority review intake; Request-Packet-Intake ohne Execution.
 - BPK-102: Release governance authority review intake; Request-Packet-Intake ohne Merge oder
   externe Aktion.
+- BPK-103: Cockpit patch authority review decision gate; Authority-Entscheidung ohne Permit-
+  Ausstellung oder Patch-Apply.
+- BPK-104: Memory cache audit export authority review decision gate; Authority-Entscheidung
+  ohne Datei-Write.
+- BPK-105: Runtime patch authority review decision gate; Authority-Entscheidung ohne Execution.
+- BPK-106: Release governance authority review decision gate; Authority-Entscheidung ohne Merge
+  oder externe Aktion.
 
 ## Maya-Anbindung
 
@@ -524,18 +531,18 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-102 ist das gebuendelte Authority-Review-Intake Bundle abgeschlossen:
-Request-Packets werden fuer spaetere Authority-Review angenommen; externe Side Effects bleiben
-geschlossen.
+Nach BPK-106 ist das gebuendelte Authority-Review-Decision-Gate Bundle abgeschlossen:
+Authority-Review-Intake wird in explizite approve/defer/reject Gates ueberfuehrt; externe Side
+Effects bleiben geschlossen.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Authority Review Decision Gate: Review-Entscheidung als Gate, ohne Issuance.
-2. Memory Cache Audit Export Authority Review Decision Gate: Review-Entscheidung ohne
-   Datei-Write.
-3. Runtime Patch Authority Review Decision Gate: Review-Entscheidung ohne Execution.
-4. Release Governance Authority Review Decision Gate: Review-Entscheidung ohne Merge oder
-   externe Aktion.
+1. Cockpit Patch Permit Issue Preflight: Permit-Issue weiter nur vorpruefen.
+2. Memory Cache Audit Export Permit Issue Preflight: Export-Permit-Issue ohne Datei-Write
+   vorpruefen.
+3. Runtime Patch Permit Issue Preflight: Runtime-Permit-Issue ohne Execution vorpruefen.
+4. Release Governance Approved Action Preflight: Release-Action ohne Merge oder externe Aktion
+   vorpruefen.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:
