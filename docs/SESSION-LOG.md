@@ -5,6 +5,23 @@
 
 ---
 
+## 2026-06-14 - BPK-091 bis BPK-094 Permit Issuance / Approved Action Readiness
+
+- Gebaut: vier reine Readiness-Schichten:
+  `cockpitPatchPermitIssuanceReadiness`, `memoryCacheAuditExportPermitIssuanceReadiness`,
+  `runtimePatchPermitIssuanceReadiness` und `releaseGovernanceApprovedActionReadiness`.
+- Verhalten: Permit-Prep-Evidence und Handoff-Prep-Evidence werden gegen Issuer-/Policy- oder
+  Approver-/Policy-Bezuege als readiness bewertet; es wird kein Permit ausgestellt, kein Patch
+  angewendet, kein Export geschrieben, keine Runtime ausgefuehrt und keine Release-Aktion
+  ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sollten Permit-Issuance-Request-Packets und
+  Release-Action-Request-Packets vorbereiten, ohne Issuance oder Ausfuehrung.
+
 ## 2026-06-14 - BPK-087 bis BPK-090 Permit / Handoff Prep Evidence
 
 - Gebaut: vier reine Evidence-Pack-Schichten:

@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-087-090-prep-evidence-bundle`.
+- Aktueller BPK-Arbeitsbranch: `bpk-091-094-issuance-readiness`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -341,6 +341,18 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 - BPK-090: `builder/src/releaseGovernanceHandoffPrepEvidence.ts` buendelt Release-Governance-
   Handoff-Prep-Metadaten mit Evidence- und Reviewer-Bezuegen. Merge und externe Aktionen bleiben
   geschlossen.
+- BPK-091: `builder/src/cockpitPatchPermitIssuanceReadiness.ts` bewertet Cockpit-Patch-Permit-
+  Issuance-Readiness aus Evidence, Issuer und Policy. Permit-Ausstellung, Patch-Anwendung,
+  Servermutation und Route-Mutation bleiben geschlossen.
+- BPK-092: `builder/src/memoryCacheAuditExportPermitIssuanceReadiness.ts` bewertet Memory-
+  Cache-Audit-Export-Permit-Issuance-Readiness aus Evidence, Issuer und Policy. Permit-
+  Ausstellung, Datei-Write, Durable Store und externe Aktionen bleiben geschlossen.
+- BPK-093: `builder/src/runtimePatchPermitIssuanceReadiness.ts` bewertet Runtime-Patch-Permit-
+  Issuance-Readiness aus Evidence, Issuer und Policy. Permit-Ausstellung, Patch-Anwendung,
+  Servermutation, Route-Mutation und Execution bleiben geschlossen.
+- BPK-094: `builder/src/releaseGovernanceApprovedActionReadiness.ts` bewertet Release-
+  Governance-Approved-Action-Readiness aus Evidence, Approver und Policy. Merge und externe
+  Aktionen bleiben geschlossen.
 
 ## Maya-Anbindung
 
@@ -386,12 +398,12 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-090 ist das Permit-/Handoff-Prep-Evidence Bundle abgeschlossen, wenn:
+Nach BPK-094 ist das Permit-Issuance-/Approved-Action-Readiness Bundle abgeschlossen, wenn:
 
-- die Review-Packets fuer BPK-087 bis BPK-090 existieren,
-- die vier fokussierten Permit-/Handoff-Prep-Evidence-Tests und `npm run typecheck` in `builder/` gruen
+- die Review-Packets fuer BPK-091 bis BPK-094 existieren,
+- die vier fokussierten Issuance-/Action-Readiness-Tests und `npm run typecheck` in `builder/` gruen
   sind,
-- `node tools/verify-task-lock.cjs BPK-087 --verify` bis BPK-090 gruen sind,
+- `node tools/verify-task-lock.cjs BPK-091 --verify` bis BPK-094 gruen sind,
 - `git diff --check` gruen ist,
 - keine Server-Mounts, keine Renderer-Aenderung, keine Durable Persistenz, keine DB, kein
   Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein Write, kein Deploy und
@@ -399,7 +411,7 @@ Nach BPK-090 ist das Permit-/Handoff-Prep-Evidence Bundle abgeschlossen, wenn:
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Permit Issuance Readiness.
-2. Memory Cache Audit Export Permit Issuance Readiness.
-3. Runtime Patch Permit Issuance Readiness.
-4. Release Governance Approved Action Readiness.
+1. Cockpit Patch Permit Issuance Request Packet.
+2. Memory Cache Audit Export Permit Issuance Request Packet.
+3. Runtime Patch Permit Issuance Request Packet.
+4. Release Governance Approved Action Request Packet.
