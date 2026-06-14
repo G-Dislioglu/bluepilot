@@ -5,6 +5,22 @@
 
 ---
 
+## 2026-06-14 - BPK-079 bis BPK-082 Operator / Final Decision Gates
+
+- Gebaut: vier reine Decision-Gate-Schichten:
+  `cockpitPatchOperatorDecisionGate`, `memoryCacheAuditExportDecisionGate`,
+  `runtimePatchOperatorDecisionGate` und `releaseGovernanceFinalDecisionGate`.
+- Verhalten: Cockpit-/Runtime-Dry-Run-Evidence, Memory-Cache-Preview-Evidence und Release-
+  Runbook-Evidence koennen in explizite `approve`, `defer` oder `reject` Entscheidungen
+  ueberfuehrt werden; `approve` oeffnet nur den naechsten Task-Lock, keine Aktion.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sollten Approved-Action-Permit-Prep-Schichten bauen,
+  also Genehmigungen in neue Permit-/Task-Lock-Vorbereitungen uebersetzen, ohne auszufuehren.
+
 ## 2026-06-14 - BPK-075 bis BPK-078 Dry Run / Preview / Runbook Evidence
 
 - Gebaut: vier reine Evidence-Schichten:

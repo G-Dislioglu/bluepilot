@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-075-078-dry-run-evidence-packs`.
+- Aktueller Arbeitsbranch: `bpk-079-082-operator-final-decision-gates`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -456,6 +456,11 @@
 - BPK-076: Memory cache audit export preview evidence; Preview-Evidence ohne Datei-Write.
 - BPK-077: Runtime patch operator dry run evidence; Simulationsevidence ohne Execution.
 - BPK-078: Release governance runbook evidence; Runbook-Evidence ohne Merge oder externe Aktion.
+- BPK-079: Cockpit patch operator decision gate; Entscheidung ohne Patch-Apply.
+- BPK-080: Memory cache audit export decision gate; Entscheidung ohne Datei-Write.
+- BPK-081: Runtime patch operator decision gate; Entscheidung ohne Execution.
+- BPK-082: Release governance final decision gate; finale Entscheidung ohne Merge oder externe
+  Aktion.
 
 ## Maya-Anbindung
 
@@ -482,17 +487,20 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-078 ist das gebuendelte Dry-Run/Preview/Runbook-Evidence Bundle abgeschlossen:
-Cockpit- und Runtime-Mount-Patch-Simulationen sind als Evidence gebuendelt, Memory-
-Invalidation-Audit-Preview ist pruefbar konserviert, und PR-Receipt-Release-Governance-
-Runbooks besitzen Handoff-Evidence; externe Side Effects bleiben geschlossen.
+Nach BPK-082 ist das gebuendelte Operator-/Final-Decision-Gate Bundle abgeschlossen:
+Cockpit- und Runtime-Mount-Patch-Simulationen, Memory-Invalidation-Audit-Preview und PR-Receipt-
+Release-Governance-Runbooks koennen explizit approved, deferred oder rejected werden; externe
+Side Effects bleiben geschlossen.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Operator Decision Gate: Evidence zu Entscheidung verdichten.
-2. Memory Cache Audit Export Decision Gate: Preview-Evidence zu Entscheidung verdichten.
-3. Runtime Patch Operator Decision Gate: Runtime-Evidence zu Entscheidung verdichten.
-4. Release Governance Final Decision Gate: Runbook-Evidence zu finaler Entscheidung verdichten.
+1. Cockpit Patch Approved Action Permit Prep: Approval in Permit-/Task-Lock-Vorbereitung
+   uebersetzen.
+2. Memory Cache Audit Export Approved Action Permit Prep: Export-Approval in Vorbereitung
+   uebersetzen.
+3. Runtime Patch Approved Action Permit Prep: Runtime-Approval in Vorbereitung uebersetzen.
+4. Release Governance Approved Action Handoff Prep: finale Freigabe in Handoff-Vorbereitung
+   uebersetzen.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:

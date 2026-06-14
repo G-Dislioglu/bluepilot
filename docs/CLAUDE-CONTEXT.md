@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-075-078-dry-run-evidence-packs`.
+- Aktueller BPK-Arbeitsbranch: `bpk-079-082-operator-final-decision-gates`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -305,6 +305,18 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
   Execution-Allowance bleiben geschlossen.
 - BPK-078: `builder/src/releaseGovernanceRunbookEvidence.ts` buendelt Release-Governance-
   Runbook-Evidence. Merge und externe Aktionen bleiben geschlossen.
+- BPK-079: `builder/src/cockpitPatchOperatorDecisionGate.ts` bewertet Cockpit-Dry-Run-
+  Evidence gegen explizite Operator-Entscheidung. Patch-Anwendung, Servermutation,
+  Route-Mutation und Executable Actions bleiben geschlossen.
+- BPK-080: `builder/src/memoryCacheAuditExportDecisionGate.ts` bewertet Memory-Cache-
+  Preview-Evidence gegen explizite Operator-Entscheidung. Datei-Write, Durable Store und
+  externe Aktionen bleiben geschlossen.
+- BPK-081: `builder/src/runtimePatchOperatorDecisionGate.ts` bewertet Runtime-Dry-Run-
+  Evidence gegen explizite Operator-Entscheidung. Patch-Anwendung, Servermutation,
+  Route-Mutation, Execution und Execution-Allowance bleiben geschlossen.
+- BPK-082: `builder/src/releaseGovernanceFinalDecisionGate.ts` bewertet Release-Governance-
+  Runbook-Evidence gegen explizite finale Entscheidung. Merge und externe Aktionen bleiben
+  geschlossen.
 
 ## Maya-Anbindung
 
@@ -350,11 +362,11 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-078 ist das Dry-Run/Preview/Runbook-Evidence Bundle abgeschlossen, wenn:
+Nach BPK-082 ist das Operator-/Final-Decision-Gate Bundle abgeschlossen, wenn:
 
-- die Review-Packets fuer BPK-075 bis BPK-078 existieren,
-- die vier fokussierten Evidence-Tests und `npm run typecheck` in `builder/` gruen sind,
-- `node tools/verify-task-lock.cjs BPK-075 --verify` bis BPK-078 gruen sind,
+- die Review-Packets fuer BPK-079 bis BPK-082 existieren,
+- die vier fokussierten Decision-Gate-Tests und `npm run typecheck` in `builder/` gruen sind,
+- `node tools/verify-task-lock.cjs BPK-079 --verify` bis BPK-082 gruen sind,
 - `git diff --check` gruen ist,
 - keine Server-Mounts, keine Renderer-Aenderung, keine Durable Persistenz, keine DB, kein
   Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein Write, kein Deploy und
@@ -362,7 +374,7 @@ Nach BPK-078 ist das Dry-Run/Preview/Runbook-Evidence Bundle abgeschlossen, wenn
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Operator Decision Gate.
-2. Memory Cache Audit Export Decision Gate.
-3. Runtime Patch Operator Decision Gate.
-4. Release Governance Final Decision Gate.
+1. Cockpit Patch Approved Action Permit Prep.
+2. Memory Cache Audit Export Approved Action Permit Prep.
+3. Runtime Patch Approved Action Permit Prep.
+4. Release Governance Approved Action Handoff Prep.
