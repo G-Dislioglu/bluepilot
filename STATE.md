@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-067-070-application-readiness-evidence-approval`.
+- Aktueller Arbeitsbranch: `bpk-071-074-operator-dry-runs-runbook`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -447,6 +447,11 @@
 - BPK-069: Runtime server patch application readiness; Anwendungsvorbereitung ohne Execution.
 - BPK-070: Release governance operator approval gate; Approval-Schwelle ohne Merge oder externe
   Aktion.
+- BPK-071: Cockpit server patch operator dry run; Anwendungssimulation ohne Patch-Apply.
+- BPK-072: Memory cache audit export render dry run; Preview ohne Datei-Write.
+- BPK-073: Runtime server patch operator dry run; Anwendungssimulation ohne Execution.
+- BPK-074: Release governance operator action runbook; Operator-Anleitung ohne Merge oder
+  externe Aktion.
 
 ## Maya-Anbindung
 
@@ -473,17 +478,17 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-070 ist das gebuendelte Application-Readiness/Evidence/Approval Bundle abgeschlossen:
-Cockpit- und Runtime-Mount-Patches sind fuer spaetere Anwendung gatebar, Memory-Invalidation-
-Audit ist als Evidence-Pack gebuendelt, und PR-Receipt-Release-Governance liegt hinter einem
-Operator-Approval-Gate; externe Side Effects bleiben geschlossen.
+Nach BPK-074 ist das gebuendelte Operator-Dry-Run/Render-Dry-Run/Runbook Bundle abgeschlossen:
+Cockpit- und Runtime-Mount-Patches koennen trocken simuliert werden, Memory-Invalidation-Audit
+kann als Preview dargestellt werden, und PR-Receipt-Release-Governance liegt als Operator-
+Runbook vor; externe Side Effects bleiben geschlossen.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Server Patch Operator Dry Run: Anwendung nur simulieren, kein Server-Write.
-2. Memory Cache Audit Export Render Dry Run: Export-Darstellung nur rendern, kein Datei-Write.
-3. Runtime Server Patch Operator Dry Run: Runtime-Anwendung nur simulieren, keine Execution.
-4. Release Governance Operator Action Runbook: Operator-Aktion beschreiben, kein Merge.
+1. Cockpit Patch Operator Dry Run Evidence: Simulation beweisbar buendeln.
+2. Memory Cache Audit Export Preview Evidence: Preview-Evidence pruefbar buendeln.
+3. Runtime Patch Operator Dry Run Evidence: Runtime-Simulation beweisbar buendeln.
+4. Release Governance Runbook Evidence: Runbook-Review und Handoff-Evidence buendeln.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:

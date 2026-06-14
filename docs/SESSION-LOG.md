@@ -5,6 +5,22 @@
 
 ---
 
+## 2026-06-14 - BPK-071 bis BPK-074 Operator Dry Runs / Render Dry Run / Runbook
+
+- Gebaut: vier reine Dry-Run-/Runbook-Schichten:
+  `cockpitServerPatchOperatorDryRun`, `memoryCacheAuditExportRenderDryRun`,
+  `runtimeServerPatchOperatorDryRun` und `releaseGovernanceOperatorActionRunbook`.
+- Verhalten: Cockpit- und Runtime-Patch-Anwendung werden als Operator-Dry-Run simuliert, aber
+  nicht angewendet; Memory-Cache-Audit-Export wird als Preview gerendert, aber nicht geschrieben;
+  Release-Governance-Operator-Aktionen werden als Runbook beschrieben, aber nicht ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sollten eine explizite Operator-Evidence-Schicht
+  vorbereiten, bevor irgendeine echte Anwendung, Datei-Ausgabe oder Release-Aktion geoeffnet wird.
+
 ## 2026-06-14 - BPK-067 bis BPK-070 Application Readiness / Evidence / Approval
 
 - Gebaut: vier reine Readiness-/Evidence-/Approval-Schichten:

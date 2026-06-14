@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-074",
+  "task_name": "bluepilot-release-governance-operator-action-runbook-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-071-074-operator-dry-runs-runbook",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "release_governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free operator action runbook for BPK-070 release governance approval gates, describing next operator actions without GitHub calls, PR creation, merge, writes, workflow changes, packages, or deployment.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/releaseGovernanceOperatorApprovalGate.ts", "builder/src/releaseGovernanceOperatorActionRunbook.ts", "builder/tests/releaseGovernanceOperatorActionRunbook.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-071.json", "contracts/BPK-072.json", "contracts/BPK-073.json", "contracts/BPK-074.json",
+    "builder/src/cockpitServerPatchOperatorDryRun.ts", "builder/src/memoryCacheAuditExportRenderDryRun.ts", "builder/src/runtimeServerPatchOperatorDryRun.ts", "builder/src/releaseGovernanceOperatorActionRunbook.ts",
+    "builder/tests/cockpitServerPatchOperatorDryRun.test.ts", "builder/tests/memoryCacheAuditExportRenderDryRun.test.ts", "builder/tests/runtimeServerPatchOperatorDryRun.test.ts", "builder/tests/releaseGovernanceOperatorActionRunbook.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-071.md", "review-packets/BPK-072.md", "review-packets/BPK-073.md", "review-packets/BPK-074.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not read files, call GitHub, create PRs, merge, write files, change workflows, change package files, change deployment files, or mutate external state."],
+  "claims": ["Release governance operator actions can be described as a runbook without executing them.", "Ready BPK-070 approval gate and runbook refs are required.", "Merge and external actions remain false."],
+  "assumptions": ["The runbook feeds later human/operator release action only."],
+  "dod": ["builder/src/releaseGovernanceOperatorActionRunbook.ts exports buildReleaseGovernanceOperatorActionRunbook.", "Ready, missing runbook ref, and blocked approval gate cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/releaseGovernanceOperatorActionRunbook.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-074 --verify", "git diff --check"],
+  "stop_conditions": ["Filesystem reads, GitHub calls, PR creation, merge, writes, workflow changes, package changes, deployment changes, or external state mutation become necessary."],
+  "prior_task_findings": "BPK-070 placed release governance handoffs behind an operator approval gate without merge.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "c6c8700"
+}
