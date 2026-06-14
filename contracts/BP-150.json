@@ -1,0 +1,115 @@
+{
+  "task_id": "BP-150",
+  "task_name": "Retire permitless sandbox write route",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/sandbox-write-retire",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "safety",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Retire /probe/sandbox-write as a permitless sandbox write route while leaving the proven SmartPush permit path untouched.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/sandboxWrite.ts",
+    "builder/tests/sandboxWrite.test.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/mayaBuilderGateClient.ts",
+    "contracts/BP-148.json",
+    "review-packets/BP-148.md",
+    "review-packets/BP-147.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BP-150.json",
+    "builder/src/sandboxWrite.ts",
+    "builder/tests/sandboxWrite.test.ts",
+    "STATE.md",
+    "docs/SESSION-LOG.md",
+    "review-packets/BP-150.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/opusPatchMode.ts",
+    "builder/src/mayaBuilderGateClient.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/providers.ts",
+    "builder/src/sandboxWriteProbe.ts",
+    "builder/src/sandboxRealWrite.ts",
+    "contracts/BP-0*.json",
+    "contracts/BP-1[0-4][0-9].json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "AGENTS.md",
+    ".specify/**",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not add new permit logic to sandboxWrite.ts.",
+    "Do not modify the SmartPush permit path or Maya gate client.",
+    "Do not perform a live GitHub write.",
+    "Do not change Render environment variables or Maya-core enforcement flags.",
+    "Do not implement Codex as an executor in this task."
+  ],
+  "claims": [
+    "/probe/sandbox-write returns HTTP 410 regardless of method, body, or environment flags.",
+    "The /probe/sandbox-write handler contains no GitHub content write or delete execution body.",
+    "BLUEPILOT_SANDBOX_PERMIT_WRITE_ENABLED no longer activates any content-write route in builder/src.",
+    "builder/src/opusSmartPush.ts remains unchanged."
+  ],
+  "assumptions": [
+    "BP-147 already provides the live proof for a permit-gated sandbox write.",
+    "The current BP-149 route is a permitless side door and should not be kept as a fallback.",
+    "If a governed sandbox probe is needed later, it should be built as a separate policy/permit path through SmartPush."
+  ],
+  "dod": [
+    "builder/src/sandboxWrite.ts is a small 410 Gone stub and does not import GitHub write helpers.",
+    "builder/tests/sandboxWrite.test.ts proves POST and GET return 410 and malformed bodies do not reach old validation/write behavior.",
+    "A grep check shows no BLUEPILOT_SANDBOX_PERMIT_WRITE_ENABLED reference in builder/src.",
+    "A grep check shows no putFileContent/outboundFetch/deleteSandboxFile write path in builder/src/sandboxWrite.ts.",
+    "STATE.md and docs/SESSION-LOG.md record BP-150.",
+    "review-packets/BP-150.md records the Claude/Codex correction, caller scan, verification, and BP-149 contract drift.",
+    "npm test and npm run typecheck in builder/ pass.",
+    "node tools/verify-task-lock.cjs BP-150 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check"
+  ],
+  "required_commands": [
+    "node tools/verify-task-lock.cjs BP-150 --preflight",
+    "npm test",
+    "npm run typecheck",
+    "rg -n \"BLUEPILOT_SANDBOX_PERMIT_WRITE_ENABLED\" builder/src",
+    "rg -n \"putFileContent|outboundFetch|deleteSandboxFile|GITHUB_TOKEN|GITHUB_PAT|GH_TOKEN\" builder/src/sandboxWrite.ts",
+    "node tools/verify-task-lock.cjs BP-150 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "Any change to SmartPush permit behavior becomes necessary.",
+    "Any maya-core change becomes necessary.",
+    "Any live write becomes necessary for verification.",
+    "Any automated non-test caller for /probe/sandbox-write is found and needs a replacement in the same task."
+  ],
+  "prior_task_findings": "Codex review found that BP-149 reopened a permitless /probe/sandbox-write route after BP-147 proved the permit path and BP-148 defused legacy bypasses. This task closes that side door without touching the proven SmartPush permit path.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "HEAD"
+}

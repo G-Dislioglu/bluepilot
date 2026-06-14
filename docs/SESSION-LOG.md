@@ -5,6 +5,24 @@
 
 ---
 
+## 2026-06-14 - BP-150 Sandbox write retired
+
+- Gebaut: `POST /probe/sandbox-write` ist jetzt ein reiner HTTP-410-Stub.
+  Der permitlose Content-Write-Koerper wurde aus `builder/src/sandboxWrite.ts`
+  entfernt, statt nur hinter einem fruehen Return zu schlafen.
+- Ergebnis: Die alte Env-Wache `BLUEPILOT_SANDBOX_PERMIT_WRITE_ENABLED` aktiviert
+  in `builder/src` keinen Sandbox-Content-Write mehr.
+- Sicherheitsentscheidung: Kein Live-GitHub-Write in diesem Block. BP-147 bleibt
+  der Live-Beweis fuer permit-gated Writes; BP-150 schliesst nur die spaeter
+  entstandene Seitentuer.
+- Korrektur am Claude-Paket: Claudes Richtung war richtig; Codex engte den Claim
+  auf den Bluepilot-Korridoraufruf statt direkten `consumeWritePermit` ein und
+  machte daraus einen Retire-Stub mit entferntem Write-Koerper.
+- Drift-Fund: `STATE.md` dokumentiert BP-149, aber im aktuellen Clone fehlen
+  `contracts/BP-149.json` und `review-packets/BP-149.md`.
+- Roter Faden weiter: Falls Maya wieder einen Sandbox-Probe-Write braucht, dann
+  als separater Policy-/One-Shot-Permit-Block ueber den bewiesenen SmartPush-Pfad.
+
 ## 2026-06-06 - BP-149 Maya sandbox write door
 
 - Gebaut: Der alte Permit-Demo-Trigger `/probe/sandbox-permit-write` wurde durch

@@ -76,6 +76,10 @@
   akzeptiert nur `{ path, contentBase64 }`, validiert den Pfad, schreibt nur in
   `G-Dislioglu/bluepilot-sandbox` und entscheidet per GitHub-SHA zwischen create
   und update.
+- BP-150 retired diese permitlose Seitentuer wieder: `/probe/sandbox-write`
+  antwortet nur noch HTTP 410, und der Content-Write-/Delete-Koerper wurde aus
+  `builder/src/sandboxWrite.ts` entfernt. `opusSmartPush` und der bewiesene
+  Permit-Pfad bleiben unveraendert.
 
 ## Phasen
 
@@ -87,7 +91,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149.
+- Hoechster Contract: BP-150.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -165,6 +169,10 @@
   schreibt wiederholbar per GitHub Contents API create/update in
   `G-Dislioglu/bluepilot-sandbox`. Haupt-Builder-Korridor und SmartPush bleiben
   unberuehrt.
+- BP-150: Sandbox write retire; `POST /probe/sandbox-write` bleibt als klares
+  Runtime-Signal erhalten, ist aber nur noch HTTP 410. Die permitlose
+  GitHub-Content-Write-Implementierung und die Nutzung von
+  `BLUEPILOT_SANDBOX_PERMIT_WRITE_ENABLED` in `builder/src` sind entfernt.
 
 ## Maya-Anbindung
 
@@ -198,6 +206,8 @@ Nach BP-125 ist das Anker-Projekt abgeschlossen. Danach gibt es zwei saubere Opt
    Regeln darf Maya selbst One-Shot-Permits ausstellen, ausserhalb eskaliert sie an den Menschen.
 3. Erst danach den Permit-Pfad von der festen Probe-Datei auf echte, begrenzte Builder-Aufgaben
    erweitern.
+4. Falls ein neuer Sandbox-Probe-Write gebraucht wird, ihn separat und permit-bound ueber
+   `smartPush(..., writePermit)` bauen, nicht in `sandboxWrite.ts` neu erfinden.
 
 Nicht beides still zusammenziehen, wenn Auth, Deploy, Live-Builder oder globale Steuerung beruehrt
 werden.
