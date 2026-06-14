@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-063-066-patch-candidates-audit-export-handoff`.
+- Aktueller Arbeitsbranch: `bpk-067-070-application-readiness-evidence-approval`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -442,6 +442,11 @@
 - BPK-065: Runtime server patch candidate; konkrete Patch-Kandidaten-Daten ohne Anwendung oder
   Execution.
 - BPK-066: Release governance handoff packet; Operator-Handoff ohne Merge oder externe Aktion.
+- BPK-067: Cockpit server patch application readiness; Anwendungsvorbereitung ohne Patch-Apply.
+- BPK-068: Memory cache audit export evidence pack; Export-Evidence ohne Datei-Write.
+- BPK-069: Runtime server patch application readiness; Anwendungsvorbereitung ohne Execution.
+- BPK-070: Release governance operator approval gate; Approval-Schwelle ohne Merge oder externe
+  Aktion.
 
 ## Maya-Anbindung
 
@@ -468,19 +473,17 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-066 ist das gebuendelte Patch-Candidate/Audit-Export/Handoff Bundle abgeschlossen:
-Cockpit- und Runtime-Mount-Patches liegen als Kandidaten vor, Memory-Invalidation-Audit ist
-exportfaehig beschrieben, und PR-Receipt-Release-Governance ist fuer Operator-Handoff
-gebuendelt; externe Side Effects bleiben geschlossen.
+Nach BPK-070 ist das gebuendelte Application-Readiness/Evidence/Approval Bundle abgeschlossen:
+Cockpit- und Runtime-Mount-Patches sind fuer spaetere Anwendung gatebar, Memory-Invalidation-
+Audit ist als Evidence-Pack gebuendelt, und PR-Receipt-Release-Governance liegt hinter einem
+Operator-Approval-Gate; externe Side Effects bleiben geschlossen.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Server Patch Application Readiness: Operator- und Diff-Gates fuer spaetere Anwendung.
-2. Memory Cache Audit Export Evidence Pack: Export-Evidence als pruefbares Paket ohne Write.
-3. Runtime Server Patch Application Readiness: Runtime-Patch-Anwendungsvorbereitung ohne
-   Execution.
-4. Release Governance Operator Approval Gate: explizite Approval-Schwelle vor Merge/externen
-   Aktionen.
+1. Cockpit Server Patch Operator Dry Run: Anwendung nur simulieren, kein Server-Write.
+2. Memory Cache Audit Export Render Dry Run: Export-Darstellung nur rendern, kein Datei-Write.
+3. Runtime Server Patch Operator Dry Run: Runtime-Anwendung nur simulieren, keine Execution.
+4. Release Governance Operator Action Runbook: Operator-Aktion beschreiben, kein Merge.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:

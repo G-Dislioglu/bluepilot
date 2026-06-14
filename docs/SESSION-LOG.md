@@ -5,6 +5,24 @@
 
 ---
 
+## 2026-06-14 - BPK-067 bis BPK-070 Application Readiness / Evidence / Approval
+
+- Gebaut: vier reine Readiness-/Evidence-/Approval-Schichten:
+  `cockpitServerPatchApplicationReadiness`, `memoryCacheAuditExportEvidencePack`,
+  `runtimeServerPatchApplicationReadiness` und `releaseGovernanceOperatorApprovalGate`.
+- Verhalten: Cockpit- und Runtime-Patch-Kandidaten werden fuer spaetere Anwendung bewertet,
+  aber nicht angewendet; Memory-Cache-Audit-Export wird als Evidence-Pack gebuendelt, aber nicht
+  geschrieben; Release-Governance-Handoff wird hinter ein explizites Operator-Approval-Gate
+  gelegt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sollten weiterhin trocken bleiben: Cockpit Server
+  Patch Operator Dry Run, Memory Cache Audit Export Render Dry Run, Runtime Server Patch Operator
+  Dry Run und Release Governance Operator Action Runbook.
+
 ## 2026-06-14 - BPK-063 bis BPK-066 Patch Candidates / Audit Export / Handoff
 
 - Gebaut: vier reine Candidate-/Export-/Handoff-Schichten:
