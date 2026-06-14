@@ -5,6 +5,22 @@
 
 ---
 
+## 2026-06-14 - BPK-111 bis BPK-114 Permit Issue / Approved Action Authority
+
+- Gebaut: vier side-effect-freie Authority-Artefakt-Schichten:
+  `cockpitPatchPermitIssueAuthority`, `memoryCacheAuditExportPermitIssueAuthority`,
+  `runtimePatchPermitIssueAuthority` und `releaseGovernanceApprovedActionAuthority`.
+- Verhalten: Ready-Preflights erzeugen side-effect-freie Permit- oder Action-Artefakte. Es wird
+  kein Permit konsumiert, kein Patch angewendet, kein Export geschrieben, keine Runtime
+  ausgefuehrt und kein Merge oder externe Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Authority-Tests und Typecheck sind vor Review-Finalisierung gruen;
+  Task-Lock-Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Consume-Preflight vorbereiten, ohne
+  Permit-Konsum, Write, Execution oder Merge.
+
 ## 2026-06-14 - BPK-107 bis BPK-110 Permit Issue / Approved Action Preflight
 
 - Gebaut: vier reine Preflight-Schichten:

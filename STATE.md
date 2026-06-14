@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-107-110-permit-issue-preflight`.
+- Aktueller Arbeitsbranch: `bpk-111-114-permit-issue-authority`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -512,6 +512,13 @@
 - BPK-109: Runtime patch permit issue preflight; Permit-Issue nur vorgeprueft, ohne Execution.
 - BPK-110: Release governance approved action preflight; Approved-Action nur vorgeprueft, ohne
   Merge oder externe Aktion.
+- BPK-111: Cockpit patch permit issue authority; Permit-Artefakt ohne Consume oder Patch-Apply.
+- BPK-112: Memory cache audit export permit issue authority; Export-Permit-Artefakt ohne Datei-
+  Write.
+- BPK-113: Runtime patch permit issue authority; Runtime-Permit-Artefakt ohne Consume oder
+  Execution.
+- BPK-114: Release governance approved action authority; Approved-Action-Artefakt ohne Consume,
+  Merge oder externe Aktion.
 
 ## Maya-Anbindung
 
@@ -538,17 +545,17 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-110 ist das gebuendelte Permit-Issue-/Approved-Action-Preflight Bundle abgeschlossen:
-Approved Authority-Decision-Gates werden fuer Permit-Issue oder Approved-Action vorgeprueft;
-externe Side Effects bleiben geschlossen.
+Nach BPK-114 ist das gebuendelte Permit-Issue-/Approved-Action-Authority Bundle abgeschlossen:
+Ready-Preflights erzeugen side-effect-freie Permit- oder Approved-Action-Artefakte; Consume,
+Writes, Execution, Merge und externe Side Effects bleiben geschlossen.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Permit Issue Authority: Permit-Issue-Authority vorbereiten, ohne Patch-Apply.
-2. Memory Cache Audit Export Permit Issue Authority: Export-Permit-Issue vorbereiten, ohne
+1. Cockpit Patch Permit Consume Preflight: Permit-Konsum vorpruefen, ohne Patch-Apply.
+2. Memory Cache Audit Export Permit Consume Preflight: Export-Permit-Konsum vorpruefen, ohne
    Datei-Write.
-3. Runtime Patch Permit Issue Authority: Runtime-Permit-Issue vorbereiten, ohne Execution.
-4. Release Governance Approved Action Authority: Release-Action-Authority vorbereiten, ohne
+3. Runtime Patch Permit Consume Preflight: Runtime-Permit-Konsum vorpruefen, ohne Execution.
+4. Release Governance Approved Action Consume Preflight: Release-Action-Konsum vorpruefen, ohne
    Merge oder externe Aktion.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
