@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-115-118-permit-consume-preflight`.
+- Aktueller Arbeitsbranch: `bpk-119-122-permit-consume-authority`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -527,6 +527,14 @@
   Execution.
 - BPK-118: Release governance approved action consume preflight; Approved-Action-Konsum nur
   vorgeprueft, ohne Merge oder externe Aktion.
+- BPK-119: Cockpit patch permit consume authority; Consume-Authorization-Artefakt ohne
+  Permit-Konsum oder Patch-Apply.
+- BPK-120: Memory cache audit export permit consume authority; Export-Consume-Authorization-
+  Artefakt ohne Datei-Write.
+- BPK-121: Runtime patch permit consume authority; Runtime-Consume-Authorization-Artefakt ohne
+  Execution.
+- BPK-122: Release governance approved action consume authority; Release-Action-Consume-
+  Authorization-Artefakt ohne Merge oder externe Aktion.
 
 ## Maya-Anbindung
 
@@ -553,19 +561,20 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-118 ist das gebuendelte Permit-/Approved-Action-Consume-Preflight Bundle abgeschlossen:
-Permit- und Approved-Action-Artefakte werden fuer spaeteren Konsum vorgeprueft; Consume, Writes,
-Execution, Merge und externe Side Effects bleiben geschlossen.
+Nach BPK-122 ist das gebuendelte Permit-/Approved-Action-Consume-Authority Bundle abgeschlossen:
+Ready-Consume-Preflights erzeugen side-effect-freie Consume-Authorization-Artefakte; Consume,
+Writes, Execution, Merge und externe Side Effects bleiben geschlossen.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Permit Consume Authority: Permit-Konsum-Authority vorbereiten, ohne Patch-Apply.
-2. Memory Cache Audit Export Permit Consume Authority: Export-Permit-Konsum-Authority
-   vorbereiten, ohne Datei-Write.
-3. Runtime Patch Permit Consume Authority: Runtime-Permit-Konsum-Authority vorbereiten, ohne
+1. Cockpit Patch Permit Consume Application Preflight: Konsum-Anwendung vorpruefen, ohne
+   Patch-Apply.
+2. Memory Cache Audit Export Permit Consume Application Preflight: Export-Konsum-Anwendung
+   vorpruefen, ohne Datei-Write.
+3. Runtime Patch Permit Consume Application Preflight: Runtime-Konsum-Anwendung vorpruefen, ohne
    Execution.
-4. Release Governance Approved Action Consume Authority: Release-Action-Konsum-Authority
-   vorbereiten, ohne Merge oder externe Aktion.
+4. Release Governance Approved Action Consume Application Preflight: Release-Action-Konsum-
+   Anwendung vorpruefen, ohne Merge oder externe Aktion.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:

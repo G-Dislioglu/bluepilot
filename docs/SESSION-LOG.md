@@ -5,6 +5,23 @@
 
 ---
 
+## 2026-06-14 - BPK-119 bis BPK-122 Permit / Approved Action Consume Authority
+
+- Gebaut: vier side-effect-freie Consume-Authority-Schichten:
+  `cockpitPatchPermitConsumeAuthority`, `memoryCacheAuditExportPermitConsumeAuthority`,
+  `runtimePatchPermitConsumeAuthority` und `releaseGovernanceApprovedActionConsumeAuthority`.
+- Verhalten: Ready-Consume-Preflights erzeugen side-effect-freie Consume-Authorization-
+  Artefakte. Es wird kein Permit konsumiert, keine Action konsumiert, kein Patch angewendet, kein
+  Export geschrieben, keine Runtime ausgefuehrt und kein Merge oder externe Release-Aktion
+  ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Consume-Authority-Tests und Typecheck sind vor Review-Finalisierung
+  gruen; Task-Lock-Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Consume-Application-Preflight vorbereiten,
+  weiterhin ohne Permit-Konsum, Action-Konsum, Write, Execution oder Merge.
+
 ## 2026-06-14 - BPK-115 bis BPK-118 Permit / Approved Action Consume Preflight
 
 - Gebaut: vier side-effect-freie Consume-Preflight-Schichten:
