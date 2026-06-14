@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-060",
+  "task_name": "bluepilot-memory-cache-invalidation-audit-trail-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-059-062-patch-preflight-audit-release-decision",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "external_read_boundary",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add an audit-trail builder for BPK-056 memory cache invalidation evidence bindings, without durable storage, DB, filesystem cache, scheduler, routes, package, workflow, deployment, or external-call changes.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/memoryCacheInvalidationEvidenceBinding.ts", "builder/src/memoryCacheInvalidationAuditTrail.ts", "builder/tests/memoryCacheInvalidationAuditTrail.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-059.json", "contracts/BPK-060.json", "contracts/BPK-061.json", "contracts/BPK-062.json",
+    "builder/src/cockpitMountPatchPreflight.ts", "builder/src/memoryCacheInvalidationAuditTrail.ts", "builder/src/runtimeMountPatchPreflight.ts", "builder/src/prReceiptGovernanceReleaseDecision.ts",
+    "builder/tests/cockpitMountPatchPreflight.test.ts", "builder/tests/memoryCacheInvalidationAuditTrail.test.ts", "builder/tests/runtimeMountPatchPreflight.test.ts", "builder/tests/prReceiptGovernanceReleaseDecision.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-059.md", "review-packets/BPK-060.md", "review-packets/BPK-061.md", "review-packets/BPK-062.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not add durable storage, DB writes, filesystem cache files, scheduler, routes, package changes, workflow changes, deployment files, or external calls."],
+  "claims": ["Invalidation evidence can be converted into an audit trail without persistence.", "Ready BPK-056 binding and audit ref are required.", "Durable persistence remains closed."],
+  "assumptions": ["The audit trail is a returned data structure only."],
+  "dod": ["builder/src/memoryCacheInvalidationAuditTrail.ts exports buildMemoryCacheInvalidationAuditTrail.", "Ready, missing audit ref, and blocked binding cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/memoryCacheInvalidationAuditTrail.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-060 --verify", "git diff --check"],
+  "stop_conditions": ["Durable storage, DB, filesystem cache, scheduler, route, package, workflow, deployment, or external-call changes become necessary."],
+  "prior_task_findings": "BPK-056 bound invalidation evidence to the prior memory cache read binding.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "6bdb9f8"
+}

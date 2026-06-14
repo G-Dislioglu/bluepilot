@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-055-058-implementation-plan-evidence-promotion`.
+- Aktueller BPK-Arbeitsbranch: `bpk-059-062-patch-preflight-audit-release-decision`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -251,6 +251,14 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
   aus BPK-053. Keine Route, kein Orchestrator und keine Execution.
 - BPK-058: `builder/src/prReceiptEvidencePromotionGate.ts` gated BPK-054 Evidence-Promotion in
   Release-Governance. Kein Merge und keine externe Aktion.
+- BPK-059: `builder/src/cockpitMountPatchPreflight.ts` prueft geplante Cockpit-Mount-Patches
+  gegen Plan, Route, Env-Gate und geplante Dateien. Keine Datei wird geaendert.
+- BPK-060: `builder/src/memoryCacheInvalidationAuditTrail.ts` erzeugt einen auditierbaren Trail
+  aus BPK-056-Invalidation-Evidence. Kein Durable Store.
+- BPK-061: `builder/src/runtimeMountPatchPreflight.ts` prueft geplante Runtime-Mount-Patches
+  gegen Plan, Route, Env-Gate und Execution-Closed-Gate. Keine Route und keine Execution.
+- BPK-062: `builder/src/prReceiptGovernanceReleaseDecision.ts` bewertet PR-Receipt-Promotion
+  fuer Release-Governance. Kein Merge und keine externe Aktion.
 
 ## Maya-Anbindung
 
@@ -296,12 +304,12 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-058 ist das Implementation-Plan/Evidence-Promotion Bundle abgeschlossen, wenn:
+Nach BPK-062 ist das Patch-Preflight/Audit/Release-Decision Bundle abgeschlossen, wenn:
 
-- die Review-Packets fuer BPK-055 bis BPK-058 existieren,
-- die vier fokussierten Plan-/Evidence-/Promotion-Tests und `npm run typecheck` in `builder/` gruen
+- die Review-Packets fuer BPK-059 bis BPK-062 existieren,
+- die vier fokussierten Preflight-/Audit-/Decision-Tests und `npm run typecheck` in `builder/` gruen
   sind,
-- `node tools/verify-task-lock.cjs BPK-055 --verify` bis BPK-058 gruen sind,
+- `node tools/verify-task-lock.cjs BPK-059 --verify` bis BPK-062 gruen sind,
 - `git diff --check` gruen ist,
 - keine Server-Mounts, keine Renderer-Aenderung, keine Durable Persistenz, keine DB, kein
   Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein Write, kein Deploy und
@@ -309,7 +317,7 @@ Nach BPK-058 ist das Implementation-Plan/Evidence-Promotion Bundle abgeschlossen
 
 Naechste Hauptbloecke:
 
-1. Cockpit Mount Patch Preflight.
-2. Memory Cache Invalidation Audit Trail.
-3. Runtime Mount Patch Preflight.
-4. PR Receipt Governance Release Decision.
+1. Cockpit Server Patch Candidate.
+2. Memory Cache Audit Export Contract.
+3. Runtime Server Patch Candidate.
+4. Release Governance Handoff Packet.

@@ -5,6 +5,23 @@
 
 ---
 
+## 2026-06-14 - BPK-059 bis BPK-062 Patch Preflight / Audit / Release Decision
+
+- Gebaut: vier reine Preflight-/Audit-/Decision-Schichten:
+  `cockpitMountPatchPreflight`, `memoryCacheInvalidationAuditTrail`,
+  `runtimeMountPatchPreflight` und `prReceiptGovernanceReleaseDecision`.
+- Verhalten: Cockpit- und Runtime-Mount-Patches werden gegen Plan, Route, Env-Gate und geplante
+  Dateien vorgeprueft, aber nicht angewendet; Memory-Invalidation bekommt einen auditierbaren
+  Trail; PR-Receipt-Promotion wird als Release-Governance-Entscheidung bewertet.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sind die letzten Pre-Implementation-Gates vor echter
+  Server-Mutation: Cockpit Server Patch Candidate, Memory Cache Audit Export Contract, Runtime
+  Server Patch Candidate und Release Governance Handoff Packet.
+
 ## 2026-06-14 - BPK-055 bis BPK-058 Implementation Plans / Evidence Promotion
 
 - Gebaut: vier reine Plan-/Gate-Schichten:
