@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-071-074-operator-dry-runs-runbook`.
+- Aktueller Arbeitsbranch: `bpk-075-078-dry-run-evidence-packs`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -452,6 +452,10 @@
 - BPK-073: Runtime server patch operator dry run; Anwendungssimulation ohne Execution.
 - BPK-074: Release governance operator action runbook; Operator-Anleitung ohne Merge oder
   externe Aktion.
+- BPK-075: Cockpit patch operator dry run evidence; Simulationsevidence ohne Patch-Apply.
+- BPK-076: Memory cache audit export preview evidence; Preview-Evidence ohne Datei-Write.
+- BPK-077: Runtime patch operator dry run evidence; Simulationsevidence ohne Execution.
+- BPK-078: Release governance runbook evidence; Runbook-Evidence ohne Merge oder externe Aktion.
 
 ## Maya-Anbindung
 
@@ -478,17 +482,17 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-074 ist das gebuendelte Operator-Dry-Run/Render-Dry-Run/Runbook Bundle abgeschlossen:
-Cockpit- und Runtime-Mount-Patches koennen trocken simuliert werden, Memory-Invalidation-Audit
-kann als Preview dargestellt werden, und PR-Receipt-Release-Governance liegt als Operator-
-Runbook vor; externe Side Effects bleiben geschlossen.
+Nach BPK-078 ist das gebuendelte Dry-Run/Preview/Runbook-Evidence Bundle abgeschlossen:
+Cockpit- und Runtime-Mount-Patch-Simulationen sind als Evidence gebuendelt, Memory-
+Invalidation-Audit-Preview ist pruefbar konserviert, und PR-Receipt-Release-Governance-
+Runbooks besitzen Handoff-Evidence; externe Side Effects bleiben geschlossen.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Operator Dry Run Evidence: Simulation beweisbar buendeln.
-2. Memory Cache Audit Export Preview Evidence: Preview-Evidence pruefbar buendeln.
-3. Runtime Patch Operator Dry Run Evidence: Runtime-Simulation beweisbar buendeln.
-4. Release Governance Runbook Evidence: Runbook-Review und Handoff-Evidence buendeln.
+1. Cockpit Patch Operator Decision Gate: Evidence zu Entscheidung verdichten.
+2. Memory Cache Audit Export Decision Gate: Preview-Evidence zu Entscheidung verdichten.
+3. Runtime Patch Operator Decision Gate: Runtime-Evidence zu Entscheidung verdichten.
+4. Release Governance Final Decision Gate: Runbook-Evidence zu finaler Entscheidung verdichten.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:

@@ -5,6 +5,22 @@
 
 ---
 
+## 2026-06-14 - BPK-075 bis BPK-078 Dry Run / Preview / Runbook Evidence
+
+- Gebaut: vier reine Evidence-Schichten:
+  `cockpitPatchOperatorDryRunEvidence`, `memoryCacheAuditExportPreviewEvidence`,
+  `runtimePatchOperatorDryRunEvidence` und `releaseGovernanceRunbookEvidence`.
+- Verhalten: Cockpit- und Runtime-Operator-Dry-Runs werden beweisbar gebuendelt, aber nicht
+  angewendet; Memory-Cache-Audit-Preview wird als Evidence-Pack konserviert, aber nicht
+  geschrieben; Release-Governance-Runbooks bekommen Review-/Handoff-Evidence, aber keine Aktion.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke koennen die Evidence-Schichten zu Operator-Decision-
+  Gates verdichten, ohne echte Anwendung, Datei-Ausgabe oder Release-Aktion zu oeffnen.
+
 ## 2026-06-14 - BPK-071 bis BPK-074 Operator Dry Runs / Render Dry Run / Runbook
 
 - Gebaut: vier reine Dry-Run-/Runbook-Schichten:

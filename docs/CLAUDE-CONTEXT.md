@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-071-074-operator-dry-runs-runbook`.
+- Aktueller BPK-Arbeitsbranch: `bpk-075-078-dry-run-evidence-packs`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -294,6 +294,17 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 - BPK-074: `builder/src/releaseGovernanceOperatorActionRunbook.ts` beschreibt
   Release-Governance-Operator-Aktionen als Runbook. Merge und externe Aktionen bleiben
   geschlossen.
+- BPK-075: `builder/src/cockpitPatchOperatorDryRunEvidence.ts` buendelt Cockpit-
+  Operator-Dry-Run-Evidence. Patch-Anwendung, Servermutation, Route-Mutation und Executable
+  Actions bleiben geschlossen.
+- BPK-076: `builder/src/memoryCacheAuditExportPreviewEvidence.ts` buendelt Memory-Cache-
+  Audit-Export-Preview-Evidence. Datei-Write, Durable Store und externe Aktionen bleiben
+  geschlossen.
+- BPK-077: `builder/src/runtimePatchOperatorDryRunEvidence.ts` buendelt Runtime-
+  Operator-Dry-Run-Evidence. Patch-Anwendung, Servermutation, Route-Mutation, Execution und
+  Execution-Allowance bleiben geschlossen.
+- BPK-078: `builder/src/releaseGovernanceRunbookEvidence.ts` buendelt Release-Governance-
+  Runbook-Evidence. Merge und externe Aktionen bleiben geschlossen.
 
 ## Maya-Anbindung
 
@@ -339,12 +350,11 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-074 ist das Operator-Dry-Run/Render-Dry-Run/Runbook Bundle abgeschlossen, wenn:
+Nach BPK-078 ist das Dry-Run/Preview/Runbook-Evidence Bundle abgeschlossen, wenn:
 
-- die Review-Packets fuer BPK-071 bis BPK-074 existieren,
-- die vier fokussierten Dry-Run-/Render-/Runbook-Tests und `npm run typecheck` in `builder/`
-  gruen sind,
-- `node tools/verify-task-lock.cjs BPK-071 --verify` bis BPK-074 gruen sind,
+- die Review-Packets fuer BPK-075 bis BPK-078 existieren,
+- die vier fokussierten Evidence-Tests und `npm run typecheck` in `builder/` gruen sind,
+- `node tools/verify-task-lock.cjs BPK-075 --verify` bis BPK-078 gruen sind,
 - `git diff --check` gruen ist,
 - keine Server-Mounts, keine Renderer-Aenderung, keine Durable Persistenz, keine DB, kein
   Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein Write, kein Deploy und
@@ -352,7 +362,7 @@ Nach BPK-074 ist das Operator-Dry-Run/Render-Dry-Run/Runbook Bundle abgeschlosse
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Operator Dry Run Evidence.
-2. Memory Cache Audit Export Preview Evidence.
-3. Runtime Patch Operator Dry Run Evidence.
-4. Release Governance Runbook Evidence.
+1. Cockpit Patch Operator Decision Gate.
+2. Memory Cache Audit Export Decision Gate.
+3. Runtime Patch Operator Decision Gate.
+4. Release Governance Final Decision Gate.
