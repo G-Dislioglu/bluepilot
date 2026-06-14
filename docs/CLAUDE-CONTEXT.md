@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-091-094-issuance-readiness`.
+- Aktueller BPK-Arbeitsbranch: `bpk-095-098-request-packets`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -353,6 +353,18 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 - BPK-094: `builder/src/releaseGovernanceApprovedActionReadiness.ts` bewertet Release-
   Governance-Approved-Action-Readiness aus Evidence, Approver und Policy. Merge und externe
   Aktionen bleiben geschlossen.
+- BPK-095: `builder/src/cockpitPatchPermitIssuanceRequestPacket.ts` uebersetzt Cockpit-Patch-
+  Permit-Issuance-Readiness in ein Request-Packet. Permit-Ausstellung, Patch-Anwendung,
+  Servermutation und Route-Mutation bleiben geschlossen.
+- BPK-096: `builder/src/memoryCacheAuditExportPermitIssuanceRequestPacket.ts` uebersetzt
+  Memory-Cache-Audit-Export-Permit-Issuance-Readiness in ein Request-Packet. Permit-Ausstellung,
+  Datei-Write, Durable Store und externe Aktionen bleiben geschlossen.
+- BPK-097: `builder/src/runtimePatchPermitIssuanceRequestPacket.ts` uebersetzt Runtime-Patch-
+  Permit-Issuance-Readiness in ein Request-Packet. Permit-Ausstellung, Patch-Anwendung,
+  Servermutation, Route-Mutation und Execution bleiben geschlossen.
+- BPK-098: `builder/src/releaseGovernanceApprovedActionRequestPacket.ts` uebersetzt Release-
+  Governance-Approved-Action-Readiness in ein Request-Packet. Merge und externe Aktionen bleiben
+  geschlossen.
 
 ## Maya-Anbindung
 
@@ -398,12 +410,12 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-094 ist das Permit-Issuance-/Approved-Action-Readiness Bundle abgeschlossen, wenn:
+Nach BPK-098 ist das Issuance-/Approved-Action-Request-Packet Bundle abgeschlossen, wenn:
 
-- die Review-Packets fuer BPK-091 bis BPK-094 existieren,
-- die vier fokussierten Issuance-/Action-Readiness-Tests und `npm run typecheck` in `builder/` gruen
+- die Review-Packets fuer BPK-095 bis BPK-098 existieren,
+- die vier fokussierten Request-Packet-Tests und `npm run typecheck` in `builder/` gruen
   sind,
-- `node tools/verify-task-lock.cjs BPK-091 --verify` bis BPK-094 gruen sind,
+- `node tools/verify-task-lock.cjs BPK-095 --verify` bis BPK-098 gruen sind,
 - `git diff --check` gruen ist,
 - keine Server-Mounts, keine Renderer-Aenderung, keine Durable Persistenz, keine DB, kein
   Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein Write, kein Deploy und
@@ -411,7 +423,7 @@ Nach BPK-094 ist das Permit-Issuance-/Approved-Action-Readiness Bundle abgeschlo
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Permit Issuance Request Packet.
-2. Memory Cache Audit Export Permit Issuance Request Packet.
-3. Runtime Patch Permit Issuance Request Packet.
-4. Release Governance Approved Action Request Packet.
+1. Cockpit Patch Authority Review Intake.
+2. Memory Cache Audit Export Authority Review Intake.
+3. Runtime Patch Authority Review Intake.
+4. Release Governance Authority Review Intake.

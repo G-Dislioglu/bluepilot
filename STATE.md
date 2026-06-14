@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-091-094-issuance-readiness`.
+- Aktueller Arbeitsbranch: `bpk-095-098-request-packets`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -483,6 +483,14 @@
   ohne Execution.
 - BPK-094: Release governance approved action readiness; Approved-Action nur als Readiness, ohne
   Merge oder externe Aktion.
+- BPK-095: Cockpit patch permit issuance request packet; Issuance-Anfrage ohne Permit-
+  Ausstellung oder Patch-Apply.
+- BPK-096: Memory cache audit export permit issuance request packet; Export-Issuance-Anfrage
+  ohne Datei-Write.
+- BPK-097: Runtime patch permit issuance request packet; Runtime-Issuance-Anfrage ohne
+  Execution.
+- BPK-098: Release governance approved action request packet; Release-Action-Anfrage ohne Merge
+  oder externe Aktion.
 
 ## Maya-Anbindung
 
@@ -509,18 +517,17 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-094 ist das gebuendelte Permit-Issuance-/Approved-Action-Readiness Bundle abgeschlossen:
-Evidence-Packs werden gegen Issuer-/Policy- oder Approver-/Policy-Bezuege bewertet; externe Side
-Effects bleiben geschlossen.
+Nach BPK-098 ist das gebuendelte Issuance-/Approved-Action-Request-Packet Bundle abgeschlossen:
+Readiness-Artefakte werden in Request-Packets fuer spaetere Authority-Review uebersetzt; externe
+Side Effects bleiben geschlossen.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Permit Issuance Request Packet: Issuance-Anfrage als Packet, ohne Ausstellung.
-2. Memory Cache Audit Export Permit Issuance Request Packet: Export-Issuance-Anfrage als Packet,
-   ohne Datei-Write.
-3. Runtime Patch Permit Issuance Request Packet: Runtime-Issuance-Anfrage als Packet, ohne
-   Execution.
-4. Release Governance Approved Action Request Packet: Release-Action-Anfrage als Packet, ohne
+1. Cockpit Patch Authority Review Intake: Request-Packet fuer Review annehmen, ohne Issuance.
+2. Memory Cache Audit Export Authority Review Intake: Export-Request fuer Review annehmen, ohne
+   Datei-Write.
+3. Runtime Patch Authority Review Intake: Runtime-Request fuer Review annehmen, ohne Execution.
+4. Release Governance Authority Review Intake: Release-Action-Request fuer Review annehmen, ohne
    Merge oder externe Aktion.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
