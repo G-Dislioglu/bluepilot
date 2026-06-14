@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-123-126-consume-application-preflight`.
+- Aktueller BPK-Arbeitsbranch: `bpk-127-130-consume-application-authority`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -449,6 +449,18 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 - BPK-126: `builder/src/releaseGovernanceApprovedActionConsumeApplicationPreflight.ts` prueft
   Release-Governance-Approved-Action-Consume-Authorization fuer spaetere Anwendung vor. Action-
   Consume, Merge und externe Aktionen bleiben geschlossen.
+- BPK-127: `builder/src/cockpitPatchPermitConsumeApplicationAuthority.ts` zeichnet ein side-
+  effect-freies Cockpit-Patch-Consume-Application-Authorization-Artefakt auf. Consume,
+  Patch-Anwendung, Servermutation und Route-Mutation bleiben geschlossen.
+- BPK-128: `builder/src/memoryCacheAuditExportPermitConsumeApplicationAuthority.ts` zeichnet ein
+  side-effect-freies Memory-Cache-Audit-Export-Consume-Application-Authorization-Artefakt auf.
+  Consume, Datei-Write, Durable Store und externe Aktionen bleiben geschlossen.
+- BPK-129: `builder/src/runtimePatchPermitConsumeApplicationAuthority.ts` zeichnet ein side-
+  effect-freies Runtime-Patch-Consume-Application-Authorization-Artefakt auf. Consume,
+  Patch-Anwendung, Servermutation, Route-Mutation und Execution bleiben geschlossen.
+- BPK-130: `builder/src/releaseGovernanceApprovedActionConsumeApplicationAuthority.ts` zeichnet
+  ein side-effect-freies Release-Governance-Approved-Action-Consume-Application-Authorization-
+  Artefakt auf. Action-Consume, Merge und externe Aktionen bleiben geschlossen.
 
 ## Maya-Anbindung
 
@@ -494,12 +506,12 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-126 ist das Permit-/Approved-Action-Consume-Application-Preflight Bundle abgeschlossen, wenn:
+Nach BPK-130 ist das Permit-/Approved-Action-Consume-Application-Authority Bundle abgeschlossen, wenn:
 
-- die Review-Packets fuer BPK-123 bis BPK-126 existieren,
-- die vier fokussierten Consume-Application-Preflight-Tests und `npm run typecheck` in `builder/` gruen
+- die Review-Packets fuer BPK-127 bis BPK-130 existieren,
+- die vier fokussierten Consume-Application-Authority-Tests und `npm run typecheck` in `builder/` gruen
   sind,
-- `node tools/verify-task-lock.cjs BPK-123 --verify` bis BPK-126 gruen sind,
+- `node tools/verify-task-lock.cjs BPK-127 --verify` bis BPK-130 gruen sind,
 - `git diff --check` gruen ist,
 - keine Server-Mounts, keine Renderer-Aenderung, keine Durable Persistenz, keine DB, kein
   Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein Write, kein Deploy und
@@ -507,7 +519,7 @@ Nach BPK-126 ist das Permit-/Approved-Action-Consume-Application-Preflight Bundl
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Permit Consume Application Authority.
-2. Memory Cache Audit Export Permit Consume Application Authority.
-3. Runtime Patch Permit Consume Application Authority.
-4. Release Governance Approved Action Consume Application Authority.
+1. Cockpit Patch Permit Consume Execution Preflight.
+2. Memory Cache Audit Export Permit Consume Execution Preflight.
+3. Runtime Patch Permit Consume Execution Preflight.
+4. Release Governance Approved Action Consume Execution Preflight.
