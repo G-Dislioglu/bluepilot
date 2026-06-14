@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-103-106-authority-review-decision-gates`.
+- Aktueller Arbeitsbranch: `bpk-107-110-permit-issue-preflight`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -505,6 +505,13 @@
 - BPK-105: Runtime patch authority review decision gate; Authority-Entscheidung ohne Execution.
 - BPK-106: Release governance authority review decision gate; Authority-Entscheidung ohne Merge
   oder externe Aktion.
+- BPK-107: Cockpit patch permit issue preflight; Permit-Issue nur vorgeprueft, ohne Ausstellung
+  oder Patch-Apply.
+- BPK-108: Memory cache audit export permit issue preflight; Permit-Issue nur vorgeprueft, ohne
+  Datei-Write.
+- BPK-109: Runtime patch permit issue preflight; Permit-Issue nur vorgeprueft, ohne Execution.
+- BPK-110: Release governance approved action preflight; Approved-Action nur vorgeprueft, ohne
+  Merge oder externe Aktion.
 
 ## Maya-Anbindung
 
@@ -531,18 +538,18 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-106 ist das gebuendelte Authority-Review-Decision-Gate Bundle abgeschlossen:
-Authority-Review-Intake wird in explizite approve/defer/reject Gates ueberfuehrt; externe Side
-Effects bleiben geschlossen.
+Nach BPK-110 ist das gebuendelte Permit-Issue-/Approved-Action-Preflight Bundle abgeschlossen:
+Approved Authority-Decision-Gates werden fuer Permit-Issue oder Approved-Action vorgeprueft;
+externe Side Effects bleiben geschlossen.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Permit Issue Preflight: Permit-Issue weiter nur vorpruefen.
-2. Memory Cache Audit Export Permit Issue Preflight: Export-Permit-Issue ohne Datei-Write
-   vorpruefen.
-3. Runtime Patch Permit Issue Preflight: Runtime-Permit-Issue ohne Execution vorpruefen.
-4. Release Governance Approved Action Preflight: Release-Action ohne Merge oder externe Aktion
-   vorpruefen.
+1. Cockpit Patch Permit Issue Authority: Permit-Issue-Authority vorbereiten, ohne Patch-Apply.
+2. Memory Cache Audit Export Permit Issue Authority: Export-Permit-Issue vorbereiten, ohne
+   Datei-Write.
+3. Runtime Patch Permit Issue Authority: Runtime-Permit-Issue vorbereiten, ohne Execution.
+4. Release Governance Approved Action Authority: Release-Action-Authority vorbereiten, ohne
+   Merge oder externe Aktion.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:

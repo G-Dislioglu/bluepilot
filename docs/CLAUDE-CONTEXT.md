@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-103-106-authority-review-decision-gates`.
+- Aktueller BPK-Arbeitsbranch: `bpk-107-110-permit-issue-preflight`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -389,6 +389,18 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 - BPK-106: `builder/src/releaseGovernanceAuthorityReviewDecisionGate.ts` bewertet Release-
   Governance-Authority-Review-Intake gegen explizite Authority-Entscheidungen. Merge und externe
   Aktionen bleiben geschlossen.
+- BPK-107: `builder/src/cockpitPatchPermitIssuePreflight.ts` prueft approved Cockpit-Patch-
+  Authority-Entscheidungen fuer spaeteres Permit-Issue vor. Permit-Ausstellung, Patch-Anwendung,
+  Servermutation und Route-Mutation bleiben geschlossen.
+- BPK-108: `builder/src/memoryCacheAuditExportPermitIssuePreflight.ts` prueft approved Memory-
+  Cache-Audit-Export-Authority-Entscheidungen fuer spaeteres Permit-Issue vor. Permit-
+  Ausstellung, Datei-Write, Durable Store und externe Aktionen bleiben geschlossen.
+- BPK-109: `builder/src/runtimePatchPermitIssuePreflight.ts` prueft approved Runtime-Patch-
+  Authority-Entscheidungen fuer spaeteres Permit-Issue vor. Permit-Ausstellung, Patch-Anwendung,
+  Servermutation, Route-Mutation und Execution bleiben geschlossen.
+- BPK-110: `builder/src/releaseGovernanceApprovedActionPreflight.ts` prueft approved Release-
+  Governance-Authority-Entscheidungen fuer spaetere Approved Action vor. Merge und externe
+  Aktionen bleiben geschlossen.
 
 ## Maya-Anbindung
 
@@ -434,12 +446,12 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-106 ist das Authority-Review-Decision-Gate Bundle abgeschlossen, wenn:
+Nach BPK-110 ist das Permit-Issue-/Approved-Action-Preflight Bundle abgeschlossen, wenn:
 
-- die Review-Packets fuer BPK-103 bis BPK-106 existieren,
-- die vier fokussierten Authority-Review-Decision-Gate-Tests und `npm run typecheck` in `builder/` gruen
+- die Review-Packets fuer BPK-107 bis BPK-110 existieren,
+- die vier fokussierten Preflight-Tests und `npm run typecheck` in `builder/` gruen
   sind,
-- `node tools/verify-task-lock.cjs BPK-103 --verify` bis BPK-106 gruen sind,
+- `node tools/verify-task-lock.cjs BPK-107 --verify` bis BPK-110 gruen sind,
 - `git diff --check` gruen ist,
 - keine Server-Mounts, keine Renderer-Aenderung, keine Durable Persistenz, keine DB, kein
   Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein Write, kein Deploy und
@@ -447,7 +459,7 @@ Nach BPK-106 ist das Authority-Review-Decision-Gate Bundle abgeschlossen, wenn:
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Permit Issue Preflight.
-2. Memory Cache Audit Export Permit Issue Preflight.
-3. Runtime Patch Permit Issue Preflight.
-4. Release Governance Approved Action Preflight.
+1. Cockpit Patch Permit Issue Authority.
+2. Memory Cache Audit Export Permit Issue Authority.
+3. Runtime Patch Permit Issue Authority.
+4. Release Governance Approved Action Authority.

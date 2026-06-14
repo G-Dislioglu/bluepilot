@@ -5,6 +5,22 @@
 
 ---
 
+## 2026-06-14 - BPK-107 bis BPK-110 Permit Issue / Approved Action Preflight
+
+- Gebaut: vier reine Preflight-Schichten:
+  `cockpitPatchPermitIssuePreflight`, `memoryCacheAuditExportPermitIssuePreflight`,
+  `runtimePatchPermitIssuePreflight` und `releaseGovernanceApprovedActionPreflight`.
+- Verhalten: Approved Authority-Decision-Gates werden fuer Permit-Issue oder Approved-Action
+  vorgeprueft. Es wird kein Permit ausgestellt, kein Patch angewendet, kein Export geschrieben,
+  keine Runtime ausgefuehrt und keine Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Permit-Issue-Authority oder Approved-Action-
+  Authority vorbereiten, ohne Issuance, Write, Execution oder Merge.
+
 ## 2026-06-14 - BPK-103 bis BPK-106 Authority Review Decision Gates
 
 - Gebaut: vier reine Authority-Review-Decision-Gates:

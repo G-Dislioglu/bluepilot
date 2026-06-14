@@ -1,0 +1,31 @@
+{
+  "task_id": "BPK-108",
+  "task_name": "bluepilot-memory-cache-audit-export-permit-issue-preflight-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-107-110-permit-issue-preflight",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "memory_cache_governance",
+  "goal": "Add a side-effect-free permit issue preflight builder for approved memory-cache audit export authority decisions while keeping permit issuance, file writes, durable persistence, external actions, packages, workflows, deployment, DB, providers, GitHub, and writes closed.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/memoryCacheAuditExportAuthorityReviewDecisionGate.ts", "builder/src/memoryCacheAuditExportPermitIssuePreflight.ts", "builder/tests/memoryCacheAuditExportPermitIssuePreflight.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-107.json", "contracts/BPK-108.json", "contracts/BPK-109.json", "contracts/BPK-110.json",
+    "builder/src/cockpitPatchPermitIssuePreflight.ts", "builder/src/memoryCacheAuditExportPermitIssuePreflight.ts", "builder/src/runtimePatchPermitIssuePreflight.ts", "builder/src/releaseGovernanceApprovedActionPreflight.ts",
+    "builder/tests/cockpitPatchPermitIssuePreflight.test.ts", "builder/tests/memoryCacheAuditExportPermitIssuePreflight.test.ts", "builder/tests/runtimePatchPermitIssuePreflight.test.ts", "builder/tests/releaseGovernanceApprovedActionPreflight.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-107.md", "review-packets/BPK-108.md", "review-packets/BPK-109.md", "review-packets/BPK-110.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not issue permits, write export files, add durable persistence, call external systems, call providers, call DB, call GitHub, change package files, workflows, deployment files, or write files."],
+  "claims": ["Approved memory-cache audit export authority decisions can be preflighted for permit issue without issuing a permit.", "Preflight, issuer, and issue policy refs are required.", "File-write and durable persistence remain false."],
+  "assumptions": ["Actual permit issuance and export writing require later task locks."],
+  "dod": ["builder/src/memoryCacheAuditExportPermitIssuePreflight.ts exports preflightMemoryCacheAuditExportPermitIssue.", "Ready, missing preflight ref, and deferred decision cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/memoryCacheAuditExportPermitIssuePreflight.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-108 --verify", "git diff --check"],
+  "stop_conditions": ["Permit issuance, file writes, durable persistence, external calls, DB, GitHub, package, workflow, deployment, or write changes become necessary."],
+  "prior_task_findings": "BPK-104 approved memory-cache audit export authority decisions without issuing a permit.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "1fc0699"
+}
