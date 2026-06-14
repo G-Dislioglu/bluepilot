@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-079-082-operator-final-decision-gates`.
+- Aktueller BPK-Arbeitsbranch: `bpk-083-086-approved-action-prep`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -317,6 +317,18 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 - BPK-082: `builder/src/releaseGovernanceFinalDecisionGate.ts` bewertet Release-Governance-
   Runbook-Evidence gegen explizite finale Entscheidung. Merge und externe Aktionen bleiben
   geschlossen.
+- BPK-083: `builder/src/cockpitPatchApprovedActionPermitPrep.ts` bereitet Permit-Request-
+  Metadaten fuer approved Cockpit-Patch-Entscheidungen vor. Permit-Ausstellung, Patch-Anwendung,
+  Servermutation und Route-Mutation bleiben geschlossen.
+- BPK-084: `builder/src/memoryCacheAuditExportApprovedActionPermitPrep.ts` bereitet Permit-
+  Request-Metadaten fuer approved Memory-Cache-Audit-Export-Entscheidungen vor. Permit-
+  Ausstellung, Datei-Write, Durable Store und externe Aktionen bleiben geschlossen.
+- BPK-085: `builder/src/runtimePatchApprovedActionPermitPrep.ts` bereitet Permit-Request-
+  Metadaten fuer approved Runtime-Patch-Entscheidungen vor. Permit-Ausstellung, Patch-Anwendung,
+  Servermutation, Route-Mutation und Execution bleiben geschlossen.
+- BPK-086: `builder/src/releaseGovernanceApprovedActionHandoffPrep.ts` bereitet Handoff-
+  Metadaten fuer approved Release-Governance-Entscheidungen vor. Merge und externe Aktionen
+  bleiben geschlossen.
 
 ## Maya-Anbindung
 
@@ -362,11 +374,12 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-082 ist das Operator-/Final-Decision-Gate Bundle abgeschlossen, wenn:
+Nach BPK-086 ist das Approved-Action-Permit/Handoff-Prep Bundle abgeschlossen, wenn:
 
-- die Review-Packets fuer BPK-079 bis BPK-082 existieren,
-- die vier fokussierten Decision-Gate-Tests und `npm run typecheck` in `builder/` gruen sind,
-- `node tools/verify-task-lock.cjs BPK-079 --verify` bis BPK-082 gruen sind,
+- die Review-Packets fuer BPK-083 bis BPK-086 existieren,
+- die vier fokussierten Permit-/Handoff-Prep-Tests und `npm run typecheck` in `builder/` gruen
+  sind,
+- `node tools/verify-task-lock.cjs BPK-083 --verify` bis BPK-086 gruen sind,
 - `git diff --check` gruen ist,
 - keine Server-Mounts, keine Renderer-Aenderung, keine Durable Persistenz, keine DB, kein
   Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein Write, kein Deploy und
@@ -374,7 +387,7 @@ Nach BPK-082 ist das Operator-/Final-Decision-Gate Bundle abgeschlossen, wenn:
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Approved Action Permit Prep.
-2. Memory Cache Audit Export Approved Action Permit Prep.
-3. Runtime Patch Approved Action Permit Prep.
-4. Release Governance Approved Action Handoff Prep.
+1. Cockpit Patch Permit Prep Evidence.
+2. Memory Cache Audit Export Permit Prep Evidence.
+3. Runtime Patch Permit Prep Evidence.
+4. Release Governance Handoff Prep Evidence.

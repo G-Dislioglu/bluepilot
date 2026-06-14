@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-084",
+  "task_name": "bluepilot-memory-cache-audit-export-approved-action-permit-prep-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-083-086-approved-action-prep",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "external_read_boundary",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free permit-prep builder for BPK-080 approved memory cache audit export decisions, producing permit request metadata for a later task while keeping permit issuance, file writes, durable storage, DB, filesystem cache, scheduler, routes, package, workflow, deployment, and external calls closed.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/memoryCacheAuditExportDecisionGate.ts", "builder/src/memoryCacheAuditExportApprovedActionPermitPrep.ts", "builder/tests/memoryCacheAuditExportApprovedActionPermitPrep.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-083.json", "contracts/BPK-084.json", "contracts/BPK-085.json", "contracts/BPK-086.json",
+    "builder/src/cockpitPatchApprovedActionPermitPrep.ts", "builder/src/memoryCacheAuditExportApprovedActionPermitPrep.ts", "builder/src/runtimePatchApprovedActionPermitPrep.ts", "builder/src/releaseGovernanceApprovedActionHandoffPrep.ts",
+    "builder/tests/cockpitPatchApprovedActionPermitPrep.test.ts", "builder/tests/memoryCacheAuditExportApprovedActionPermitPrep.test.ts", "builder/tests/runtimePatchApprovedActionPermitPrep.test.ts", "builder/tests/releaseGovernanceApprovedActionHandoffPrep.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-083.md", "review-packets/BPK-084.md", "review-packets/BPK-085.md", "review-packets/BPK-086.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not issue permits, write export files, add durable storage, DB writes, filesystem cache files, scheduler, routes, package changes, workflow changes, deployment files, or external calls."],
+  "claims": ["Approved audit export decisions can be converted to permit-prep metadata without issuing a permit.", "Ready BPK-080 decision gate and permit prep refs are required.", "File writes remain false."],
+  "assumptions": ["Actual permit issuance and export persistence require later task locks."],
+  "dod": ["builder/src/memoryCacheAuditExportApprovedActionPermitPrep.ts exports prepareMemoryCacheAuditExportApprovedActionPermit.", "Approved, missing permit prep ref, and rejected or blocked decision cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/memoryCacheAuditExportApprovedActionPermitPrep.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-084 --verify", "git diff --check"],
+  "stop_conditions": ["Permit issuance, file writes, durable storage, DB, filesystem cache, scheduler, route, package, workflow, deployment, or external-call changes become necessary."],
+  "prior_task_findings": "BPK-080 converted memory cache audit preview evidence into explicit operator decisions without writing files.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "84d9013"
+}

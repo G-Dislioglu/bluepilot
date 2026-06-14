@@ -5,6 +5,22 @@
 
 ---
 
+## 2026-06-14 - BPK-083 bis BPK-086 Approved Action Permit / Handoff Prep
+
+- Gebaut: vier reine Prep-Schichten:
+  `cockpitPatchApprovedActionPermitPrep`, `memoryCacheAuditExportApprovedActionPermitPrep`,
+  `runtimePatchApprovedActionPermitPrep` und `releaseGovernanceApprovedActionHandoffPrep`.
+- Verhalten: Approved Decisions werden in Permit-Request- oder Handoff-Metadaten fuer spaetere
+  Task-Locks uebersetzt; es wird kein Permit ausgestellt, kein Patch angewendet, kein Export
+  geschrieben und keine Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Permit-/Handoff-Prep-Evidence buendeln,
+  bevor echte Permit-Ausstellung, Writes oder Release-Aktionen beruehrt werden.
+
 ## 2026-06-14 - BPK-079 bis BPK-082 Operator / Final Decision Gates
 
 - Gebaut: vier reine Decision-Gate-Schichten:

@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-079-082-operator-final-decision-gates`.
+- Aktueller Arbeitsbranch: `bpk-083-086-approved-action-prep`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -461,6 +461,13 @@
 - BPK-081: Runtime patch operator decision gate; Entscheidung ohne Execution.
 - BPK-082: Release governance final decision gate; finale Entscheidung ohne Merge oder externe
   Aktion.
+- BPK-083: Cockpit patch approved action permit prep; Permit-Vorbereitung ohne Permit-Ausstellung
+  oder Patch-Apply.
+- BPK-084: Memory cache audit export approved action permit prep; Permit-Vorbereitung ohne
+  Datei-Write.
+- BPK-085: Runtime patch approved action permit prep; Permit-Vorbereitung ohne Execution.
+- BPK-086: Release governance approved action handoff prep; Handoff-Vorbereitung ohne Merge oder
+  externe Aktion.
 
 ## Maya-Anbindung
 
@@ -487,20 +494,16 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-082 ist das gebuendelte Operator-/Final-Decision-Gate Bundle abgeschlossen:
-Cockpit- und Runtime-Mount-Patch-Simulationen, Memory-Invalidation-Audit-Preview und PR-Receipt-
-Release-Governance-Runbooks koennen explizit approved, deferred oder rejected werden; externe
-Side Effects bleiben geschlossen.
+Nach BPK-086 ist das gebuendelte Approved-Action-Permit/Handoff-Prep Bundle abgeschlossen:
+Approved Decisions werden in Permit-Request- oder Handoff-Metadaten fuer spaetere Task-Locks
+uebersetzt; externe Side Effects bleiben geschlossen.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Approved Action Permit Prep: Approval in Permit-/Task-Lock-Vorbereitung
-   uebersetzen.
-2. Memory Cache Audit Export Approved Action Permit Prep: Export-Approval in Vorbereitung
-   uebersetzen.
-3. Runtime Patch Approved Action Permit Prep: Runtime-Approval in Vorbereitung uebersetzen.
-4. Release Governance Approved Action Handoff Prep: finale Freigabe in Handoff-Vorbereitung
-   uebersetzen.
+1. Cockpit Patch Permit Prep Evidence: Permit-Prep beweisbar buendeln.
+2. Memory Cache Audit Export Permit Prep Evidence: Export-Permit-Prep beweisbar buendeln.
+3. Runtime Patch Permit Prep Evidence: Runtime-Permit-Prep beweisbar buendeln.
+4. Release Governance Handoff Prep Evidence: Handoff-Prep beweisbar buendeln.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:
