@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-179-182-consume-execution-receipt-record-audit-receipt`.
+- Aktueller BPK-Arbeitsbranch: `bpk-183-186-consume-execution-receipt-record-audit-receipt-record-preflight`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -555,21 +555,22 @@ Stufe 3 - Ethik + Builder-Schloss:
   Offline-Fallback.
 - Details: `docs/DEPLOY_MAYA_CORE_BINDING.md`
 
-## Aktueller BPK-Abschlussblock
+## Naechster Block
 
-Nach BPK-182 ist das Permit-/Approved-Action-Consume-Execution-Receipt-Record-Audit-Receipt Bundle abgeschlossen, wenn:
+Nach BPK-186 ist das Permit-/Approved-Action-Consume-Execution-Receipt-Record-Audit-Receipt-Record-Preflight Bundle abgeschlossen, wenn:
 
-- die Review-Packets fuer BPK-179 bis BPK-182 existieren,
-- die vier fokussierten Consume-Execution-Receipt-Record-Audit-Receipt-Tests und `npm run typecheck` in `builder/` gruen
+- die Review-Packets fuer BPK-183 bis BPK-186 existieren,
+- die vier fokussierten Consume-Execution-Receipt-Record-Audit-Receipt-Record-Preflight-Tests und `npm run typecheck` in `builder/` gruen
   sind,
-- `node tools/verify-task-lock.cjs BPK-179 --verify` bis BPK-182 gruen sind,
+- `node tools/verify-task-lock.cjs BPK-183 --verify` bis BPK-186 gruen sind,
 - `git diff --check` gruen ist,
 - keine Server-Mounts, keine Renderer-Aenderung, keine Durable Persistenz, keine DB, kein
   Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein Write, kein Deploy und
   keine Package-Aenderung still mitgezogen wurde.
 
-Naechster sinnvoller Schritt:
+Naechste Hauptbloecke:
 
-1. Offene BPK-Branches reviewen und in der vorgesehenen Reihenfolge mergen.
-2. Erst danach eine neue explizite Task-Lock-Serie fuer durable Audit-Receipt-Persistenz,
-   Runtime-Adoption oder Maya-Policy-Oeffnungen starten.
+1. Cockpit Patch Permit Consume Execution Receipt Record Audit Receipt Record Authority.
+2. Memory Cache Audit Export Permit Consume Execution Receipt Record Audit Receipt Record Authority.
+3. Runtime Patch Permit Consume Execution Receipt Record Audit Receipt Record Authority.
+4. Release Governance Approved Action Consume Execution Receipt Record Audit Receipt Record Authority.

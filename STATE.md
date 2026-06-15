@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-179-182-consume-execution-receipt-record-audit-receipt`.
+- Aktueller Arbeitsbranch: `bpk-183-186-consume-execution-receipt-record-audit-receipt-record-preflight`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -632,6 +632,16 @@
   Receipt-Artefakt ohne Runtime-Execution oder Patch-Apply.
 - BPK-182: Release governance approved action consume execution receipt record audit receipt;
   In-memory Audit-Receipt-Artefakt ohne Merge, GitHub-Aktion oder externe Aktion.
+- BPK-183: Cockpit patch permit consume execution receipt record audit receipt record preflight;
+  Audit-Receipt-Record nur vorgeprueft, ohne Receipt-Write, Audit-Persistenz oder Patch-Apply.
+- BPK-184: Memory cache audit export permit consume execution receipt record audit receipt record
+  preflight; Audit-Receipt-Record nur vorgeprueft, ohne Datei-Write, Durable Store oder externe
+  Aktion.
+- BPK-185: Runtime patch permit consume execution receipt record audit receipt record preflight;
+  Audit-Receipt-Record nur vorgeprueft, ohne Runtime-Execution oder Patch-Apply.
+- BPK-186: Release governance approved action consume execution receipt record audit receipt
+  record preflight; Audit-Receipt-Record nur vorgeprueft, ohne Merge, GitHub-Aktion oder externe
+  Aktion.
 
 ## Maya-Anbindung
 
@@ -658,16 +668,17 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-182 ist der aktuell dokumentierte Permit-/Approved-Action-Consume-Execution-Receipt-
-Record-Audit-Receipt-Pfad abgeschlossen: In-memory Audit-Receipt-Artefakte koennen aus
-autorisierten Audit-Receipt-Authority-Artefakten erzeugt werden; Audit-Persistenz, durable
-Receipt-Persistenz, Writes, Runtime-Execution, Merge und externe Side Effects bleiben geschlossen.
+Nach BPK-186 ist das gebuendelte Permit-/Approved-Action-Consume-Execution-Receipt-Record-Audit-
+Receipt-Record-Preflight-Bundle abgeschlossen: In-memory Audit-Receipt-Artefakte werden fuer
+spaetere Audit-Receipt-Record-Authority vorgeprueft; Audit-Persistenz, durable Record-Persistenz,
+Writes, Runtime-Execution, Merge und externe Side Effects bleiben geschlossen.
 
-Naechste Arbeit:
+Naechste Hauptbloecke:
 
-1. Offene BPK-Branches reviewen und in der vorgesehenen Reihenfolge mergen.
-2. Falls danach weitergebaut wird, eine neue explizite Task-Lock-Serie fuer durable
-   Audit-Receipt-Persistenz, Runtime-Adoption oder Maya-Policy-Oeffnungen anlegen.
+1. Cockpit Patch Permit Consume Execution Receipt Record Audit Receipt Record Authority.
+2. Memory Cache Audit Export Permit Consume Execution Receipt Record Audit Receipt Record Authority.
+3. Runtime Patch Permit Consume Execution Receipt Record Audit Receipt Record Authority.
+4. Release Governance Approved Action Consume Execution Receipt Record Audit Receipt Record Authority.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:
