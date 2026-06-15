@@ -5,6 +5,23 @@
 
 ---
 
+## 2026-06-15 - Merge/Release Readiness Preflight
+
+- Gebaut: `GET /probe/merge-release-readiness-contract` und
+  `POST /probe/merge-release-readiness-preflight` als trockene PR-Sequenz- und
+  Merge/Release-Readiness-Surface.
+- Verhalten: Bluepilot nutzt die bestehende BPK-Branch-/PR-Konsolidierung, um Branch-Kandidaten
+  zu ordnen, gruene Checks, Vorgaenger, PR-Receipts, Commit-Matches und Reviews zu pruefen. Die
+  Surface kann Operator-Hinweise fuer PR-Oeffnung oder manuelle Merge-Reihenfolge geben.
+- Sicherheitsentscheidung: Die App erstellt keine PRs, ruft GitHub nicht auf, merged nicht,
+  deployt nicht und schreibt keine Receipts. `pullRequestCreationAllowed:false`,
+  `mergeExecutionAllowed:false` und `deployExecutionAllowed:false` bleiben auch bei ready.
+- Beweis: Fokus-Tests fuer Merge/Release-Readiness, Route, Eight-Point-Readiness und Meta sind
+  mit 13/13 gruen. `npm run typecheck`, `git diff --check` und der volle Builder-Testlauf mit
+  337/337 Tests sind gruen.
+- Roter Faden weiter: Als naechstes Operator-Dashboard visuell pruefen und dann entscheiden, ob
+  die gestapelten Integrations-Branches gemerged werden sollen.
+
 ## 2026-06-15 - Provider/Runtime Activation Preflight
 
 - Gebaut: `GET /probe/provider-runtime-activation-contract` und

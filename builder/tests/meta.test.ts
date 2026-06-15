@@ -23,6 +23,8 @@ test('bluepilot meta payload exposes BPK completion and read-only surfaces', () 
   assert.equal(meta.surfaces.mayaCoreGateEnforcementPreflight, '/probe/maya-core-gate-enforcement-preflight');
   assert.equal(meta.surfaces.providerRuntimeActivationContract, '/probe/provider-runtime-activation-contract');
   assert.equal(meta.surfaces.providerRuntimeActivationPreflight, '/probe/provider-runtime-activation-preflight');
+  assert.equal(meta.surfaces.mergeReleaseReadinessContract, '/probe/merge-release-readiness-contract');
+  assert.equal(meta.surfaces.mergeReleaseReadinessPreflight, '/probe/merge-release-readiness-preflight');
   assert.equal(meta.sideEffects.metaReadWritesFiles, false);
   assert.equal(meta.sideEffects.metaCallsProviders, false);
   assert.equal(meta.sideEffects.metaExecutesRuntime, false);

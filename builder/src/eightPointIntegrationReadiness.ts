@@ -7,6 +7,7 @@ import {
 } from './readonlyIntegrationSurfaces.js';
 import { buildGoatDesktopBridgeContract } from './goatDesktopBridgeContract.js';
 import { buildMayaCoreGateEnforcementContract } from './mayaCoreGateEnforcementContract.js';
+import { buildMergeReleaseReadinessContract } from './mergeReleaseReadinessPreflight.js';
 import { buildProviderRuntimeActivationContract } from './providerRuntimeActivationPreflight.js';
 
 export type IntegrationPointStatus =
@@ -139,10 +140,11 @@ export function buildEightPointIntegrationReadiness(now = new Date()): EightPoin
     {
       id: 'merge_release_readiness',
       title: 'Merge and Release Readiness',
-      status: 'deferred_until_lock',
+      status: 'wired_contract_only',
+      endpoint: '/probe/merge-release-readiness-contract',
       operatorValue: 'Merge/release is tracked as an explicit governance action, not an implicit side effect.',
       lockedActions: ['branch_merge', 'pr_creation', 'deploy', 'external_release_action'],
-      nextStep: 'Create PR sequence review and merge lock before any merge or deploy.',
+      nextStep: 'Preflight PR sequence and receipt readiness before any manual merge or deploy.',
     },
   ];
 
@@ -172,6 +174,7 @@ export function buildOperatorDashboardModel(now = new Date()): OperatorDashboard
   const goat = buildGoatDesktopBridgeContract(now);
   const mayaGate = buildMayaCoreGateEnforcementContract(now);
   const providerRuntime = buildProviderRuntimeActivationContract(now);
+  const mergeRelease = buildMergeReleaseReadinessContract(now);
 
   return {
     service: 'bluepilot-builder',
@@ -250,16 +253,16 @@ export function buildOperatorDashboardModel(now = new Date()): OperatorDashboard
           `executesRuntime:${providerRuntime.activationBoundary.executesRuntime}`,
         ],
       },
-      ...readiness.points.slice(7).map((point) => ({
-        id: point.id,
-        title: point.title,
-        status: point.status,
+      {
+        id: 'merge_release_readiness',
+        title: 'Merge and Release Readiness',
+        status: 'wired_contract_only',
         lines: [
-          point.operatorValue,
-          `locked:${point.lockedActions.join(',')}`,
-          `next:${point.nextStep}`,
+          `dependency:${mergeRelease.consolidationDependency}`,
+          `createsPRs:${mergeRelease.activationBoundary.createsPullRequests}`,
+          `merges:${mergeRelease.activationBoundary.mergesBranches}`,
         ],
-      })),
+      },
     ],
   };
 }

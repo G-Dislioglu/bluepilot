@@ -29,6 +29,8 @@ export interface BluepilotMetaPayload {
     mayaCoreGateEnforcementPreflight: '/probe/maya-core-gate-enforcement-preflight';
     providerRuntimeActivationContract: '/probe/provider-runtime-activation-contract';
     providerRuntimeActivationPreflight: '/probe/provider-runtime-activation-preflight';
+    mergeReleaseReadinessContract: '/probe/merge-release-readiness-contract';
+    mergeReleaseReadinessPreflight: '/probe/merge-release-readiness-preflight';
     eightPointIntegrationReadiness: '/probe/eight-point-integration-readiness';
     operatorDashboardReadOnly: '/cockpit/operator-read-only';
     cockpitReadOnly: '/cockpit/read-only';
@@ -84,6 +86,8 @@ export function createBluepilotMetaPayload(
       mayaCoreGateEnforcementPreflight: '/probe/maya-core-gate-enforcement-preflight',
       providerRuntimeActivationContract: '/probe/provider-runtime-activation-contract',
       providerRuntimeActivationPreflight: '/probe/provider-runtime-activation-preflight',
+      mergeReleaseReadinessContract: '/probe/merge-release-readiness-contract',
+      mergeReleaseReadinessPreflight: '/probe/merge-release-readiness-preflight',
       eightPointIntegrationReadiness: '/probe/eight-point-integration-readiness',
       operatorDashboardReadOnly: '/cockpit/operator-read-only',
       cockpitReadOnly: '/cockpit/read-only',

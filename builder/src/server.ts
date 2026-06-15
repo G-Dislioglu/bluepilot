@@ -4,6 +4,7 @@ import { handleCockpitReadOnlyRouteRequest } from './cockpitReadOnlyRoute.js';
 import { handleGoatDesktopBridgeRequest } from './goatDesktopBridgeRoute.js';
 import { handleHealthRequest } from './health.js';
 import { handleMayaCoreGateEnforcementRequest } from './mayaCoreGateEnforcementRoute.js';
+import { handleMergeReleaseReadinessRequest } from './mergeReleaseReadinessRoute.js';
 import { handleMetaRequest } from './meta.js';
 import { handleOperatorDashboardRequest } from './operatorDashboardRoute.js';
 import { handleProbeDryRunRequest } from './probeDryRun.js';
@@ -65,6 +66,10 @@ const server = createServer((request, response) => {
     }
 
     if (await handleProviderRuntimeActivationRequest(request, response)) {
+      return;
+    }
+
+    if (await handleMergeReleaseReadinessRequest(request, response)) {
       return;
     }
 

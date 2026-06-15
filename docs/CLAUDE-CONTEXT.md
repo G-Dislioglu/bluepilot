@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller Arbeitsbranch: `bluepilot-provider-runtime-activation-preflight`.
+- Aktueller Arbeitsbranch: `bluepilot-merge-release-readiness-preflight`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -584,8 +584,13 @@ read-only verdrahtet und das zweite Readonly-Buendel ist darauf aufgebaut:
   `GET /probe/provider-runtime-activation-contract` beschreibt die geschlossene Grenze und
   `POST /probe/provider-runtime-activation-preflight` kombiniert Maya-Gate- und Runtime-Evidence.
   Provider-Aufruf, Runtime-Ausfuehrung und Runtime-Route-Mount bleiben false.
+- Merge/Release Readiness ist jetzt als contract-only Preflight angebunden:
+  `GET /probe/merge-release-readiness-contract` beschreibt die PR-/Merge-/Deploy-Grenze und
+  `POST /probe/merge-release-readiness-preflight` prueft Branch-/PR-Reihenfolge aus gelieferten
+  Metadaten. Bluepilot erstellt keine PRs, ruft GitHub nicht auf, merged nicht und deployt nicht.
 
 Naechste Integrationsbloecke:
 
 1. Operator Dashboard visuell pruefen und ggf. als dauerhaftes Cockpit-Review-Surface freigeben.
-2. Merge/Release-Readiness als PR-Sequenz vor echten Merges oder Deploys.
+2. Gestapelte Integrations-Branches reviewen und bewusst ueber echte PRs/Merges/Deploys
+   entscheiden.

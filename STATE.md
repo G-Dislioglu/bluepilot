@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bluepilot-provider-runtime-activation-preflight`.
+- Aktueller Arbeitsbranch: `bluepilot-merge-release-readiness-preflight`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -792,6 +792,12 @@
   kombiniert Maya-Core-Gate-Evidence mit Runtime-Decision-Evidence, laesst aber Provider,
   Runtime, Runtime-Route-Mount, DB/GitHub/File-Writes, Permit-Ausstellung, Deploy und Merge
   geschlossen. Der Acht-Punkte-Provider/Runtime-Status ist dadurch `wired_contract_only`.
+- Merge/Release-Readiness-Preflight 2026-06-15: `GET
+  /probe/merge-release-readiness-contract` beschreibt die geschlossene PR-/Merge-/Deploy-Grenze.
+  `POST /probe/merge-release-readiness-preflight` plant Branch-/PR-Reihenfolge und prueft
+  optional PR-Receipts, Commit-Matches und Reviews, ohne PRs zu erstellen, GitHub aufzurufen,
+  zu mergen, zu deployen oder Receipts zu schreiben. Damit sind alle acht Integrationspunkte
+  entweder read-only oder contract-only verdrahtet.
 
 ## Maya-Anbindung
 
@@ -827,8 +833,9 @@ geschlossen.
 Naechste Integrationsbloecke nach der Acht-Punkte-Verdrahtung:
 
 1. Operator Dashboard visuell testen und ggf. als dauerhaftes Cockpit-Review-Surface freigeben.
-2. Merge/Release-Readiness in eine PR-Sequenz pruefen, bevor echte Merges oder Deploys erlaubt
-   werden.
+2. Operator-Dashboard visuell pruefen und die gestapelten Integrations-Branches reviewen.
+3. Danach bewusst entscheiden, ob und in welcher Reihenfolge echte PRs/Merges/Deploys manuell
+   erfolgen.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:
