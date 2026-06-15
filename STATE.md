@@ -767,6 +767,13 @@
   /probe/aicos-permission-map`. Alle vier bleiben read-only; Screenshots, Task-Erzeugung,
   Kill-Switch-Toggle, Registry-Writes, GitHub-Writes, Runtime-Execution, Provider-Calls und
   Desktop-Aktionen bleiben geschlossen.
+- Acht-Punkte-Verdrahtung 2026-06-15: `GET /probe/eight-point-integration-readiness` fasst
+  Operator-Ledger-UI, Soulmatch Builder/Patrol UI, Repo-Mutation-Kill-Switch, AICOS Permission
+  Review, GOAT Desktop Bridge, Maya-Core Gate Enforcement, Provider/Runtime-Flows und
+  Merge/Release-Readiness in einem Readiness-Modell zusammen. `GET
+  /cockpit/operator-read-only` rendert diese Sicht als default-off Operator-Dashboard, wenn
+  `BLUEPILOT_OPERATOR_READ_ONLY_ROUTE_ENABLED=true` gesetzt ist. GOAT, Maya-Gates, Provider/
+  Runtime und Merge/Release sind sichtbar, bleiben aber locked und fuehren keine Aktion aus.
 
 ## Maya-Anbindung
 
@@ -799,16 +806,14 @@ Audit-Receipt-Record-Preflight-Artefakte werden in-memory autorisiert; Audit-Per
 Receipt-Persistenz, Writes, Runtime-Execution, Merge und externe Side Effects bleiben
 geschlossen.
 
-Naechste Integrationsbloecke nach dem Readonly-Buendel:
+Naechste Integrationsbloecke nach der Acht-Punkte-Verdrahtung:
 
-1. Bluepilot Operator Ledger UI: `/probe/bpk-execution-ledger` in eine operator-lesbare Cockpit-
-   oder Builder-Ansicht bringen.
-2. Patrol Summary UI Readonly: `/probe/patrol-visual-coverage` als reine Review-Oberflaeche
-   anzeigen, ohne Screenshot-Capture oder Repair-Task-Erzeugung.
-3. Repo Mutation Kill Switch Contract UI: den locked Status anzeigen und spaeter erst einen
-   persistenzfreien Toggle-Contract entwerfen.
-4. AICOS Permission Review UI: statische Permission-Hints sichtbar machen und nach Registry-
-   Review an Task-Locks binden.
+1. Operator Dashboard visuell testen und ggf. als dauerhaftes Cockpit-Review-Surface freigeben.
+2. GOAT Desktop Bridge als contract-only `builder-cue` Schema bauen, ohne lokale Desktop-Aktion.
+3. Maya-Core Gate Enforcement verpflichtend vor jede spaetere Provider-/Write-/Runtime-Aktion
+   schalten.
+4. Merge/Release-Readiness in eine PR-Sequenz pruefen, bevor echte Merges oder Deploys erlaubt
+   werden.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:

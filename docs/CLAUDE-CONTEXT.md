@@ -567,12 +567,15 @@ read-only verdrahtet und das zweite Readonly-Buendel ist darauf aufgebaut:
 - `GET /probe/bpk-execution-ledger`, `GET /probe/patrol-visual-coverage`, `GET
   /probe/repo-mutation-kill-switch` und `GET /probe/aicos-permission-map` machen die ersten vier
   priorisierten Kandidaten operator-lesbar.
+- `GET /probe/eight-point-integration-readiness` buendelt alle acht offenen Punkte als
+  Readiness-Modell. `GET /cockpit/operator-read-only` rendert sie als default-off
+  Operator-Dashboard, wenn `BLUEPILOT_OPERATOR_READ_ONLY_ROUTE_ENABLED=true` gesetzt ist.
 - Diese Surfaces schreiben nichts, rufen keine Provider, fuehren keine Runtime aus, deployen nicht
   und mergen nicht.
 
 Naechste Integrationsbloecke:
 
-1. Bluepilot Operator Ledger UI.
-2. Patrol Summary UI Readonly.
-3. Repo Mutation Kill Switch Contract UI.
-4. AICOS Permission Review UI.
+1. Operator Dashboard visuell pruefen und ggf. als dauerhaftes Cockpit-Review-Surface freigeben.
+2. GOAT Desktop Bridge contract-only `builder-cue` Schema.
+3. Maya-Core Gate Enforcement als Pflicht-Gate vor Provider/Write/Runtime.
+4. Merge/Release-Readiness als PR-Sequenz vor echten Merges oder Deploys.

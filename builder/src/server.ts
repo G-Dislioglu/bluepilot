@@ -3,6 +3,7 @@ import { createServer } from 'node:http';
 import { handleCockpitReadOnlyRouteRequest } from './cockpitReadOnlyRoute.js';
 import { handleHealthRequest } from './health.js';
 import { handleMetaRequest } from './meta.js';
+import { handleOperatorDashboardRequest } from './operatorDashboardRoute.js';
 import { handleProbeDryRunRequest } from './probeDryRun.js';
 import { handleReadonlyIntegrationRequest } from './readonlyIntegrationRoutes.js';
 import { handleRepoCapabilityAuditRequest } from './repoCapabilityAuditRoute.js';
@@ -49,6 +50,10 @@ const server = createServer((request, response) => {
     }
 
     if (await handleReadonlyIntegrationRequest(request, response)) {
+      return;
+    }
+
+    if (await handleOperatorDashboardRequest(request, response)) {
       return;
     }
 

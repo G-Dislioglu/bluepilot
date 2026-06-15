@@ -23,6 +23,8 @@ export interface BluepilotMetaPayload {
     patrolVisualCoverage: '/probe/patrol-visual-coverage';
     repoMutationKillSwitch: '/probe/repo-mutation-kill-switch';
     aicosPermissionMap: '/probe/aicos-permission-map';
+    eightPointIntegrationReadiness: '/probe/eight-point-integration-readiness';
+    operatorDashboardReadOnly: '/cockpit/operator-read-only';
     cockpitReadOnly: '/cockpit/read-only';
     runtimeDryRun: '/probe/runtime-dry-run';
   };
@@ -70,6 +72,8 @@ export function createBluepilotMetaPayload(
       patrolVisualCoverage: '/probe/patrol-visual-coverage',
       repoMutationKillSwitch: '/probe/repo-mutation-kill-switch',
       aicosPermissionMap: '/probe/aicos-permission-map',
+      eightPointIntegrationReadiness: '/probe/eight-point-integration-readiness',
+      operatorDashboardReadOnly: '/cockpit/operator-read-only',
       cockpitReadOnly: '/cockpit/read-only',
       runtimeDryRun: '/probe/runtime-dry-run',
     },

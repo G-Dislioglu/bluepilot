@@ -5,6 +5,24 @@
 
 ---
 
+## 2026-06-15 - Acht-Punkte-Verdrahtung / Operator Dashboard und Activation Locks
+
+- Gebaut: `GET /probe/eight-point-integration-readiness` und default-off
+  `GET /cockpit/operator-read-only` fuer alle acht offenen Verdrahtungspunkte.
+- Verhalten: Bluepilot zeigt Operator-Ledger-UI, Soulmatch Builder/Patrol UI,
+  Repo-Mutation-Kill-Switch, AICOS Permission Review, GOAT Desktop Bridge, Maya-Core Gate
+  Enforcement, Provider/Runtime-Flows und Merge/Release-Readiness zusammen in einem
+  Readiness-Modell und HTML-Dashboard.
+- Sicherheitsentscheidung: Das Dashboard ist read-only und per
+  `BLUEPILOT_OPERATOR_READ_ONLY_ROUTE_ENABLED=true` gated. GOAT, Maya-Gates, Provider/Runtime
+  und Merge/Release werden als locked/activation-required sichtbar, aber nicht ausgefuehrt.
+  Keine Desktop-Aktion, kein Provider-Call, keine Runtime-Execution, kein GitHub-Write, kein
+  Deploy und kein Merge.
+- Beweis: Fokus-Tests fuer Eight-Point-Readiness, Operator-Dashboard-HTML, Operator-Route und
+  Meta sowie `npm run typecheck` sind gruen.
+- Roter Faden weiter: Als naechstes das Operator-Dashboard visuell pruefen und danach GOAT
+  Desktop Bridge contract-only sowie Maya-Core Gate Enforcement als Pflicht-Gate vorbereiten.
+
 ## 2026-06-15 - Readonly-Integrationsbuendel 2 / Ledger, Patrol, Kill Switch, AICOS
 
 - Gebaut: vier read-only Runtime-Surfaces fuer die priorisierten Repo-Scan-Kandidaten:
