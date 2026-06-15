@@ -1,0 +1,31 @@
+{
+  "task_id": "BPK-159",
+  "task_name": "bluepilot-cockpit-patch-permit-consume-execution-receipt-record-audit-preflight-v0.1",
+  "created": "2026-06-15",
+  "scope": "bluepilot/builder/bpk-159-162-consume-execution-receipt-record-audit-preflight",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "cockpit_runtime_boundary",
+  "goal": "Add a side-effect-free audit preflight builder that validates cockpit patch consume execution receipt record artifacts are ready for later audit authorization while keeping audit writes, durable writes, patch application, server mutation, route mutation, packages, workflows, deployment, DB, providers, and GitHub closed.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/cockpitPatchPermitConsumeExecutionReceiptRecord.ts", "builder/src/cockpitPatchPermitConsumeExecutionReceiptRecordAuditPreflight.ts", "builder/tests/cockpitPatchPermitConsumeExecutionReceiptRecordAuditPreflight.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-159.json", "contracts/BPK-160.json", "contracts/BPK-161.json", "contracts/BPK-162.json",
+    "builder/src/cockpitPatchPermitConsumeExecutionReceiptRecordAuditPreflight.ts", "builder/src/memoryCacheAuditExportPermitConsumeExecutionReceiptRecordAuditPreflight.ts", "builder/src/runtimePatchPermitConsumeExecutionReceiptRecordAuditPreflight.ts", "builder/src/releaseGovernanceApprovedActionConsumeExecutionReceiptRecordAuditPreflight.ts",
+    "builder/tests/cockpitPatchPermitConsumeExecutionReceiptRecordAuditPreflight.test.ts", "builder/tests/memoryCacheAuditExportPermitConsumeExecutionReceiptRecordAuditPreflight.test.ts", "builder/tests/runtimePatchPermitConsumeExecutionReceiptRecordAuditPreflight.test.ts", "builder/tests/releaseGovernanceApprovedActionConsumeExecutionReceiptRecordAuditPreflight.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-159.md", "review-packets/BPK-160.md", "review-packets/BPK-161.md", "review-packets/BPK-162.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not write audits, perform durable receipt writes, consume permits, apply patches, mutate server files, mutate route files, call providers, call DB, call GitHub, change package files, workflows, deployment files, or write files."],
+  "claims": ["Recorded cockpit patch consume execution receipt artifacts can be preflighted for later audit authorization without writing an audit.", "Audit ref, auditor ref, and audit policy ref are required.", "Audit writes, patch application, server mutation, route mutation, and durable persistence remain false."],
+  "assumptions": ["Audit authorization and durable audit persistence require later task locks."],
+  "dod": ["builder/src/cockpitPatchPermitConsumeExecutionReceiptRecordAuditPreflight.ts exports preflightCockpitPatchPermitConsumeExecutionReceiptRecordAudit.", "Ready, missing audit ref, and incomplete record cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/cockpitPatchPermitConsumeExecutionReceiptRecordAuditPreflight.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-159 --verify", "git diff --check"],
+  "stop_conditions": ["Audit write, durable receipt write, permit consumption, patch application, server mutation, route mutation, external calls, DB, GitHub, package, workflow, deployment, or write changes become necessary."],
+  "prior_task_findings": "BPK-155 produced an in-memory cockpit patch consume execution receipt record without durable persistence.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "d8104ba"
+}

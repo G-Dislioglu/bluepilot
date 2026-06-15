@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-155-158-consume-execution-receipt-record`.
+- Aktueller Arbeitsbranch: `bpk-159-162-consume-execution-receipt-record-audit-preflight`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -609,17 +609,17 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-158 ist das gebuendelte Permit-/Approved-Action-Consume-Execution-Receipt-Record Bundle
-abgeschlossen: Ready-Consume-Execution-Receipt-Record-Authority-Artefakte erzeugen side-effect-
-freie in-memory Receipt-Record-Artefakte; durable Receipt-Persistenz, Writes, Runtime-Execution,
-Merge und externe Side Effects bleiben geschlossen.
+Nach BPK-162 ist das gebuendelte Permit-/Approved-Action-Consume-Execution-Receipt-Record-Audit-
+Preflight Bundle abgeschlossen: Recorded-Consume-Execution-Receipt-Record-Artefakte werden fuer
+spaetere Audit-Authorization vorgeprueft; Audit-Write, durable Receipt-Persistenz, Writes,
+Runtime-Execution, Merge und externe Side Effects bleiben geschlossen.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Permit Consume Execution Receipt Record Audit Preflight.
-2. Memory Cache Audit Export Permit Consume Execution Receipt Record Audit Preflight.
-3. Runtime Patch Permit Consume Execution Receipt Record Audit Preflight.
-4. Release Governance Approved Action Consume Execution Receipt Record Audit Preflight.
+1. Cockpit Patch Permit Consume Execution Receipt Record Audit Authority.
+2. Memory Cache Audit Export Permit Consume Execution Receipt Record Audit Authority.
+3. Runtime Patch Permit Consume Execution Receipt Record Audit Authority.
+4. Release Governance Approved Action Consume Execution Receipt Record Audit Authority.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:
