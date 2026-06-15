@@ -23,7 +23,7 @@ test('repo capability audit prioritizes Soulmatch wiring without side effects', 
   assert.equal(wired?.status, 'wired_read_only');
   assert.ok(wired?.blockedSideEffects.includes('githubWrites'));
 
-  assert.equal(audit.recommendedNextSlice, 'bluepilot-bpk-execution-ledger-readonly-v0.1');
+  assert.equal(audit.recommendedNextSlice, 'bluepilot-operator-ledger-ui-v0.1');
 });
 
 test('repo capability audit returns defensive copies', () => {

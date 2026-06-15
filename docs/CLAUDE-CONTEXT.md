@@ -558,18 +558,21 @@ Stufe 3 - Ethik + Builder-Schloss:
 ## Naechster Block
 
 Der bekannte BPK-Pfad ist nach BPK-226 abgeschlossen. Der erste neue Integrationsschnitt ist
-read-only verdrahtet:
+read-only verdrahtet und das zweite Readonly-Buendel ist darauf aufgebaut:
 
 - `GET /api/meta` und `GET /meta` melden Bluepilot-Service, BPK-Abschluss, Git-Metadaten aus Env
   und sichere Runtime-Surfaces.
 - `GET /probe/repo-capability-audit` priorisiert Soulmatch-, AICOS-, Big-Bro-, GOAT-Desktop- und
   Maya-the-living-AI-Faehigkeiten fuer Bluepilot.
-- Diese Surface schreibt nichts, ruft keine Provider, fuehrt keine Runtime aus, deployt nicht und
-  merged nicht.
+- `GET /probe/bpk-execution-ledger`, `GET /probe/patrol-visual-coverage`, `GET
+  /probe/repo-mutation-kill-switch` und `GET /probe/aicos-permission-map` machen die ersten vier
+  priorisierten Kandidaten operator-lesbar.
+- Diese Surfaces schreiben nichts, rufen keine Provider, fuehren keine Runtime aus, deployen nicht
+  und mergen nicht.
 
 Naechste Integrationsbloecke:
 
-1. Bluepilot BPK Execution Ledger Readonly.
-2. Bluepilot Patrol Visual Coverage Contract aus Soulmatch.
-3. Bluepilot Repo Mutation Kill Switch Readonly aus Soulmatch.
-4. Bluepilot AICOS Permission Map Readonly.
+1. Bluepilot Operator Ledger UI.
+2. Patrol Summary UI Readonly.
+3. Repo Mutation Kill Switch Contract UI.
+4. AICOS Permission Review UI.

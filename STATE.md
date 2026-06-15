@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bluepilot-repo-capability-audit-wiring`.
+- Aktueller Arbeitsbranch: `bluepilot-readonly-integration-bundle-2`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -761,6 +761,12 @@
   /probe/repo-capability-audit` macht Soulmatch-, AICOS-, Big-Bro-, GOAT-Desktop- und
   Maya-the-living-AI-Kandidaten sichtbar. Kein Merge, kein Deploy, kein Provider-Call, keine
   Runtime-Execution, keine DB- oder Datei-Persistenz wird dadurch aktiviert.
+- Readonly-Integrationsbuendel 2026-06-15: Bluepilot verdrahtet vier priorisierte Kandidaten als
+  sichere JSON-Surfaces: `GET /probe/bpk-execution-ledger`, `GET
+  /probe/patrol-visual-coverage`, `GET /probe/repo-mutation-kill-switch` und `GET
+  /probe/aicos-permission-map`. Alle vier bleiben read-only; Screenshots, Task-Erzeugung,
+  Kill-Switch-Toggle, Registry-Writes, GitHub-Writes, Runtime-Execution, Provider-Calls und
+  Desktop-Aktionen bleiben geschlossen.
 
 ## Maya-Anbindung
 
@@ -793,16 +799,16 @@ Audit-Receipt-Record-Preflight-Artefakte werden in-memory autorisiert; Audit-Per
 Receipt-Persistenz, Writes, Runtime-Execution, Merge und externe Side Effects bleiben
 geschlossen.
 
-Naechste Integrationsbloecke nach dem Repo-Scan:
+Naechste Integrationsbloecke nach dem Readonly-Buendel:
 
-1. Bluepilot BPK Execution Ledger Readonly: vorhandene BPK-Authority-/Receipt-Ketten als
-   operator-lesbare Ledger-Summary sichtbar machen.
-2. Bluepilot Patrol Visual Coverage Contract: Soulmatchs Patrol-/Visual-Review-Planung erst als
-   side-effect-freien Contract uebernehmen.
-3. Bluepilot Repo Mutation Kill Switch Readonly: Soulmatchs Kill-Switch-Konzept als
-   operator-sichtbaren Status verdrahten, ohne Toggle-Persistenz.
-4. Bluepilot AICOS Permission Map Readonly: AICOS-Permission-Vokabular statisch an BPK-Locks
-   binden.
+1. Bluepilot Operator Ledger UI: `/probe/bpk-execution-ledger` in eine operator-lesbare Cockpit-
+   oder Builder-Ansicht bringen.
+2. Patrol Summary UI Readonly: `/probe/patrol-visual-coverage` als reine Review-Oberflaeche
+   anzeigen, ohne Screenshot-Capture oder Repair-Task-Erzeugung.
+3. Repo Mutation Kill Switch Contract UI: den locked Status anzeigen und spaeter erst einen
+   persistenzfreien Toggle-Contract entwerfen.
+4. AICOS Permission Review UI: statische Permission-Hints sichtbar machen und nach Registry-
+   Review an Task-Locks binden.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:

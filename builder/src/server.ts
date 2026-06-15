@@ -4,6 +4,7 @@ import { handleCockpitReadOnlyRouteRequest } from './cockpitReadOnlyRoute.js';
 import { handleHealthRequest } from './health.js';
 import { handleMetaRequest } from './meta.js';
 import { handleProbeDryRunRequest } from './probeDryRun.js';
+import { handleReadonlyIntegrationRequest } from './readonlyIntegrationRoutes.js';
 import { handleRepoCapabilityAuditRequest } from './repoCapabilityAuditRoute.js';
 import { handleRuntimeDryRunRouteRequest } from './runtimeDryRunRoute.js';
 import { handleSandboxWriteRequest } from './sandboxWrite.js';
@@ -44,6 +45,10 @@ const server = createServer((request, response) => {
     }
 
     if (await handleRepoCapabilityAuditRequest(request, response)) {
+      return;
+    }
+
+    if (await handleReadonlyIntegrationRequest(request, response)) {
       return;
     }
 

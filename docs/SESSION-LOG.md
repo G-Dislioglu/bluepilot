@@ -5,6 +5,22 @@
 
 ---
 
+## 2026-06-15 - Readonly-Integrationsbuendel 2 / Ledger, Patrol, Kill Switch, AICOS
+
+- Gebaut: vier read-only Runtime-Surfaces fuer die priorisierten Repo-Scan-Kandidaten:
+  `GET /probe/bpk-execution-ledger`, `GET /probe/patrol-visual-coverage`,
+  `GET /probe/repo-mutation-kill-switch` und `GET /probe/aicos-permission-map`.
+- Verhalten: Bluepilot macht BPK-Ledger-Lanes, Soulmatch Patrol/Visual-Coverage-Fokus, locked
+  Repo-Mutation-Kill-Switch-Status und AICOS-Permission-Hints operator-lesbar. Die bestehende
+  Capability-Audit-Surface markiert diese Kandidaten nun als `wired_read_only`.
+- Sicherheitsentscheidung: Nur read-only JSON. Keine Screenshots, keine Repair-Task-Erzeugung,
+  kein Kill-Switch-Toggle, keine Registry-Schreibaktion, keine Runtime-Execution, keine
+  Durable Persistence, kein GitHub-Write, kein Provider-Call, kein Deploy und kein Merge.
+- Beweis: Fokus-Tests fuer die neuen Surfaces, Meta und Capability-Audit sowie `npm run
+  typecheck` sind gruen.
+- Roter Faden weiter: Als naechstes eine Operator-Ledger-UI oder Cockpit-Ansicht bauen, die
+  diese read-only Surfaces nutzbar macht, ohne Ausfuehrung oder Writes zu aktivieren.
+
 ## 2026-06-15 - Repo-Scan / erster Bluepilot-Verdrahtungsschnitt
 
 - Gebaut: read-only Bluepilot-Meta- und Capability-Audit-Surface nach Scan von Soulmatch,
@@ -17,8 +33,8 @@
   Runtime-Execution, keine DB-Persistenz, kein Datei-Write, kein GitHub-Write und keine
   Desktop-Aktion.
 - Beweis: Fokus-Tests fuer Meta und Capability-Audit sowie `npm run typecheck` sind gruen.
-- Roter Faden weiter: Als naechstes Bluepilot BPK Execution Ledger Readonly bauen, danach
-  Soulmatch Patrol/Visual-Coverage und Repo-Mutation-Kill-Switch kontrolliert anbinden.
+- Roter Faden weiter: Bluepilot BPK Execution Ledger Readonly, Soulmatch Patrol/Visual-Coverage,
+  Repo-Mutation-Kill-Switch und AICOS-Permission-Map kontrolliert als read-only Surfaces anbinden.
 
 ## 2026-06-15 - BPK-223 bis BPK-226 Permit / Approved Action Consume Execution Receipt Record Audit Receipt Record Audit Receipt Record Authority
 

@@ -19,6 +19,10 @@ export interface BluepilotMetaPayload {
     dbHealth: '/health/db';
     mayaGateHealth: '/health/maya-gate';
     capabilityAudit: '/probe/repo-capability-audit';
+    bpkExecutionLedger: '/probe/bpk-execution-ledger';
+    patrolVisualCoverage: '/probe/patrol-visual-coverage';
+    repoMutationKillSwitch: '/probe/repo-mutation-kill-switch';
+    aicosPermissionMap: '/probe/aicos-permission-map';
     cockpitReadOnly: '/cockpit/read-only';
     runtimeDryRun: '/probe/runtime-dry-run';
   };
@@ -62,6 +66,10 @@ export function createBluepilotMetaPayload(
       dbHealth: '/health/db',
       mayaGateHealth: '/health/maya-gate',
       capabilityAudit: '/probe/repo-capability-audit',
+      bpkExecutionLedger: '/probe/bpk-execution-ledger',
+      patrolVisualCoverage: '/probe/patrol-visual-coverage',
+      repoMutationKillSwitch: '/probe/repo-mutation-kill-switch',
+      aicosPermissionMap: '/probe/aicos-permission-map',
       cockpitReadOnly: '/cockpit/read-only',
       runtimeDryRun: '/probe/runtime-dry-run',
     },
