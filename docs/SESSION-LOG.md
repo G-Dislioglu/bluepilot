@@ -5,6 +5,26 @@
 
 ---
 
+## 2026-06-15 - BPK-147 bis BPK-150 Permit / Approved Action Consume Execution Receipt Record Preflight
+
+- Gebaut: vier side-effect-freie Consume-Execution-Receipt-Record-Preflight-Schichten:
+  `cockpitPatchPermitConsumeExecutionReceiptRecordPreflight`,
+  `memoryCacheAuditExportPermitConsumeExecutionReceiptRecordPreflight`,
+  `runtimePatchPermitConsumeExecutionReceiptRecordPreflight` und
+  `releaseGovernanceApprovedActionConsumeExecutionReceiptRecordPreflight`.
+- Verhalten: Ready-Consume-Execution-Receipt-Authority-Artefakte werden fuer spaetere
+  Receipt-Erfassung vorgeprueft. Es wird kein Permit konsumiert, keine Action konsumiert, kein
+  Receipt geschrieben, kein Patch angewendet, kein Export geschrieben, keine Runtime ausgefuehrt
+  und kein Merge oder externe Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Receipt-Record-Preflight-Tests, Typecheck, Task-Lock-Verify,
+  Diff-Check und voller Builder-Testlauf sind gruen.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Consume-Execution-Receipt-Record-Authority
+  vorbereiten, weiterhin ohne Permit-Konsum, Action-Konsum, Receipt-Write, Runtime-Execution oder
+  Merge.
+
 ## 2026-06-15 - BPK-143 bis BPK-146 Permit / Approved Action Consume Execution Receipt Authority
 
 - Gebaut: vier side-effect-freie Consume-Execution-Receipt-Authority-Schichten:

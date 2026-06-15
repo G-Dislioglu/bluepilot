@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-143-146-consume-execution-receipt-authority`.
+- Aktueller Arbeitsbranch: `bpk-147-150-consume-execution-receipt-record-preflight`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -609,22 +609,21 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-146 ist das gebuendelte Permit-/Approved-Action-Consume-Execution-Receipt-Authority
-Bundle abgeschlossen: Ready-Consume-Execution-Receipt-Preflights erzeugen side-effect-freie
-Receipt-Authorization-Artefakte; Consume, Receipt-Write, Writes, Execution, Merge und externe Side
-Effects bleiben
-geschlossen.
+Nach BPK-150 ist das gebuendelte Permit-/Approved-Action-Consume-Execution-Receipt-Record-
+Preflight Bundle abgeschlossen: Ready-Consume-Execution-Receipt-Authority-Artefakte werden fuer
+spaetere Receipt-Erfassung vorgeprueft; Consume, Receipt-Write, Writes, Execution, Merge und
+externe Side Effects bleiben geschlossen.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Permit Consume Execution Receipt Record Preflight: Receipt-Record
-   vorpruefen, ohne Receipt-Write oder Patch-Apply.
-2. Memory Cache Audit Export Permit Consume Execution Receipt Record Preflight: Export-Receipt-
-   Record vorpruefen, ohne Receipt-Write oder Datei-Write.
-3. Runtime Patch Permit Consume Execution Receipt Record Preflight: Runtime-Receipt-Record
-   vorpruefen, ohne Receipt-Write oder Execution.
-4. Release Governance Approved Action Consume Execution Receipt Record Preflight: Release-
-   Action-Receipt-Record vorpruefen, ohne Receipt-Write, Merge oder externe Aktion.
+1. Cockpit Patch Permit Consume Execution Receipt Record Authority: Receipt-Record-
+   Authorization vorbereiten, ohne Receipt-Write oder Patch-Apply.
+2. Memory Cache Audit Export Permit Consume Execution Receipt Record Authority: Export-Receipt-
+   Record-Authorization vorbereiten, ohne Receipt-Write oder Datei-Write.
+3. Runtime Patch Permit Consume Execution Receipt Record Authority: Runtime-Receipt-Record-
+   Authorization vorbereiten, ohne Receipt-Write oder Execution.
+4. Release Governance Approved Action Consume Execution Receipt Record Authority: Release-
+   Action-Receipt-Record-Authorization vorbereiten, ohne Receipt-Write, Merge oder externe Aktion.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:
