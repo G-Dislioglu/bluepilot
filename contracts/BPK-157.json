@@ -1,0 +1,31 @@
+{
+  "task_id": "BPK-157",
+  "task_name": "bluepilot-runtime-patch-permit-consume-execution-receipt-record-v0.1",
+  "created": "2026-06-15",
+  "scope": "bluepilot/builder/bpk-155-158-consume-execution-receipt-record",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "critical",
+  "impact_class": "runtime_boundary",
+  "goal": "Add a side-effect-free in-memory receipt record builder that records runtime patch consume execution receipt evidence from ready receipt record authority while keeping permit consume, durable writes, patch application, server mutation, route mutation, runtime execution, packages, workflows, deployment, DB, providers, GitHub, and writes closed.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/runtimePatchPermitConsumeExecutionReceiptRecordAuthority.ts", "builder/src/runtimePatchPermitConsumeExecutionReceiptRecord.ts", "builder/tests/runtimePatchPermitConsumeExecutionReceiptRecord.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-155.json", "contracts/BPK-156.json", "contracts/BPK-157.json", "contracts/BPK-158.json",
+    "builder/src/cockpitPatchPermitConsumeExecutionReceiptRecord.ts", "builder/src/memoryCacheAuditExportPermitConsumeExecutionReceiptRecord.ts", "builder/src/runtimePatchPermitConsumeExecutionReceiptRecord.ts", "builder/src/releaseGovernanceApprovedActionConsumeExecutionReceiptRecord.ts",
+    "builder/tests/cockpitPatchPermitConsumeExecutionReceiptRecord.test.ts", "builder/tests/memoryCacheAuditExportPermitConsumeExecutionReceiptRecord.test.ts", "builder/tests/runtimePatchPermitConsumeExecutionReceiptRecord.test.ts", "builder/tests/releaseGovernanceApprovedActionConsumeExecutionReceiptRecord.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-155.md", "review-packets/BPK-156.md", "review-packets/BPK-157.md", "review-packets/BPK-158.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not consume permits, perform durable receipt writes, apply runtime patches, mutate server files, mutate route files, run runtime execution, call providers, call DB, call GitHub, change package files, workflows, deployment files, or write files."],
+  "claims": ["Ready runtime patch consume execution receipt record authority can produce a side-effect-free in-memory receipt record artifact.", "Recorded-at and receipt-record evidence refs are required.", "Patch application, server mutation, route mutation, runtime execution, and durable persistence remain false."],
+  "assumptions": ["Durable receipt persistence, patch application, and runtime execution require later task locks."],
+  "dod": ["builder/src/runtimePatchPermitConsumeExecutionReceiptRecord.ts exports recordRuntimePatchPermitConsumeExecutionReceipt.", "Recorded, missing recorded-at ref, and blocked authority cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/runtimePatchPermitConsumeExecutionReceiptRecord.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-157 --verify", "git diff --check"],
+  "stop_conditions": ["Permit consumption, durable receipt write, runtime patch application, server mutation, route mutation, runtime execution, external calls, DB, GitHub, package, workflow, deployment, or write changes become necessary."],
+  "prior_task_findings": "BPK-153 authorized runtime patch consume execution receipt record without recording it.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "986819b"
+}

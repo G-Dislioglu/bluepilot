@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-151-154-consume-execution-receipt-record-authority`.
+- Aktueller Arbeitsbranch: `bpk-155-158-consume-execution-receipt-record`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -609,22 +609,17 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-154 ist das gebuendelte Permit-/Approved-Action-Consume-Execution-Receipt-Record-
-Authority Bundle abgeschlossen: Ready-Consume-Execution-Receipt-Record-Preflights erzeugen
-side-effect-freie Receipt-Record-Authorization-Artefakte; Consume, Receipt-Write, Writes,
-Execution, Merge und externe Side Effects bleiben geschlossen.
+Nach BPK-158 ist das gebuendelte Permit-/Approved-Action-Consume-Execution-Receipt-Record Bundle
+abgeschlossen: Ready-Consume-Execution-Receipt-Record-Authority-Artefakte erzeugen side-effect-
+freie in-memory Receipt-Record-Artefakte; durable Receipt-Persistenz, Writes, Runtime-Execution,
+Merge und externe Side Effects bleiben geschlossen.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Permit Consume Execution Receipt Record: Receipt-Record eng vorbereiten;
-   Receipt-Write bleibt bis zum eigenen Lock geschlossen.
-2. Memory Cache Audit Export Permit Consume Execution Receipt Record: Export-Receipt-Record eng
-   vorbereiten; Receipt-Write und Datei-Write bleiben bis zum eigenen Lock geschlossen.
-3. Runtime Patch Permit Consume Execution Receipt Record: Runtime-Receipt-Record eng vorbereiten;
-   Receipt-Write und Execution bleiben bis zum eigenen Lock geschlossen.
-4. Release Governance Approved Action Consume Execution Receipt Record: Release-Action-Receipt-
-   Record eng vorbereiten; Receipt-Write, Merge und externe Aktion bleiben bis zum eigenen Lock
-   geschlossen.
+1. Cockpit Patch Permit Consume Execution Receipt Record Audit Preflight.
+2. Memory Cache Audit Export Permit Consume Execution Receipt Record Audit Preflight.
+3. Runtime Patch Permit Consume Execution Receipt Record Audit Preflight.
+4. Release Governance Approved Action Consume Execution Receipt Record Audit Preflight.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:
