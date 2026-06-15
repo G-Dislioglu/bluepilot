@@ -802,6 +802,14 @@
   optional PR-Receipts, Commit-Matches und Reviews, ohne PRs zu erstellen, GitHub aufzurufen,
   zu mergen, zu deployen oder Receipts zu schreiben. Damit sind alle acht Integrationspunkte
   entweder read-only oder contract-only verdrahtet.
+- Live-Operator-Maya-Evidence-Review 2026-06-15: Nach gesetztem Render-Env-Gate
+  `BLUEPILOT_OPERATOR_READ_ONLY_ROUTE_ENABLED=true` ist `GET /cockpit/operator-read-only` live
+  erreichbar. Live `/api/meta` meldet `main` auf Commit `7a7fb3c` und BPK `226/226`.
+  Desktop- und Mobile-Screenshots liegen unter `builder/output/live-review/`; beide Layouts
+  rendern acht Panels ohne Ueberlappung oder horizontalen Overflow. Live `/health/maya-gate`
+  meldet Budget, Corridor und Cost reachable/recorded. Provider-, Runtime- und Write-Preflights
+  erreichen nur `ready_for_activation_review`; Provider-Aufruf, Runtime-Ausfuehrung,
+  Runtime-Route-Mount, App-Writes, Permit-Ausstellung, Merge und Deploy bleiben geschlossen.
 
 ## Maya-Anbindung
 
@@ -836,11 +844,13 @@ geschlossen.
 
 Naechste Integrationsbloecke nach der Acht-Punkte-Verdrahtung:
 
-1. Operator Dashboard ist lokal visuell geprueft: Desktop und Mobile rendern acht Panels ohne
-   Ueberlappung oder horizontalen Overflow; Evidence liegt unter `builder/output/playwright/`.
-2. Gestapelte Integrations-Branches reviewen und bewusst entscheiden, ob und in welcher
-   Reihenfolge echte PRs/Merges/Deploys manuell
-   erfolgen.
+1. Operator Dashboard ist lokal und live visuell geprueft: Desktop und Mobile rendern acht
+   Panels ohne Ueberlappung oder horizontalen Overflow; Evidence liegt unter
+   `builder/output/playwright/` und `builder/output/live-review/`.
+2. Provider/Runtime/Write-Aktivierung als separaten echten Activation-Lock planen. Die aktuelle
+   Live-Evidence reicht fuer Review, nicht fuer Ausfuehrung.
+3. Gestapelte Integrations-Branches reviewen und bewusst entscheiden, ob und in welcher
+   Reihenfolge weitere echte PRs/Merges/Deploys manuell erfolgen.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:

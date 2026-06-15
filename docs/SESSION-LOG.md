@@ -5,6 +5,26 @@
 
 ---
 
+## 2026-06-15 - Live Operator Maya Evidence Review
+
+- Geprueft: Live-Render-Service `https://bluepilot-builder.onrender.com` nach gesetztem
+  `BLUEPILOT_OPERATOR_READ_ONLY_ROUTE_ENABLED=true`.
+- Live-Anker: `GET /api/meta` meldet `main` auf Commit
+  `7a7fb3cd960f5bee3f37b37d3afa42f3c75fc41d`, BPK-Pfad `226/226` und die erwarteten
+  Operator-/Maya-/Provider-/Merge-Surfaces.
+- Dashboard-Evidence: `GET /cockpit/operator-read-only` rendert live acht Panels. Desktop
+  `1280x900` und Mobile `390x900` wurden unter `builder/output/live-review/` gesichert; beide
+  Layouts haben keine Panel-Ueberlappungen und keinen horizontalen Overflow. Der einzige
+  Browser-Console-Hinweis ist ein nicht-blockierender `/favicon.ico` 404.
+- Maya-Gate-Evidence: `GET /health/maya-gate` meldet Maya-Core konfiguriert, Budget reachable,
+  Corridor reachable und Cost recorded. Die live ausgefuehrten Provider-, Runtime- und
+  Write-Preflights liefern `ready_for_activation_review`, aber keine Ausfuehrung.
+- Sicherheitsentscheidung: Dieses Buendel dokumentiert nur Live-Evidence. Kein Provider-Call,
+  keine Runtime-Execution, kein Runtime-Route-Mount, kein App-Datei-/DB-/GitHub-Write, keine
+  Permit-Ausstellung, kein Merge und kein Deploy wurden aktiviert.
+- Roter Faden weiter: Nach gruener Verifikation kann dieser Evidence-Branch als PR gepusht
+  werden. Echte Aktivierung von Provider/Runtime/Writes bleibt ein eigener spaeterer Lock.
+
 ## 2026-06-15 - Deploy-Readiness Stack Merge
 
 - Geprueft: `origin/main` enthaelt BP-150, waehrend der Integrationsstack auf

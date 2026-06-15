@@ -1,0 +1,81 @@
+{
+  "task_id": "LIVE-OPERATOR-MAYA-EVIDENCE-REVIEW",
+  "task_name": "bluepilot-live-operator-maya-evidence-review-v0.1",
+  "created": "2026-06-15",
+  "scope": "bluepilot/live/operator-dashboard-maya-gate-evidence-review",
+  "mode": "standard",
+  "task_type": "ui_task",
+  "risk_class": "medium",
+  "impact_class": "live_operator_evidence_review",
+  "target_persona": "operator_user",
+  "goal": "Review the live Render operator dashboard and Maya-gated activation evidence after BLUEPILOT_OPERATOR_READ_ONLY_ROUTE_ENABLED was opened, without activating providers, runtime execution, writes, merges, deploys, or durable persistence.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/operatorDashboardRoute.ts",
+    "builder/src/operatorDashboardHtml.ts",
+    "builder/src/mayaCoreGateEnforcementContract.ts",
+    "builder/src/providerRuntimeActivationPreflight.ts",
+    "builder/src/eightPointIntegrationReadiness.ts",
+    "builder/src/meta.ts"
+  ],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/LIVE-OPERATOR-MAYA-EVIDENCE-REVIEW.json",
+    "review-packets/LIVE-OPERATOR-MAYA-EVIDENCE-REVIEW.md",
+    "builder/output/live-review/operator-dashboard-live-desktop.png",
+    "builder/output/live-review/operator-dashboard-live-mobile.png",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    ".github/**",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/**",
+    "builder/tests/**",
+    "builder/data/**",
+    "soulmatch/**",
+    "goat-desktop/**",
+    "aicos-registry/**"
+  ],
+  "scope_out": [
+    "Do not change implementation code, mount routes, call providers, execute runtime, write application state, write DB, write GitHub, issue permits, create PRs from the application, merge, deploy, or change package/workflow files."
+  ],
+  "claims": [
+    "The live operator dashboard is reachable after the Render env gate was opened.",
+    "The live dashboard renders the eight operator panels on desktop and mobile without overlaps or horizontal overflow.",
+    "Live Maya gate health reports reachable budget, corridor, and recorded cost evidence.",
+    "Live Maya-gated provider, runtime dry-run, and write-action preflights reach ready_for_activation_review while all execution side effects remain false."
+  ],
+  "assumptions": [
+    "Render env BLUEPILOT_OPERATOR_READ_ONLY_ROUTE_ENABLED=true was set by the operator before this review.",
+    "Live POST checks are preflight-only evidence checks and do not perform the protected target actions."
+  ],
+  "dod": [
+    "Live /api/meta confirms the deployed main commit and BPK path completion.",
+    "Live /cockpit/operator-read-only is reviewed with Playwright on desktop and mobile.",
+    "Live /health/maya-gate and activation preflight responses are recorded in the review packet.",
+    "Focused tests, typecheck, task-lock verification, diff-check, and full builder tests pass."
+  ],
+  "evidence_required": ["screenshot_check", "playwright_flow", "human_ui_review"],
+  "required_commands": [
+    "npx --yes --package @playwright/cli playwright-cli -s=bluepilot-live-dashboard screenshot --filename builder\\\\output\\\\live-review\\\\operator-dashboard-live-desktop.png --full-page",
+    "npx --yes --package @playwright/cli playwright-cli -s=bluepilot-live-dashboard screenshot --filename builder\\\\output\\\\live-review\\\\operator-dashboard-live-mobile.png --full-page",
+    "npx --yes --package @playwright/cli playwright-cli -s=bluepilot-live-dashboard run-code \"async (page) => await page.evaluate(...)\"",
+    "npx tsx --test tests/operatorDashboardHtml.test.ts tests/operatorDashboardRoute.test.ts tests/eightPointIntegrationReadiness.test.ts tests/mayaCoreGateEnforcementRoute.test.ts tests/providerRuntimeActivationRoute.test.ts tests/meta.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs LIVE-OPERATOR-MAYA-EVIDENCE-REVIEW --verify --contract contracts/LIVE-OPERATOR-MAYA-EVIDENCE-REVIEW.json",
+    "git diff --check",
+    "npm test"
+  ],
+  "stop_conditions": [
+    "An implementation change, provider call, runtime execution, route mutation, DB write, file write by the application, GitHub write by the application, permit issue, merge, deploy, package change, or workflow change becomes necessary."
+  ],
+  "prior_task_findings": "The deploy readiness stack is merged into main and live. The operator opened BLUEPILOT_OPERATOR_READ_ONLY_ROUTE_ENABLED on Render, so the next safe step is live operator dashboard and Maya-gate evidence review.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "7a7fb3c"
+}
