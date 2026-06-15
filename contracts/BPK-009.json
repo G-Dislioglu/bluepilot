@@ -1,0 +1,113 @@
+{
+  "task_id": "BPK-009",
+  "task_name": "bluepilot-cockpit-projection-adoption-contract-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/cockpit-projection-adoption-contract",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free cockpit projection adoption contract that converts BPK-007 readiness and BPK-008 runtime integration status into a deterministic cockpit model for later UI consumption. Do not add frontend files, routes, runtime calls, provider calls, database writes, GitHub writes, package changes, or deployment changes.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "contracts/BPK-007.json",
+    "contracts/BPK-008.json",
+    "review-packets/BPK-008.md",
+    "builder/src/dispatchFrontendReadiness.ts",
+    "builder/src/runtimeDispatchIntegrationContract.ts",
+    "builder/src/cockpitProjectionAdoptionContract.ts",
+    "builder/tests/cockpitProjectionAdoptionContract.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BPK-009.json",
+    "builder/src/cockpitProjectionAdoptionContract.ts",
+    "builder/tests/cockpitProjectionAdoptionContract.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-009.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusClaimGate.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/server.ts",
+    "builder/src/architectPhase1.ts",
+    "builder/src/dispatchFrontendReadiness.ts",
+    "builder/src/runtimeDispatchIntegrationContract.ts",
+    "builder/src/cardConditionedDispatch.ts",
+    "builder/src/preRegisteredClaims.ts",
+    "builder/src/workerPacketWlpAdapter.ts",
+    "builder/scripts/**",
+    "builder/data/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not add or change frontend, CSS, HTML, React, server routes, or browser-visible files.",
+    "Do not call runtime dispatch, providers, GitHub, database, maya-core, or external services.",
+    "Do not add package scripts, dependencies, environment variables, or deployment instructions.",
+    "Do not change BPK-007 or BPK-008 semantics."
+  ],
+  "claims": [
+    "A cockpit model can be generated deterministically from readiness and runtime integration contracts.",
+    "Blocked and review states remain renderable for operator inspection but do not become executable.",
+    "Task-ID mismatch blocks cockpit adoption.",
+    "The adoption contract is side-effect-free and tested independently."
+  ],
+  "assumptions": [
+    "BPK-007 and BPK-008 are committed and available as pure data contracts.",
+    "Actual UI implementation needs later visual evidence and belongs to a separate block.",
+    "Cockpit adoption means a data model, not a rendered screen, in this block."
+  ],
+  "dod": [
+    "builder/src/cockpitProjectionAdoptionContract.ts exports side-effect-free cockpit adoption types and function.",
+    "The function returns ready, review, blocked, or invalid adoption status with deterministic panels.",
+    "Blocked/review projections remain inspectable but never executable.",
+    "builder/tests/cockpitProjectionAdoptionContract.test.ts covers ready, review, blocked renderable, task mismatch, and no-mutation behavior.",
+    "STATE.md and docs/SESSION-LOG.md record BPK-009.",
+    "review-packets/BPK-009.md records scope, safety invariants, gates, and verification.",
+    "The focused cockpit adoption test and npm run typecheck in builder/ pass.",
+    "node tools/verify-task-lock.cjs BPK-009 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "npx tsx --test tests/cockpitProjectionAdoptionContract.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-009 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "A visible UI, server route, runtime call, provider call, database write, GitHub write, deployment change, or package change becomes necessary.",
+    "Changing BPK-007 or BPK-008 behavior becomes necessary."
+  ],
+  "prior_task_findings": "BPK-008 classified runtime adoption without opening runtime. BPK-009 should create a cockpit-consumable projection contract without building the UI.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "e5613ff"
+}

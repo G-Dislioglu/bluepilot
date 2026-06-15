@@ -1,0 +1,105 @@
+{
+  "task_id": "BPK-015",
+  "task_name": "bluepilot-live-aicos-fetch-cache-contract-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/live-aicos-fetch-cache-contract",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free live AICOS fetch/cache readiness contract that validates endpoint references, auth references, cache policy, and quarantine policy before any later live AICOS connector may fetch card snapshots. Do not call AICOS, create a cache, add persistence, add routes, change packages, deploy, or modify frontend/runtime behavior.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "contracts/BPK-010.json",
+    "contracts/BPK-014.json",
+    "review-packets/BPK-014.md",
+    "builder/src/aicosCardBindingIntake.ts",
+    "builder/src/liveAicosFetchCacheContract.ts",
+    "builder/tests/liveAicosFetchCacheContract.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BPK-015.json",
+    "builder/src/liveAicosFetchCacheContract.ts",
+    "builder/tests/liveAicosFetchCacheContract.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-015.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    ".github/**",
+    "builder/src/server.ts",
+    "builder/src/aicosCardBindingIntake.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/scripts/**",
+    "builder/data/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not call AICOS, maya-core, providers, GitHub, database, runtime dispatch, or external services.",
+    "Do not add cache persistence, package scripts, dependencies, environment variables, deployment notes, routes, or frontend files.",
+    "Do not change BPK-010 intake behavior."
+  ],
+  "claims": [
+    "Fetch/cache readiness can be validated without making a live AICOS request.",
+    "Endpoint, auth, TTL, stale behavior, and quarantine policy must be explicit before live fetch.",
+    "Unsafe cache policies block live fetch readiness.",
+    "The contract is side-effect-free and tested independently."
+  ],
+  "assumptions": [
+    "A later connector block may perform the actual fetch.",
+    "BPK-010 remains the intake normalizer for fetched snapshots.",
+    "Auth references are opaque names and must not contain token values."
+  ],
+  "dod": [
+    "builder/src/liveAicosFetchCacheContract.ts exports side-effect-free fetch/cache readiness types and classifier.",
+    "The classifier returns ready, review_required, or blocked with deterministic blockers.",
+    "The classifier validates endpointRef, authRef, TTL bounds, stale behavior, and quarantine policy.",
+    "builder/tests/liveAicosFetchCacheContract.test.ts covers ready, disabled, missing auth, unsafe token-like auth, TTL bounds, missing quarantine, and no-mutation behavior.",
+    "STATE.md and docs/SESSION-LOG.md record BPK-015.",
+    "review-packets/BPK-015.md records scope, safety invariants, gates, and verification.",
+    "The focused fetch/cache contract test and npm run typecheck in builder/ pass.",
+    "node tools/verify-task-lock.cjs BPK-015 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "npx tsx --test tests/liveAicosFetchCacheContract.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-015 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "A live AICOS call, cache persistence, route, provider call, DB write, GitHub write, deployment change, package change, or frontend file becomes necessary.",
+    "Changing BPK-010 behavior becomes necessary."
+  ],
+  "prior_task_findings": "BPK-010 created a side-effect-free card snapshot intake normalizer. BPK-015 should define fetch/cache readiness without performing live fetch or persistence.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "862ce60"
+}

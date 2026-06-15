@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-089",
+  "task_name": "bluepilot-runtime-patch-permit-prep-evidence-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-087-090-prep-evidence-bundle",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "critical",
+  "impact_class": "runtime_boundary",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free evidence pack builder for BPK-085 runtime patch permit-prep metadata, requiring evidence and reviewer refs while keeping permit issuance, patch application, server mutation, route mutation, runtime execution, packages, workflows, deployment, DB, providers, GitHub, and writes closed.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/runtimePatchApprovedActionPermitPrep.ts", "builder/src/runtimePatchPermitPrepEvidence.ts", "builder/tests/runtimePatchPermitPrepEvidence.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-087.json", "contracts/BPK-088.json", "contracts/BPK-089.json", "contracts/BPK-090.json",
+    "builder/src/cockpitPatchPermitPrepEvidence.ts", "builder/src/memoryCacheAuditExportPermitPrepEvidence.ts", "builder/src/runtimePatchPermitPrepEvidence.ts", "builder/src/releaseGovernanceHandoffPrepEvidence.ts",
+    "builder/tests/cockpitPatchPermitPrepEvidence.test.ts", "builder/tests/memoryCacheAuditExportPermitPrepEvidence.test.ts", "builder/tests/runtimePatchPermitPrepEvidence.test.ts", "builder/tests/releaseGovernanceHandoffPrepEvidence.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-087.md", "review-packets/BPK-088.md", "review-packets/BPK-089.md", "review-packets/BPK-090.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not issue permits, apply runtime patches, mutate server files, mutate route files, run runtime execution, call providers, call DB, call GitHub, change package files, workflows, deployment files, or write files."],
+  "claims": ["Runtime patch permit-prep metadata can be bundled as operator-review evidence without issuing a permit.", "Evidence and reviewer refs are required for ready status.", "Runtime execution remains false and disallowed."],
+  "assumptions": ["Actual permit issuance, patch application, and execution require later task locks."],
+  "dod": ["builder/src/runtimePatchPermitPrepEvidence.ts exports buildRuntimePatchPermitPrepEvidence.", "Ready, missing evidence ref, and blocked permit-prep cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/runtimePatchPermitPrepEvidence.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-089 --verify", "git diff --check"],
+  "stop_conditions": ["Permit issuance, runtime patch application, server mutation, route mutation, runtime execution, external calls, DB, GitHub, package, workflow, deployment, or write changes become necessary."],
+  "prior_task_findings": "BPK-085 prepared runtime patch permit request metadata without issuing a permit or enabling execution.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "28c0a51"
+}

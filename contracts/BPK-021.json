@@ -1,0 +1,112 @@
+{
+  "task_id": "BPK-021",
+  "task_name": "bluepilot-cockpit-route-mounting-read-only-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/cockpit-read-only-route-mount",
+  "mode": "standard",
+  "task_type": "ui_task",
+  "risk_class": "medium",
+  "impact_class": "operator_cockpit",
+  "target_persona": "operator_user",
+  "council_session_required": false,
+  "goal": "Mount a guarded read-only cockpit route that serves BPK-018 static cockpit HTML without runtime execution, writes, provider calls, database calls, GitHub calls, live AICOS calls, package changes, or deployment changes. The route must be default-off behind BLUEPILOT_COCKPIT_READ_ONLY_ROUTE_ENABLED=true.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "contracts/BPK-018.json",
+    "review-packets/BPK-018.md",
+    "builder/src/cockpitReadOnlyHtml.ts",
+    "builder/src/cockpitReadOnlyRoute.ts",
+    "builder/src/server.ts",
+    "builder/tests/cockpitReadOnlyRoute.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BPK-021.json",
+    "builder/src/cockpitReadOnlyRoute.ts",
+    "builder/src/server.ts",
+    "builder/tests/cockpitReadOnlyRoute.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-021.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    ".github/**",
+    "builder/src/cockpitReadOnlyHtml.ts",
+    "builder/src/cockpitProjectionAdoptionContract.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/providers.ts",
+    "builder/src/outboundHttp.ts",
+    "builder/src/db.ts",
+    "builder/scripts/**",
+    "builder/data/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not add runtime execution, provider calls, DB calls, GitHub calls, live AICOS calls, writes, package changes, workflow changes, or deployment changes.",
+    "Do not change BPK-018 renderer semantics.",
+    "Do not make cockpit actions executable."
+  ],
+  "claims": [
+    "The read-only cockpit renderer can be safely mounted behind a default-off route.",
+    "The route returns static HTML only and keeps all actions disabled.",
+    "The route accepts POSTed cockpit models only when their minimal shape is valid.",
+    "The route can be visually checked through a local browser without committing generated artifacts."
+  ],
+  "assumptions": [
+    "Operators may use the GET sample preview before a live cockpit model source exists.",
+    "A later block may connect real cockpit model production to this route.",
+    "The route is not an authorization layer and stays behind an explicit environment gate."
+  ],
+  "dod": [
+    "builder/src/cockpitReadOnlyRoute.ts implements a default-off handler for /cockpit/read-only.",
+    "builder/src/server.ts mounts the handler.",
+    "The handler returns 403 when disabled, 405 for unsupported methods, 400 for invalid posted models, and text/html for valid GET/POST.",
+    "builder/tests/cockpitReadOnlyRoute.test.ts covers disabled, GET sample, POST valid model, invalid model, and method guard.",
+    "A local browser screenshot verifies the mounted route renders nonblank read-only cockpit HTML.",
+    "STATE.md and docs/SESSION-LOG.md record BPK-021.",
+    "review-packets/BPK-021.md records scope, safety invariants, gates, and verification.",
+    "The focused route test and npm run typecheck in builder/ pass.",
+    "node tools/verify-task-lock.cjs BPK-021 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "screenshot_check",
+    "playwright_flow",
+    "human_ui_review"
+  ],
+  "required_commands": [
+    "npx tsx --test tests/cockpitReadOnlyRoute.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-021 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "Runtime execution, provider calls, DB calls, GitHub calls, live AICOS calls, writes, package changes, deployment changes, or executable cockpit actions become necessary.",
+    "Changing BPK-018 renderer behavior becomes necessary."
+  ],
+  "prior_task_findings": "BPK-018 added a static read-only cockpit HTML renderer. BPK-021 may mount it behind a default-off route and verify the rendered surface visually.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "3bfcfbc"
+}

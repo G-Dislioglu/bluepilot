@@ -1,0 +1,31 @@
+{
+  "task_id": "BPK-102",
+  "task_name": "bluepilot-release-governance-authority-review-intake-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-099-102-authority-review-intake",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "release_governance",
+  "goal": "Add a side-effect-free authority-review intake builder for release-governance approved-action request packets while keeping merge, external actions, GitHub, packages, workflows, deployment, DB, providers, and writes closed.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/releaseGovernanceApprovedActionRequestPacket.ts", "builder/src/releaseGovernanceAuthorityReviewIntake.ts", "builder/tests/releaseGovernanceAuthorityReviewIntake.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-099.json", "contracts/BPK-100.json", "contracts/BPK-101.json", "contracts/BPK-102.json",
+    "builder/src/cockpitPatchAuthorityReviewIntake.ts", "builder/src/memoryCacheAuditExportAuthorityReviewIntake.ts", "builder/src/runtimePatchAuthorityReviewIntake.ts", "builder/src/releaseGovernanceAuthorityReviewIntake.ts",
+    "builder/tests/cockpitPatchAuthorityReviewIntake.test.ts", "builder/tests/memoryCacheAuditExportAuthorityReviewIntake.test.ts", "builder/tests/runtimePatchAuthorityReviewIntake.test.ts", "builder/tests/releaseGovernanceAuthorityReviewIntake.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-099.md", "review-packets/BPK-100.md", "review-packets/BPK-101.md", "review-packets/BPK-102.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not merge, create PRs, call GitHub, perform external actions, call providers, call DB, change package files, workflows, deployment files, or write files."],
+  "claims": ["Release-governance approved-action request packets can be accepted for authority review without merging or external action.", "Authority review, reviewer, and intake evidence refs are required.", "Merge and external actions remain false."],
+  "assumptions": ["Actual authority decision, action execution, PR work, and merge require later task locks."],
+  "dod": ["builder/src/releaseGovernanceAuthorityReviewIntake.ts exports intakeReleaseGovernanceAuthorityReview.", "Ready, missing authority ref, and blocked request packet cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/releaseGovernanceAuthorityReviewIntake.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-102 --verify", "git diff --check"],
+  "stop_conditions": ["Merge, PR creation, GitHub calls, external actions, DB, package, workflow, deployment, or write changes become necessary."],
+  "prior_task_findings": "BPK-098 converted release-governance approved-action readiness into a request packet without merge or external action.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "e477e2b"
+}

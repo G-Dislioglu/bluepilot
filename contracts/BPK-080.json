@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-080",
+  "task_name": "bluepilot-memory-cache-audit-export-decision-gate-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-079-082-operator-final-decision-gates",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "external_read_boundary",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free decision gate for BPK-076 memory cache audit export preview evidence, accepting explicit approve/defer/reject decisions without writing files, durable storage, DB, filesystem cache, scheduler, routes, package, workflow, deployment, or external-call changes.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/memoryCacheAuditExportPreviewEvidence.ts", "builder/src/memoryCacheAuditExportDecisionGate.ts", "builder/tests/memoryCacheAuditExportDecisionGate.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-079.json", "contracts/BPK-080.json", "contracts/BPK-081.json", "contracts/BPK-082.json",
+    "builder/src/cockpitPatchOperatorDecisionGate.ts", "builder/src/memoryCacheAuditExportDecisionGate.ts", "builder/src/runtimePatchOperatorDecisionGate.ts", "builder/src/releaseGovernanceFinalDecisionGate.ts",
+    "builder/tests/cockpitPatchOperatorDecisionGate.test.ts", "builder/tests/memoryCacheAuditExportDecisionGate.test.ts", "builder/tests/runtimePatchOperatorDecisionGate.test.ts", "builder/tests/releaseGovernanceFinalDecisionGate.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-079.md", "review-packets/BPK-080.md", "review-packets/BPK-081.md", "review-packets/BPK-082.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not write export files, add durable storage, DB writes, filesystem cache files, scheduler, routes, package changes, workflow changes, deployment files, or external calls."],
+  "claims": ["Audit export preview evidence can be converted to an operator decision without writing files.", "Ready BPK-076 evidence and explicit decision refs are required.", "File writes remain false."],
+  "assumptions": ["Approved decision gates only authorize a later task lock, not export persistence in this task."],
+  "dod": ["builder/src/memoryCacheAuditExportDecisionGate.ts exports evaluateMemoryCacheAuditExportDecisionGate.", "Approved, missing decision ref, and rejected or blocked evidence cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/memoryCacheAuditExportDecisionGate.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-080 --verify", "git diff --check"],
+  "stop_conditions": ["File writes, durable storage, DB, filesystem cache, scheduler, route, package, workflow, deployment, or external-call changes become necessary."],
+  "prior_task_findings": "BPK-076 bundled memory cache audit export preview evidence without writing files.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "8988921"
+}

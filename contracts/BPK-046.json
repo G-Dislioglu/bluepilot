@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-046",
+  "task_name": "bluepilot-pr-receipt-file-loader-implementation-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-043-046-handler-store-loader-implementations",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "release_governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a tightly bounded local PR receipt JSON file loader that requires a ready BPK-038 decision and a successful BPK-042 request contract, enforces root/path/max-byte guards, parses JSON, imports through BPK-031, and performs no GitHub, PR, merge, workflow, package, or external-state action.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/prReceiptArtifactFileLoaderDecision.ts", "builder/src/prReceiptFileLoaderContract.ts", "builder/src/prReceiptArtifactImport.ts", "builder/src/prReceiptFileLoaderImplementation.ts", "builder/tests/prReceiptFileLoaderImplementation.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-043.json", "contracts/BPK-044.json", "contracts/BPK-045.json", "contracts/BPK-046.json",
+    "builder/src/cockpitRouteSourceHandlerSkeleton.ts", "builder/src/liveAicosMemoryCacheStoreShell.ts", "builder/src/runtimeExecutionRouteHandlerSkeleton.ts", "builder/src/prReceiptFileLoaderImplementation.ts",
+    "builder/tests/cockpitRouteSourceHandlerSkeleton.test.ts", "builder/tests/liveAicosMemoryCacheStoreShell.test.ts", "builder/tests/runtimeExecutionRouteHandlerSkeleton.test.ts", "builder/tests/prReceiptFileLoaderImplementation.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-043.md", "review-packets/BPK-044.md", "review-packets/BPK-045.md", "review-packets/BPK-046.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not call GitHub, create PRs, merge, write files, change workflows, change package files, change deployment files, or read outside the explicitly allowed root/path/max-byte guard."],
+  "claims": ["Local PR receipt files can be read only inside the BPK-038 and BPK-042 guards.", "Loaded JSON is imported through the existing BPK-031 artifact import path.", "No GitHub, PR, merge, workflow, package, or external-state action is performed."],
+  "assumptions": ["The caller provides an explicit local root and operator-approved relative path."],
+  "dod": ["builder/src/prReceiptFileLoaderImplementation.ts exports loadPrReceiptFileArtifact.", "Successful load, oversize guard, and contract guard cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/prReceiptFileLoaderImplementation.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-046 --verify", "git diff --check"],
+  "stop_conditions": ["GitHub calls, PR creation, merge, writes, workflow changes, package changes, deployment changes, or unguarded file reads become necessary."],
+  "prior_task_findings": "BPK-042 defined the loader request contract but intentionally performed no file read. BPK-046 may implement a bounded local JSON read under the BPK-038/BPK-042 gates.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "c81f05b"
+}

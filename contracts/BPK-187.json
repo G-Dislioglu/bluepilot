@@ -1,0 +1,31 @@
+{
+  "task_id": "BPK-187",
+  "task_name": "bluepilot-cockpit-patch-permit-consume-execution-receipt-record-audit-receipt-record-authority-v0.1",
+  "created": "2026-06-15",
+  "scope": "bluepilot/builder/bpk-187-190-consume-execution-receipt-record-audit-receipt-record-authority",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "cockpit_runtime_boundary",
+  "goal": "Add a side-effect-free audit receipt record authority builder for cockpit patch consume execution receipt record audit receipt record preflights without writing records, persisting audits, applying patches, mutating server/routes, or consuming permits.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/cockpitPatchPermitConsumeExecutionReceiptRecordAuditReceiptRecordPreflight.ts", "builder/src/cockpitPatchPermitConsumeExecutionReceiptRecordAuditReceiptRecordAuthority.ts", "builder/tests/cockpitPatchPermitConsumeExecutionReceiptRecordAuditReceiptRecordAuthority.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-187.json", "contracts/BPK-188.json", "contracts/BPK-189.json", "contracts/BPK-190.json",
+    "builder/src/cockpitPatchPermitConsumeExecutionReceiptRecordAuditReceiptRecordAuthority.ts", "builder/src/memoryCacheAuditExportPermitConsumeExecutionReceiptRecordAuditReceiptRecordAuthority.ts", "builder/src/runtimePatchPermitConsumeExecutionReceiptRecordAuditReceiptRecordAuthority.ts", "builder/src/releaseGovernanceApprovedActionConsumeExecutionReceiptRecordAuditReceiptRecordAuthority.ts",
+    "builder/tests/cockpitPatchPermitConsumeExecutionReceiptRecordAuditReceiptRecordAuthority.test.ts", "builder/tests/memoryCacheAuditExportPermitConsumeExecutionReceiptRecordAuditReceiptRecordAuthority.test.ts", "builder/tests/runtimePatchPermitConsumeExecutionReceiptRecordAuditReceiptRecordAuthority.test.ts", "builder/tests/releaseGovernanceApprovedActionConsumeExecutionReceiptRecordAuditReceiptRecordAuthority.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-187.md", "review-packets/BPK-188.md", "review-packets/BPK-189.md", "review-packets/BPK-190.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not write records, receipts, or audits; do not perform durable writes, consume permits, apply patches, mutate server files, mutate route files, call providers, call DB, call GitHub, change package files, workflows, deployment files, or write runtime artifacts."],
+  "claims": ["Cockpit patch audit receipt record preflight artifacts can be authorized without recording them.", "Audit receipt record authority id, authorized-by ref, and expiry ref are required.", "Audit writes, durable persistence, patch application, server mutation, route mutation, permit consumption, and executable actions remain false."],
+  "assumptions": ["Audit receipt record materialization and durable persistence require later task locks."],
+  "dod": ["builder/src/cockpitPatchPermitConsumeExecutionReceiptRecordAuditReceiptRecordAuthority.ts exports authorizeCockpitPatchPermitConsumeExecutionReceiptRecordAuditReceiptRecord.", "Ready, missing authority id, and blocked preflight cases are tested.", "Focused test, typecheck, task-lock verify, diff-check, and full builder tests pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/cockpitPatchPermitConsumeExecutionReceiptRecordAuditReceiptRecordAuthority.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-187 --verify", "git diff --check", "npm test"],
+  "stop_conditions": ["Record write, receipt write, audit persistence, durable write, permit consumption, patch application, server mutation, route mutation, external calls, DB, GitHub, package, workflow, deployment, or runtime write changes become necessary."],
+  "prior_task_findings": "BPK-183 preflighted cockpit audit receipt records without recording them.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "73d90c0"
+}

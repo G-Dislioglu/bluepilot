@@ -1,0 +1,104 @@
+{
+  "task_id": "BPK-012",
+  "task_name": "bluepilot-bpk-pr-review-execution-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-pr-review-execution-contract",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free PR/review execution contract that evaluates supplied PR metadata for a BPK release sequence and produces merge-readiness receipts without creating PRs, merging branches, calling GitHub, changing workflows, or touching runtime/frontend behavior.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "contracts/BPK-011.json",
+    "review-packets/BPK-011.md",
+    "builder/src/bpkBranchMergeReleaseSequencing.ts",
+    "builder/src/bpkPrReviewExecution.ts",
+    "builder/tests/bpkPrReviewExecution.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BPK-012.json",
+    "builder/src/bpkPrReviewExecution.ts",
+    "builder/tests/bpkPrReviewExecution.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-012.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    ".github/**",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/server.ts",
+    "builder/src/bpkBranchMergeReleaseSequencing.ts",
+    "builder/scripts/**",
+    "builder/data/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not create PRs, call GitHub APIs, merge branches, push to main, or change workflows.",
+    "Do not add package scripts, dependencies, environment variables, deployment notes, runtime routes, provider calls, database writes, GitHub writes, or frontend files.",
+    "Do not change BPK-011 sequencing semantics."
+  ],
+  "claims": [
+    "PR/review execution readiness can be evaluated from supplied PR metadata without GitHub side effects.",
+    "All ordered sequence tasks need a PR URL, approved review, green checks, and matching head commit.",
+    "Changes-requested or pending review states block or hold execution.",
+    "The receipt is side-effect-free and tested independently."
+  ],
+  "assumptions": [
+    "A caller or operator supplies PR metadata; this block does not fetch it.",
+    "Actual merge remains a later operator-controlled action.",
+    "BPK-011 sequencing is already committed and available."
+  ],
+  "dod": [
+    "builder/src/bpkPrReviewExecution.ts exports side-effect-free PR review execution types and evaluator.",
+    "The evaluator returns ready, review_required, or blocked with deterministic blockers.",
+    "The evaluator detects missing PRs, commit mismatches, non-green checks, changes requested, and pending reviews.",
+    "builder/tests/bpkPrReviewExecution.test.ts covers ready, missing PR, commit mismatch, failing check, changes requested, pending review, and no-mutation behavior.",
+    "STATE.md and docs/SESSION-LOG.md record BPK-012.",
+    "review-packets/BPK-012.md records scope, safety invariants, gates, and verification.",
+    "The focused PR review execution test and npm run typecheck in builder/ pass.",
+    "node tools/verify-task-lock.cjs BPK-012 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "npx tsx --test tests/bpkPrReviewExecution.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-012 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "A real PR creation, GitHub API call, merge, push, workflow change, deployment change, runtime change, package change, or frontend file becomes necessary.",
+    "Changing BPK-011 behavior becomes necessary."
+  ],
+  "prior_task_findings": "BPK-011 created a side-effect-free branch merge/release sequencing planner. BPK-012 should evaluate supplied PR/review receipts without performing GitHub actions.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "a07a6f5"
+}

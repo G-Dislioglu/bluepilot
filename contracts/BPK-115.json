@@ -1,0 +1,31 @@
+{
+  "task_id": "BPK-115",
+  "task_name": "bluepilot-cockpit-patch-permit-consume-preflight-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-115-118-permit-consume-preflight",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "cockpit_runtime_boundary",
+  "goal": "Add a side-effect-free consume preflight builder that validates a cockpit patch permit artifact is ready for later consumption while keeping permit consume, patch application, server mutation, route mutation, packages, workflows, deployment, DB, providers, GitHub, and writes closed.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/cockpitPatchPermitIssueAuthority.ts", "builder/src/cockpitPatchPermitConsumePreflight.ts", "builder/tests/cockpitPatchPermitConsumePreflight.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-115.json", "contracts/BPK-116.json", "contracts/BPK-117.json", "contracts/BPK-118.json",
+    "builder/src/cockpitPatchPermitConsumePreflight.ts", "builder/src/memoryCacheAuditExportPermitConsumePreflight.ts", "builder/src/runtimePatchPermitConsumePreflight.ts", "builder/src/releaseGovernanceApprovedActionConsumePreflight.ts",
+    "builder/tests/cockpitPatchPermitConsumePreflight.test.ts", "builder/tests/memoryCacheAuditExportPermitConsumePreflight.test.ts", "builder/tests/runtimePatchPermitConsumePreflight.test.ts", "builder/tests/releaseGovernanceApprovedActionConsumePreflight.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-115.md", "review-packets/BPK-116.md", "review-packets/BPK-117.md", "review-packets/BPK-118.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not consume permits, apply patches, mutate server files, mutate route files, call providers, call DB, call GitHub, change package files, workflows, deployment files, or write files."],
+  "claims": ["Issued cockpit patch permit artifacts can be preflighted for later consumption without consuming them.", "Consume ref, consumer ref, and consume policy ref are required.", "Permit consume and patch application remain false."],
+  "assumptions": ["Actual permit consumption and patch application require later task locks."],
+  "dod": ["builder/src/cockpitPatchPermitConsumePreflight.ts exports preflightCockpitPatchPermitConsume.", "Ready, missing consume ref, and blocked authority cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/cockpitPatchPermitConsumePreflight.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-115 --verify", "git diff --check"],
+  "stop_conditions": ["Permit consumption, patch application, server mutation, route mutation, external calls, DB, GitHub, package, workflow, deployment, or write changes become necessary."],
+  "prior_task_findings": "BPK-111 recorded a side-effect-free cockpit patch permit artifact without consuming it.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "9fd1837"
+}

@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-086",
+  "task_name": "bluepilot-release-governance-approved-action-handoff-prep-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-083-086-approved-action-prep",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "release_governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free handoff-prep builder for BPK-082 approved release governance final decisions, producing operator handoff metadata for a later task while keeping GitHub calls, PR creation, merge, writes, workflow changes, packages, and deployment closed.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/releaseGovernanceFinalDecisionGate.ts", "builder/src/releaseGovernanceApprovedActionHandoffPrep.ts", "builder/tests/releaseGovernanceApprovedActionHandoffPrep.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-083.json", "contracts/BPK-084.json", "contracts/BPK-085.json", "contracts/BPK-086.json",
+    "builder/src/cockpitPatchApprovedActionPermitPrep.ts", "builder/src/memoryCacheAuditExportApprovedActionPermitPrep.ts", "builder/src/runtimePatchApprovedActionPermitPrep.ts", "builder/src/releaseGovernanceApprovedActionHandoffPrep.ts",
+    "builder/tests/cockpitPatchApprovedActionPermitPrep.test.ts", "builder/tests/memoryCacheAuditExportApprovedActionPermitPrep.test.ts", "builder/tests/runtimePatchApprovedActionPermitPrep.test.ts", "builder/tests/releaseGovernanceApprovedActionHandoffPrep.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-083.md", "review-packets/BPK-084.md", "review-packets/BPK-085.md", "review-packets/BPK-086.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not read files, call GitHub, create PRs, merge, write files, change workflows, change package files, change deployment files, or mutate external state."],
+  "claims": ["Approved release governance final decisions can be converted to handoff-prep metadata without executing actions.", "Ready BPK-082 final decision gate and handoff prep refs are required.", "Merge and external actions remain false."],
+  "assumptions": ["Actual release action and merge require later human/operator tasks."],
+  "dod": ["builder/src/releaseGovernanceApprovedActionHandoffPrep.ts exports prepareReleaseGovernanceApprovedActionHandoff.", "Approved, missing handoff prep ref, and rejected or blocked final decision cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/releaseGovernanceApprovedActionHandoffPrep.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-086 --verify", "git diff --check"],
+  "stop_conditions": ["Filesystem reads, GitHub calls, PR creation, merge, writes, workflow changes, package changes, deployment changes, or external state mutation become necessary."],
+  "prior_task_findings": "BPK-082 converted release governance runbook evidence into a final decision without executing actions.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "84d9013"
+}

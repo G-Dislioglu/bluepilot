@@ -1,0 +1,31 @@
+{
+  "task_id": "BPK-169",
+  "task_name": "bluepilot-runtime-patch-permit-consume-execution-receipt-record-audit-v0.1",
+  "created": "2026-06-15",
+  "scope": "bluepilot/builder/bpk-167-170-consume-execution-receipt-record-audit",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "runtime_execution_boundary",
+  "goal": "Add a side-effect-free in-memory audit artifact builder for runtime patch consume execution receipt records without runtime execution, audit persistence, patches, server/route mutation, or durable writes.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/runtimePatchPermitConsumeExecutionReceiptRecordAuditAuthority.ts", "builder/src/runtimePatchPermitConsumeExecutionReceiptRecordAudit.ts", "builder/tests/runtimePatchPermitConsumeExecutionReceiptRecordAudit.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-167.json", "contracts/BPK-168.json", "contracts/BPK-169.json", "contracts/BPK-170.json",
+    "builder/src/cockpitPatchPermitConsumeExecutionReceiptRecordAudit.ts", "builder/src/memoryCacheAuditExportPermitConsumeExecutionReceiptRecordAudit.ts", "builder/src/runtimePatchPermitConsumeExecutionReceiptRecordAudit.ts", "builder/src/releaseGovernanceApprovedActionConsumeExecutionReceiptRecordAudit.ts",
+    "builder/tests/cockpitPatchPermitConsumeExecutionReceiptRecordAudit.test.ts", "builder/tests/memoryCacheAuditExportPermitConsumeExecutionReceiptRecordAudit.test.ts", "builder/tests/runtimePatchPermitConsumeExecutionReceiptRecordAudit.test.ts", "builder/tests/releaseGovernanceApprovedActionConsumeExecutionReceiptRecordAudit.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-167.md", "review-packets/BPK-168.md", "review-packets/BPK-169.md", "review-packets/BPK-170.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not persist audits, perform durable receipt writes, consume permits, execute runtime work, apply patches, mutate server files, mutate route files, call providers, call DB, call GitHub, change package files, workflows, deployment files, or write runtime artifacts."],
+  "claims": ["Runtime patch consume execution receipt record audit authority artifacts can produce an in-memory audit artifact without runtime execution.", "Audited-at ref and audit evidence ref are required.", "Audit writes, runtime execution, patch application, server mutation, route mutation, permit consumption, and durable persistence remain false."],
+  "assumptions": ["Durable audit persistence, audit receipts, and runtime execution require later task locks."],
+  "dod": ["builder/src/runtimePatchPermitConsumeExecutionReceiptRecordAudit.ts exports recordRuntimePatchPermitConsumeExecutionReceiptRecordAudit.", "Ready, missing audited-at ref, and blocked authority cases are tested.", "Focused test, typecheck, task-lock verify, diff-check, and full builder tests pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/runtimePatchPermitConsumeExecutionReceiptRecordAudit.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-169 --verify", "git diff --check", "npm test"],
+  "stop_conditions": ["Audit persistence, durable receipt write, permit consumption, runtime execution, patch application, server mutation, route mutation, external calls, DB, GitHub, package, workflow, deployment, or runtime write changes become necessary."],
+  "prior_task_findings": "BPK-165 produced side-effect-free runtime patch consume execution receipt record audit authority artifacts.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "2a635cd"
+}

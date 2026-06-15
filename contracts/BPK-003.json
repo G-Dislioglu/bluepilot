@@ -1,0 +1,117 @@
+{
+  "task_id": "BPK-003",
+  "task_name": "WorkerPacket-to-WLP-Adapter",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/workerpacket-wlp-adapter",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Introduce a side-effect-free adapter that converts a validated worker packet shape into a WLP contract draft. The adapter must reuse existing worker envelope concepts, preserve WLP required fields, derive allowed files from explicit worker edit paths, and fail closed for malformed packets or protected paths. It must not dispatch workers, push code, open routes, or change runtime behavior.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "docs/CODEX-RICHTUNGSBRIEF-optimized.md",
+    "contracts/BPK-002.json",
+    "review-packets/BPK-002.md",
+    "builder/src/opusEnvelopeValidator.ts",
+    "builder/src/builderSafetyPolicy.ts",
+    "builder/src/opusWorkerRegistry.ts",
+    "builder/src/workerPacketWlpAdapter.ts",
+    "builder/tests/workerPacketWlpAdapter.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BPK-003.json",
+    "builder/src/workerPacketWlpAdapter.ts",
+    "builder/tests/workerPacketWlpAdapter.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-003.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/opusPatchMode.ts",
+    "builder/src/mayaBuilderGateClient.ts",
+    "builder/src/writePermitContentHash.ts",
+    "builder/src/server.ts",
+    "builder/src/sandboxWrite.ts",
+    "builder/src/sandboxRealWrite.ts",
+    "builder/src/sandboxWriteProbe.ts",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not integrate the adapter into orchestrateTask or live worker dispatch.",
+    "Do not add endpoints, CLI commands, package dependencies, or runtime flags.",
+    "Do not change WLP verifier behavior.",
+    "Do not infer allowed files from prose; only explicit edit paths may become allowed files.",
+    "Do not permit protected/manual-only paths in a generated contract draft."
+  ],
+  "claims": [
+    "A WorkerPacket input can be converted into a WLP-compatible contract draft without side effects.",
+    "The adapter derives allowed_files only from explicit worker edit paths plus optional caller-provided governance artifacts.",
+    "The adapter rejects malformed task metadata, empty edit sets, duplicate edit paths, invalid paths, and protected paths.",
+    "Generated drafts include WLP-required fields such as task_id, mode, task_type, evidence_required, reuse_target, allowed_files, and forbidden_files.",
+    "The adapter is tested independently without live providers, GitHub, maya-core, database, or runtime server involvement."
+  ],
+  "assumptions": [
+    "BPK-002 is committed on bpk-002-permit-generalisierung.",
+    "Existing worker output is represented locally by EditEnvelope concepts in builder/src/opusEnvelopeValidator.ts.",
+    "BPK-003 is an adapter-only stabilization step before card-conditioned dispatch.",
+    "Protected path semantics may reuse builderSafetyPolicy classification instead of duplicating path rules."
+  ],
+  "dod": [
+    "builder/src/workerPacketWlpAdapter.ts exports side-effect-free adapter types and functions.",
+    "The adapter returns a WLP contract draft for a valid packet and explicit governance artifact paths.",
+    "The adapter rejects malformed or unsafe packets with deterministic error codes.",
+    "builder/tests/workerPacketWlpAdapter.test.ts covers success, missing fields, duplicate edits, invalid paths, protected paths, and evidence mapping.",
+    "STATE.md and docs/SESSION-LOG.md record BPK-003.",
+    "review-packets/BPK-003.md records scope, safety invariants, gates, verification, and local-clone push limitation if applicable.",
+    "The focused workerPacketWlpAdapter test and npm run typecheck in builder/ pass.",
+    "node tools/verify-task-lock.cjs BPK-003 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "npx tsx --test tests/workerPacketWlpAdapter.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-003 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "orchestrateTask integration becomes necessary.",
+    "WLP verifier changes become necessary.",
+    "Package or dependency changes become necessary.",
+    "A live provider, GitHub, maya-core, database, or runtime server call becomes necessary.",
+    "Protected path allowlisting becomes necessary."
+  ],
+  "prior_task_findings": "BPK-002 restored sandbox writes to the existing permit corridor. The next BPK step should stabilize the contract boundary before dispatch grows: WorkerPacket data may be adapted into WLP draft contracts, but dispatch/runtime behavior must remain unchanged.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "8aaf792"
+}

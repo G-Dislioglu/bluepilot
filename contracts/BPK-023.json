@@ -1,0 +1,109 @@
+{
+  "task_id": "BPK-023",
+  "task_name": "bluepilot-bpk-branch-pr-consolidation-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-023-026-decision-bundle",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "release_governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free Branch/PR consolidation decision layer that combines BPK branch sequencing and manually supplied PR review receipts without calling GitHub, opening PRs, merging, or changing workflows.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/bpkBranchMergeReleaseSequencing.ts",
+    "builder/src/bpkPrReviewExecution.ts",
+    "builder/src/bpkBranchPrConsolidation.ts",
+    "builder/tests/bpkBranchPrConsolidation.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BPK-023.json",
+    "contracts/BPK-024.json",
+    "contracts/BPK-025.json",
+    "contracts/BPK-026.json",
+    "builder/src/bpkBranchPrConsolidation.ts",
+    "builder/src/cockpitLiveModelSourceDecision.ts",
+    "builder/src/liveAicosCachePersistenceDecision.ts",
+    "builder/src/runtimeExecutionDecision.ts",
+    "builder/tests/bpkBranchPrConsolidation.test.ts",
+    "builder/tests/cockpitLiveModelSourceDecision.test.ts",
+    "builder/tests/liveAicosCachePersistenceDecision.test.ts",
+    "builder/tests/runtimeExecutionDecision.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-023.md",
+    "review-packets/BPK-024.md",
+    "review-packets/BPK-025.md",
+    "review-packets/BPK-026.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    ".github/**",
+    "builder/src/server.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/providers.ts",
+    "builder/src/db.ts",
+    "builder/scripts/**",
+    "builder/data/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not call GitHub, open PRs, merge branches, change workflows, change package files, or mutate git state beyond the local BPK commit.",
+    "Do not change BPK-011 or BPK-012 semantics."
+  ],
+  "claims": [
+    "Branch sequencing and PR review receipt checks can be composed without external GitHub calls.",
+    "Merge remains blocked until supplied PR receipts are green and approved.",
+    "PR creation planning remains distinct from merge execution."
+  ],
+  "assumptions": [
+    "PR receipts are supplied by an operator or later connector.",
+    "This block does not create or query PRs itself."
+  ],
+  "dod": [
+    "builder/src/bpkBranchPrConsolidation.ts exports planBpkBranchPrConsolidation.",
+    "The function supports PR-creation planning and merge readiness from supplied receipts.",
+    "Missing required PR receipts block merge readiness.",
+    "Focused tests cover ready PR creation, ready merge, missing receipts, and failing checks.",
+    "Review packet and anchors record the result.",
+    "Focused test, typecheck, task-lock verify, and diff-check pass."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "npx tsx --test tests/bpkBranchPrConsolidation.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-023 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "GitHub calls, PR creation, merges, workflow changes, package changes, or BPK-011/BPK-012 semantic changes become necessary."
+  ],
+  "prior_task_findings": "BPK-011 plans branch release order and BPK-012 evaluates manually supplied PR review receipts. BPK-023 may compose them without external side effects.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "9bbad06"
+}

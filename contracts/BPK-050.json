@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-050",
+  "task_name": "bluepilot-pr-receipt-loader-operator-runbook-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-047-050-mount-readiness-binding-runbook",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "release_governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a generated operator runbook contract for BPK-046 PR receipt loader usage, capturing allowed root policy, operator approval, evidence refs, guard checklist, and next actions without reading files, calling GitHub, creating PRs, merging, writing, changing workflows, packages, or deployment files.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/prReceiptFileLoaderImplementation.ts", "builder/src/prReceiptLoaderOperatorRunbook.ts", "builder/tests/prReceiptLoaderOperatorRunbook.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-047.json", "contracts/BPK-048.json", "contracts/BPK-049.json", "contracts/BPK-050.json",
+    "builder/src/cockpitHandlerMountReadiness.ts", "builder/src/memoryCacheFacadeStoreBinding.ts", "builder/src/runtimeHandlerMountReadiness.ts", "builder/src/prReceiptLoaderOperatorRunbook.ts",
+    "builder/tests/cockpitHandlerMountReadiness.test.ts", "builder/tests/memoryCacheFacadeStoreBinding.test.ts", "builder/tests/runtimeHandlerMountReadiness.test.ts", "builder/tests/prReceiptLoaderOperatorRunbook.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-047.md", "review-packets/BPK-048.md", "review-packets/BPK-049.md", "review-packets/BPK-050.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not read files, call GitHub, create PRs, merge, write files, change workflows, change package files, change deployment files, or mutate external state."],
+  "claims": ["Operator usage of the PR receipt loader can be described as a generated contract.", "Ready loader evidence plus operator/root/evidence refs are required.", "The runbook performs no file reads or external actions."],
+  "assumptions": ["The actual loader remains BPK-046; this block only governs operator procedure."],
+  "dod": ["builder/src/prReceiptLoaderOperatorRunbook.ts exports buildPrReceiptLoaderOperatorRunbook.", "Ready, missing approval, and blocked loader cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/prReceiptLoaderOperatorRunbook.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-050 --verify", "git diff --check"],
+  "stop_conditions": ["Filesystem reads, GitHub calls, PR creation, merge, writes, workflow changes, package changes, deployment changes, or external state mutation become necessary."],
+  "prior_task_findings": "BPK-046 implemented a bounded local JSON loader. BPK-050 may define operator procedure without loading files.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "cdcfa2e"
+}

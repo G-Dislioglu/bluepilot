@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-048",
+  "task_name": "bluepilot-memory-cache-facade-store-binding-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-047-050-mount-readiness-binding-runbook",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "external_read_boundary",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Bind the BPK-044 in-process memory cache store shell to the BPK-040 read facade under lifecycle guard checks, without durable storage, DB, filesystem cache, scheduler, routes, package, workflow, deployment, or external-call changes.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/liveAicosMemoryCacheStoreShell.ts", "builder/src/liveAicosMemoryCacheReadFacade.ts", "builder/src/liveAicosMemoryCacheLifecycleGuard.ts", "builder/src/memoryCacheFacadeStoreBinding.ts", "builder/tests/memoryCacheFacadeStoreBinding.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-047.json", "contracts/BPK-048.json", "contracts/BPK-049.json", "contracts/BPK-050.json",
+    "builder/src/cockpitHandlerMountReadiness.ts", "builder/src/memoryCacheFacadeStoreBinding.ts", "builder/src/runtimeHandlerMountReadiness.ts", "builder/src/prReceiptLoaderOperatorRunbook.ts",
+    "builder/tests/cockpitHandlerMountReadiness.test.ts", "builder/tests/memoryCacheFacadeStoreBinding.test.ts", "builder/tests/runtimeHandlerMountReadiness.test.ts", "builder/tests/prReceiptLoaderOperatorRunbook.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-047.md", "review-packets/BPK-048.md", "review-packets/BPK-049.md", "review-packets/BPK-050.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not add durable storage, DB writes, filesystem cache files, scheduler, routes, package changes, workflow changes, deployment files, or external calls."],
+  "claims": ["The in-process store shell can feed the read facade through existing lifecycle checks.", "Stale or missing entries block binding.", "Durable persistence remains closed."],
+  "assumptions": ["Process memory loss remains acceptable for this stage."],
+  "dod": ["builder/src/memoryCacheFacadeStoreBinding.ts exports bindMemoryCacheFacadeToStore.", "Ready, stale, and missing cacheRef cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/memoryCacheFacadeStoreBinding.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-048 --verify", "git diff --check"],
+  "stop_conditions": ["Durable storage, DB, filesystem cache, scheduler, route, package, workflow, deployment, or external-call changes become necessary."],
+  "prior_task_findings": "BPK-044 added an in-process memory store shell. BPK-040 added the read facade.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "cdcfa2e"
+}

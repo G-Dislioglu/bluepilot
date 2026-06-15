@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-061",
+  "task_name": "bluepilot-runtime-mount-patch-preflight-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-059-062-patch-preflight-audit-release-decision",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "runtime_boundary",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free patch preflight for the BPK-057 runtime mount implementation plan, validating planned files, route, env gate, reviewer, and execution-closed status without changing server, routes, packages, workflows, deployment, or calling runtime dependencies.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/runtimeMountImplementationPlan.ts", "builder/src/runtimeMountPatchPreflight.ts", "builder/tests/runtimeMountPatchPreflight.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-059.json", "contracts/BPK-060.json", "contracts/BPK-061.json", "contracts/BPK-062.json",
+    "builder/src/cockpitMountPatchPreflight.ts", "builder/src/memoryCacheInvalidationAuditTrail.ts", "builder/src/runtimeMountPatchPreflight.ts", "builder/src/prReceiptGovernanceReleaseDecision.ts",
+    "builder/tests/cockpitMountPatchPreflight.test.ts", "builder/tests/memoryCacheInvalidationAuditTrail.test.ts", "builder/tests/runtimeMountPatchPreflight.test.ts", "builder/tests/prReceiptGovernanceReleaseDecision.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-059.md", "review-packets/BPK-060.md", "review-packets/BPK-061.md", "review-packets/BPK-062.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not mount routes, call orchestrator, call providers, call DB, call GitHub, write files, deploy, change workflows, change packages, or enable execution."],
+  "claims": ["Runtime mount patch can be preflighted without changing files.", "Ready BPK-057 plan, planned files, route, env gate, reviewer ref, and execution-closed gate are required.", "Execution remains not executed."],
+  "assumptions": ["A later implementation task would need a new lock."],
+  "dod": ["builder/src/runtimeMountPatchPreflight.ts exports preflightRuntimeMountPatch.", "Ready, unplanned file, and execution-open cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/runtimeMountPatchPreflight.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-061 --verify", "git diff --check"],
+  "stop_conditions": ["Route mount, execution, orchestrator, provider, DB, GitHub, write, deployment, package, or workflow changes become necessary."],
+  "prior_task_findings": "BPK-057 planned runtime mount implementation without changing files.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "6bdb9f8"
+}

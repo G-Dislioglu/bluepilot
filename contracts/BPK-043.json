@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-043",
+  "task_name": "bluepilot-cockpit-route-source-handler-skeleton-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-043-046-handler-store-loader-implementations",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "operator_cockpit",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free cockpit route source handler skeleton that selects between sample and supplied live cockpit models only after ready BPK-039 prep, without mounting routes, changing server files, changing renderer files, or enabling actions.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/cockpitRouteSourceMountPrep.ts", "builder/src/cockpitRouteSourceHandlerSkeleton.ts", "builder/tests/cockpitRouteSourceHandlerSkeleton.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-043.json", "contracts/BPK-044.json", "contracts/BPK-045.json", "contracts/BPK-046.json",
+    "builder/src/cockpitRouteSourceHandlerSkeleton.ts", "builder/src/liveAicosMemoryCacheStoreShell.ts", "builder/src/runtimeExecutionRouteHandlerSkeleton.ts", "builder/src/prReceiptFileLoaderImplementation.ts",
+    "builder/tests/cockpitRouteSourceHandlerSkeleton.test.ts", "builder/tests/liveAicosMemoryCacheStoreShell.test.ts", "builder/tests/runtimeExecutionRouteHandlerSkeleton.test.ts", "builder/tests/prReceiptFileLoaderImplementation.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-043.md", "review-packets/BPK-044.md", "review-packets/BPK-045.md", "review-packets/BPK-046.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not mount routes, mutate server files, change renderer files, enable cockpit actions, call AICOS, call providers, call DB, call GitHub, change package files, workflows, or deployment files."],
+  "claims": ["A cockpit source handler can be prepared without route mutation.", "Ready BPK-039 prep is required.", "Returned cockpit actions remain disabled."],
+  "assumptions": ["A later server mount block will call the handler."],
+  "dod": ["builder/src/cockpitRouteSourceHandlerSkeleton.ts exports handleCockpitRouteSourceSelection.", "Ready sample/live selection and blocked prep cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/cockpitRouteSourceHandlerSkeleton.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-043 --verify", "git diff --check"],
+  "stop_conditions": ["Route mounting, renderer mutation, executable actions, external calls, DB, GitHub, package, workflow, or deployment changes become necessary."],
+  "prior_task_findings": "BPK-039 prepared cockpit route source mounting but did not implement a handler.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "c81f05b"
+}

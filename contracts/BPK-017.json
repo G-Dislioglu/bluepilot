@@ -1,0 +1,105 @@
+{
+  "task_id": "BPK-017",
+  "task_name": "bluepilot-runtime-dry-run-route-contract-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/runtime-dry-run-route-contract",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free runtime dry-run route contract that validates a future HTTP request shape and maps it to the BPK-013 dry-run adapter plan without registering a server route or calling the orchestrator. Do not change server.ts, add routes, execute runtime, call providers, write to DB/GitHub, change packages, deploy, or touch frontend files.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "contracts/BPK-013.json",
+    "review-packets/BPK-013.md",
+    "builder/src/runtimeDryRunAdapterContract.ts",
+    "builder/src/runtimeDryRunRouteContract.ts",
+    "builder/tests/runtimeDryRunRouteContract.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BPK-017.json",
+    "builder/src/runtimeDryRunRouteContract.ts",
+    "builder/tests/runtimeDryRunRouteContract.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-017.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/server.ts",
+    "builder/src/probeDryRun.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/runtimeDryRunAdapterContract.ts",
+    "builder/scripts/**",
+    "builder/data/**",
+    ".github/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not register a server route or call orchestrateTask.",
+    "Do not add provider, DB, GitHub, deploy, package, environment, workflow, or frontend changes.",
+    "Do not change BPK-013 behavior."
+  ],
+  "claims": [
+    "A future dry-run route request can be validated without adding a route.",
+    "Only POST-like requests with explicit confirmation may produce a dry-run route response.",
+    "Blocked BPK-013 plans return non-2xx route contracts.",
+    "The route contract is side-effect-free and tested independently."
+  ],
+  "assumptions": [
+    "Actual server route wiring belongs to a later block.",
+    "BPK-013 remains the source of dry-run invocation planning.",
+    "The confirmation phrase is a route-contract guard, not an authorization replacement."
+  ],
+  "dod": [
+    "builder/src/runtimeDryRunRouteContract.ts exports side-effect-free route contract types and handler function.",
+    "The handler validates method, confirm phrase, instruction, and BPK-013 plan status.",
+    "The handler returns deterministic HTTP-like status codes and bodies.",
+    "builder/tests/runtimeDryRunRouteContract.test.ts covers allow, wrong method, missing confirm, blocked plan, review plan, and no-mutation behavior.",
+    "STATE.md and docs/SESSION-LOG.md record BPK-017.",
+    "review-packets/BPK-017.md records scope, safety invariants, gates, and verification.",
+    "The focused route contract test and npm run typecheck in builder/ pass.",
+    "node tools/verify-task-lock.cjs BPK-017 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "npx tsx --test tests/runtimeDryRunRouteContract.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-017 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "A real route, orchestrator call, provider call, DB write, GitHub write, package change, deployment change, workflow change, or frontend file becomes necessary.",
+    "Changing BPK-013 behavior becomes necessary."
+  ],
+  "prior_task_findings": "BPK-013 created a dry-run adapter plan without runtime wiring. BPK-017 should define the future route contract without changing server routes.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "4c8f611"
+}

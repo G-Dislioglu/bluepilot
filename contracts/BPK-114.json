@@ -1,0 +1,31 @@
+{
+  "task_id": "BPK-114",
+  "task_name": "bluepilot-release-governance-approved-action-authority-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-111-114-permit-issue-authority",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "release_governance",
+  "goal": "Add a side-effect-free authority builder that records a release-governance approved-action artifact from ready action preflight while keeping action consume, merge, external actions, GitHub, packages, workflows, deployment, DB, providers, and writes closed.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/releaseGovernanceApprovedActionPreflight.ts", "builder/src/releaseGovernanceApprovedActionAuthority.ts", "builder/tests/releaseGovernanceApprovedActionAuthority.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-111.json", "contracts/BPK-112.json", "contracts/BPK-113.json", "contracts/BPK-114.json",
+    "builder/src/cockpitPatchPermitIssueAuthority.ts", "builder/src/memoryCacheAuditExportPermitIssueAuthority.ts", "builder/src/runtimePatchPermitIssueAuthority.ts", "builder/src/releaseGovernanceApprovedActionAuthority.ts",
+    "builder/tests/cockpitPatchPermitIssueAuthority.test.ts", "builder/tests/memoryCacheAuditExportPermitIssueAuthority.test.ts", "builder/tests/runtimePatchPermitIssueAuthority.test.ts", "builder/tests/releaseGovernanceApprovedActionAuthority.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-111.md", "review-packets/BPK-112.md", "review-packets/BPK-113.md", "review-packets/BPK-114.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not consume actions, merge, create PRs, call GitHub, perform external actions, call providers, call DB, change package files, workflows, deployment files, or write files."],
+  "claims": ["Ready release-governance approved-action preflight can produce a side-effect-free action authorization artifact.", "Action id, authorizer, and expiry refs are required.", "Action consume, merge, and external actions remain false."],
+  "assumptions": ["Actual action consumption, PR work, and merge require later task locks."],
+  "dod": ["builder/src/releaseGovernanceApprovedActionAuthority.ts exports authorizeReleaseGovernanceApprovedAction.", "Ready, missing action id, and blocked preflight cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/releaseGovernanceApprovedActionAuthority.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-114 --verify", "git diff --check"],
+  "stop_conditions": ["Action consumption, merge, PR creation, GitHub calls, external actions, DB, package, workflow, deployment, or write changes become necessary."],
+  "prior_task_findings": "BPK-110 preflighted release-governance approved action without authorizing consumption, merge, or external action.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "28e2e0b"
+}

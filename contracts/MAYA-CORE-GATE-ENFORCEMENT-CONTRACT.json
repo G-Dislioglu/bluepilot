@@ -1,0 +1,83 @@
+{
+  "task_id": "MAYA-CORE-GATE-ENFORCEMENT-CONTRACT",
+  "task_name": "bluepilot-maya-core-gate-enforcement-contract-only-v0.1",
+  "created": "2026-06-15",
+  "scope": "bluepilot/builder/integration/maya-core-gate-enforcement-contract",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "provider_write_runtime_boundary",
+  "goal": "Add a contract-only Bluepilot enforcement surface that requires Maya-Core gate evidence before provider calls, write actions, or runtime execution can be reviewed for activation.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/mayaBuilderGateClient.ts",
+    "builder/src/health.ts",
+    "builder/src/eightPointIntegrationReadiness.ts",
+    "builder/src/meta.ts",
+    "builder/src/server.ts"
+  ],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/MAYA-CORE-GATE-ENFORCEMENT-CONTRACT.json",
+    "review-packets/MAYA-CORE-GATE-ENFORCEMENT-CONTRACT.md",
+    "builder/src/mayaCoreGateEnforcementContract.ts",
+    "builder/src/mayaCoreGateEnforcementRoute.ts",
+    "builder/src/eightPointIntegrationReadiness.ts",
+    "builder/src/meta.ts",
+    "builder/src/server.ts",
+    "builder/tests/mayaCoreGateEnforcementContract.test.ts",
+    "builder/tests/mayaCoreGateEnforcementRoute.test.ts",
+    "builder/tests/eightPointIntegrationReadiness.test.ts",
+    "builder/tests/meta.test.ts",
+    "builder/tests/operatorDashboardHtml.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    ".github/**",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/providers.ts",
+    "builder/src/db.ts",
+    "soulmatch/**",
+    "goat-desktop/**",
+    "aicos-registry/**"
+  ],
+  "scope_out": [
+    "Do not call Maya-Core from the new preflight surface, call providers, execute runtime, write files, write DB, issue permits, merge, deploy, or change package/workflow files."
+  ],
+  "claims": [
+    "Bluepilot can describe the Maya-Core gate evidence required before provider, write, and runtime activation review.",
+    "Bluepilot can dry-validate submitted gate evidence without calling Maya-Core.",
+    "Missing or unreachable gate evidence blocks activation review and leaves all side effects false."
+  ],
+  "assumptions": [
+    "Actual live Maya-Core reachability remains owned by the existing /health/maya-gate probe.",
+    "Actual provider, write, and runtime activation require later explicit locks."
+  ],
+  "dod": [
+    "GET /probe/maya-core-gate-enforcement returns the contract-only enforcement boundary.",
+    "POST /probe/maya-core-gate-enforcement-preflight validates provider/write/runtime evidence without execution.",
+    "The eight-point readiness and operator dashboard mark Maya-Core Gate Enforcement as wired_contract_only.",
+    "Focused tests, typecheck, diff-check, and full builder tests pass."
+  ],
+  "evidence_required": ["test_result"],
+  "required_commands": [
+    "npx tsx --test tests/mayaCoreGateEnforcementContract.test.ts tests/mayaCoreGateEnforcementRoute.test.ts tests/eightPointIntegrationReadiness.test.ts tests/meta.test.ts tests/operatorDashboardHtml.test.ts",
+    "npm run typecheck",
+    "git diff --check",
+    "npm test"
+  ],
+  "stop_conditions": [
+    "A live Maya-Core call from the new preflight surface, provider call, runtime execution, DB write, file write, permit issue, merge, deploy, package change, or workflow change becomes necessary."
+  ],
+  "prior_task_findings": "The GOAT contract bundle made the first locked point wired_contract_only. Maya-Core Gate Enforcement remained represented only by /health/maya-gate and needed a dry activation evidence contract.",
+  "reuse_target": ["session_log", "review_packet", "next_integration_lock"],
+  "baseline_ref": "4286e5c"
+}

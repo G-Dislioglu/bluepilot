@@ -1,0 +1,104 @@
+{
+  "task_id": "BPK-013",
+  "task_name": "bluepilot-runtime-dry-run-adapter-contract-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/runtime-dry-run-adapter-contract",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free runtime dry-run adapter contract that converts a BPK-008 runtime integration contract into a guarded dry-run invocation plan. Do not add a server route, orchestrator call, provider call, database write, GitHub write, package change, deployment change, or frontend file.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "contracts/BPK-008.json",
+    "contracts/BPK-012.json",
+    "review-packets/BPK-012.md",
+    "builder/src/runtimeDispatchIntegrationContract.ts",
+    "builder/src/runtimeDryRunAdapterContract.ts",
+    "builder/tests/runtimeDryRunAdapterContract.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BPK-013.json",
+    "builder/src/runtimeDryRunAdapterContract.ts",
+    "builder/tests/runtimeDryRunAdapterContract.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-013.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/server.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/runtimeDispatchIntegrationContract.ts",
+    "builder/scripts/**",
+    "builder/data/**",
+    ".github/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not add executable runtime wiring, server routes, orchestrator calls, provider calls, DB writes, GitHub writes, frontend files, deployment notes, package scripts, dependencies, or environment variables.",
+    "Do not change BPK-008 semantics."
+  ],
+  "claims": [
+    "Dry-run invocation readiness can be derived from the runtime integration contract without executing runtime behavior.",
+    "A dry-run plan must keep write, deploy, provider, DB, and GitHub side effects disabled.",
+    "Blocked or review-required integration contracts cannot become dry-run runnable.",
+    "The adapter contract is side-effect-free and tested independently."
+  ],
+  "assumptions": [
+    "BPK-008 is committed and available as runtime integration contract source.",
+    "Actual route/orchestrator integration belongs to a later runtime block.",
+    "Dry-run input text is caller-supplied and not interpreted as permission to execute."
+  ],
+  "dod": [
+    "builder/src/runtimeDryRunAdapterContract.ts exports side-effect-free dry-run adapter types and planner.",
+    "The planner returns ready, review_required, or blocked with deterministic guards.",
+    "The planner sets dryRun true and all write/deploy/provider/DB/GitHub side effects false.",
+    "builder/tests/runtimeDryRunAdapterContract.test.ts covers ready plan, blocked integration, review integration, missing instruction, write mode blocked, and no-mutation behavior.",
+    "STATE.md and docs/SESSION-LOG.md record BPK-013.",
+    "review-packets/BPK-013.md records scope, safety invariants, gates, and verification.",
+    "The focused runtime dry-run adapter test and npm run typecheck in builder/ pass.",
+    "node tools/verify-task-lock.cjs BPK-013 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "npx tsx --test tests/runtimeDryRunAdapterContract.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-013 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "A server route, orchestrator call, provider call, DB write, GitHub write, deployment change, package change, or frontend file becomes necessary.",
+    "Changing BPK-008 behavior becomes necessary."
+  ],
+  "prior_task_findings": "BPK-008 classified runtime adoption readiness. BPK-013 should create a dry-run adapter contract without wiring it into runtime.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "f1b6de5"
+}

@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-081",
+  "task_name": "bluepilot-runtime-patch-operator-decision-gate-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-079-082-operator-final-decision-gates",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "runtime_boundary",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free operator decision gate for BPK-077 runtime patch dry-run evidence, accepting explicit approve/defer/reject decisions while keeping execution, patch application, server mutation, route mount, orchestrator, providers, DB, GitHub, writes, packages, workflows, and deployment out of scope.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/runtimePatchOperatorDryRunEvidence.ts", "builder/src/runtimePatchOperatorDecisionGate.ts", "builder/tests/runtimePatchOperatorDecisionGate.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-079.json", "contracts/BPK-080.json", "contracts/BPK-081.json", "contracts/BPK-082.json",
+    "builder/src/cockpitPatchOperatorDecisionGate.ts", "builder/src/memoryCacheAuditExportDecisionGate.ts", "builder/src/runtimePatchOperatorDecisionGate.ts", "builder/src/releaseGovernanceFinalDecisionGate.ts",
+    "builder/tests/cockpitPatchOperatorDecisionGate.test.ts", "builder/tests/memoryCacheAuditExportDecisionGate.test.ts", "builder/tests/runtimePatchOperatorDecisionGate.test.ts", "builder/tests/releaseGovernanceFinalDecisionGate.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-079.md", "review-packets/BPK-080.md", "review-packets/BPK-081.md", "review-packets/BPK-082.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not apply patches, mount routes, call orchestrator, call providers, call DB, call GitHub, write files, deploy, change workflows, change packages, or enable execution."],
+  "claims": ["Runtime dry-run evidence can be converted to an operator decision without applying the patch.", "Ready BPK-077 evidence and explicit decision refs are required.", "Execution and patch application remain false."],
+  "assumptions": ["Approved decision gates only authorize a later task lock, not execution in this task."],
+  "dod": ["builder/src/runtimePatchOperatorDecisionGate.ts exports evaluateRuntimePatchOperatorDecisionGate.", "Approved, missing decision ref, and rejected or blocked evidence cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/runtimePatchOperatorDecisionGate.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-081 --verify", "git diff --check"],
+  "stop_conditions": ["Route mount, execution, orchestrator, provider, DB, GitHub, write, deployment, package, or workflow changes become necessary."],
+  "prior_task_findings": "BPK-077 bundled runtime patch dry-run evidence without applying patches.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "8988921"
+}

@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-047",
+  "task_name": "bluepilot-cockpit-handler-mount-readiness-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-047-050-mount-readiness-binding-runbook",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "operator_cockpit",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free readiness assessor for mounting the BPK-043 cockpit route source handler behind the existing cockpit read-only boundary, requiring ready handler output, default-off env gate, route module reference, and disabled actions without changing server, route, renderer, runtime, or package files.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/cockpitRouteSourceHandlerSkeleton.ts", "builder/src/cockpitHandlerMountReadiness.ts", "builder/tests/cockpitHandlerMountReadiness.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-047.json", "contracts/BPK-048.json", "contracts/BPK-049.json", "contracts/BPK-050.json",
+    "builder/src/cockpitHandlerMountReadiness.ts", "builder/src/memoryCacheFacadeStoreBinding.ts", "builder/src/runtimeHandlerMountReadiness.ts", "builder/src/prReceiptLoaderOperatorRunbook.ts",
+    "builder/tests/cockpitHandlerMountReadiness.test.ts", "builder/tests/memoryCacheFacadeStoreBinding.test.ts", "builder/tests/runtimeHandlerMountReadiness.test.ts", "builder/tests/prReceiptLoaderOperatorRunbook.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-047.md", "review-packets/BPK-048.md", "review-packets/BPK-049.md", "review-packets/BPK-050.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not mount routes, mutate server files, change renderer files, enable cockpit actions, call AICOS, call providers, call DB, call GitHub, change package files, workflows, or deployment files."],
+  "claims": ["Cockpit handler mount readiness can be assessed without mounting.", "Ready handler output and env gate are required.", "Executable cockpit actions remain closed."],
+  "assumptions": ["A later server mount block may use this readiness result."],
+  "dod": ["builder/src/cockpitHandlerMountReadiness.ts exports assessCockpitHandlerMountReadiness.", "Ready, missing module ref, and executable-action blocker cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/cockpitHandlerMountReadiness.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-047 --verify", "git diff --check"],
+  "stop_conditions": ["Route mounting, renderer mutation, executable actions, external calls, DB, GitHub, package, workflow, or deployment changes become necessary."],
+  "prior_task_findings": "BPK-043 prepared the cockpit source handler skeleton without route mutation.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "cdcfa2e"
+}

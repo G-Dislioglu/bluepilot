@@ -1,0 +1,83 @@
+{
+  "task_id": "GOAT-DESKTOP-BRIDGE-CONTRACT",
+  "task_name": "bluepilot-goat-desktop-bridge-contract-only-v0.1",
+  "created": "2026-06-15",
+  "scope": "bluepilot/builder/integration/goat-desktop-bridge-contract",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "desktop_action_boundary",
+  "goal": "Add a contract-only Bluepilot surface for the GOAT Desktop local /builder-cue proposal boundary without calling GOAT, capturing screens, emitting popup proposals, or executing desktop actions.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/eightPointIntegrationReadiness.ts",
+    "builder/src/operatorDashboardRoute.ts",
+    "builder/src/meta.ts",
+    "builder/src/server.ts",
+    "C:/Users/guerc/Documents/Codex/2026-05-16/files-mentioned-by-the-user-files/goat-desktop/src/goat_desktop/bridge.py",
+    "C:/Users/guerc/Documents/Codex/2026-05-16/files-mentioned-by-the-user-files/goat-desktop/src/goat_desktop/broker.py"
+  ],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/GOAT-DESKTOP-BRIDGE-CONTRACT.json",
+    "review-packets/GOAT-DESKTOP-BRIDGE-CONTRACT.md",
+    "builder/src/goatDesktopBridgeContract.ts",
+    "builder/src/goatDesktopBridgeRoute.ts",
+    "builder/src/eightPointIntegrationReadiness.ts",
+    "builder/src/operatorDashboardHtml.ts",
+    "builder/src/meta.ts",
+    "builder/src/server.ts",
+    "builder/tests/goatDesktopBridgeContract.test.ts",
+    "builder/tests/goatDesktopBridgeRoute.test.ts",
+    "builder/tests/eightPointIntegrationReadiness.test.ts",
+    "builder/tests/meta.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    ".github/**",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/providers.ts",
+    "builder/src/db.ts",
+    "soulmatch/**",
+    "goat-desktop/**"
+  ],
+  "scope_out": [
+    "Do not call GOAT Desktop, capture screenshots, create popup proposals, move mouse, type keys, execute runtime, call providers, write durable state, merge, deploy, or create a GitHub PR from application code."
+  ],
+  "claims": [
+    "Bluepilot can describe the GOAT Desktop local /builder-cue proposal contract as read-only JSON.",
+    "Bluepilot can dry-validate builder-cue payload shape before any later local bridge call.",
+    "Vision-only geometry remains rejected and all desktop effects remain false."
+  ],
+  "assumptions": [
+    "Actual GOAT bridge calls require a later explicit activation lock and local operator review.",
+    "GOAT Desktop remains the authority for active-window verification and popup approval."
+  ],
+  "dod": [
+    "GET /probe/goat-desktop-bridge-contract returns the proposal-only contract.",
+    "POST /probe/goat-desktop-builder-cue-preflight validates local builder-cue payloads without calling GOAT.",
+    "The eight-point readiness and operator dashboard mark GOAT as wired_contract_only.",
+    "Focused tests, typecheck, diff-check, and full builder tests pass."
+  ],
+  "evidence_required": ["test_result"],
+  "required_commands": [
+    "npx tsx --test tests/goatDesktopBridgeContract.test.ts tests/goatDesktopBridgeRoute.test.ts tests/eightPointIntegrationReadiness.test.ts tests/meta.test.ts",
+    "npm run typecheck",
+    "git diff --check",
+    "npm test"
+  ],
+  "stop_conditions": [
+    "A live GOAT call, screen capture, desktop action, provider call, runtime execution, DB write, durable write, merge, deploy, package change, or workflow change becomes necessary."
+  ],
+  "prior_task_findings": "The eight-point integration surface represented GOAT Desktop as locked_ready_for_review; local GOAT docs and code show /builder-cue is proposal-only and requires source, action_type, label, and bbox.",
+  "reuse_target": ["session_log", "review_packet", "next_integration_lock"],
+  "baseline_ref": "11a61b0"
+}

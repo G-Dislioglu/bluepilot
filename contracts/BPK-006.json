@@ -1,0 +1,114 @@
+{
+  "task_id": "BPK-006",
+  "task_name": "CLI-Deduplizierung / Schema-Generierung",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-governance-manifest-generation",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a deterministic generator for the BPK governance manifest that deduplicates required CLI commands across BPK contracts and emits JSON-schema-like definitions for the new pre-dispatch governance artifacts. Also normalize the existing builder repo index artifact so the generator check is green again. Do not change runtime dispatch, server routes, package files, or live behavior.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "docs/CODEX-RICHTUNGSBRIEF-optimized.md",
+    "contracts/BPK-003.json",
+    "contracts/BPK-004.json",
+    "contracts/BPK-005.json",
+    "builder/scripts/generate-repo-index.mjs",
+    "builder/data/builder-repo-index.json",
+    "builder/scripts/generate-bpk-governance-manifest.mjs",
+    "builder/data/bpk-governance-manifest.json",
+    "builder/tests/bpkGovernanceManifest.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BPK-006.json",
+    "builder/scripts/generate-bpk-governance-manifest.mjs",
+    "builder/data/bpk-governance-manifest.json",
+    "builder/data/builder-repo-index.json",
+    "builder/tests/bpkGovernanceManifest.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-006.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/server.ts",
+    "builder/src/architectPhase1.ts",
+    "builder/src/cardConditionedDispatch.ts",
+    "builder/src/preRegisteredClaims.ts",
+    "builder/src/workerPacketWlpAdapter.ts",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not add package scripts or dependencies.",
+    "Do not change runtime dispatch, server routes, providers, GitHub writes, or frontend.",
+    "Do not change WLP verifier behavior.",
+    "Do not alter the semantics of the repo-index generator; only normalize its committed artifact if needed."
+  ],
+  "claims": [
+    "A deterministic governance manifest can deduplicate required_commands across BPK contracts.",
+    "The manifest includes schema definitions for WorkerPacket/WLP draft, card-conditioned dispatch, and pre-registered claims artifacts.",
+    "The manifest generator supports check mode and fails when the committed manifest is stale.",
+    "The existing builder repo index artifact is normalized so its existing check passes again."
+  ],
+  "assumptions": [
+    "BPK-003, BPK-004, and BPK-005 are committed and available as local contracts.",
+    "No package change is needed because the generator can be invoked directly with node.",
+    "Repo-index artifact normalization is a generated-artifact update, not a runtime behavior change."
+  ],
+  "dod": [
+    "builder/scripts/generate-bpk-governance-manifest.mjs creates and checks builder/data/bpk-governance-manifest.json deterministically.",
+    "The manifest deduplicates required_commands and lists which BPK tasks use each command.",
+    "The manifest contains schema definitions for the new governance artifacts.",
+    "builder/data/builder-repo-index.json is normalized so node scripts/generate-repo-index.mjs --check passes.",
+    "builder/tests/bpkGovernanceManifest.test.ts covers manifest shape and check mode.",
+    "STATE.md and docs/SESSION-LOG.md record BPK-006.",
+    "review-packets/BPK-006.md records scope, generator outputs, gates, and verification.",
+    "npx tsx --test tests/bpkGovernanceManifest.test.ts, node scripts/generate-bpk-governance-manifest.mjs --check, node scripts/generate-repo-index.mjs --check, npm run typecheck, node tools/verify-task-lock.cjs BPK-006 --verify, and git diff --check pass."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "npx tsx --test tests/bpkGovernanceManifest.test.ts",
+    "node scripts/generate-bpk-governance-manifest.mjs --check",
+    "node scripts/generate-repo-index.mjs --check",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-006 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "A package or dependency change becomes necessary.",
+    "A runtime dispatch, server route, provider, GitHub, database, maya-core, or frontend change becomes necessary.",
+    "Changing WLP verifier behavior becomes necessary."
+  ],
+  "prior_task_findings": "BPK-003 through BPK-005 introduced pure pre-dispatch governance artifacts. BPK-006 should make their CLI/check surface deduplicated and generated, and fix the existing generated repo-index artifact drift.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "d582794"
+}

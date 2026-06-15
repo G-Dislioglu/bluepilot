@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-045",
+  "task_name": "bluepilot-runtime-execution-route-handler-skeleton-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-043-046-handler-store-loader-implementations",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "runtime_boundary",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a runtime execution route handler skeleton that delegates to existing BPK-034/BPK-041 contracts, requires a ready mount contract, and still performs no execution, no route mount, no orchestrator call, no provider call, no DB, no GitHub, and no writes.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/runtimeExecutionRouteContract.ts", "builder/src/runtimeExecutionRouteMountContract.ts", "builder/src/runtimeExecutionRouteHandlerSkeleton.ts", "builder/tests/runtimeExecutionRouteHandlerSkeleton.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-043.json", "contracts/BPK-044.json", "contracts/BPK-045.json", "contracts/BPK-046.json",
+    "builder/src/cockpitRouteSourceHandlerSkeleton.ts", "builder/src/liveAicosMemoryCacheStoreShell.ts", "builder/src/runtimeExecutionRouteHandlerSkeleton.ts", "builder/src/prReceiptFileLoaderImplementation.ts",
+    "builder/tests/cockpitRouteSourceHandlerSkeleton.test.ts", "builder/tests/liveAicosMemoryCacheStoreShell.test.ts", "builder/tests/runtimeExecutionRouteHandlerSkeleton.test.ts", "builder/tests/prReceiptFileLoaderImplementation.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-043.md", "review-packets/BPK-044.md", "review-packets/BPK-045.md", "review-packets/BPK-046.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not mount routes, call orchestrator, call providers, call DB, call GitHub, write files, deploy, change workflows, change packages, or enable execution."],
+  "claims": ["A runtime execution handler skeleton can validate requests without execution.", "Ready BPK-041 mount contract is required.", "Execution remains false even on successful validation."],
+  "assumptions": ["A later block may mount this handler behind a default-off route."],
+  "dod": ["builder/src/runtimeExecutionRouteHandlerSkeleton.ts exports handleRuntimeExecutionRouteSkeleton.", "Ready, disabled env, and blocked mount contract cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/runtimeExecutionRouteHandlerSkeleton.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-045 --verify", "git diff --check"],
+  "stop_conditions": ["Route mount, execution, orchestrator, provider, DB, GitHub, write, deployment, package, or workflow changes become necessary."],
+  "prior_task_findings": "BPK-041 defined the runtime execution route mount contract without server mutation.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "c81f05b"
+}

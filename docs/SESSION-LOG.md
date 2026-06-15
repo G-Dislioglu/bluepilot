@@ -5,23 +5,1346 @@
 
 ---
 
-## 2026-06-14 - BP-150 Sandbox write retired
+## 2026-06-15 - Deploy-Readiness Stack Merge
 
-- Gebaut: `POST /probe/sandbox-write` ist jetzt ein reiner HTTP-410-Stub.
-  Der permitlose Content-Write-Koerper wurde aus `builder/src/sandboxWrite.ts`
-  entfernt, statt nur hinter einem fruehen Return zu schlafen.
-- Ergebnis: Die alte Env-Wache `BLUEPILOT_SANDBOX_PERMIT_WRITE_ENABLED` aktiviert
-  in `builder/src` keinen Sandbox-Content-Write mehr.
-- Sicherheitsentscheidung: Kein Live-GitHub-Write in diesem Block. BP-147 bleibt
-  der Live-Beweis fuer permit-gated Writes; BP-150 schliesst nur die spaeter
-  entstandene Seitentuer.
-- Korrektur am Claude-Paket: Claudes Richtung war richtig; Codex engte den Claim
-  auf den Bluepilot-Korridoraufruf statt direkten `consumeWritePermit` ein und
-  machte daraus einen Retire-Stub mit entferntem Write-Koerper.
-- Drift-Fund: `STATE.md` dokumentiert BP-149, aber im aktuellen Clone fehlen
-  `contracts/BP-149.json` und `review-packets/BP-149.md`.
-- Roter Faden weiter: Falls Maya wieder einen Sandbox-Probe-Write braucht, dann
-  als separater Policy-/One-Shot-Permit-Block ueber den bewiesenen SmartPush-Pfad.
+- Geprueft: `origin/main` enthaelt BP-150, waehrend der Integrationsstack auf
+  `bluepilot-operator-dashboard-visual-review` alle BPK-/Acht-Punkte-Commits enthaelt.
+- Merge-Entscheidung: Neuer Branch `bluepilot-deploy-readiness-stack` basiert auf
+  `origin/main`; der Integrationsstack wird dort hineingemerged.
+- Sicherheitsentscheidung: Bei Konflikten gewinnt BP-150 fuer `/probe/sandbox-write`.
+  Der aktive Handler bleibt HTTP 410; die aeltere BPK-002-Implementierung wird nicht wieder
+  als Schreibroute geoeffnet. `server.ts` kombiniert dagegen BP-150 `permitApply` mit den
+  read-only/contract-only Integrationsroutes.
+- Roter Faden weiter: Typecheck, Fokus-Tests, voller Builder-Testlauf und dann Push/PR fuer
+  den Deploy-Readiness-Branch. Ein echter Deploy ist erst nach Merge in `main` und Render-
+  Erreichbarkeit bestaetigt.
+
+## 2026-06-15 - Operator Dashboard Visual Review
+
+- Geprueft: `GET /cockpit/operator-read-only` mit lokalem Builder-Server und
+  `BLUEPILOT_OPERATOR_READ_ONLY_ROUTE_ENABLED=true`.
+- Ergebnis: Playwright-Snapshot und Layout-Messung bestaetigen acht Panels: BPK Ledger, Patrol
+  Coverage, Repo Mutation Kill Switch, AICOS Permission Review, GOAT Desktop Bridge, Maya-Core
+  Gate Enforcement, Provider/Runtime Flows und Merge/Release Readiness.
+- Visual Evidence: Desktop `1280x900` und Mobile `390x900` wurden als Screenshots unter
+  `builder/output/playwright/operator-dashboard-desktop-cli.png` und
+  `builder/output/playwright/operator-dashboard-mobile-cli.png` abgelegt. Beide Layouts haben
+  keine Panel-Ueberlappungen und keinen horizontalen Overflow.
+- Sicherheitsentscheidung: Keine Dashboard-Codeaenderung, kein Route-Mount, kein Provider-Call,
+  keine Runtime, kein DB-/GitHub-Write, kein PR, kein Merge und kein Deploy. Der einzige
+  Browser-Console-Hinweis ist ein nicht-blockierender `/favicon.ico` 404.
+- Roter Faden weiter: Fokus- und Vollchecks laufen lassen, dann diesen Review-Branch pushen und
+  die gestapelten Integrations-Branches bewusst als PR-Sequenz reviewen.
+
+## 2026-06-15 - Merge/Release Readiness Preflight
+
+- Gebaut: `GET /probe/merge-release-readiness-contract` und
+  `POST /probe/merge-release-readiness-preflight` als trockene PR-Sequenz- und
+  Merge/Release-Readiness-Surface.
+- Verhalten: Bluepilot nutzt die bestehende BPK-Branch-/PR-Konsolidierung, um Branch-Kandidaten
+  zu ordnen, gruene Checks, Vorgaenger, PR-Receipts, Commit-Matches und Reviews zu pruefen. Die
+  Surface kann Operator-Hinweise fuer PR-Oeffnung oder manuelle Merge-Reihenfolge geben.
+- Sicherheitsentscheidung: Die App erstellt keine PRs, ruft GitHub nicht auf, merged nicht,
+  deployt nicht und schreibt keine Receipts. `pullRequestCreationAllowed:false`,
+  `mergeExecutionAllowed:false` und `deployExecutionAllowed:false` bleiben auch bei ready.
+- Beweis: Fokus-Tests fuer Merge/Release-Readiness, Route, Eight-Point-Readiness und Meta sind
+  mit 13/13 gruen. `npm run typecheck`, `git diff --check` und der volle Builder-Testlauf mit
+  337/337 Tests sind gruen.
+- Roter Faden weiter: Als naechstes Operator-Dashboard visuell pruefen und dann entscheiden, ob
+  die gestapelten Integrations-Branches gemerged werden sollen.
+
+## 2026-06-15 - Provider/Runtime Activation Preflight
+
+- Gebaut: `GET /probe/provider-runtime-activation-contract` und
+  `POST /probe/provider-runtime-activation-preflight` als trockene Aktivierungs-Pruefung fuer
+  Provider-Calls und Runtime-Dry-Run.
+- Verhalten: Bluepilot kombiniert Maya-Core-Gate-Evidence mit Runtime-Decision-Evidence.
+  Provider-Aktivierung braucht Budget/Cost-Gate und Provider-Isolation. Runtime-Dry-Run braucht
+  Budget/Corridor-Gate, Operator-Approval, Provider-Isolation, Instruction und Runtime-Limit.
+- Sicherheitsentscheidung: Auch bei `ready_for_activation_review` bleiben
+  `providerActivationAllowed:false`, `runtimeActivationAllowed:false` und
+  `dryRunRouteMountAllowed:false`. Die neue Route ruft keine Provider, keine Runtime und kein
+  Maya-Core auf, schreibt nichts, stellt keine Permits aus, deployt nicht und mergt nicht.
+- Beweis: Fokus-Tests fuer Provider/Runtime-Preflight, Route, Eight-Point-Readiness, Meta und
+  Operator-Dashboard sind mit 15/15 gruen. `npm run typecheck`, `git diff --check` und der volle
+  Builder-Testlauf mit 329/329 Tests sind gruen.
+- Roter Faden weiter: Als naechstes Merge/Release-Readiness als PR-Sequenz vor echten Merges
+  oder Deploys bauen.
+
+## 2026-06-15 - Maya-Core Gate Enforcement Contract-only
+
+- Gebaut: `GET /probe/maya-core-gate-enforcement` und
+  `POST /probe/maya-core-gate-enforcement-preflight` als trockene Enforcement-Surface fuer
+  Provider-Calls, Write-Actions und Runtime-Execution.
+- Verhalten: Bluepilot beschreibt, welche Evidence vor Aktivierungsreview vorliegen muss:
+  Budget-Gate und Cost-Record fuer Provider, Corridor-Gate plus Operator-Approval und Permit fuer
+  Writes, Budget+Corridor plus Operator- und Provider-Isolation fuer Runtime. Fehlende oder
+  unerreichbare Evidence blockiert fail-closed.
+- Sicherheitsentscheidung: Die neue Preflight-Route ruft Maya-Core nicht auf. Live-Reachability
+  bleibt auf `/health/maya-gate` isoliert. Keine Provider-Calls, keine Runtime-Execution, keine
+  Datei-/DB-/GitHub-Writes, keine Permit-Ausstellung, kein Deploy und kein Merge.
+- Beweis: Fokus-Tests fuer Maya-Gate-Contract, Maya-Gate-Route, Eight-Point-Readiness, Meta und
+  Operator-Dashboard sind mit 15/15 gruen. `npm run typecheck`, `git diff --check` und der volle
+  Builder-Testlauf mit 321/321 Tests sind gruen.
+- Roter Faden weiter: Als naechstes Provider/Runtime Activation Preflight oder Merge/Release-
+  Readiness als PR-Sequenz bauen.
+
+## 2026-06-15 - GOAT Desktop Bridge Contract-only
+
+- Gebaut: `GET /probe/goat-desktop-bridge-contract` und
+  `POST /probe/goat-desktop-builder-cue-preflight` als Bluepilot-Surface fuer den lokalen
+  GOAT-Desktop-`/builder-cue`-Vorschlagskanal.
+- Verhalten: Bluepilot beschreibt den lokalen GOAT-Vertrag mit `http://127.0.0.1:8765`,
+  `/healthz`, `/builder-cue`, Pflichtfeldern `source`, `action_type`, `label`, `bbox` und
+  akzeptierten lokalen Quellen `uia`, `ocr`, `active_window`, `test_cue`. Payloads koennen trocken
+  vorgeprueft werden; `vision` wird als Quelle blockiert.
+- Sicherheitsentscheidung: Bluepilot ruft GOAT nicht auf, erzeugt kein Popup, liest keinen
+  Bildschirm, bewegt keine Maus, tippt nicht, ruft keinen Provider, startet keine Runtime,
+  schreibt nichts dauerhaft, deployt nicht und mergt nicht.
+- Beweis: Fokus-Tests fuer GOAT-Contract, GOAT-Route, Eight-Point-Readiness und Meta sind mit
+  12/12 gruen. `npm run typecheck`, `git diff --check` und der volle Builder-Testlauf mit
+  313/313 Tests sind gruen.
+- Roter Faden weiter: Als naechstes Maya-Core Gate Enforcement als Pflicht-Gate fuer spaetere
+  Provider-/Write-/Runtime-Aktivierung bauen.
+
+## 2026-06-15 - Acht-Punkte-Verdrahtung / Operator Dashboard und Activation Locks
+
+- Gebaut: `GET /probe/eight-point-integration-readiness` und default-off
+  `GET /cockpit/operator-read-only` fuer alle acht offenen Verdrahtungspunkte.
+- Verhalten: Bluepilot zeigt Operator-Ledger-UI, Soulmatch Builder/Patrol UI,
+  Repo-Mutation-Kill-Switch, AICOS Permission Review, GOAT Desktop Bridge, Maya-Core Gate
+  Enforcement, Provider/Runtime-Flows und Merge/Release-Readiness zusammen in einem
+  Readiness-Modell und HTML-Dashboard.
+- Sicherheitsentscheidung: Das Dashboard ist read-only und per
+  `BLUEPILOT_OPERATOR_READ_ONLY_ROUTE_ENABLED=true` gated. GOAT, Maya-Gates, Provider/Runtime
+  und Merge/Release werden als locked/activation-required sichtbar, aber nicht ausgefuehrt.
+  Keine Desktop-Aktion, kein Provider-Call, keine Runtime-Execution, kein GitHub-Write, kein
+  Deploy und kein Merge.
+- Beweis: Fokus-Tests fuer Eight-Point-Readiness, Operator-Dashboard-HTML, Operator-Route und
+  Meta sowie `npm run typecheck` sind gruen.
+- Roter Faden weiter: Als naechstes das Operator-Dashboard visuell pruefen und danach GOAT
+  Desktop Bridge contract-only sowie Maya-Core Gate Enforcement als Pflicht-Gate vorbereiten.
+
+## 2026-06-15 - Readonly-Integrationsbuendel 2 / Ledger, Patrol, Kill Switch, AICOS
+
+- Gebaut: vier read-only Runtime-Surfaces fuer die priorisierten Repo-Scan-Kandidaten:
+  `GET /probe/bpk-execution-ledger`, `GET /probe/patrol-visual-coverage`,
+  `GET /probe/repo-mutation-kill-switch` und `GET /probe/aicos-permission-map`.
+- Verhalten: Bluepilot macht BPK-Ledger-Lanes, Soulmatch Patrol/Visual-Coverage-Fokus, locked
+  Repo-Mutation-Kill-Switch-Status und AICOS-Permission-Hints operator-lesbar. Die bestehende
+  Capability-Audit-Surface markiert diese Kandidaten nun als `wired_read_only`.
+- Sicherheitsentscheidung: Nur read-only JSON. Keine Screenshots, keine Repair-Task-Erzeugung,
+  kein Kill-Switch-Toggle, keine Registry-Schreibaktion, keine Runtime-Execution, keine
+  Durable Persistence, kein GitHub-Write, kein Provider-Call, kein Deploy und kein Merge.
+- Beweis: Fokus-Tests fuer die neuen Surfaces, Meta und Capability-Audit sowie `npm run
+  typecheck` sind gruen.
+- Roter Faden weiter: Als naechstes eine Operator-Ledger-UI oder Cockpit-Ansicht bauen, die
+  diese read-only Surfaces nutzbar macht, ohne Ausfuehrung oder Writes zu aktivieren.
+
+## 2026-06-15 - Repo-Scan / erster Bluepilot-Verdrahtungsschnitt
+
+- Gebaut: read-only Bluepilot-Meta- und Capability-Audit-Surface nach Scan von Soulmatch,
+  aicos-registry, Big-Bro, goat-desktop und maya-the-living-ai.
+- Verhalten: `GET /api/meta` und `GET /meta` melden Bluepilot-Service, BPK-Abschluss,
+  Git-Metadaten aus Env und sichere Surfaces. `GET /probe/repo-capability-audit` priorisiert
+  Soulmatch-Builder/Patrol/Visual-Review, AICOS-Permission-Mapping, Big-Bro-Review-Provider,
+  GOAT-Desktop-Bridge und Maya-UI-Patterns als Integrationskandidaten.
+- Sicherheitsentscheidung: Nur read-only JSON. Kein Merge, kein Deploy, kein Provider-Call, keine
+  Runtime-Execution, keine DB-Persistenz, kein Datei-Write, kein GitHub-Write und keine
+  Desktop-Aktion.
+- Beweis: Fokus-Tests fuer Meta und Capability-Audit sowie `npm run typecheck` sind gruen.
+- Roter Faden weiter: Bluepilot BPK Execution Ledger Readonly, Soulmatch Patrol/Visual-Coverage,
+  Repo-Mutation-Kill-Switch und AICOS-Permission-Map kontrolliert als read-only Surfaces anbinden.
+
+## 2026-06-15 - BPK-223 bis BPK-226 Permit / Approved Action Consume Execution Receipt Record Audit Receipt Record Audit Receipt Record Authority
+
+- Gebaut: vier side-effect-freie Consume-Execution-Receipt-Record-Audit-Receipt-Record-Audit-
+  Receipt-Record-Authority-Schichten fuer Cockpit, Memory, Runtime und Release.
+- Verhalten: Ready-Audit-Receipt-Record-Audit-Receipt-Record-Preflight-Artefakte werden
+  in-memory autorisiert. Es wird kein Receipt geschrieben, kein Audit persistiert, kein Permit
+  konsumiert, keine Action konsumiert, kein Patch angewendet, kein Export geschrieben, keine
+  Runtime ausgefuehrt und kein Merge oder externe Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Audit-Receipt-Record-Audit-Receipt-Record-Authority-Tests,
+  Typecheck, Task-Lock-Verify, Diff-Check und voller Builder-Testlauf sind gruen.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Audit-Receipt-Record-Audit-Receipt-Record-
+  Artefakte erzeugen, weiterhin ohne durable Receipt- oder Audit-Persistenz, Runtime-Execution,
+  Merge oder externe Aktion.
+
+## 2026-06-15 - BPK-219 bis BPK-222 Permit / Approved Action Consume Execution Receipt Record Audit Receipt Record Audit Receipt Record Preflight
+
+- Gebaut: vier side-effect-freie Consume-Execution-Receipt-Record-Audit-Receipt-Record-Audit-
+  Receipt-Record-Preflight-Schichten fuer Cockpit, Memory, Runtime und Release.
+- Verhalten: In-memory Audit-Receipt-Record-Audit-Receipt-Artefakte werden fuer spaetere
+  Audit-Receipt-Record-Audit-Receipt-Record-Authority vorgeprueft. Es wird kein Receipt
+  geschrieben, kein Audit persistiert, kein Permit konsumiert, keine Action konsumiert, kein
+  Patch angewendet, kein Export geschrieben, keine Runtime ausgefuehrt und kein Merge oder
+  externe Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Audit-Receipt-Record-Audit-Receipt-Record-Preflight-Tests,
+  Typecheck, Task-Lock-Verify, Diff-Check und voller Builder-Testlauf sind gruen.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Audit-Receipt-Record-Audit-Receipt-Record-
+  Authority-Artefakte erzeugen, weiterhin ohne durable Receipt- oder Audit-Persistenz,
+  Runtime-Execution, Merge oder externe Aktion.
+
+## 2026-06-15 - BPK-215 bis BPK-218 Permit / Approved Action Consume Execution Receipt Record Audit Receipt Record Audit Receipt
+
+- Gebaut: vier side-effect-freie Consume-Execution-Receipt-Record-Audit-Receipt-Record-Audit-
+  Receipt-Schichten fuer Cockpit, Memory, Runtime und Release.
+- Verhalten: Ready-Audit-Receipt-Record-Audit-Receipt-Authority-Artefakte erzeugen in-memory
+  Audit-Receipt-Record-Audit-Receipt-Artefakte. Es wird kein Receipt geschrieben, kein Audit
+  persistiert, kein Permit konsumiert, keine Action konsumiert, kein Patch angewendet, kein
+  Export geschrieben, keine Runtime ausgefuehrt und kein Merge oder externe Release-Aktion
+  ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Audit-Receipt-Record-Audit-Receipt-Tests, Typecheck,
+  Task-Lock-Verify, Diff-Check und voller Builder-Testlauf sind gruen.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Audit-Receipt-Record-Audit-Receipt-Record-
+  Preflights vorbereiten, weiterhin ohne durable Receipt- oder Audit-Persistenz,
+  Runtime-Execution, Merge oder externe Aktion.
+
+## 2026-06-15 - BPK-211 bis BPK-214 Permit / Approved Action Consume Execution Receipt Record Audit Receipt Record Audit Receipt Authority
+
+- Gebaut: vier side-effect-freie Consume-Execution-Receipt-Record-Audit-Receipt-Record-Audit-
+  Receipt-Authority-Schichten fuer Cockpit, Memory, Runtime und Release.
+- Verhalten: Ready-Audit-Receipt-Record-Audit-Receipt-Preflight-Artefakte werden in-memory
+  autorisiert. Es wird kein Receipt geschrieben, kein Audit persistiert, kein Permit konsumiert,
+  keine Action konsumiert, kein Patch angewendet, kein Export geschrieben, keine Runtime
+  ausgefuehrt und kein Merge oder externe Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Audit-Receipt-Record-Audit-Receipt-Authority-Tests, Typecheck,
+  Task-Lock-Verify, Diff-Check und voller Builder-Testlauf sind gruen.
+- Roter Faden weiter: Naechste Hauptbloecke koennen in-memory Audit-Receipt-Record-Audit-
+  Receipt-Artefakte erzeugen, weiterhin ohne durable Receipt- oder Audit-Persistenz,
+  Runtime-Execution, Merge oder externe Aktion.
+
+## 2026-06-15 - BPK-207 bis BPK-210 Permit / Approved Action Consume Execution Receipt Record Audit Receipt Record Audit Receipt Preflight
+
+- Gebaut: vier side-effect-freie Consume-Execution-Receipt-Record-Audit-Receipt-Record-Audit-
+  Receipt-Preflight-Schichten fuer Cockpit, Memory, Runtime und Release.
+- Verhalten: In-memory Audit-Receipt-Record-Audit-Artefakte werden fuer spaetere
+  Audit-Receipt-Record-Audit-Receipt-Authority vorgeprueft. Es wird kein Receipt geschrieben,
+  kein Audit dauerhaft geschrieben, kein Permit konsumiert, keine Action konsumiert, kein Patch
+  angewendet, kein Export geschrieben, keine Runtime ausgefuehrt und kein Merge oder externe
+  Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Audit-Receipt-Record-Audit-Receipt-Preflight-Tests, Typecheck,
+  Task-Lock-Verify, Diff-Check und voller Builder-Testlauf sind gruen.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Audit-Receipt-Record-Audit-Receipt-
+  Authority-Artefakte erzeugen, weiterhin ohne durable Receipt- oder Audit-Persistenz,
+  Runtime-Execution, Merge oder externe Aktion.
+
+## 2026-06-15 - BPK-203 bis BPK-206 Permit / Approved Action Consume Execution Receipt Record Audit Receipt Record Audit
+
+- Gebaut: vier side-effect-freie Consume-Execution-Receipt-Record-Audit-Receipt-Record-Audit-
+  Schichten fuer Cockpit, Memory, Runtime und Release.
+- Verhalten: Ready-Audit-Receipt-Record-Audit-Authority-Artefakte erzeugen in-memory
+  Audit-Receipt-Record-Audit-Artefakte. Es wird kein Audit dauerhaft geschrieben, kein
+  Audit-Receipt-Record persistiert, kein Permit konsumiert, keine Action konsumiert, kein Patch
+  angewendet, kein Export geschrieben, keine Runtime ausgefuehrt und kein Merge oder externe
+  Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Audit-Receipt-Record-Audit-Tests, Typecheck, Task-Lock-Verify,
+  Diff-Check und voller Builder-Testlauf sind gruen.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Audit-Receipt-Record-Audit-Receipt-
+  Preflights erzeugen, weiterhin ohne durable Audit-Persistenz, Runtime-Execution, Merge oder
+  externe Aktion.
+
+## 2026-06-15 - BPK-199 bis BPK-202 Permit / Approved Action Consume Execution Receipt Record Audit Receipt Record Audit Authority
+
+- Gebaut: vier side-effect-freie Consume-Execution-Receipt-Record-Audit-Receipt-Record-Audit-
+  Authority-Schichten fuer Cockpit, Memory, Runtime und Release.
+- Verhalten: Ready-Audit-Receipt-Record-Audit-Preflight-Artefakte werden in-memory
+  autorisiert. Es wird kein Audit dauerhaft geschrieben, kein Audit-Receipt-Record persistiert,
+  kein Permit konsumiert, keine Action konsumiert, kein Patch angewendet, kein Export
+  geschrieben, keine Runtime ausgefuehrt und kein Merge oder externe Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Audit-Receipt-Record-Audit-Authority-Tests, Typecheck,
+  Task-Lock-Verify, Diff-Check und voller Builder-Testlauf sind gruen.
+- Roter Faden weiter: Naechste Hauptbloecke koennen in-memory Audit-Receipt-Record-Audit-
+  Artefakte erzeugen, weiterhin ohne durable Audit-Persistenz, Runtime-Execution, Merge oder
+  externe Aktion.
+
+## 2026-06-15 - BPK-195 bis BPK-198 Permit / Approved Action Consume Execution Receipt Record Audit Receipt Record Audit Preflight
+
+- Gebaut: vier side-effect-freie Consume-Execution-Receipt-Record-Audit-Receipt-Record-Audit-
+  Preflight-Schichten fuer Cockpit, Memory, Runtime und Release.
+- Verhalten: In-memory Audit-Receipt-Record-Artefakte werden fuer spaetere
+  Audit-Receipt-Record-Audit-Authority vorgeprueft. Es wird kein Audit dauerhaft geschrieben,
+  kein Audit-Receipt-Record persistiert, kein Permit konsumiert, keine Action konsumiert, kein
+  Patch angewendet, kein Export geschrieben, keine Runtime ausgefuehrt und kein Merge oder
+  externe Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Audit-Receipt-Record-Audit-Preflight-Tests, Typecheck,
+  Task-Lock-Verify, Diff-Check und voller Builder-Testlauf sind gruen.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Audit-Receipt-Record-Audit-Authority-
+  Artefakte erzeugen, weiterhin ohne durable Audit-Persistenz, Runtime-Execution, Merge oder
+  externe Aktion.
+
+## 2026-06-15 - BPK-191 bis BPK-194 Permit / Approved Action Consume Execution Receipt Record Audit Receipt Record
+
+- Gebaut: vier side-effect-freie Consume-Execution-Receipt-Record-Audit-Receipt-Record-
+  Schichten fuer Cockpit, Memory, Runtime und Release.
+- Verhalten: Ready-Audit-Receipt-Record-Authority-Artefakte erzeugen in-memory
+  Audit-Receipt-Record-Artefakte. Es wird kein Audit-Receipt-Record dauerhaft geschrieben, kein
+  Audit dauerhaft persistiert, kein Permit konsumiert, keine Action konsumiert, kein Patch
+  angewendet, kein Export geschrieben, keine Runtime ausgefuehrt und kein Merge oder externe
+  Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Audit-Receipt-Record-Tests, Typecheck, Task-Lock-Verify, Diff-Check
+  und voller Builder-Testlauf sind gruen.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Audit-Receipt-Record-Audit-Preflights
+  erzeugen, weiterhin ohne durable Record-Persistenz, Runtime-Execution, Merge oder externe
+  Aktion.
+
+## 2026-06-15 - BPK-187 bis BPK-190 Permit / Approved Action Consume Execution Receipt Record Audit Receipt Record Authority
+
+- Gebaut: vier side-effect-freie Consume-Execution-Receipt-Record-Audit-Receipt-Record-
+  Authority-Schichten fuer Cockpit, Memory, Runtime und Release.
+- Verhalten: Ready-Audit-Receipt-Record-Preflight-Artefakte werden autorisiert. Es wird kein
+  Audit-Receipt-Record geschrieben, kein Audit dauerhaft persistiert, kein Permit konsumiert,
+  keine Action konsumiert, kein Patch angewendet, kein Export geschrieben, keine Runtime
+  ausgefuehrt und kein Merge oder externe Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Audit-Receipt-Record-Authority-Tests, Typecheck, Task-Lock-Verify,
+  Diff-Check und voller Builder-Testlauf sind gruen.
+- Roter Faden weiter: Naechste Hauptbloecke koennen in-memory Audit-Receipt-Record-Artefakte
+  erzeugen, weiterhin ohne durable Record-Persistenz, Runtime-Execution, Merge oder externe
+  Aktion.
+
+## 2026-06-15 - BPK-183 bis BPK-186 Permit / Approved Action Consume Execution Receipt Record Audit Receipt Record Preflight
+
+- Gebaut: vier side-effect-freie Consume-Execution-Receipt-Record-Audit-Receipt-Record-
+  Preflight-Schichten fuer Cockpit, Memory, Runtime und Release.
+- Verhalten: In-memory Audit-Receipt-Artefakte werden fuer spaetere Audit-Receipt-Record-
+  Authority vorgeprueft. Es wird kein Audit-Receipt-Record geschrieben, kein Audit dauerhaft
+  persistiert, kein Permit konsumiert, keine Action konsumiert, kein Patch angewendet, kein
+  Export geschrieben, keine Runtime ausgefuehrt und kein Merge oder externe Release-Aktion
+  ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Audit-Receipt-Record-Preflight-Tests, Typecheck, Task-Lock-Verify,
+  Diff-Check und voller Builder-Testlauf sind gruen.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Audit-Receipt-Record-Authority-Artefakte
+  erzeugen, weiterhin ohne durable Record-Persistenz, Runtime-Execution, Merge oder externe
+  Aktion.
+
+## 2026-06-15 - BPK-179 bis BPK-182 Permit / Approved Action Consume Execution Receipt Record Audit Receipt
+
+- Gebaut: vier side-effect-freie Consume-Execution-Receipt-Record-Audit-Receipt-Schichten
+  fuer Cockpit, Memory, Runtime und Release.
+- Verhalten: Ready-Audit-Receipt-Authority-Artefakte erzeugen in-memory Audit-Receipt-
+  Artefakte. Es wird kein Audit-Receipt dauerhaft geschrieben, kein Audit dauerhaft persistiert,
+  kein Permit konsumiert, keine Action konsumiert, kein Patch angewendet, kein Export
+  geschrieben, keine Runtime ausgefuehrt und kein Merge oder externe Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Audit-Receipt-Tests, Typecheck, Task-Lock-Verify, Diff-Check und
+  voller Builder-Testlauf sind gruen.
+- Roter Faden weiter: Der aktuell dokumentierte BPK-Pfad bis BPK-182 ist abgeschlossen; naechste
+  Arbeit ist Review/Merge der offenen BPK-Branches oder eine neue explizite Task-Lock-Serie.
+
+## 2026-06-15 - BPK-171 bis BPK-178 Permit / Approved Action Consume Execution Receipt Record Audit Receipt Preflight + Authority
+
+- Gebaut: acht side-effect-freie Consume-Execution-Receipt-Record-Audit-Receipt-Schichten:
+  vier Preflights und vier Authority-Builder fuer Cockpit, Memory, Runtime und Release.
+- Verhalten: In-memory Audit-Artefakte werden fuer spaetere Audit-Receipt-Erfassung
+  vorgeprueft und autorisiert. Es wird kein Audit-Receipt geschrieben, kein Audit dauerhaft
+  persistiert, kein Permit konsumiert, keine Action konsumiert, kein Patch angewendet, kein Export
+  geschrieben, keine Runtime ausgefuehrt und kein Merge oder externe Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: acht fokussierte Audit-Receipt-Preflight/Authority-Tests, Typecheck,
+  Task-Lock-Verify, Diff-Check und voller Builder-Testlauf sind gruen.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Audit-Receipt-Artefakte erzeugen,
+  weiterhin ohne durable Receipt-Persistenz, Runtime-Execution, Merge oder externe Aktion.
+
+## 2026-06-15 - BPK-167 bis BPK-170 Permit / Approved Action Consume Execution Receipt Record Audit
+
+- Gebaut: vier side-effect-freie Consume-Execution-Receipt-Record-Audit-Schichten:
+  `cockpitPatchPermitConsumeExecutionReceiptRecordAudit`,
+  `memoryCacheAuditExportPermitConsumeExecutionReceiptRecordAudit`,
+  `runtimePatchPermitConsumeExecutionReceiptRecordAudit` und
+  `releaseGovernanceApprovedActionConsumeExecutionReceiptRecordAudit`.
+- Verhalten: Ready-Consume-Execution-Receipt-Record-Audit-Authority-Artefakte erzeugen
+  in-memory Audit-Artefakte. Es wird kein Audit dauerhaft geschrieben, kein Receipt dauerhaft
+  persistiert, kein Permit konsumiert, keine Action konsumiert, kein Patch angewendet, kein Export
+  geschrieben, keine Runtime ausgefuehrt und kein Merge oder externe Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Receipt-Record-Audit-Tests, Typecheck,
+  Task-Lock-Verify, Diff-Check und voller Builder-Testlauf sind gruen.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Audit-Receipt-Preflight vorbereiten,
+  weiterhin ohne durable Receipt-Persistenz, Runtime-Execution, Merge oder externe Aktion.
+
+## 2026-06-15 - BPK-163 bis BPK-166 Permit / Approved Action Consume Execution Receipt Record Audit Authority
+
+- Gebaut: vier side-effect-freie Consume-Execution-Receipt-Record-Audit-Authority-Schichten:
+  `cockpitPatchPermitConsumeExecutionReceiptRecordAuditAuthority`,
+  `memoryCacheAuditExportPermitConsumeExecutionReceiptRecordAuditAuthority`,
+  `runtimePatchPermitConsumeExecutionReceiptRecordAuditAuthority` und
+  `releaseGovernanceApprovedActionConsumeExecutionReceiptRecordAuditAuthority`.
+- Verhalten: Ready-Consume-Execution-Receipt-Record-Audit-Preflight-Artefakte erzeugen
+  side-effect-freie Audit-Authorization-Artefakte. Es wird kein Audit geschrieben, kein Receipt
+  dauerhaft persistiert, kein Permit konsumiert, keine Action konsumiert, kein Patch angewendet,
+  kein Export geschrieben, keine Runtime ausgefuehrt und kein Merge oder externe Release-Aktion
+  ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Receipt-Record-Audit-Authority-Tests, Typecheck,
+  Task-Lock-Verify, Diff-Check und voller Builder-Testlauf sind gruen.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Receipt-Record-Audit-Artefakte erzeugen,
+  weiterhin ohne durable Receipt-Persistenz, Runtime-Execution, Merge oder externe Aktion.
+
+## 2026-06-15 - BPK-159 bis BPK-162 Permit / Approved Action Consume Execution Receipt Record Audit Preflight
+
+- Gebaut: vier side-effect-freie Consume-Execution-Receipt-Record-Audit-Preflight-Schichten:
+  `cockpitPatchPermitConsumeExecutionReceiptRecordAuditPreflight`,
+  `memoryCacheAuditExportPermitConsumeExecutionReceiptRecordAuditPreflight`,
+  `runtimePatchPermitConsumeExecutionReceiptRecordAuditPreflight` und
+  `releaseGovernanceApprovedActionConsumeExecutionReceiptRecordAuditPreflight`.
+- Verhalten: Recorded-Consume-Execution-Receipt-Record-Artefakte werden fuer spaetere Audit-
+  Authorization vorgeprueft. Es wird kein Audit geschrieben, kein Receipt dauerhaft persistiert,
+  kein Permit konsumiert, keine Action konsumiert, kein Patch angewendet, kein Export geschrieben,
+  keine Runtime ausgefuehrt und kein Merge oder externe Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Receipt-Record-Audit-Preflight-Tests, Typecheck,
+  Task-Lock-Verify, Diff-Check und voller Builder-Testlauf sind gruen.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Receipt-Record-Audit-Authority vorbereiten,
+  weiterhin ohne Audit-Write, durable Receipt-Persistenz, Runtime-Execution, Merge oder externe
+  Aktion.
+
+## 2026-06-15 - BPK-155 bis BPK-158 Permit / Approved Action Consume Execution Receipt Record
+
+- Gebaut: vier side-effect-freie Consume-Execution-Receipt-Record-Schichten:
+  `cockpitPatchPermitConsumeExecutionReceiptRecord`,
+  `memoryCacheAuditExportPermitConsumeExecutionReceiptRecord`,
+  `runtimePatchPermitConsumeExecutionReceiptRecord` und
+  `releaseGovernanceApprovedActionConsumeExecutionReceiptRecord`.
+- Verhalten: Ready-Consume-Execution-Receipt-Record-Authority-Artefakte erzeugen in-memory
+  Receipt-Record-Artefakte. `executionReceiptRecorded` wird nur im zurueckgegebenen Artefakt
+  gesetzt; es gibt keinen dauerhaften Receipt-Write, keinen Datei-Write, keine DB und keine
+  externe Aktion.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Receipt-Record-Tests, Typecheck, Task-Lock-Verify, Diff-Check
+  und voller Builder-Testlauf sind gruen.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Receipt-Record-Audit-Preflight vorbereiten,
+  weiterhin ohne durable Receipt-Persistenz, Runtime-Execution, Merge oder externe Aktion.
+
+## 2026-06-15 - BPK-151 bis BPK-154 Permit / Approved Action Consume Execution Receipt Record Authority
+
+- Gebaut: vier side-effect-freie Consume-Execution-Receipt-Record-Authority-Schichten:
+  `cockpitPatchPermitConsumeExecutionReceiptRecordAuthority`,
+  `memoryCacheAuditExportPermitConsumeExecutionReceiptRecordAuthority`,
+  `runtimePatchPermitConsumeExecutionReceiptRecordAuthority` und
+  `releaseGovernanceApprovedActionConsumeExecutionReceiptRecordAuthority`.
+- Verhalten: Ready-Consume-Execution-Receipt-Record-Preflights erzeugen side-effect-freie
+  Receipt-Record-Authorization-Artefakte. Es wird kein Permit konsumiert, keine Action konsumiert,
+  kein Receipt geschrieben, kein Patch angewendet, kein Export geschrieben, keine Runtime
+  ausgefuehrt und kein Merge oder externe Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Receipt-Record-Authority-Tests, Typecheck, Task-Lock-Verify,
+  Diff-Check und voller Builder-Testlauf sind gruen.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Consume-Execution-Receipt-Record selbst
+  vorbereiten. Das waere der erste Receipt-Write-nahe Schritt und braucht einen eigenen engen Lock.
+
+## 2026-06-15 - BPK-147 bis BPK-150 Permit / Approved Action Consume Execution Receipt Record Preflight
+
+- Gebaut: vier side-effect-freie Consume-Execution-Receipt-Record-Preflight-Schichten:
+  `cockpitPatchPermitConsumeExecutionReceiptRecordPreflight`,
+  `memoryCacheAuditExportPermitConsumeExecutionReceiptRecordPreflight`,
+  `runtimePatchPermitConsumeExecutionReceiptRecordPreflight` und
+  `releaseGovernanceApprovedActionConsumeExecutionReceiptRecordPreflight`.
+- Verhalten: Ready-Consume-Execution-Receipt-Authority-Artefakte werden fuer spaetere
+  Receipt-Erfassung vorgeprueft. Es wird kein Permit konsumiert, keine Action konsumiert, kein
+  Receipt geschrieben, kein Patch angewendet, kein Export geschrieben, keine Runtime ausgefuehrt
+  und kein Merge oder externe Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Receipt-Record-Preflight-Tests, Typecheck, Task-Lock-Verify,
+  Diff-Check und voller Builder-Testlauf sind gruen.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Consume-Execution-Receipt-Record-Authority
+  vorbereiten, weiterhin ohne Permit-Konsum, Action-Konsum, Receipt-Write, Runtime-Execution oder
+  Merge.
+
+## 2026-06-15 - BPK-143 bis BPK-146 Permit / Approved Action Consume Execution Receipt Authority
+
+- Gebaut: vier side-effect-freie Consume-Execution-Receipt-Authority-Schichten:
+  `cockpitPatchPermitConsumeExecutionReceiptAuthority`,
+  `memoryCacheAuditExportPermitConsumeExecutionReceiptAuthority`,
+  `runtimePatchPermitConsumeExecutionReceiptAuthority` und
+  `releaseGovernanceApprovedActionConsumeExecutionReceiptAuthority`.
+- Verhalten: Ready-Consume-Execution-Receipt-Preflights erzeugen side-effect-freie Receipt-
+  Authorization-Artefakte. Es wird kein Permit konsumiert, keine Action konsumiert, kein Receipt
+  geschrieben, kein Patch angewendet, kein Export geschrieben, keine Runtime ausgefuehrt und kein
+  Merge oder externe Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Receipt-Authority-Tests, Typecheck, Task-Lock-Verify,
+  Diff-Check und voller Builder-Testlauf sind gruen.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Consume-Execution-Receipt-Record-Preflight
+  vorbereiten, weiterhin ohne Permit-Konsum, Action-Konsum, Receipt-Write, Runtime-Execution oder
+  Merge.
+
+## 2026-06-15 - BPK-139 bis BPK-142 Permit / Approved Action Consume Execution Receipt Preflight
+
+- Gebaut: vier side-effect-freie Consume-Execution-Receipt-Preflight-Schichten:
+  `cockpitPatchPermitConsumeExecutionReceiptPreflight`,
+  `memoryCacheAuditExportPermitConsumeExecutionReceiptPreflight`,
+  `runtimePatchPermitConsumeExecutionReceiptPreflight` und
+  `releaseGovernanceApprovedActionConsumeExecutionReceiptPreflight`.
+- Verhalten: Ready-Consume-Execution-Authority-Artefakte werden fuer spaetere Receipt-Erfassung
+  vorgeprueft. Es wird kein Permit konsumiert, keine Action konsumiert, kein Receipt geschrieben,
+  kein Patch angewendet, kein Export geschrieben, keine Runtime ausgefuehrt und kein Merge oder
+  externe Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Receipt-Preflight-Tests, Typecheck, Task-Lock-Verify, Diff-Check
+  und voller Builder-Testlauf sind gruen.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Consume-Execution-Receipt-Authority
+  vorbereiten, weiterhin ohne Permit-Konsum, Action-Konsum, Receipt-Write, Runtime-Execution oder
+  Merge.
+
+## 2026-06-15 - BPK-135 bis BPK-138 Permit / Approved Action Consume Execution Authority
+
+- Gebaut: vier side-effect-freie Consume-Execution-Authority-Schichten:
+  `cockpitPatchPermitConsumeExecutionAuthority`,
+  `memoryCacheAuditExportPermitConsumeExecutionAuthority`,
+  `runtimePatchPermitConsumeExecutionAuthority` und
+  `releaseGovernanceApprovedActionConsumeExecutionAuthority`.
+- Verhalten: Ready-Consume-Execution-Preflights erzeugen side-effect-freie Execution-
+  Authorization-Artefakte. Es wird kein Permit konsumiert, keine Action konsumiert, kein Patch
+  angewendet, kein Export geschrieben, keine Runtime ausgefuehrt und kein Merge oder externe
+  Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Execution-Authority-Tests, Typecheck, Task-Lock-Verify, Diff-Check
+  und voller Builder-Testlauf sind gruen.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Consume-Execution-Receipt-Preflight
+  vorbereiten, weiterhin ohne Permit-Konsum, Action-Konsum, Write, Runtime-Execution oder Merge.
+
+## 2026-06-15 - BPK-131 bis BPK-134 Permit / Approved Action Consume Execution Preflight
+
+- Gebaut: vier side-effect-freie Consume-Execution-Preflight-Schichten:
+  `cockpitPatchPermitConsumeExecutionPreflight`,
+  `memoryCacheAuditExportPermitConsumeExecutionPreflight`,
+  `runtimePatchPermitConsumeExecutionPreflight` und
+  `releaseGovernanceApprovedActionConsumeExecutionPreflight`.
+- Verhalten: Ready-Consume-Application-Authority-Artefakte werden fuer spaetere Execution
+  vorgeprueft. Es wird kein Permit konsumiert, keine Action konsumiert, kein Patch angewendet,
+  kein Export geschrieben, keine Runtime ausgefuehrt und kein Merge oder externe Release-Aktion
+  ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Execution-Preflight-Tests, Typecheck, Task-Lock-Verify, Diff-Check
+  und voller Builder-Testlauf sind gruen.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Consume-Execution-Authority vorbereiten,
+  weiterhin ohne Permit-Konsum, Action-Konsum, Write, Runtime-Execution oder Merge.
+
+## 2026-06-14 - BPK-127 bis BPK-130 Permit / Approved Action Consume Application Authority
+
+- Gebaut: vier side-effect-freie Consume-Application-Authority-Schichten:
+  `cockpitPatchPermitConsumeApplicationAuthority`,
+  `memoryCacheAuditExportPermitConsumeApplicationAuthority`,
+  `runtimePatchPermitConsumeApplicationAuthority` und
+  `releaseGovernanceApprovedActionConsumeApplicationAuthority`.
+- Verhalten: Ready-Consume-Application-Preflights erzeugen side-effect-freie Application-
+  Authorization-Artefakte. Es wird kein Permit konsumiert, keine Action konsumiert, kein Patch
+  angewendet, kein Export geschrieben, keine Runtime ausgefuehrt und kein Merge oder externe
+  Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Application-Authority-Tests und Typecheck sind vor
+  Review-Finalisierung gruen; Task-Lock-Verify, Diff-Check und voller Builder-Testlauf muessen vor
+  Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Consume-Execution-Preflight vorbereiten,
+  weiterhin ohne Permit-Konsum, Action-Konsum, Write, Execution oder Merge.
+
+## 2026-06-14 - BPK-123 bis BPK-126 Permit / Approved Action Consume Application Preflight
+
+- Gebaut: vier side-effect-freie Consume-Application-Preflight-Schichten:
+  `cockpitPatchPermitConsumeApplicationPreflight`,
+  `memoryCacheAuditExportPermitConsumeApplicationPreflight`,
+  `runtimePatchPermitConsumeApplicationPreflight` und
+  `releaseGovernanceApprovedActionConsumeApplicationPreflight`.
+- Verhalten: Consume-Authorization-Artefakte werden fuer spaetere Anwendung vorgeprueft. Es wird
+  kein Permit konsumiert, keine Action konsumiert, kein Patch angewendet, kein Export geschrieben,
+  keine Runtime ausgefuehrt und kein Merge oder externe Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Application-Preflight-Tests und Typecheck sind vor
+  Review-Finalisierung gruen; Task-Lock-Verify, Diff-Check und voller Builder-Testlauf muessen vor
+  Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Consume-Application-Authority vorbereiten,
+  weiterhin ohne Permit-Konsum, Action-Konsum, Write, Execution oder Merge.
+
+## 2026-06-14 - BPK-119 bis BPK-122 Permit / Approved Action Consume Authority
+
+- Gebaut: vier side-effect-freie Consume-Authority-Schichten:
+  `cockpitPatchPermitConsumeAuthority`, `memoryCacheAuditExportPermitConsumeAuthority`,
+  `runtimePatchPermitConsumeAuthority` und `releaseGovernanceApprovedActionConsumeAuthority`.
+- Verhalten: Ready-Consume-Preflights erzeugen side-effect-freie Consume-Authorization-
+  Artefakte. Es wird kein Permit konsumiert, keine Action konsumiert, kein Patch angewendet, kein
+  Export geschrieben, keine Runtime ausgefuehrt und kein Merge oder externe Release-Aktion
+  ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Consume-Authority-Tests und Typecheck sind vor Review-Finalisierung
+  gruen; Task-Lock-Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Consume-Application-Preflight vorbereiten,
+  weiterhin ohne Permit-Konsum, Action-Konsum, Write, Execution oder Merge.
+
+## 2026-06-14 - BPK-115 bis BPK-118 Permit / Approved Action Consume Preflight
+
+- Gebaut: vier side-effect-freie Consume-Preflight-Schichten:
+  `cockpitPatchPermitConsumePreflight`, `memoryCacheAuditExportPermitConsumePreflight`,
+  `runtimePatchPermitConsumePreflight` und `releaseGovernanceApprovedActionConsumePreflight`.
+- Verhalten: Permit- und Approved-Action-Artefakte werden fuer spaeteren Konsum vorgeprueft. Es
+  wird kein Permit konsumiert, keine Action konsumiert, kein Patch angewendet, kein Export
+  geschrieben, keine Runtime ausgefuehrt und kein Merge oder externe Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Consume-Preflight-Tests und Typecheck sind vor Review-Finalisierung
+  gruen; Task-Lock-Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Consume-Authority vorbereiten, weiterhin ohne
+  Permit-Konsum, Action-Konsum, Write, Execution oder Merge.
+
+## 2026-06-14 - BPK-111 bis BPK-114 Permit Issue / Approved Action Authority
+
+- Gebaut: vier side-effect-freie Authority-Artefakt-Schichten:
+  `cockpitPatchPermitIssueAuthority`, `memoryCacheAuditExportPermitIssueAuthority`,
+  `runtimePatchPermitIssueAuthority` und `releaseGovernanceApprovedActionAuthority`.
+- Verhalten: Ready-Preflights erzeugen side-effect-freie Permit- oder Action-Artefakte. Es wird
+  kein Permit konsumiert, kein Patch angewendet, kein Export geschrieben, keine Runtime
+  ausgefuehrt und kein Merge oder externe Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Authority-Tests und Typecheck sind vor Review-Finalisierung gruen;
+  Task-Lock-Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Consume-Preflight vorbereiten, ohne
+  Permit-Konsum, Write, Execution oder Merge.
+
+## 2026-06-14 - BPK-107 bis BPK-110 Permit Issue / Approved Action Preflight
+
+- Gebaut: vier reine Preflight-Schichten:
+  `cockpitPatchPermitIssuePreflight`, `memoryCacheAuditExportPermitIssuePreflight`,
+  `runtimePatchPermitIssuePreflight` und `releaseGovernanceApprovedActionPreflight`.
+- Verhalten: Approved Authority-Decision-Gates werden fuer Permit-Issue oder Approved-Action
+  vorgeprueft. Es wird kein Permit ausgestellt, kein Patch angewendet, kein Export geschrieben,
+  keine Runtime ausgefuehrt und keine Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Permit-Issue-Authority oder Approved-Action-
+  Authority vorbereiten, ohne Issuance, Write, Execution oder Merge.
+
+## 2026-06-14 - BPK-103 bis BPK-106 Authority Review Decision Gates
+
+- Gebaut: vier reine Authority-Review-Decision-Gates:
+  `cockpitPatchAuthorityReviewDecisionGate`,
+  `memoryCacheAuditExportAuthorityReviewDecisionGate`,
+  `runtimePatchAuthorityReviewDecisionGate` und
+  `releaseGovernanceAuthorityReviewDecisionGate`.
+- Verhalten: Authority-Review-Intake wird in explizite `approve`, `defer` oder `reject`
+  Entscheidungen ueberfuehrt. Nur `approve` kann den naechsten Task-Lock oeffnen; es wird kein
+  Permit ausgestellt, kein Patch angewendet, kein Export geschrieben, keine Runtime ausgefuehrt
+  und keine Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sollten Permit-Issue- oder Approved-Action-Preflight
+  vorbereiten, weiterhin ohne Issuance, Write, Execution oder Merge.
+
+## 2026-06-14 - BPK-099 bis BPK-102 Authority Review Intake
+
+- Gebaut: vier reine Authority-Review-Intake-Schichten:
+  `cockpitPatchAuthorityReviewIntake`, `memoryCacheAuditExportAuthorityReviewIntake`,
+  `runtimePatchAuthorityReviewIntake` und `releaseGovernanceAuthorityReviewIntake`.
+- Verhalten: Request-Packets werden fuer spaetere Authority-Review angenommen und mit Authority-
+  Review-, Reviewer- und Intake-Evidence-Bezuegen versehen; es wird kein Permit ausgestellt,
+  kein Patch angewendet, kein Export geschrieben, keine Runtime ausgefuehrt und keine Release-
+  Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sollten Authority-Review-Decision-Gates vorbereiten,
+  ohne Issuance, Write, Execution oder Merge.
+
+## 2026-06-14 - BPK-095 bis BPK-098 Issuance / Approved Action Request Packets
+
+- Gebaut: vier reine Request-Packet-Schichten:
+  `cockpitPatchPermitIssuanceRequestPacket`,
+  `memoryCacheAuditExportPermitIssuanceRequestPacket`,
+  `runtimePatchPermitIssuanceRequestPacket` und
+  `releaseGovernanceApprovedActionRequestPacket`.
+- Verhalten: Readiness-Artefakte werden in Request-Packets fuer spaetere Authority-Review
+  uebersetzt; es wird kein Permit ausgestellt, kein Patch angewendet, kein Export geschrieben,
+  keine Runtime ausgefuehrt und keine Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sollten Authority-Review-Intake fuer diese Request-
+  Packets vorbereiten, ohne Issuance oder Ausfuehrung.
+
+## 2026-06-14 - BPK-091 bis BPK-094 Permit Issuance / Approved Action Readiness
+
+- Gebaut: vier reine Readiness-Schichten:
+  `cockpitPatchPermitIssuanceReadiness`, `memoryCacheAuditExportPermitIssuanceReadiness`,
+  `runtimePatchPermitIssuanceReadiness` und `releaseGovernanceApprovedActionReadiness`.
+- Verhalten: Permit-Prep-Evidence und Handoff-Prep-Evidence werden gegen Issuer-/Policy- oder
+  Approver-/Policy-Bezuege als readiness bewertet; es wird kein Permit ausgestellt, kein Patch
+  angewendet, kein Export geschrieben, keine Runtime ausgefuehrt und keine Release-Aktion
+  ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sollten Permit-Issuance-Request-Packets und
+  Release-Action-Request-Packets vorbereiten, ohne Issuance oder Ausfuehrung.
+
+## 2026-06-14 - BPK-087 bis BPK-090 Permit / Handoff Prep Evidence
+
+- Gebaut: vier reine Evidence-Pack-Schichten:
+  `cockpitPatchPermitPrepEvidence`, `memoryCacheAuditExportPermitPrepEvidence`,
+  `runtimePatchPermitPrepEvidence` und `releaseGovernanceHandoffPrepEvidence`.
+- Verhalten: Permit-Prep- und Handoff-Prep-Metadaten werden mit Evidence- und Reviewer-Bezuegen
+  fuer Operator-Review gebuendelt; es wird kein Permit ausgestellt, kein Patch angewendet, kein
+  Export geschrieben, keine Runtime ausgefuehrt und keine Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Permit-Issuance-Readiness und Approved-
+  Action-Readiness vorbereiten, weiterhin ohne Issuance, Write, Execution oder Merge.
+
+## 2026-06-14 - BPK-083 bis BPK-086 Approved Action Permit / Handoff Prep
+
+- Gebaut: vier reine Prep-Schichten:
+  `cockpitPatchApprovedActionPermitPrep`, `memoryCacheAuditExportApprovedActionPermitPrep`,
+  `runtimePatchApprovedActionPermitPrep` und `releaseGovernanceApprovedActionHandoffPrep`.
+- Verhalten: Approved Decisions werden in Permit-Request- oder Handoff-Metadaten fuer spaetere
+  Task-Locks uebersetzt; es wird kein Permit ausgestellt, kein Patch angewendet, kein Export
+  geschrieben und keine Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Permit-/Handoff-Prep-Evidence buendeln,
+  bevor echte Permit-Ausstellung, Writes oder Release-Aktionen beruehrt werden.
+
+## 2026-06-14 - BPK-079 bis BPK-082 Operator / Final Decision Gates
+
+- Gebaut: vier reine Decision-Gate-Schichten:
+  `cockpitPatchOperatorDecisionGate`, `memoryCacheAuditExportDecisionGate`,
+  `runtimePatchOperatorDecisionGate` und `releaseGovernanceFinalDecisionGate`.
+- Verhalten: Cockpit-/Runtime-Dry-Run-Evidence, Memory-Cache-Preview-Evidence und Release-
+  Runbook-Evidence koennen in explizite `approve`, `defer` oder `reject` Entscheidungen
+  ueberfuehrt werden; `approve` oeffnet nur den naechsten Task-Lock, keine Aktion.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sollten Approved-Action-Permit-Prep-Schichten bauen,
+  also Genehmigungen in neue Permit-/Task-Lock-Vorbereitungen uebersetzen, ohne auszufuehren.
+
+## 2026-06-14 - BPK-075 bis BPK-078 Dry Run / Preview / Runbook Evidence
+
+- Gebaut: vier reine Evidence-Schichten:
+  `cockpitPatchOperatorDryRunEvidence`, `memoryCacheAuditExportPreviewEvidence`,
+  `runtimePatchOperatorDryRunEvidence` und `releaseGovernanceRunbookEvidence`.
+- Verhalten: Cockpit- und Runtime-Operator-Dry-Runs werden beweisbar gebuendelt, aber nicht
+  angewendet; Memory-Cache-Audit-Preview wird als Evidence-Pack konserviert, aber nicht
+  geschrieben; Release-Governance-Runbooks bekommen Review-/Handoff-Evidence, aber keine Aktion.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke koennen die Evidence-Schichten zu Operator-Decision-
+  Gates verdichten, ohne echte Anwendung, Datei-Ausgabe oder Release-Aktion zu oeffnen.
+
+## 2026-06-14 - BPK-071 bis BPK-074 Operator Dry Runs / Render Dry Run / Runbook
+
+- Gebaut: vier reine Dry-Run-/Runbook-Schichten:
+  `cockpitServerPatchOperatorDryRun`, `memoryCacheAuditExportRenderDryRun`,
+  `runtimeServerPatchOperatorDryRun` und `releaseGovernanceOperatorActionRunbook`.
+- Verhalten: Cockpit- und Runtime-Patch-Anwendung werden als Operator-Dry-Run simuliert, aber
+  nicht angewendet; Memory-Cache-Audit-Export wird als Preview gerendert, aber nicht geschrieben;
+  Release-Governance-Operator-Aktionen werden als Runbook beschrieben, aber nicht ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sollten eine explizite Operator-Evidence-Schicht
+  vorbereiten, bevor irgendeine echte Anwendung, Datei-Ausgabe oder Release-Aktion geoeffnet wird.
+
+## 2026-06-14 - BPK-067 bis BPK-070 Application Readiness / Evidence / Approval
+
+- Gebaut: vier reine Readiness-/Evidence-/Approval-Schichten:
+  `cockpitServerPatchApplicationReadiness`, `memoryCacheAuditExportEvidencePack`,
+  `runtimeServerPatchApplicationReadiness` und `releaseGovernanceOperatorApprovalGate`.
+- Verhalten: Cockpit- und Runtime-Patch-Kandidaten werden fuer spaetere Anwendung bewertet,
+  aber nicht angewendet; Memory-Cache-Audit-Export wird als Evidence-Pack gebuendelt, aber nicht
+  geschrieben; Release-Governance-Handoff wird hinter ein explizites Operator-Approval-Gate
+  gelegt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sollten weiterhin trocken bleiben: Cockpit Server
+  Patch Operator Dry Run, Memory Cache Audit Export Render Dry Run, Runtime Server Patch Operator
+  Dry Run und Release Governance Operator Action Runbook.
+
+## 2026-06-14 - BPK-063 bis BPK-066 Patch Candidates / Audit Export / Handoff
+
+- Gebaut: vier reine Candidate-/Export-/Handoff-Schichten:
+  `cockpitServerPatchCandidate`, `memoryCacheAuditExportContract`,
+  `runtimeServerPatchCandidate` und `releaseGovernanceHandoffPacket`.
+- Verhalten: Cockpit- und Runtime-Patch-Preflights werden in konkrete Patch-Kandidaten
+  ueberfuehrt, aber nicht angewendet; Memory-Cache-Audit-Trails bekommen einen Export-Contract
+  ohne Datei-Write; Release-Governance-Entscheidungen werden in ein Operator-Handoff-Packet
+  gebuendelt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sind die Anwendungsvorbereitung und Operator-Gates
+  vor jeder echten Mutation: Cockpit Server Patch Application Readiness, Memory Cache Audit
+  Export Evidence Pack, Runtime Server Patch Application Readiness und Release Governance
+  Operator Approval Gate.
+
+## 2026-06-14 - BPK-059 bis BPK-062 Patch Preflight / Audit / Release Decision
+
+- Gebaut: vier reine Preflight-/Audit-/Decision-Schichten:
+  `cockpitMountPatchPreflight`, `memoryCacheInvalidationAuditTrail`,
+  `runtimeMountPatchPreflight` und `prReceiptGovernanceReleaseDecision`.
+- Verhalten: Cockpit- und Runtime-Mount-Patches werden gegen Plan, Route, Env-Gate und geplante
+  Dateien vorgeprueft, aber nicht angewendet; Memory-Invalidation bekommt einen auditierbaren
+  Trail; PR-Receipt-Promotion wird als Release-Governance-Entscheidung bewertet.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sind die letzten Pre-Implementation-Gates vor echter
+  Server-Mutation: Cockpit Server Patch Candidate, Memory Cache Audit Export Contract, Runtime
+  Server Patch Candidate und Release Governance Handoff Packet.
+
+## 2026-06-14 - BPK-055 bis BPK-058 Implementation Plans / Evidence Promotion
+
+- Gebaut: vier reine Plan-/Gate-Schichten:
+  `cockpitMountImplementationPlan`, `memoryCacheInvalidationEvidenceBinding`,
+  `runtimeMountImplementationPlan` und `prReceiptEvidencePromotionGate`.
+- Verhalten: Cockpit- und Runtime-Mounts bekommen Implementation-Plaene, aber keine Datei wird
+  gemountet; Memory-Invalidation-Evidence wird an Store/Facade-Binding geknuepft; PR-Receipt-
+  Evidence kann in Release-Governance promoted werden, aber ohne Merge oder externe Aktion.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sind Implementation-Preflight und Governance:
+  Cockpit Mount Patch Preflight, Memory Cache Invalidation Audit Trail, Runtime Mount Patch
+  Preflight und PR Receipt Governance Release Decision.
+
+## 2026-06-13 - BPK-051 bis BPK-054 Default-off Mounts / Invalidation / Evidence
+
+- Gebaut: vier reine Contract-/Evidence-Schichten:
+  `cockpitDefaultOffMountContract`, `memoryCacheOperatorInvalidationContract`,
+  `runtimeDefaultOffMountContract` und `prReceiptLoaderEvidencePack`.
+- Verhalten: Cockpit- und Runtime-Mounts werden nur als default-off Contract-Formen beschrieben,
+  ohne Server zu aendern; Memory-Cache-Invalidation ist operator-gated und nur in-process; PR-
+  Receipt-Loader-Evidence wird review-only gebuendelt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sind die ersten Implementation-Readiness-Schritte fuer
+  default-off Mounts und Operator-Verfahren: Cockpit Mount Implementation Plan, Memory Cache
+  Invalidation Evidence Binding, Runtime Mount Implementation Plan und PR Receipt Evidence
+  Promotion Gate.
+
+## 2026-06-13 - BPK-047 bis BPK-050 Mount Readiness / Binding / Runbook
+
+- Gebaut: vier kontrollierte Adoption-Schichten:
+  `cockpitHandlerMountReadiness`, `memoryCacheFacadeStoreBinding`,
+  `runtimeHandlerMountReadiness` und `prReceiptLoaderOperatorRunbook`.
+- Verhalten: Cockpit- und Runtime-Handler koennen als mount-ready bewertet werden, ohne Server
+  oder Routen zu aendern; Store-Shell und Read-Facade werden ueber Lifecycle-Checks gebunden;
+  PR-Receipt-Loader-Nutzung wird als Operator-Runbook-Contract beschrieben.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sind Server-Mount-Entscheidungen und Live-Operator-
+  Verfahren nur als Default-off-/Policy-Schichten: Cockpit Default-off Mount Contract, Memory
+  Cache Operator Invalidation Contract, Runtime Default-off Mount Contract und PR Receipt Loader
+  Evidence Pack.
+
+## 2026-06-13 - BPK-043 bis BPK-046 Handler/Store/Loader Implementations
+
+- Gebaut: vier eng begrenzte Implementierungsschichten:
+  `cockpitRouteSourceHandlerSkeleton`, `liveAicosMemoryCacheStoreShell`,
+  `runtimeExecutionRouteHandlerSkeleton` und `prReceiptFileLoaderImplementation`.
+- Verhalten: Cockpit kann zwischen Sample- und geliefertem Live-Modell waehlen, ohne Route zu
+  mounten; Live-AICOS-Entries koennen in einem Prozessspeicher gehalten und gelesen werden;
+  Runtime-Execution-Requests werden gegen bestehende Contracts validiert, ohne auszufuehren;
+  PR-Receipt-JSON-Dateien koennen lokal unter Root-/Path-/Max-Byte-Guard geladen und durch den
+  bestehenden BPK-031-Import geschickt werden.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sind kontrollierte Adoption-Schritte: Cockpit
+  Handler Mount Readiness, Memory Cache Facade Store Binding, Runtime Handler Mount Readiness und
+  PR Receipt Loader Operator Runbook.
+
+## 2026-06-13 - BPK-039 bis BPK-042 Mount/Facade/Loader Contracts
+
+- Gebaut: vier side-effect-freie Contract-/Facade-Schichten:
+  `cockpitRouteSourceMountPrep`, `liveAicosMemoryCacheReadFacade`,
+  `runtimeExecutionRouteMountContract` und `prReceiptFileLoaderContract`.
+- Verhalten: Cockpit-Source-Mount wird vorbereitet, Memory-Cache-Read wird als read-only
+  Fassade gebuendelt, Runtime-Execution-Route bekommt einen Mount-Contract, und PR-Receipt-
+  File-Loader bekommt einen Request/Response-Contract.
+- Sicherheitsentscheidung: Keine Route-Aenderung, kein File-Read, keine GitHub-Aktion, keine
+  Persistenz, keine DB, kein Provider, keine Runtime-Ausfuehrung, kein Deploy und keine Package-
+  Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sind die echten, aber weiterhin default-off
+  Integrationsschichten: Cockpit Route Source Handler, Memory Cache Store Shell, Runtime
+  Execution Route Handler Skeleton und PR Receipt File Loader Implementation.
+
+## 2026-06-13 - BPK-035 bis BPK-038 Route/Cache/Runtime/File Decisions
+
+- Gebaut: vier side-effect-freie Readiness-/Decision-Schichten:
+  `cockpitLiveModelRouteSourceContract`, `liveAicosMemoryCacheLifecycleGuard`,
+  `runtimeExecutionRouteMountReadiness` und `prReceiptArtifactFileLoaderDecision`.
+- Verhalten: Cockpit-Live-Modelle koennen als kuenftige Quelle fuer `/cockpit/read-only`
+  klassifiziert werden; Memory-Cache-Eintraege bekommen Max-Age/Stale/Invalidation-Regeln;
+  Runtime-Execution-Mount-Readiness kombiniert Preflight und Route-Contract; PR-Receipt-Dateien
+  werden nur als kuenftige Leseentscheidung bewertet.
+- Sicherheitsentscheidung: Keine Route-Aenderung, kein File-Read, keine GitHub-Aktion, keine
+  Persistenz, keine DB, kein Provider, keine Runtime-Ausfuehrung, kein Deploy und keine Package-
+  Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sind die ersten tatsaechlichen Mount-/Loader-
+  Vorbereitungen, weiterhin einzeln und default-off: Cockpit Route Source Mount Prep, Memory
+  Cache Read Facade, Runtime Execution Route Mount Contract und PR Receipt File Loader Contract.
+
+## 2026-06-13 - BPK-031 bis BPK-034 Adapter/Contract Implementation Bundle
+
+- Gebaut: vier enge Implementierungsbausteine:
+  `prReceiptArtifactImport`, `cockpitLiveModelAdapter`, `liveAicosMemoryCacheAdapter` und
+  `runtimeExecutionRouteContract`.
+- Verhalten: PR-Receipt-Artefakte werden nur aus uebergebenen Objekten/JSON-Strings importiert;
+  Cockpit-Live-Modelle werden materialisiert, aber nicht geroutet; Live-AICOS-Cache-Eintraege
+  bleiben explizite In-Memory-Objekte; Runtime-Execution-Route bleibt Request/Response-Contract
+  mit `executionAllowed:false`.
+- Sicherheitsentscheidung: Keine Datei-Artefakt-Lader, keine GitHub-Aktion, keine PR-Erstellung,
+  kein Merge, kein Route-Mount, keine Cockpit-Verdrahtung, kein Durable Store, keine DB, kein
+  Provider, keine Runtime-Ausfuehrung, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sind kontrollierte Wiring-Readiness: Cockpit Live
+  Model Route Source Contract, Memory Cache Lifecycle Guard, Runtime Execution Route Mount
+  Readiness und PR Receipt Artifact File Loader Decision.
+
+## 2026-06-13 - BPK-027 bis BPK-030 Operational Preflight Bundle
+
+- Gebaut: vier side-effect-freie Operationalisierungs-Planer:
+  `branchPrReceiptIntakeReport`, `cockpitLiveModelAdapterPlan`,
+  `liveAicosMemoryCacheAdapterPlan` und `runtimeExecutionMountPreflight`.
+- Verhalten: PR-Receipts werden nur normalisiert und berichtet; Live-AICOS-Cards werden nur als
+  kuenftiges read-only Cockpit-Modell geplant; Memory-Cache wird nur als TTL-/Expiry-Plan
+  berechnet; Runtime-Ausfuehrung bekommt nur einen Mount-Preflight fuer eine spaetere neue Route.
+- Sicherheitsentscheidung: Keine GitHub-Aktion, keine PR-Erstellung, kein Merge, keine Route,
+  keine Cockpit-Verdrahtung, keine Persistenz, keine DB, kein Provider, keine Runtime-
+  Ausfuehrung, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechste Hauptbloecke sind echte, eng begrenzte Adapter-Implementierungen:
+  PR-Receipt-Artifact-Import, Cockpit-Live-Model-Adapter, Memory-only Cache-Adapter und Runtime-
+  Execution-Route-Contract, weiterhin ohne automatische Writes.
+
+## 2026-06-13 - BPK-023 bis BPK-026 Decision Bundle
+
+- Gebaut: vier side-effect-freie Entscheidungsschichten:
+  `bpkBranchPrConsolidation`, `cockpitLiveModelSourceDecision`,
+  `liveAicosCachePersistenceDecision` und `runtimeExecutionDecision`.
+- Verhalten: Branch/PR-Konsolidierung kombiniert vorhandene Sequenz- und Receipt-Pruefung ohne
+  GitHub-Aufruf. Cockpit-Live-Quelle bleibt read-only und braucht accepted Network Intake plus
+  Operator-Review. AICOS-Cache erlaubt nur kuenftige Memory-only-Bereitschaft; durable Cache bleibt
+  blockiert. Runtime-Ausfuehrung bleibt contract-only, ausser ein spaeterer Dry-run-Execution-Pfad
+  bringt Operator-, Maya-Gate-, Provider-Isolation- und Laufzeit-Evidence.
+- Sicherheitsentscheidung: Keine PR-Erstellung, kein Merge, keine Route, keine Cockpit-Wiring-
+  Aenderung, keine Persistenz, keine DB, kein GitHub, kein Provider, keine Runtime-Ausfuehrung,
+  kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Tests und Typecheck sind vor Review-Finalisierung gruen; Task-Lock-
+  Verify, Diff-Check und voller Builder-Testlauf muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechster Hauptblock ist kontrollierte Operationalisierung: PR-Receipt-
+  Intake/Report, Cockpit-Live-Model-Adapter-Plan, Memory-only-Cache-Adapter-Plan und Runtime-
+  Execution-Mount-Preflight, weiterhin ohne automatische Writes.
+
+## 2026-06-13 - BPK-022 Live AICOS Network Connector
+
+- Gebaut: `builder/src/liveAicosNetworkConnector.ts` als isolierter Netzwerk-Connector fuer
+  Live-AICOS-Card-Payloads.
+- Verhalten: Der Connector fetched nur bei ready BPK-015-Vertrag, `liveFetchAllowed`, expliziter
+  HTTPS-URL ohne eingebettete Credentials und Auth-Token-Provider. Das Ergebnis wird sofort durch
+  den bestehenden BPK-019-Intake-Adapter geleitet.
+- Sicherheitsentscheidung: Keine Route, kein Scheduler, kein Cache-Write, keine DB, kein GitHub,
+  keine Cockpit-Live-Datenquelle und keine Runtime-Ausfuehrung. Tokenwerte werden nur fuer den
+  Request-Header genutzt und nicht im Result serialisiert.
+- Beweis: fokussierter Network-Connector-Test, Typecheck, Task-Lock-Verify und Diff-Check muessen
+  vor Commit gruen sein.
+- Roter Faden weiter: Naechster gebuendelter Hauptblock ist Branch/PR Consolidation plus Cockpit
+  Live Model Source Decision, bevor Runtime Execution geoeffnet wird.
+
+## 2026-06-13 - BPK-021 Cockpit Route Mounting Read-Only
+
+- Gebaut: `builder/src/cockpitReadOnlyRoute.ts` und Mount in `builder/src/server.ts` fuer
+  `/cockpit/read-only`.
+- Verhalten: Die Route ist default-off hinter `BLUEPILOT_COCKPIT_READ_ONLY_ROUTE_ENABLED=true`.
+  GET rendert eine sichere Sample-Preview, POST rendert ein uebergebenes Cockpit-Modell nach
+  Minimalvalidierung.
+- Sicherheitsentscheidung: Read-only HTML, keine ausfuehrbaren Actions, keine Runtime-Aktion,
+  kein Provider, keine DB, kein GitHub-Write, kein Deploy und kein Live-AICOS.
+- Beweis: fokussierter Route-Test, Typecheck, lokaler Playwright-Screenshot, Task-Lock-Verify,
+  Diff-Check und voller Builder-Testlauf waren vor Commit gruen.
+- Roter Faden weiter: Naechster Hauptblock ist Live AICOS Network Connector, nicht Runtime
+  Execution.
+
+## 2026-06-13 - BPK-020 Runtime Route Mounting Dry Run
+
+- Gebaut: `builder/src/runtimeDryRunRoute.ts` und Mount in `builder/src/server.ts` fuer
+  `POST /probe/runtime-dry-run`.
+- Verhalten: Die Route ist default-off hinter `BLUEPILOT_RUNTIME_DRY_RUN_ROUTE_ENABLED=true`.
+  Wenn offen, validiert sie den BPK-017-Request-Contract und gibt nur einen BPK-013-Dry-Run-
+  Plan zurueck.
+- Sicherheitsentscheidung: Kein Orchestrator-Aufruf, kein Provider, keine DB, kein GitHub-Write,
+  kein Deploy, kein Live-AICOS. Dies ist eine gemountete Contract-Oberflaeche, keine Ausfuehrung.
+- Beweis: fokussierter Route-Test und Typecheck muessen vor Commit gruen sein.
+- Roter Faden weiter: Naechster Hauptblock ist Cockpit Route Mounting, nicht Runtime Execution.
+
+## 2026-06-13 - BPK-019 Live AICOS Connector Through Intake
+
+- Gebaut: `builder/src/liveAicosConnectorThroughIntake.ts` als side-effect-freier Adapter fuer
+  bereits gelieferte AICOS-Payloads.
+- Verhalten: Ein Payload wird nur bei ready BPK-015-Fetch-/Cache-Vertrag angenommen und immer
+  durch BPK-010-Intake normalisiert. Intake-Quarantaene wird `review_required`, nicht still
+  akzeptiert.
+- Sicherheitsentscheidung: Kein Live-Fetch, kein Cache-Write, kein Provider, keine DB, keine
+  Route, kein GitHub-Write, keine Runtime und keine UI.
+- Beweis: fokussierter Connector-through-Intake-Test, Typecheck und voller Builder-Testlauf
+  muessen vor Commit gruen sein.
+- Roter Faden weiter: Die angeforderte Fortsetzung ist nach BPK-019-Verify/Commit/Push
+  abgeschlossen. Naechste Hauptbloecke: Runtime Route Mounting, Cockpit Route Mounting, Live
+  AICOS Network Connector, Branch/PR Consolidation.
+
+## 2026-06-13 - BPK-018 Cockpit Read-Only UI
+
+- Gebaut: `builder/src/cockpitReadOnlyHtml.ts` als side-effect-freier HTML-Renderer fuer
+  BPK-009-Cockpit-Projektionen.
+- Verhalten: Ready-, Review- und Blocked-Zustaende werden als statisches Cockpit HTML gerendert;
+  alle Actions bleiben disabled und Modelltexte werden escaped.
+- Sicherheitsentscheidung: Keine gemountete Route, keine Runtime-Aktion, kein Provider, keine DB,
+  kein GitHub-Write, kein Deploy und kein Live-AICOS-Aufruf.
+- Beweis: fokussierter Renderer-Test, Typecheck und temporaerer Static-Preview-Check muessen vor
+  Commit gruen sein.
+- Roter Faden weiter: Live AICOS Connector through Intake darf erst nach BPK-018-Verify und
+  Review-Packet geoeffnet werden.
+
+## 2026-06-13 - BPK-017 Runtime Dry-Run Route Contract
+
+- Gebaut: `builder/src/runtimeDryRunRouteContract.ts` als side-effect-freier Request/Response-
+  Vertrag fuer eine spaetere Runtime-Dry-Run-Route.
+- Verhalten: POST, Confirm-Phrase, passende Instruction und ein `ready` BPK-013-Plan sind
+  Pflicht. Blockierte oder review-pflichtige Plaene werden nicht als Erfolg dargestellt.
+- Sicherheitsentscheidung: Keine gemountete Route, kein `server.ts`, kein `probeDryRun.ts`, kein
+  Orchestrator, kein Provider, keine DB, kein GitHub-Write und keine UI.
+- Beweis: fokussierter Runtime-Dry-Run-Route-Contract-Test und Typecheck muessen vor Commit
+  gruen sein.
+- Roter Faden weiter: Cockpit Read-Only UI darf erst nach BPK-017-Verify und Review-Packet
+  geoeffnet werden.
+
+## 2026-06-13 - BPK-016 PR Review Manual Receipts
+
+- Gebaut: `builder/src/bpkPrReviewManualReceipts.ts` als side-effect-freier Normalizer fuer
+  manuell uebergebene PR-/Review-Receipts.
+- Verhalten: Gueltige Receipts werden zu BPK-012-kompatiblen Review-Records; ungueltige PR-URLs,
+  Decisions, Checks, fehlende Commits oder doppelte Tasks werden quarantaenisiert.
+- Sicherheitsentscheidung: Kein GitHub-Connector, keine PR-Erstellung, kein Merge, kein Workflow,
+  keine Runtime und keine UI.
+- Beweis: fokussierter Manual-Receipt-Test und Typecheck muessen vor Commit gruen sein.
+- Roter Faden weiter: Runtime Dry-Run Route Contract darf erst nach BPK-016-Verify und
+  Review-Packet geoeffnet werden.
+
+## 2026-06-13 - BPK-015 Live AICOS Fetch/Cache Contract
+
+- Gebaut: `builder/src/liveAicosFetchCacheContract.ts` als side-effect-freier Readiness-Vertrag
+  fuer einen spaeteren Live-AICOS-Fetch-/Cache-Connector.
+- Verhalten: Endpoint-Referenz, Auth-Referenz, Cache-TTL, Stale-Verhalten, Quarantaene und
+  Fetch-Limits werden geprueft. Token-aehnliche Auth-Werte werden blockiert.
+- Sicherheitsentscheidung: Kein Live-AICOS-Aufruf, kein Cache-Write, keine Persistenz, keine
+  Route, kein Provider, keine DB, kein GitHub-Write, keine UI und kein Deploy.
+- Beweis: fokussierter Fetch/Cache-Contract-Test, Typecheck und voller Builder-Testlauf muessen
+  vor Commit gruen sein.
+- Roter Faden weiter: Die angeforderte Viererfolge ist nach BPK-015-Verify/Commit/Push
+  abgeschlossen. Naechste Hauptbloecke: PR/Review Connector oder manuelle PR-Ausfuehrung,
+  Runtime Dry-Run Route, Cockpit Read-Only UI, Live AICOS Connector.
+
+## 2026-06-13 - BPK-014 Cockpit UI Implementation Plan
+
+- Gebaut: `builder/src/cockpitUiImplementationPlan.ts` als side-effect-freier Planer fuer eine
+  spaetere Cockpit-UI-Umsetzung.
+- Verhalten: Der Plan erzeugt Screens, deaktivierte Controls, Visual-Evidence-Gates und
+  naechste Aktionen aus dem Cockpit-Projection-Vertrag. Invalides Modell oder aktivierte
+  Executable Actions blockieren.
+- Sicherheitsentscheidung: Keine UI-Dateien, kein CSS/HTML/React, keine Route, kein Screenshot,
+  keine Runtime-Aktion und keine Package-/Deploy-Aenderung.
+- Beweis: fokussierter Cockpit-UI-Plan-Test und Typecheck muessen vor Commit gruen sein.
+- Roter Faden weiter: Live AICOS Fetch/Cache Contract darf erst nach BPK-014-Verify und
+  Review-Packet geoeffnet werden.
+
+## 2026-06-13 - BPK-013 Runtime Dry-Run Adapter Contract
+
+- Gebaut: `builder/src/runtimeDryRunAdapterContract.ts` als side-effect-freier Adapter-Vertrag
+  fuer trockene Runtime-Invocation.
+- Verhalten: Nur `runtime_candidate` mit `dryRunAllowed:true` kann `ready` werden. Blockierte,
+  review-pflichtige oder write-faehige Integrationen werden nicht in diesen Dry-Run-Adapter
+  gehoben.
+- Sicherheitsentscheidung: Kein Server-Route, kein Orchestrator-Aufruf, kein Provider, keine DB,
+  kein GitHub-Write, kein Deploy, keine UI. Die Invocation bleibt ein Datenvertrag.
+- Beweis: fokussierter Runtime-Dry-Run-Adapter-Test und Typecheck muessen vor Commit gruen sein.
+- Roter Faden weiter: Cockpit UI Implementation Plan darf erst nach BPK-013-Verify und
+  Review-Packet geoeffnet werden.
+
+## 2026-06-13 - BPK-012 PR/Review Execution Contract
+
+- Gebaut: `builder/src/bpkPrReviewExecution.ts` als side-effect-freier Receipt-Evaluator fuer
+  uebergebene PR-/Review-Metadaten.
+- Verhalten: Missing PR, ungueltige PR-URL, Commit-Mismatch, nicht-gruene Checks und
+  Changes-Requested blockieren Merge-Readiness; Pending Review bleibt review-pflichtig.
+- Sicherheitsentscheidung: Kein PR-Create, kein GitHub-API-Aufruf, kein Merge, kein Push nach
+  `main`, keine Workflow-, Runtime- oder UI-Aenderung.
+- Beweis: fokussierter PR/Review-Execution-Test und Typecheck muessen vor Commit gruen sein.
+- Roter Faden weiter: Runtime Dry-Run Adapter darf erst nach BPK-012-Verify und Review-Packet
+  geoeffnet werden.
+
+## 2026-06-13 - BPK-011 BPK Branch Merge/Release Sequencing
+
+- Gebaut: `builder/src/bpkBranchMergeReleaseSequencing.ts` als side-effect-freier Planer fuer
+  BPK-Branch-Reihenfolge, Blocker, Review-Items und Release-Notiz-Bullets.
+- Verhalten: Fehlende Vorgaenger, doppelte Task-IDs, blockierte Kandidaten und nicht-gruene
+  Checks blockieren Release-Readiness; review-pflichtige Kandidaten halten den Plan in Review.
+- Sicherheitsentscheidung: Kein Git-Merge, kein Push nach `main`, keine PR-Erstellung, kein
+  GitHub-API-Aufruf, kein Workflow, kein Deploy und keine Runtime/UI-Aenderung.
+- Beweis: fokussierter Sequencing-Test, Typecheck und danach voller Builder-Testlauf muessen vor
+  Commit gruen sein.
+- Roter Faden weiter: Die angeforderte Viererfolge ist nach BPK-011-Verify/Commit/Push
+  abgeschlossen. Naechste Hauptbloecke: PR/Review Execution, Runtime Dry-Run Adapter, Cockpit UI
+  Implementation, Live AICOS Fetch/Cache.
+
+## 2026-06-13 - BPK-010 Live AICOS/Card Binding Intake
+
+- Gebaut: `builder/src/aicosCardBindingIntake.ts` als side-effect-freier Intake-Normalizer fuer
+  angelieferte AICOS-Card-Snapshots.
+- Verhalten: Gueltige Snapshots werden zu `DispatchConditionCard`-kompatiblen Daten; ungueltige,
+  doppelte, unsafe-path oder evidence-lose Snapshots werden mit deterministischen Gruenden
+  quarantaenisiert.
+- Sicherheitsentscheidung: Kein Live-AICOS-Aufruf, kein Cache, keine Persistenz, keine Route,
+  kein Provider, keine DB, kein GitHub-Write und keine UI. Dispatch-Semantik bleibt unveraendert.
+- Beweis: fokussierter AICOS-Card-Intake-Test und Typecheck muessen vor Commit gruen sein.
+- Roter Faden weiter: BPK Branch Merge/Release Sequencing darf erst nach BPK-010-Verify und
+  Review-Packet geoeffnet werden.
+
+## 2026-06-13 - BPK-009 Cockpit Projection Adoption Contract
+
+- Gebaut: `builder/src/cockpitProjectionAdoptionContract.ts` als side-effect-freier Cockpit-
+  Adoptionsvertrag fuer spaetere UI-Nutzung.
+- Verhalten: Readiness-Projektion und Runtime-Integrationsvertrag werden zu einem
+  cockpit-faehigen Modell mit `ready`, `review`, `blocked` oder `invalid`.
+- Sicherheitsentscheidung: Blockierte und Review-Zustaende sind fuer Operator-Inspection
+  renderbar, aber alle ausfuehrbaren Aktionen bleiben deaktiviert. Keine UI-Dateien, keine
+  Route, keine Runtime-Aktion.
+- Beweis: fokussierter Cockpit-Adoption-Test und Typecheck muessen vor Commit gruen sein.
+- Roter Faden weiter: Live AICOS/Card Binding Intake darf erst nach BPK-009-Verify und
+  Review-Packet geoeffnet werden.
+
+## 2026-06-13 - BPK-008 Runtime Dispatch Integration Contract
+
+- Gebaut: `builder/src/runtimeDispatchIntegrationContract.ts` als side-effect-freier
+  Integrationsvertrag fuer spaetere Runtime-Adoption.
+- Verhalten: BPK-007-Readiness-Projektionen werden als `runtime_candidate`, `operator_review`
+  oder `blocked` klassifiziert. Dry-run und write-faehiger Runtime-Dispatch bleiben getrennt.
+- Sicherheitsentscheidung: Write-faehige Adoption verlangt eine explizite Authority-Referenz.
+  Der Block fuegt keine Route, keinen Orchestrator-Aufruf, keinen Provider, keine DB, keinen
+  GitHub-Write und keine UI hinzu.
+- Beweis: fokussierter Runtime-Integration-Contract-Test und Typecheck muessen vor Commit gruen
+  sein.
+- Roter Faden weiter: Cockpit Projection Adoption darf erst nach BPK-008-Verify und
+  Review-Packet geoeffnet werden.
+
+## 2026-06-13 - BPK-007 Dispatch / Frontend zuletzt
+
+- Gebaut: `builder/src/dispatchFrontendReadiness.ts` als side-effect-freie Projektion aus
+  WLP-Contract-Draft, Card-Conditioned-Dispatch-Plan und Pre-Registered-Claims-Gate.
+- Verhalten: Die Projektion liefert `dispatch_ready`, `frontend_review` oder `blocked`.
+  Dispatch ist nur erlaubt, wenn Card-Gate und Claim-Gate erlauben und der Contract explizite
+  Evidence-Anforderungen hat.
+- Sicherheitsentscheidung: Frontend bekommt nur ein spaeter konsumierbares Statusmodell; keine
+  UI-Datei, keine Server-Route, kein Orchestrator, kein Provider, kein Push, kein Live-Write.
+- Beweis: fokussierter Readiness-Test und Typecheck muessen vor Commit gruen sein.
+- Roter Faden weiter: Die angeforderte BPK-Sequenz ist nach Verify/Commit/Push abgeschlossen.
+  Naechste Hauptbloecke sind Runtime Adoption Sequencing, Cockpit Projection Adoption, Live
+  AICOS/Card Binding und Merge/Release Sequencing.
+
+## 2026-06-13 - BPK-006 CLI-Deduplizierung / Schema-Generierung
+
+- Gebaut: `builder/scripts/generate-bpk-governance-manifest.mjs` erzeugt ein deterministisches
+  Manifest fuer BPK-003 bis BPK-006: deduplizierte `required_commands` plus Schema-Definitionen
+  fuer WorkerPacket/WLP-Draft, Card-Conditioned Dispatch und Pre-Registered Claims.
+- Gebaut: `builder/data/bpk-governance-manifest.json` als committed Generator-Artefakt.
+- Korrigiert: `builder/data/builder-repo-index.json` wurde mit dem bestehenden Generator
+  normalisiert; der zuvor rote Repo-Index-Check ist wieder gruen.
+- Beweis: `npm test` in `builder/` laeuft vollstaendig gruen mit 58/58 Tests. Zusaetzlich sind
+  Manifest-Check, Repo-Index-Check und Typecheck gruen.
+- Roter Faden weiter: Dispatch / Frontend zuletzt darf erst nach BPK-006-Verify und
+  Review-Packet geoeffnet werden.
+
+## 2026-06-13 - BPK-005 Pre-Registered Claims
+
+- Gebaut: `builder/src/preRegisteredClaims.ts` als side-effect-freier Claim-Gate vor Dispatch.
+- Verhalten: Alle Contract-Claims muessen exakt vorregistriert sein und mindestens eine Evidence-
+  Referenz haben. Fehlende, unerwartete, doppelte oder evidence-lose Registrierungen blockieren.
+- Sicherheitsentscheidung: Ein `review_required` oder `blocked` Card-Dispatch-Plan kann durch
+  Claim-Registrierung nicht zu `allow` gehoben werden. Keine Runtime-Integration.
+- Beweis: `npx tsx --test tests/preRegisteredClaims.test.ts` und `npm run typecheck` sind gruen.
+- Roter Faden weiter: CLI-Deduplizierung / Schema-Generierung darf erst nach BPK-005-Verify und
+  Review-Packet geoeffnet werden.
+
+## 2026-06-13 - BPK-004 Card-Conditioned Dispatch
+
+- Gebaut: `builder/src/cardConditionedDispatch.ts` als side-effect-freier Dispatch-Planer,
+  der WLP-Contract-Drafts an explizite Card-Snapshots bindet.
+- Verhalten: Der Planer entscheidet deterministisch `allow`, `review_required` oder `blocked`.
+  Fehlende, ungueltige, blockierte, deprecated oder pfad-inkompatible Cards blockieren;
+  Review-Cards stufen auf Review-only herunter.
+- Sicherheitsentscheidung: Keine AICOS-Live-Abfrage, kein Worker-Dispatch, kein Provider,
+  keine Server-Route, kein Push und kein Frontend.
+- Beweis: `npx tsx --test tests/cardConditionedDispatch.test.ts` und `npm run typecheck`
+  sind gruen.
+- Roter Faden weiter: Pre-Registered Claims darf erst nach BPK-004-Verify und Review-Packet
+  geoeffnet werden.
+
+## 2026-06-13 - BPK-003 WorkerPacket-to-WLP-Adapter
+
+- Gebaut: `builder/src/workerPacketWlpAdapter.ts` als side-effect-freier Adapter von
+  WorkerPacket/EditEnvelope-Daten zu einem WLP-Contract-Draft.
+- Sicherheitsentscheidung: Der Adapter schreibt keine Dateien, startet keine Worker, ruft keinen
+  Provider auf, pusht nicht und ist nicht in `orchestrateTask` oder Runtime-Routen integriert.
+- Fail-closed: Ungueltige Task-Metadaten, leere Edits, doppelte Edit-Pfade, unsichere Pfade,
+  fehlende UI-Persona und geschuetzte Pfade werden mit deterministischen Fehlercodes abgelehnt.
+- Beweis: `npx tsx --test tests/workerPacketWlpAdapter.test.ts` und `npm run typecheck` sind
+  gruen. Der vollstaendige `npm test`-Lauf wurde versucht; 53/54 Tests waren gruen, der
+  bestehende Repo-Index-Normalisierungscheck scheiterte unabhaengig von BPK-003.
+- Roter Faden weiter: Card-Conditioned Dispatch darf erst nach BPK-003-Verify und Review-Packet
+  geoeffnet werden.
+
+## 2026-06-13 - BPK-002 Permit-Generalisierung
+
+- Gebaut: `POST /probe/sandbox-write` verlangt fuer Write-Operationen jetzt eine
+  syntaktisch enge `permitId`, bevor GitHub-Dateistatus oder Schreibkorridor beruehrt werden.
+- Gebaut: Der Endpoint nutzt nach read-only State-Inspection den bestehenden
+  `smartPush(..., { targetRepo, writePermit })`-Pfad als einzigen Consume-/Write-Korridor.
+  Neue Dateien werden als Permit-Op `create` gebunden, bestehende Dateien als `update`
+  mit aktueller `baseSha`.
+- Sicherheitsentscheidung: Delete/Undo wird in diesem Block bewusst vor jeder GitHub-Mutation
+  mit `sandbox_delete_requires_dedicated_permit` blockiert. Dafuer braucht es spaeter einen
+  eigenen Permit-Vertrag.
+- Beweis: `npm test` und `npm run typecheck` in `builder/` sind gruen. Die neuen Tests decken
+  Missing-Permit, Create/Update-Permit-Wiring, SmartPush-Blockpropagation und Delete-Block ab.
+- Roter Faden weiter: BPK-003 darf erst nach gruenem BPK-002-Verify und Review-Packet
+  geoeffnet werden.
+
+## 2026-06-13 - BPK-001 Doc-Drift-Hygiene
+
+- Gebaut: Der neue Arbeitsanker `docs/CODEX-RICHTUNGSBRIEF-optimized.md` wurde aus dem
+  externen Claude/Codex-Richtungsbrief bereinigt: Encoding repariert, Repo-Kontext geklaert,
+  FORBIDDEN_FILES/GOAL_DELTA/Push-Regel/API-Test/Autonomie operationalisiert.
+- Gebaut: `docs/CLAUDE-CONTEXT.md` wurde auf die echte BP-149-Wahrheit aus `STATE.md`
+  gehoben. Der Anker beschreibt jetzt Builder-Subpackage, Render-Service
+  `bluepilot-builder`, BP-147 Permit-Write-Proof, retired Legacy-Endpunkte und den
+  BP-149-Pfad `POST /probe/sandbox-write`.
+- Geprueft: Echte Anfrage an
+  `https://maya-core.onrender.com/api/maya/memory?origin=bluepilot` lieferte HTTP 401
+  mit `{"error":"unauthorized"}`. Harte Bewertung: `live-auth-required`.
+- Sicherheitsentscheidung: Kein Runtime-Code, kein Builder-Code, keine Auth-/Token-/DB- oder
+  Deploy-Aenderung. Ohne Gate-Token wird kein authentifizierter Bluepilot-Memory-Erfolg
+  behauptet; lokaler Offline-Fallback bleibt korrekt.
+- Roter Faden weiter: BPK-002 darf erst nach gruenem BPK-001-Verify geoeffnet werden.
 
 ## 2026-06-06 - BP-149 Maya sandbox write door
 
@@ -29,9 +1352,9 @@
   `POST /probe/sandbox-write` ersetzt.
 - Die Env-Wache `BLUEPILOT_SANDBOX_PERMIT_WRITE_ENABLED=true` bleibt erhalten, aber
   Losungswort, Permit-ID und fester Dateiname sind entfernt.
-- Der neue Handler akzeptiert nur `{ path, contentBase64, op? }`, validiert den Pfad,
-  schreibt ausschliesslich nach `G-Dislioglu/bluepilot-sandbox`, entscheidet per
-  GitHub-SHA zwischen create/update und erlaubt `op:"delete"` fuer Undo/Delete.
+- Der neue Handler akzeptiert nur `{ path, contentBase64 }`, validiert den Pfad,
+  schreibt ausschliesslich nach `G-Dislioglu/bluepilot-sandbox` und entscheidet per
+  GitHub-SHA zwischen create und update.
 - `/probe/sandbox-real-write` bleibt retired und zeigt nun auf `/probe/sandbox-write`.
 
 ## 2026-06-02 - Legacy-Schreibpfade entschaerft (BP-148)

@@ -1,0 +1,110 @@
+{
+  "task_id": "BPK-005",
+  "task_name": "Pre-Registered Claims",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/pre-registered-claims-gate",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Introduce a side-effect-free pre-registered claims gate that checks a WLP contract draft and card-conditioned dispatch plan against explicit claim registrations before dispatch can be considered allowed. The block must not call providers, dispatch workers, mutate contracts, write files at runtime, or integrate with server routes.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "docs/CODEX-RICHTUNGSBRIEF-optimized.md",
+    "contracts/BPK-004.json",
+    "review-packets/BPK-004.md",
+    "builder/src/workerPacketWlpAdapter.ts",
+    "builder/src/cardConditionedDispatch.ts",
+    "builder/src/preRegisteredClaims.ts",
+    "builder/tests/preRegisteredClaims.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BPK-005.json",
+    "builder/src/preRegisteredClaims.ts",
+    "builder/tests/preRegisteredClaims.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-005.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusClaimGate.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/server.ts",
+    "builder/src/architectPhase1.ts",
+    "builder/src/cardConditionedDispatch.ts",
+    "builder/src/workerPacketWlpAdapter.ts",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not integrate the gate into orchestrateTask or the existing opusClaimGate.",
+    "Do not mutate WLP contract drafts.",
+    "Do not add endpoints, CLI commands, package dependencies, runtime flags, or frontend.",
+    "Do not infer claims from prose; registrations must be explicit."
+  ],
+  "claims": [
+    "A WLP contract draft can be checked against explicit pre-registered claims before dispatch.",
+    "Allowed dispatch requires every contract claim to have a matching registration with evidence references.",
+    "Review-required or blocked card-conditioned dispatch plans cannot become dispatchAllowed through claim registration.",
+    "The gate is side-effect-free and tested independently."
+  ],
+  "assumptions": [
+    "BPK-004 produced a pure card-conditioned dispatch planner.",
+    "Pre-registered claims are a pre-runtime governance gate, not a replacement for the existing runtime opusClaimGate.",
+    "Claim registration persistence, if needed later, belongs to a separate block."
+  ],
+  "dod": [
+    "builder/src/preRegisteredClaims.ts exports side-effect-free gate types and functions.",
+    "The gate returns allow, review_required, or blocked with deterministic reasons.",
+    "The gate requires exact claim text matches and at least one evidence reference per registration.",
+    "builder/tests/preRegisteredClaims.test.ts covers allow, missing claim, evidence missing, unexpected claim, duplicate registration, and non-allow dispatch plan.",
+    "STATE.md and docs/SESSION-LOG.md record BPK-005.",
+    "review-packets/BPK-005.md records scope, safety invariants, gates, and verification.",
+    "The focused preRegisteredClaims test and npm run typecheck in builder/ pass.",
+    "node tools/verify-task-lock.cjs BPK-005 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "npx tsx --test tests/preRegisteredClaims.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-005 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "Runtime integration becomes necessary.",
+    "Claim persistence becomes necessary.",
+    "A change to opusClaimGate or orchestrateTask becomes necessary.",
+    "Provider, GitHub, maya-core, database, server, or frontend calls become necessary."
+  ],
+  "prior_task_findings": "BPK-004 added a pure card-conditioned dispatch planner. BPK-005 should add pre-registered claim checks as another pure pre-dispatch boundary.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "3b0a848"
+}

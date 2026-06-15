@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-039",
+  "task_name": "bluepilot-cockpit-route-source-mount-prep-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-039-042-mount-facade-loader-contracts",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "operator_cockpit",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free mount preparation for a future cockpit read-only source selector, requiring a ready BPK-035 contract, default-off env gate, and source selector reference without changing routes, renderer, server files, runtime, or actions.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/cockpitLiveModelRouteSourceContract.ts", "builder/src/cockpitRouteSourceMountPrep.ts", "builder/tests/cockpitRouteSourceMountPrep.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-039.json", "contracts/BPK-040.json", "contracts/BPK-041.json", "contracts/BPK-042.json",
+    "builder/src/cockpitRouteSourceMountPrep.ts", "builder/src/liveAicosMemoryCacheReadFacade.ts", "builder/src/runtimeExecutionRouteMountContract.ts", "builder/src/prReceiptFileLoaderContract.ts",
+    "builder/tests/cockpitRouteSourceMountPrep.test.ts", "builder/tests/liveAicosMemoryCacheReadFacade.test.ts", "builder/tests/runtimeExecutionRouteMountContract.test.ts", "builder/tests/prReceiptFileLoaderContract.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-039.md", "review-packets/BPK-040.md", "review-packets/BPK-041.md", "review-packets/BPK-042.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not change cockpit route, renderer, server mount, runtime route, provider, DB, package, workflow, or deployment files.", "Do not make cockpit actions executable."],
+  "claims": ["Cockpit source mount can be prepared without mounting.", "Source selector and default-off env gate are required.", "Route mutation remains closed."],
+  "assumptions": ["Actual server mount remains a later UI/runtime task."],
+  "dod": ["builder/src/cockpitRouteSourceMountPrep.ts exports prepareCockpitRouteSourceMount.", "Ready, missing selector, and blocked contract cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/cockpitRouteSourceMountPrep.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-039 --verify", "git diff --check"],
+  "stop_conditions": ["Route changes, renderer changes, server changes, runtime changes, provider calls, DB calls, package changes, workflow changes, or executable actions become necessary."],
+  "prior_task_findings": "BPK-035 decided future cockpit route source eligibility. BPK-039 may prepare mount requirements without route mutation.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "71b8018"
+}

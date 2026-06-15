@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-094",
+  "task_name": "bluepilot-release-governance-approved-action-readiness-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-091-094-issuance-readiness",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "release_governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free readiness builder for release-governance approved actions, requiring policy and approver refs while keeping merge, external actions, GitHub, packages, workflows, deployment, DB, providers, and writes closed.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/releaseGovernanceHandoffPrepEvidence.ts", "builder/src/releaseGovernanceApprovedActionReadiness.ts", "builder/tests/releaseGovernanceApprovedActionReadiness.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-091.json", "contracts/BPK-092.json", "contracts/BPK-093.json", "contracts/BPK-094.json",
+    "builder/src/cockpitPatchPermitIssuanceReadiness.ts", "builder/src/memoryCacheAuditExportPermitIssuanceReadiness.ts", "builder/src/runtimePatchPermitIssuanceReadiness.ts", "builder/src/releaseGovernanceApprovedActionReadiness.ts",
+    "builder/tests/cockpitPatchPermitIssuanceReadiness.test.ts", "builder/tests/memoryCacheAuditExportPermitIssuanceReadiness.test.ts", "builder/tests/runtimePatchPermitIssuanceReadiness.test.ts", "builder/tests/releaseGovernanceApprovedActionReadiness.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-091.md", "review-packets/BPK-092.md", "review-packets/BPK-093.md", "review-packets/BPK-094.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not merge, create PRs, call GitHub, perform external actions, call providers, call DB, change package files, workflows, deployment files, or write files."],
+  "claims": ["Release-governance approved actions can be classified as readiness without merging or external action.", "Policy and approver refs are required for ready status.", "Merge and external actions remain false."],
+  "assumptions": ["Actual handoff execution, PR work, and merge require later task locks."],
+  "dod": ["builder/src/releaseGovernanceApprovedActionReadiness.ts exports buildReleaseGovernanceApprovedActionReadiness.", "Ready, missing policy ref, and blocked evidence cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/releaseGovernanceApprovedActionReadiness.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-094 --verify", "git diff --check"],
+  "stop_conditions": ["Merge, PR creation, GitHub calls, external actions, DB, package, workflow, deployment, or write changes become necessary."],
+  "prior_task_findings": "BPK-090 bundled release-governance handoff-prep evidence without merge or external action.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "a987965"
+}

@@ -1,0 +1,31 @@
+{
+  "task_id": "BPK-125",
+  "task_name": "bluepilot-runtime-patch-permit-consume-application-preflight-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-123-126-consume-application-preflight",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "critical",
+  "impact_class": "runtime_boundary",
+  "goal": "Add a side-effect-free application preflight builder that validates runtime patch permit consume authorization is ready for later application while keeping permit consume, patch application, server mutation, route mutation, runtime execution, packages, workflows, deployment, DB, providers, GitHub, and writes closed.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/runtimePatchPermitConsumeAuthority.ts", "builder/src/runtimePatchPermitConsumeApplicationPreflight.ts", "builder/tests/runtimePatchPermitConsumeApplicationPreflight.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-123.json", "contracts/BPK-124.json", "contracts/BPK-125.json", "contracts/BPK-126.json",
+    "builder/src/cockpitPatchPermitConsumeApplicationPreflight.ts", "builder/src/memoryCacheAuditExportPermitConsumeApplicationPreflight.ts", "builder/src/runtimePatchPermitConsumeApplicationPreflight.ts", "builder/src/releaseGovernanceApprovedActionConsumeApplicationPreflight.ts",
+    "builder/tests/cockpitPatchPermitConsumeApplicationPreflight.test.ts", "builder/tests/memoryCacheAuditExportPermitConsumeApplicationPreflight.test.ts", "builder/tests/runtimePatchPermitConsumeApplicationPreflight.test.ts", "builder/tests/releaseGovernanceApprovedActionConsumeApplicationPreflight.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-123.md", "review-packets/BPK-124.md", "review-packets/BPK-125.md", "review-packets/BPK-126.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not consume permits, apply runtime patches, mutate server files, mutate route files, run runtime execution, call providers, call DB, call GitHub, change package files, workflows, deployment files, or write files."],
+  "claims": ["Ready runtime patch consume authorization can be preflighted for later application without applying it.", "Application ref, operator ref, and application policy ref are required.", "Permit consume and runtime execution remain false."],
+  "assumptions": ["Actual permit consumption, patch application, and execution require later task locks."],
+  "dod": ["builder/src/runtimePatchPermitConsumeApplicationPreflight.ts exports preflightRuntimePatchPermitConsumeApplication.", "Ready, missing application ref, and blocked authority cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/runtimePatchPermitConsumeApplicationPreflight.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-125 --verify", "git diff --check"],
+  "stop_conditions": ["Permit consumption, runtime patch application, server mutation, route mutation, runtime execution, external calls, DB, GitHub, package, workflow, deployment, or write changes become necessary."],
+  "prior_task_findings": "BPK-121 recorded side-effect-free runtime patch permit consume authorization without consuming the permit.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "97d0d55"
+}

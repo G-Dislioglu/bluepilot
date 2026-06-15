@@ -1,0 +1,83 @@
+{
+  "task_id": "MERGE-RELEASE-READINESS-PREFLIGHT",
+  "task_name": "bluepilot-merge-release-readiness-preflight-v0.1",
+  "created": "2026-06-15",
+  "scope": "bluepilot/builder/integration/merge-release-readiness-preflight",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "merge_release_boundary",
+  "goal": "Add a contract-only merge/release readiness preflight that plans PR order and receipt readiness before real merges or deploys, without creating PRs, merging, deploying, or calling GitHub.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/bpkBranchMergeReleaseSequencing.ts",
+    "builder/src/bpkPrReviewExecution.ts",
+    "builder/src/bpkBranchPrConsolidation.ts",
+    "builder/src/eightPointIntegrationReadiness.ts",
+    "builder/src/meta.ts",
+    "builder/src/server.ts"
+  ],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/MERGE-RELEASE-READINESS-PREFLIGHT.json",
+    "review-packets/MERGE-RELEASE-READINESS-PREFLIGHT.md",
+    "builder/src/mergeReleaseReadinessPreflight.ts",
+    "builder/src/mergeReleaseReadinessRoute.ts",
+    "builder/src/eightPointIntegrationReadiness.ts",
+    "builder/src/meta.ts",
+    "builder/src/server.ts",
+    "builder/tests/mergeReleaseReadinessPreflight.test.ts",
+    "builder/tests/mergeReleaseReadinessRoute.test.ts",
+    "builder/tests/eightPointIntegrationReadiness.test.ts",
+    "builder/tests/meta.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    ".github/**",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/providers.ts",
+    "builder/src/db.ts",
+    "builder/src/probeDryRun.ts",
+    "soulmatch/**",
+    "goat-desktop/**",
+    "aicos-registry/**"
+  ],
+  "scope_out": [
+    "Do not create pull requests, call GitHub, merge branches, deploy, write files, write DB, call providers, execute runtime, issue permits, or change package/workflow files."
+  ],
+  "claims": [
+    "Bluepilot can plan a PR sequence from branch candidates without creating PRs.",
+    "Bluepilot can evaluate PR receipt readiness without merging.",
+    "Application PR creation, merge execution, and deploy execution remain false even when the operator sequence is ready."
+  ],
+  "assumptions": [
+    "Actual PR creation, merge, deploy, and receipt recording require later explicit locks or manual operator action.",
+    "This surface consumes caller-provided branch and PR metadata only; it does not fetch GitHub."
+  ],
+  "dod": [
+    "GET /probe/merge-release-readiness-contract returns the closed release boundary.",
+    "POST /probe/merge-release-readiness-preflight validates candidate order and optional PR receipts without GitHub writes.",
+    "The eight-point readiness and operator dashboard mark Merge and Release Readiness as wired_contract_only.",
+    "Focused tests, typecheck, diff-check, and full builder tests pass."
+  ],
+  "evidence_required": ["test_result"],
+  "required_commands": [
+    "npx tsx --test tests/mergeReleaseReadinessPreflight.test.ts tests/mergeReleaseReadinessRoute.test.ts tests/eightPointIntegrationReadiness.test.ts tests/meta.test.ts",
+    "npm run typecheck",
+    "git diff --check",
+    "npm test"
+  ],
+  "stop_conditions": [
+    "A PR creation, GitHub call, merge, deploy, DB write, file write, provider call, runtime execution, permit issue, package change, or workflow change becomes necessary."
+  ],
+  "prior_task_findings": "Provider/Runtime Flows are now wired_contract_only; Merge/Release Readiness remains the final eight-point activation surface to wire.",
+  "reuse_target": ["session_log", "review_packet", "next_integration_lock"],
+  "baseline_ref": "f5f524f"
+}

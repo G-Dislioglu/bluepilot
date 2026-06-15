@@ -1,0 +1,85 @@
+{
+  "task_id": "PROVIDER-RUNTIME-ACTIVATION-PREFLIGHT",
+  "task_name": "bluepilot-provider-runtime-activation-preflight-v0.1",
+  "created": "2026-06-15",
+  "scope": "bluepilot/builder/integration/provider-runtime-activation-preflight",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "provider_runtime_boundary",
+  "goal": "Add a contract-only provider/runtime activation preflight based on Maya-Core gate evidence, without calling providers, executing runtime, writing state, or opening runtime routes.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/mayaCoreGateEnforcementContract.ts",
+    "builder/src/runtimeDryRunAdapterContract.ts",
+    "builder/src/runtimeExecutionDecision.ts",
+    "builder/src/eightPointIntegrationReadiness.ts",
+    "builder/src/meta.ts",
+    "builder/src/server.ts"
+  ],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/PROVIDER-RUNTIME-ACTIVATION-PREFLIGHT.json",
+    "review-packets/PROVIDER-RUNTIME-ACTIVATION-PREFLIGHT.md",
+    "builder/src/providerRuntimeActivationPreflight.ts",
+    "builder/src/providerRuntimeActivationRoute.ts",
+    "builder/src/eightPointIntegrationReadiness.ts",
+    "builder/src/meta.ts",
+    "builder/src/server.ts",
+    "builder/tests/providerRuntimeActivationPreflight.test.ts",
+    "builder/tests/providerRuntimeActivationRoute.test.ts",
+    "builder/tests/eightPointIntegrationReadiness.test.ts",
+    "builder/tests/meta.test.ts",
+    "builder/tests/operatorDashboardHtml.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    ".github/**",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/providers.ts",
+    "builder/src/db.ts",
+    "builder/src/runtimeDryRunRoute.ts",
+    "soulmatch/**",
+    "goat-desktop/**",
+    "aicos-registry/**"
+  ],
+  "scope_out": [
+    "Do not call providers, execute runtime, mount runtime execution, call Maya-Core from this route, write DB/files/GitHub, issue permits, merge, deploy, or change package/workflow files."
+  ],
+  "claims": [
+    "Bluepilot can dry-preflight provider activation from Maya budget/cost evidence.",
+    "Bluepilot can dry-preflight runtime dry-run activation from Maya budget/corridor evidence and runtime decision evidence.",
+    "Even when review-ready, providerActivationAllowed, runtimeActivationAllowed, and dryRunRouteMountAllowed remain false."
+  ],
+  "assumptions": [
+    "Actual provider calls and runtime execution require later explicit activation locks.",
+    "Maya-Core live reachability remains isolated to existing health/gate surfaces."
+  ],
+  "dod": [
+    "GET /probe/provider-runtime-activation-contract returns the contract-only activation boundary.",
+    "POST /probe/provider-runtime-activation-preflight validates provider and runtime dry-run evidence without execution.",
+    "The eight-point readiness and operator dashboard mark Provider and Runtime Flows as wired_contract_only.",
+    "Focused tests, typecheck, diff-check, and full builder tests pass."
+  ],
+  "evidence_required": ["test_result"],
+  "required_commands": [
+    "npx tsx --test tests/providerRuntimeActivationPreflight.test.ts tests/providerRuntimeActivationRoute.test.ts tests/eightPointIntegrationReadiness.test.ts tests/meta.test.ts tests/operatorDashboardHtml.test.ts",
+    "npm run typecheck",
+    "git diff --check",
+    "npm test"
+  ],
+  "stop_conditions": [
+    "A provider call, runtime execution, runtime route mount, Maya-Core call from the new route, DB write, file write, GitHub write, permit issue, merge, deploy, package change, or workflow change becomes necessary."
+  ],
+  "prior_task_findings": "Maya-Core Gate Enforcement is now wired_contract_only and can dry-validate evidence for provider, write, and runtime activation review.",
+  "reuse_target": ["session_log", "review_packet", "next_integration_lock"],
+  "baseline_ref": "f87a31a"
+}

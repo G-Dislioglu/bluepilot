@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-052",
+  "task_name": "bluepilot-memory-cache-operator-invalidation-contract-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-051-054-default-off-mounts-invalidation-evidence",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "external_read_boundary",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add an operator-gated in-process memory cache invalidation contract using the BPK-044 store shell, without durable storage, DB, filesystem cache, scheduler, routes, package, workflow, deployment, or external-call changes.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/liveAicosMemoryCacheStoreShell.ts", "builder/src/memoryCacheOperatorInvalidationContract.ts", "builder/tests/memoryCacheOperatorInvalidationContract.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-051.json", "contracts/BPK-052.json", "contracts/BPK-053.json", "contracts/BPK-054.json",
+    "builder/src/cockpitDefaultOffMountContract.ts", "builder/src/memoryCacheOperatorInvalidationContract.ts", "builder/src/runtimeDefaultOffMountContract.ts", "builder/src/prReceiptLoaderEvidencePack.ts",
+    "builder/tests/cockpitDefaultOffMountContract.test.ts", "builder/tests/memoryCacheOperatorInvalidationContract.test.ts", "builder/tests/runtimeDefaultOffMountContract.test.ts", "builder/tests/prReceiptLoaderEvidencePack.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-051.md", "review-packets/BPK-052.md", "review-packets/BPK-053.md", "review-packets/BPK-054.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not add durable storage, DB writes, filesystem cache files, scheduler, routes, package changes, workflow changes, deployment files, or external calls."],
+  "claims": ["Operator invalidation can be contracted and executed only against the in-process store shell.", "Operator approval and confirm phrase are required.", "Durable persistence remains closed."],
+  "assumptions": ["Invalidation affects process memory only."],
+  "dod": ["builder/src/memoryCacheOperatorInvalidationContract.ts exports invalidateMemoryCacheByOperatorContract.", "Ready, missing approval, and missing entry cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/memoryCacheOperatorInvalidationContract.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-052 --verify", "git diff --check"],
+  "stop_conditions": ["Durable storage, DB, filesystem cache, scheduler, route, package, workflow, deployment, or external-call changes become necessary."],
+  "prior_task_findings": "BPK-044 added in-process invalidation mechanics; BPK-048 bound store reads to the facade.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "abc279f"
+}

@@ -1,0 +1,113 @@
+{
+  "task_id": "BPK-020",
+  "task_name": "bluepilot-runtime-route-mounting-dry-run-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/runtime-dry-run-route-mount",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "runtime_boundary",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Mount a guarded runtime dry-run route that exposes the BPK-017 route contract and BPK-013 dry-run adapter plan without calling the orchestrator, providers, database, GitHub, deploy, or live AICOS. The route must be default-off behind BLUEPILOT_RUNTIME_DRY_RUN_ROUTE_ENABLED=true and return only a contract plan.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "contracts/BPK-013.json",
+    "contracts/BPK-017.json",
+    "review-packets/BPK-019.md",
+    "builder/src/runtimeDryRunAdapterContract.ts",
+    "builder/src/runtimeDryRunRouteContract.ts",
+    "builder/src/runtimeDryRunRoute.ts",
+    "builder/src/server.ts",
+    "builder/tests/runtimeDryRunRoute.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BPK-020.json",
+    "builder/src/runtimeDryRunRoute.ts",
+    "builder/src/server.ts",
+    "builder/tests/runtimeDryRunRoute.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-020.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    ".github/**",
+    "builder/src/probeDryRun.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/providers.ts",
+    "builder/src/outboundHttp.ts",
+    "builder/src/db.ts",
+    "builder/src/runtimeDryRunAdapterContract.ts",
+    "builder/src/runtimeDryRunRouteContract.ts",
+    "builder/scripts/**",
+    "builder/data/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not call orchestrateTask or reuse /probe/dry-run execution.",
+    "Do not call providers, DB, GitHub, live AICOS, deploy, or write paths.",
+    "Do not add package scripts, dependencies, workflow changes, frontend files, or deployment changes.",
+    "Do not change BPK-013 or BPK-017 semantics."
+  ],
+  "claims": [
+    "The runtime dry-run route can be mounted default-off without executing runtime work.",
+    "When enabled, the route returns only a BPK-017 contract response containing a BPK-013 dry-run plan.",
+    "The route requires POST, the BPK-017 confirm phrase, and a non-empty instruction.",
+    "The route never calls the orchestrator, provider, DB, GitHub, deploy, or live AICOS paths."
+  ],
+  "assumptions": [
+    "A later block may decide whether this contract-only route should invoke a real dry-run execution path.",
+    "The default-off env guard is acceptable for a runtime boundary mount.",
+    "Returning a dry-run plan is useful operator evidence even before execution is opened."
+  ],
+  "dod": [
+    "builder/src/runtimeDryRunRoute.ts implements a default-off handler for /probe/runtime-dry-run.",
+    "builder/src/server.ts mounts the handler before generic health handling.",
+    "The handler returns 403 when disabled, 405 for non-POST, 400 for invalid request, and 200 for a ready contract plan.",
+    "builder/tests/runtimeDryRunRoute.test.ts covers disabled, wrong method, missing confirm, success, and no execution side effects.",
+    "STATE.md and docs/SESSION-LOG.md record BPK-020.",
+    "review-packets/BPK-020.md records scope, safety invariants, gates, and verification.",
+    "The focused route test and npm run typecheck in builder/ pass.",
+    "node tools/verify-task-lock.cjs BPK-020 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "npx tsx --test tests/runtimeDryRunRoute.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-020 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "A real orchestrator call, provider call, DB write, GitHub write, deploy, live AICOS call, package change, workflow change, or frontend file becomes necessary.",
+    "Changing BPK-013 or BPK-017 behavior becomes necessary."
+  ],
+  "prior_task_findings": "BPK-017 defined the dry-run route contract without mounting it. BPK-020 may mount a default-off route that returns only the contract plan.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "660917c"
+}

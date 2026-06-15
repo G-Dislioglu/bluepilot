@@ -1,0 +1,107 @@
+{
+  "task_id": "BPK-018",
+  "task_name": "bluepilot-cockpit-read-only-ui-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/cockpit-read-only-html",
+  "mode": "standard",
+  "task_type": "ui_task",
+  "risk_class": "medium",
+  "impact_class": "governance",
+  "target_persona": "operator_user",
+  "council_session_required": false,
+  "goal": "Add a read-only cockpit HTML renderer for BPK-009 cockpit projection models. The renderer must be side-effect-free, keep all actions disabled, and be visually verifiable as a static HTML preview. Do not add server routes, runtime calls, provider calls, database writes, GitHub writes, package changes, deployment changes, or live AICOS calls.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "contracts/BPK-009.json",
+    "contracts/BPK-014.json",
+    "review-packets/BPK-014.md",
+    "builder/src/cockpitProjectionAdoptionContract.ts",
+    "builder/src/cockpitReadOnlyHtml.ts",
+    "builder/tests/cockpitReadOnlyHtml.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BPK-018.json",
+    "builder/src/cockpitReadOnlyHtml.ts",
+    "builder/tests/cockpitReadOnlyHtml.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-018.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    ".github/**",
+    "builder/src/server.ts",
+    "builder/src/cockpitProjectionAdoptionContract.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/scripts/**",
+    "builder/data/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not mount a route or introduce a frontend framework.",
+    "Do not add package scripts, dependencies, environment variables, deployment notes, runtime calls, provider calls, DB writes, GitHub writes, or live AICOS calls.",
+    "Do not change BPK-009 behavior."
+  ],
+  "claims": [
+    "A read-only cockpit UI can be rendered from a BPK-009 cockpit projection model without server wiring.",
+    "All actions remain disabled in the rendered UI.",
+    "The renderer escapes model text before producing HTML.",
+    "The static preview can be visually verified without committing generated preview artifacts."
+  ],
+  "assumptions": [
+    "A later block may mount this renderer behind a server route.",
+    "The renderer is an HTML surface, not a live application shell.",
+    "Generated visual-check artifacts are temporary and not committed."
+  ],
+  "dod": [
+    "builder/src/cockpitReadOnlyHtml.ts exports side-effect-free renderCockpitReadOnlyHtml.",
+    "The renderer outputs a complete HTML document with read-only panels and disabled actions.",
+    "builder/tests/cockpitReadOnlyHtml.test.ts covers ready/review/blocked rendering, escaping, disabled actions, and no-mutation behavior.",
+    "A temporary static preview is opened or checked with Playwright/browser tooling and not committed.",
+    "STATE.md and docs/SESSION-LOG.md record BPK-018.",
+    "review-packets/BPK-018.md records scope, safety invariants, gates, and verification.",
+    "The focused cockpit HTML test and npm run typecheck in builder/ pass.",
+    "node tools/verify-task-lock.cjs BPK-018 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "screenshot_check",
+    "playwright_flow",
+    "human_ui_review"
+  ],
+  "required_commands": [
+    "npx tsx --test tests/cockpitReadOnlyHtml.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-018 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "A server route, runtime call, provider call, DB write, GitHub write, package change, deployment change, live AICOS call, or framework setup becomes necessary.",
+    "Changing BPK-009 behavior becomes necessary."
+  ],
+  "prior_task_findings": "BPK-014 planned the cockpit UI and visual evidence gates. BPK-018 should add the first read-only HTML surface without runtime wiring.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "a7c92cb"
+}

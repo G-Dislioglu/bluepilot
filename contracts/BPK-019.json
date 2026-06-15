@@ -1,0 +1,109 @@
+{
+  "task_id": "BPK-019",
+  "task_name": "bluepilot-live-aicos-connector-through-intake-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/live-aicos-connector-through-intake",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free live AICOS connector adapter that accepts a supplied AICOS card payload, requires a ready BPK-015 fetch/cache contract, and routes snapshots through BPK-010 intake. Do not perform network fetches, cache writes, provider calls, database writes, GitHub writes, route changes, package changes, deployment changes, or frontend changes.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "contracts/BPK-010.json",
+    "contracts/BPK-015.json",
+    "review-packets/BPK-018.md",
+    "builder/src/aicosCardBindingIntake.ts",
+    "builder/src/liveAicosFetchCacheContract.ts",
+    "builder/src/liveAicosConnectorThroughIntake.ts",
+    "builder/tests/liveAicosConnectorThroughIntake.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BPK-019.json",
+    "builder/src/liveAicosConnectorThroughIntake.ts",
+    "builder/tests/liveAicosConnectorThroughIntake.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-019.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    ".github/**",
+    "builder/src/server.ts",
+    "builder/src/aicosCardBindingIntake.ts",
+    "builder/src/liveAicosFetchCacheContract.ts",
+    "builder/src/providers.ts",
+    "builder/src/outboundHttp.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/scripts/**",
+    "builder/data/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not perform live AICOS fetches or add network code.",
+    "Do not write cache, DB, GitHub, runtime, route, workflow, package, deployment, or frontend changes.",
+    "Do not change BPK-010 or BPK-015 behavior."
+  ],
+  "claims": [
+    "A supplied AICOS payload can be routed through intake only when fetch/cache readiness is ready.",
+    "Malformed payloads are blocked before intake.",
+    "Accepted and quarantined card counts are surfaced deterministically.",
+    "The connector adapter is side-effect-free and tested independently."
+  ],
+  "assumptions": [
+    "A later block may perform the actual HTTP fetch and supply this payload.",
+    "BPK-010 remains the only path from raw card snapshots to dispatch-compatible cards.",
+    "BPK-015 remains the readiness gate for live fetch/cache policy."
+  ],
+  "dod": [
+    "builder/src/liveAicosConnectorThroughIntake.ts exports side-effect-free connector adapter types and function.",
+    "The adapter requires a ready BPK-015 contract before accepting payloads.",
+    "The adapter validates payload shape and routes snapshots through BPK-010 intake.",
+    "builder/tests/liveAicosConnectorThroughIntake.test.ts covers ready payload, blocked contract, review contract, malformed payload, intake quarantine, and no-mutation behavior.",
+    "STATE.md and docs/SESSION-LOG.md record BPK-019.",
+    "review-packets/BPK-019.md records scope, safety invariants, gates, and verification.",
+    "The focused connector-through-intake test and npm run typecheck in builder/ pass.",
+    "node tools/verify-task-lock.cjs BPK-019 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "npx tsx --test tests/liveAicosConnectorThroughIntake.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-019 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "A live fetch, cache write, route, provider call, DB write, GitHub write, package change, deployment change, workflow change, or frontend file becomes necessary.",
+    "Changing BPK-010 or BPK-015 behavior becomes necessary."
+  ],
+  "prior_task_findings": "BPK-010 created intake quarantine and BPK-015 created fetch/cache readiness. BPK-019 should connect supplied payloads through those contracts without network or persistence side effects.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "0cfa58c"
+}
