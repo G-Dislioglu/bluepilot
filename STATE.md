@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bluepilot-merge-release-readiness-preflight`.
+- Aktueller Arbeitsbranch: `bluepilot-operator-dashboard-visual-review`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -832,9 +832,10 @@ geschlossen.
 
 Naechste Integrationsbloecke nach der Acht-Punkte-Verdrahtung:
 
-1. Operator Dashboard visuell testen und ggf. als dauerhaftes Cockpit-Review-Surface freigeben.
-2. Operator-Dashboard visuell pruefen und die gestapelten Integrations-Branches reviewen.
-3. Danach bewusst entscheiden, ob und in welcher Reihenfolge echte PRs/Merges/Deploys manuell
+1. Operator Dashboard ist lokal visuell geprueft: Desktop und Mobile rendern acht Panels ohne
+   Ueberlappung oder horizontalen Overflow; Evidence liegt unter `builder/output/playwright/`.
+2. Gestapelte Integrations-Branches reviewen und bewusst entscheiden, ob und in welcher
+   Reihenfolge echte PRs/Merges/Deploys manuell
    erfolgen.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption

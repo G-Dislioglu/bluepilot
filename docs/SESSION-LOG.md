@@ -5,6 +5,23 @@
 
 ---
 
+## 2026-06-15 - Operator Dashboard Visual Review
+
+- Geprueft: `GET /cockpit/operator-read-only` mit lokalem Builder-Server und
+  `BLUEPILOT_OPERATOR_READ_ONLY_ROUTE_ENABLED=true`.
+- Ergebnis: Playwright-Snapshot und Layout-Messung bestaetigen acht Panels: BPK Ledger, Patrol
+  Coverage, Repo Mutation Kill Switch, AICOS Permission Review, GOAT Desktop Bridge, Maya-Core
+  Gate Enforcement, Provider/Runtime Flows und Merge/Release Readiness.
+- Visual Evidence: Desktop `1280x900` und Mobile `390x900` wurden als Screenshots unter
+  `builder/output/playwright/operator-dashboard-desktop-cli.png` und
+  `builder/output/playwright/operator-dashboard-mobile-cli.png` abgelegt. Beide Layouts haben
+  keine Panel-Ueberlappungen und keinen horizontalen Overflow.
+- Sicherheitsentscheidung: Keine Dashboard-Codeaenderung, kein Route-Mount, kein Provider-Call,
+  keine Runtime, kein DB-/GitHub-Write, kein PR, kein Merge und kein Deploy. Der einzige
+  Browser-Console-Hinweis ist ein nicht-blockierender `/favicon.ico` 404.
+- Roter Faden weiter: Fokus- und Vollchecks laufen lassen, dann diesen Review-Branch pushen und
+  die gestapelten Integrations-Branches bewusst als PR-Sequenz reviewen.
+
 ## 2026-06-15 - Merge/Release Readiness Preflight
 
 - Gebaut: `GET /probe/merge-release-readiness-contract` und
