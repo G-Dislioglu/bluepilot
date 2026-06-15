@@ -461,6 +461,18 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 - BPK-130: `builder/src/releaseGovernanceApprovedActionConsumeApplicationAuthority.ts` zeichnet
   ein side-effect-freies Release-Governance-Approved-Action-Consume-Application-Authorization-
   Artefakt auf. Action-Consume, Merge und externe Aktionen bleiben geschlossen.
+- BPK-131: `builder/src/cockpitPatchPermitConsumeExecutionPreflight.ts` prueft Cockpit-Patch-
+  Consume-Application-Authority fuer spaetere Execution vor. Consume, Patch-Anwendung,
+  Servermutation und Route-Mutation bleiben geschlossen.
+- BPK-132: `builder/src/memoryCacheAuditExportPermitConsumeExecutionPreflight.ts` prueft
+  Memory-Cache-Audit-Export-Consume-Application-Authority fuer spaetere Execution vor. Consume,
+  Datei-Write, Durable Store und externe Aktionen bleiben geschlossen.
+- BPK-133: `builder/src/runtimePatchPermitConsumeExecutionPreflight.ts` prueft Runtime-Patch-
+  Consume-Application-Authority fuer spaetere Execution vor. Consume, Patch-Anwendung,
+  Servermutation, Route-Mutation und Runtime-Execution bleiben geschlossen.
+- BPK-134: `builder/src/releaseGovernanceApprovedActionConsumeExecutionPreflight.ts` prueft
+  Release-Governance-Approved-Action-Consume-Application-Authority fuer spaetere Execution vor.
+  Action-Consume, Merge und externe Aktionen bleiben geschlossen.
 
 ## Maya-Anbindung
 
@@ -506,12 +518,12 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-130 ist das Permit-/Approved-Action-Consume-Application-Authority Bundle abgeschlossen, wenn:
+Nach BPK-134 ist das Permit-/Approved-Action-Consume-Execution-Preflight Bundle abgeschlossen, wenn:
 
-- die Review-Packets fuer BPK-127 bis BPK-130 existieren,
-- die vier fokussierten Consume-Application-Authority-Tests und `npm run typecheck` in `builder/` gruen
+- die Review-Packets fuer BPK-131 bis BPK-134 existieren,
+- die vier fokussierten Consume-Execution-Preflight-Tests und `npm run typecheck` in `builder/` gruen
   sind,
-- `node tools/verify-task-lock.cjs BPK-127 --verify` bis BPK-130 gruen sind,
+- `node tools/verify-task-lock.cjs BPK-131 --verify` bis BPK-134 gruen sind,
 - `git diff --check` gruen ist,
 - keine Server-Mounts, keine Renderer-Aenderung, keine Durable Persistenz, keine DB, kein
   Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein Write, kein Deploy und
@@ -519,7 +531,7 @@ Nach BPK-130 ist das Permit-/Approved-Action-Consume-Application-Authority Bundl
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Permit Consume Execution Preflight.
-2. Memory Cache Audit Export Permit Consume Execution Preflight.
-3. Runtime Patch Permit Consume Execution Preflight.
-4. Release Governance Approved Action Consume Execution Preflight.
+1. Cockpit Patch Permit Consume Execution Authority.
+2. Memory Cache Audit Export Permit Consume Execution Authority.
+3. Runtime Patch Permit Consume Execution Authority.
+4. Release Governance Approved Action Consume Execution Authority.

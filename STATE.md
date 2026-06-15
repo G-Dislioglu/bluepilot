@@ -1,7 +1,7 @@
 # STATE - Bluepilot
 
 > Momentaufnahme nach `docs/CLAUDE-CONTEXT.md` und `docs/SESSION-LOG.md`.
-> Stand: 2026-06-13.
+> Stand: 2026-06-15.
 
 ## Branch und Stand
 
@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-127-130-consume-application-authority`.
+- Aktueller Arbeitsbranch: `bpk-131-134-consume-execution-preflight`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -244,7 +244,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-062.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-134.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -551,6 +551,14 @@
   Authorization-Artefakt ohne Execution.
 - BPK-130: Release governance approved action consume application authority; Release-Action-
   Application-Authorization-Artefakt ohne Merge oder externe Aktion.
+- BPK-131: Cockpit patch permit consume execution preflight; Konsum-Execution nur vorgeprueft,
+  ohne Patch-Apply.
+- BPK-132: Memory cache audit export permit consume execution preflight; Export-Konsum-
+  Execution nur vorgeprueft, ohne Datei-Write.
+- BPK-133: Runtime patch permit consume execution preflight; Runtime-Konsum-Execution nur
+  vorgeprueft, ohne Execution.
+- BPK-134: Release governance approved action consume execution preflight; Release-Action-
+  Konsum-Execution nur vorgeprueft, ohne Merge oder externe Aktion.
 
 ## Maya-Anbindung
 
@@ -577,21 +585,21 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-130 ist das gebuendelte Permit-/Approved-Action-Consume-Application-Authority Bundle
-abgeschlossen: Ready-Consume-Application-Preflights erzeugen side-effect-freie Application-
-Authorization-Artefakte; Consume, Writes, Execution, Merge und externe Side Effects bleiben
+Nach BPK-134 ist das gebuendelte Permit-/Approved-Action-Consume-Execution-Preflight Bundle
+abgeschlossen: Ready-Consume-Application-Authority-Artefakte werden fuer spaetere Execution
+vorgeprueft; Consume, Writes, Execution, Merge und externe Side Effects bleiben
 geschlossen.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Permit Consume Execution Preflight: Konsum-Execution vorpruefen, ohne
+1. Cockpit Patch Permit Consume Execution Authority: Konsum-Execution autorisieren, ohne
    Patch-Apply.
-2. Memory Cache Audit Export Permit Consume Execution Preflight: Export-Konsum-Execution
-   vorpruefen, ohne Datei-Write.
-3. Runtime Patch Permit Consume Execution Preflight: Runtime-Konsum-Execution vorpruefen, ohne
+2. Memory Cache Audit Export Permit Consume Execution Authority: Export-Konsum-Execution
+   autorisieren, ohne Datei-Write.
+3. Runtime Patch Permit Consume Execution Authority: Runtime-Konsum-Execution autorisieren, ohne
    Execution.
-4. Release Governance Approved Action Consume Execution Preflight: Release-Action-Konsum-
-   Execution vorpruefen, ohne Merge oder externe Aktion.
+4. Release Governance Approved Action Consume Execution Authority: Release-Action-Konsum-
+   Execution autorisieren, ohne Merge oder externe Aktion.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:
