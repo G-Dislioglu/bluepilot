@@ -7,6 +7,7 @@ import {
 } from './readonlyIntegrationSurfaces.js';
 import { buildGoatDesktopBridgeContract } from './goatDesktopBridgeContract.js';
 import { buildMayaCoreGateEnforcementContract } from './mayaCoreGateEnforcementContract.js';
+import { buildProviderRuntimeActivationContract } from './providerRuntimeActivationPreflight.js';
 
 export type IntegrationPointStatus =
   | 'wired_read_only'
@@ -129,11 +130,11 @@ export function buildEightPointIntegrationReadiness(now = new Date()): EightPoin
     {
       id: 'provider_runtime_flows',
       title: 'Provider and Runtime Flows',
-      status: 'deferred_until_lock',
-      endpoint: '/probe/runtime-dry-run',
-      operatorValue: 'Runtime remains dry-run/contract-only until approval, permit, and audit exist.',
+      status: 'wired_contract_only',
+      endpoint: '/probe/provider-runtime-activation-contract',
+      operatorValue: 'Provider and runtime activation can be preflighted from Maya-Gate evidence.',
       lockedActions: ['provider_call', 'runtime_execution', 'patch_apply', 'database_write'],
-      nextStep: 'Create activation preflight with approval phrase, budget gate, permit, and receipt.',
+      nextStep: 'Submit provider/runtime activation evidence for review; execution remains closed.',
     },
     {
       id: 'merge_release_readiness',
@@ -170,6 +171,7 @@ export function buildOperatorDashboardModel(now = new Date()): OperatorDashboard
   const aicos = buildAicosPermissionMapReadonly(now);
   const goat = buildGoatDesktopBridgeContract(now);
   const mayaGate = buildMayaCoreGateEnforcementContract(now);
+  const providerRuntime = buildProviderRuntimeActivationContract(now);
 
   return {
     service: 'bluepilot-builder',
@@ -238,7 +240,17 @@ export function buildOperatorDashboardModel(now = new Date()): OperatorDashboard
           `callsMayaCore:${mayaGate.activationBoundary.callsMayaCore}`,
         ],
       },
-      ...readiness.points.slice(6).map((point) => ({
+      {
+        id: 'provider_runtime_flows',
+        title: 'Provider and Runtime Flows',
+        status: 'wired_contract_only',
+        lines: [
+          `gateDependency:${providerRuntime.gateDependency}`,
+          `targets:${providerRuntime.protectedTargets.join(',')}`,
+          `executesRuntime:${providerRuntime.activationBoundary.executesRuntime}`,
+        ],
+      },
+      ...readiness.points.slice(7).map((point) => ({
         id: point.id,
         title: point.title,
         status: point.status,

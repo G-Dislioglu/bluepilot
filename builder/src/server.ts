@@ -7,6 +7,7 @@ import { handleMayaCoreGateEnforcementRequest } from './mayaCoreGateEnforcementR
 import { handleMetaRequest } from './meta.js';
 import { handleOperatorDashboardRequest } from './operatorDashboardRoute.js';
 import { handleProbeDryRunRequest } from './probeDryRun.js';
+import { handleProviderRuntimeActivationRequest } from './providerRuntimeActivationRoute.js';
 import { handleReadonlyIntegrationRequest } from './readonlyIntegrationRoutes.js';
 import { handleRepoCapabilityAuditRequest } from './repoCapabilityAuditRoute.js';
 import { handleRuntimeDryRunRouteRequest } from './runtimeDryRunRoute.js';
@@ -60,6 +61,10 @@ const server = createServer((request, response) => {
     }
 
     if (await handleMayaCoreGateEnforcementRequest(request, response)) {
+      return;
+    }
+
+    if (await handleProviderRuntimeActivationRequest(request, response)) {
       return;
     }
 

@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bluepilot-maya-core-gate-enforcement-contract`.
+- Aktueller Arbeitsbranch: `bluepilot-provider-runtime-activation-preflight`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -786,6 +786,12 @@
   /probe/maya-core-gate-enforcement-preflight` prueft diese Evidence trocken, ohne Maya-Core
   aufzurufen oder Provider, Runtime, Writes, Permits, Deploys oder Merges auszufuehren. Der
   Acht-Punkte-Maya-Gate-Status ist dadurch `wired_contract_only`.
+- Provider/Runtime-Activation-Preflight 2026-06-15: `GET
+  /probe/provider-runtime-activation-contract` beschreibt die geschlossene Aktivierungsgrenze fuer
+  Provider-Calls und Runtime-Dry-Run. `POST /probe/provider-runtime-activation-preflight`
+  kombiniert Maya-Core-Gate-Evidence mit Runtime-Decision-Evidence, laesst aber Provider,
+  Runtime, Runtime-Route-Mount, DB/GitHub/File-Writes, Permit-Ausstellung, Deploy und Merge
+  geschlossen. Der Acht-Punkte-Provider/Runtime-Status ist dadurch `wired_contract_only`.
 
 ## Maya-Anbindung
 
@@ -821,9 +827,7 @@ geschlossen.
 Naechste Integrationsbloecke nach der Acht-Punkte-Verdrahtung:
 
 1. Operator Dashboard visuell testen und ggf. als dauerhaftes Cockpit-Review-Surface freigeben.
-2. Provider/Runtime Activation Preflight auf Basis von Maya-Gate-Evidence und bestehenden
-   Runtime-Contracts vorbereiten.
-3. Merge/Release-Readiness in eine PR-Sequenz pruefen, bevor echte Merges oder Deploys erlaubt
+2. Merge/Release-Readiness in eine PR-Sequenz pruefen, bevor echte Merges oder Deploys erlaubt
    werden.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption

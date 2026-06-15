@@ -5,6 +5,24 @@
 
 ---
 
+## 2026-06-15 - Provider/Runtime Activation Preflight
+
+- Gebaut: `GET /probe/provider-runtime-activation-contract` und
+  `POST /probe/provider-runtime-activation-preflight` als trockene Aktivierungs-Pruefung fuer
+  Provider-Calls und Runtime-Dry-Run.
+- Verhalten: Bluepilot kombiniert Maya-Core-Gate-Evidence mit Runtime-Decision-Evidence.
+  Provider-Aktivierung braucht Budget/Cost-Gate und Provider-Isolation. Runtime-Dry-Run braucht
+  Budget/Corridor-Gate, Operator-Approval, Provider-Isolation, Instruction und Runtime-Limit.
+- Sicherheitsentscheidung: Auch bei `ready_for_activation_review` bleiben
+  `providerActivationAllowed:false`, `runtimeActivationAllowed:false` und
+  `dryRunRouteMountAllowed:false`. Die neue Route ruft keine Provider, keine Runtime und kein
+  Maya-Core auf, schreibt nichts, stellt keine Permits aus, deployt nicht und mergt nicht.
+- Beweis: Fokus-Tests fuer Provider/Runtime-Preflight, Route, Eight-Point-Readiness, Meta und
+  Operator-Dashboard sind mit 15/15 gruen. `npm run typecheck`, `git diff --check` und der volle
+  Builder-Testlauf mit 329/329 Tests sind gruen.
+- Roter Faden weiter: Als naechstes Merge/Release-Readiness als PR-Sequenz vor echten Merges
+  oder Deploys bauen.
+
 ## 2026-06-15 - Maya-Core Gate Enforcement Contract-only
 
 - Gebaut: `GET /probe/maya-core-gate-enforcement` und
