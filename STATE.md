@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-223-226-consume-execution-receipt-record-audit-receipt-record-audit-receipt-record-authority`.
+- Aktueller Arbeitsbranch: `bluepilot-repo-capability-audit-wiring`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -755,6 +755,12 @@
 - BPK-226: Release governance approved action consume execution receipt record audit receipt
   record audit receipt record authority; Audit-Receipt-Record-Audit-Receipt-Record-
   Authorization-Artefakt ohne Merge, GitHub-Aktion oder externe Aktion.
+- Repo-Scan/Verdrahtung 2026-06-15: Bluepilot ergaenzt als ersten Integrationsschnitt eine
+  read-only Meta- und Capability-Audit-Surface. `GET /api/meta` und `GET /meta` melden
+  BPK-Abschluss, Git-Metadaten aus Env und sichere Bluepilot-Surfaces. `GET
+  /probe/repo-capability-audit` macht Soulmatch-, AICOS-, Big-Bro-, GOAT-Desktop- und
+  Maya-the-living-AI-Kandidaten sichtbar. Kein Merge, kein Deploy, kein Provider-Call, keine
+  Runtime-Execution, keine DB- oder Datei-Persistenz wird dadurch aktiviert.
 
 ## Maya-Anbindung
 
@@ -787,12 +793,16 @@ Audit-Receipt-Record-Preflight-Artefakte werden in-memory autorisiert; Audit-Per
 Receipt-Persistenz, Writes, Runtime-Execution, Merge und externe Side Effects bleiben
 geschlossen.
 
-Naechste Hauptbloecke:
+Naechste Integrationsbloecke nach dem Repo-Scan:
 
-1. Cockpit Patch Permit Consume Execution Receipt Record Audit Receipt Record Audit Receipt Record.
-2. Memory Cache Audit Export Permit Consume Execution Receipt Record Audit Receipt Record Audit Receipt Record.
-3. Runtime Patch Permit Consume Execution Receipt Record Audit Receipt Record Audit Receipt Record.
-4. Release Governance Approved Action Consume Execution Receipt Record Audit Receipt Record Audit Receipt Record.
+1. Bluepilot BPK Execution Ledger Readonly: vorhandene BPK-Authority-/Receipt-Ketten als
+   operator-lesbare Ledger-Summary sichtbar machen.
+2. Bluepilot Patrol Visual Coverage Contract: Soulmatchs Patrol-/Visual-Review-Planung erst als
+   side-effect-freien Contract uebernehmen.
+3. Bluepilot Repo Mutation Kill Switch Readonly: Soulmatchs Kill-Switch-Konzept als
+   operator-sichtbaren Status verdrahten, ohne Toggle-Persistenz.
+4. Bluepilot AICOS Permission Map Readonly: AICOS-Permission-Vokabular statisch an BPK-Locks
+   binden.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:

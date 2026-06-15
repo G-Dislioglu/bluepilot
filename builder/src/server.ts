@@ -2,7 +2,9 @@ import { createServer } from 'node:http';
 
 import { handleCockpitReadOnlyRouteRequest } from './cockpitReadOnlyRoute.js';
 import { handleHealthRequest } from './health.js';
+import { handleMetaRequest } from './meta.js';
 import { handleProbeDryRunRequest } from './probeDryRun.js';
+import { handleRepoCapabilityAuditRequest } from './repoCapabilityAuditRoute.js';
 import { handleRuntimeDryRunRouteRequest } from './runtimeDryRunRoute.js';
 import { handleSandboxWriteRequest } from './sandboxWrite.js';
 import { handleSandboxRealWriteRequest } from './sandboxRealWrite.js';
@@ -34,6 +36,14 @@ const server = createServer((request, response) => {
     }
 
     if (await handleCockpitReadOnlyRouteRequest(request, response)) {
+      return;
+    }
+
+    if (await handleMetaRequest(request, response)) {
+      return;
+    }
+
+    if (await handleRepoCapabilityAuditRequest(request, response)) {
       return;
     }
 

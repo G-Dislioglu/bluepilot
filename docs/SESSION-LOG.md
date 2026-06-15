@@ -5,6 +5,21 @@
 
 ---
 
+## 2026-06-15 - Repo-Scan / erster Bluepilot-Verdrahtungsschnitt
+
+- Gebaut: read-only Bluepilot-Meta- und Capability-Audit-Surface nach Scan von Soulmatch,
+  aicos-registry, Big-Bro, goat-desktop und maya-the-living-ai.
+- Verhalten: `GET /api/meta` und `GET /meta` melden Bluepilot-Service, BPK-Abschluss,
+  Git-Metadaten aus Env und sichere Surfaces. `GET /probe/repo-capability-audit` priorisiert
+  Soulmatch-Builder/Patrol/Visual-Review, AICOS-Permission-Mapping, Big-Bro-Review-Provider,
+  GOAT-Desktop-Bridge und Maya-UI-Patterns als Integrationskandidaten.
+- Sicherheitsentscheidung: Nur read-only JSON. Kein Merge, kein Deploy, kein Provider-Call, keine
+  Runtime-Execution, keine DB-Persistenz, kein Datei-Write, kein GitHub-Write und keine
+  Desktop-Aktion.
+- Beweis: Fokus-Tests fuer Meta und Capability-Audit sowie `npm run typecheck` sind gruen.
+- Roter Faden weiter: Als naechstes Bluepilot BPK Execution Ledger Readonly bauen, danach
+  Soulmatch Patrol/Visual-Coverage und Repo-Mutation-Kill-Switch kontrolliert anbinden.
+
 ## 2026-06-15 - BPK-223 bis BPK-226 Permit / Approved Action Consume Execution Receipt Record Audit Receipt Record Audit Receipt Record Authority
 
 - Gebaut: vier side-effect-freie Consume-Execution-Receipt-Record-Audit-Receipt-Record-Audit-

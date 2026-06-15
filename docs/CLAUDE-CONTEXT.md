@@ -557,20 +557,19 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-226 ist das Permit-/Approved-Action-Consume-Execution-Receipt-Record-Audit-Receipt-Record-Audit-Receipt-Record-Authority Bundle abgeschlossen, wenn:
+Der bekannte BPK-Pfad ist nach BPK-226 abgeschlossen. Der erste neue Integrationsschnitt ist
+read-only verdrahtet:
 
-- die Review-Packets fuer BPK-223 bis BPK-226 existieren,
-- die vier fokussierten Consume-Execution-Receipt-Record-Audit-Receipt-Record-Audit-Receipt-Record-Authority-Tests und `npm run typecheck` in `builder/` gruen
-  sind,
-- `node tools/verify-task-lock.cjs BPK-223 --verify` bis BPK-226 gruen sind,
-- `git diff --check` gruen ist,
-- keine Server-Mounts, keine Renderer-Aenderung, keine Durable Persistenz, keine DB, kein
-  Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein Write, kein Deploy und
-  keine Package-Aenderung still mitgezogen wurde.
+- `GET /api/meta` und `GET /meta` melden Bluepilot-Service, BPK-Abschluss, Git-Metadaten aus Env
+  und sichere Runtime-Surfaces.
+- `GET /probe/repo-capability-audit` priorisiert Soulmatch-, AICOS-, Big-Bro-, GOAT-Desktop- und
+  Maya-the-living-AI-Faehigkeiten fuer Bluepilot.
+- Diese Surface schreibt nichts, ruft keine Provider, fuehrt keine Runtime aus, deployt nicht und
+  merged nicht.
 
-Naechste Hauptbloecke:
+Naechste Integrationsbloecke:
 
-1. Cockpit Patch Permit Consume Execution Receipt Record Audit Receipt Record Audit Receipt Record.
-2. Memory Cache Audit Export Permit Consume Execution Receipt Record Audit Receipt Record Audit Receipt Record.
-3. Runtime Patch Permit Consume Execution Receipt Record Audit Receipt Record Audit Receipt Record.
-4. Release Governance Approved Action Consume Execution Receipt Record Audit Receipt Record Audit Receipt Record.
+1. Bluepilot BPK Execution Ledger Readonly.
+2. Bluepilot Patrol Visual Coverage Contract aus Soulmatch.
+3. Bluepilot Repo Mutation Kill Switch Readonly aus Soulmatch.
+4. Bluepilot AICOS Permission Map Readonly.
