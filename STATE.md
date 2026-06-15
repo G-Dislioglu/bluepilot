@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-167-170-consume-execution-receipt-record-audit`.
+- Aktueller Arbeitsbranch: `bpk-171-178-consume-execution-receipt-record-audit-receipt-preflight-authority`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -607,6 +607,23 @@
   ohne Runtime-Execution oder Patch-Apply.
 - BPK-170: Release governance approved action consume execution receipt record audit; In-memory
   Audit-Artefakt ohne Merge, GitHub-Aktion oder externe Aktion.
+- BPK-171: Cockpit patch permit consume execution receipt record audit receipt preflight; Audit-
+  Receipt nur vorgeprueft, ohne Receipt-Write, Audit-Persistenz oder Patch-Apply.
+- BPK-172: Memory cache audit export permit consume execution receipt record audit receipt
+  preflight; Audit-Receipt nur vorgeprueft, ohne Datei-Write, Durable Store oder externe Aktion.
+- BPK-173: Runtime patch permit consume execution receipt record audit receipt preflight; Audit-
+  Receipt nur vorgeprueft, ohne Runtime-Execution oder Patch-Apply.
+- BPK-174: Release governance approved action consume execution receipt record audit receipt
+  preflight; Audit-Receipt nur vorgeprueft, ohne Merge, GitHub-Aktion oder externe Aktion.
+- BPK-175: Cockpit patch permit consume execution receipt record audit receipt authority;
+  Audit-Receipt-Authorization-Artefakt ohne Receipt-Write, Audit-Persistenz oder Patch-Apply.
+- BPK-176: Memory cache audit export permit consume execution receipt record audit receipt
+  authority; Audit-Receipt-Authorization-Artefakt ohne Datei-Write, Durable Store oder externe
+  Aktion.
+- BPK-177: Runtime patch permit consume execution receipt record audit receipt authority;
+  Audit-Receipt-Authorization-Artefakt ohne Runtime-Execution oder Patch-Apply.
+- BPK-178: Release governance approved action consume execution receipt record audit receipt
+  authority; Audit-Receipt-Authorization-Artefakt ohne Merge, GitHub-Aktion oder externe Aktion.
 
 ## Maya-Anbindung
 
@@ -633,17 +650,17 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-170 ist das gebuendelte Permit-/Approved-Action-Consume-Execution-Receipt-Record-Audit-
-Bundle abgeschlossen: Ready-Audit-Authority-Artefakte erzeugen in-memory Audit-Artefakte;
-Audit-Persistenz, durable Receipt-Persistenz, Writes, Runtime-Execution, Merge und externe Side
-Effects bleiben geschlossen.
+Nach BPK-178 ist das gebuendelte Permit-/Approved-Action-Consume-Execution-Receipt-Record-Audit-
+Receipt-Preflight/Authority-Bundle abgeschlossen: In-memory Audit-Artefakte werden fuer spaetere
+Audit-Receipt-Erfassung vorgeprueft und autorisiert; Audit-Persistenz, durable Receipt-Persistenz,
+Writes, Runtime-Execution, Merge und externe Side Effects bleiben geschlossen.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Permit Consume Execution Receipt Record Audit Receipt Preflight.
-2. Memory Cache Audit Export Permit Consume Execution Receipt Record Audit Receipt Preflight.
-3. Runtime Patch Permit Consume Execution Receipt Record Audit Receipt Preflight.
-4. Release Governance Approved Action Consume Execution Receipt Record Audit Receipt Preflight.
+1. Cockpit Patch Permit Consume Execution Receipt Record Audit Receipt.
+2. Memory Cache Audit Export Permit Consume Execution Receipt Record Audit Receipt.
+3. Runtime Patch Permit Consume Execution Receipt Record Audit Receipt.
+4. Release Governance Approved Action Consume Execution Receipt Record Audit Receipt.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:
