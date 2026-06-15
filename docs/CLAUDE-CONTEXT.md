@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller BPK-Arbeitsbranch: `bpk-183-186-consume-execution-receipt-record-audit-receipt-record-preflight`.
+- Aktueller BPK-Arbeitsbranch: `bpk-187-190-consume-execution-receipt-record-audit-receipt-record-authority`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -557,12 +557,12 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-186 ist das Permit-/Approved-Action-Consume-Execution-Receipt-Record-Audit-Receipt-Record-Preflight Bundle abgeschlossen, wenn:
+Nach BPK-190 ist das Permit-/Approved-Action-Consume-Execution-Receipt-Record-Audit-Receipt-Record-Authority Bundle abgeschlossen, wenn:
 
-- die Review-Packets fuer BPK-183 bis BPK-186 existieren,
-- die vier fokussierten Consume-Execution-Receipt-Record-Audit-Receipt-Record-Preflight-Tests und `npm run typecheck` in `builder/` gruen
+- die Review-Packets fuer BPK-187 bis BPK-190 existieren,
+- die vier fokussierten Consume-Execution-Receipt-Record-Audit-Receipt-Record-Authority-Tests und `npm run typecheck` in `builder/` gruen
   sind,
-- `node tools/verify-task-lock.cjs BPK-183 --verify` bis BPK-186 gruen sind,
+- `node tools/verify-task-lock.cjs BPK-187 --verify` bis BPK-190 gruen sind,
 - `git diff --check` gruen ist,
 - keine Server-Mounts, keine Renderer-Aenderung, keine Durable Persistenz, keine DB, kein
   Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein Write, kein Deploy und
@@ -570,7 +570,7 @@ Nach BPK-186 ist das Permit-/Approved-Action-Consume-Execution-Receipt-Record-Au
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Permit Consume Execution Receipt Record Audit Receipt Record Authority.
-2. Memory Cache Audit Export Permit Consume Execution Receipt Record Audit Receipt Record Authority.
-3. Runtime Patch Permit Consume Execution Receipt Record Audit Receipt Record Authority.
-4. Release Governance Approved Action Consume Execution Receipt Record Audit Receipt Record Authority.
+1. Cockpit Patch Permit Consume Execution Receipt Record Audit Receipt Record.
+2. Memory Cache Audit Export Permit Consume Execution Receipt Record Audit Receipt Record.
+3. Runtime Patch Permit Consume Execution Receipt Record Audit Receipt Record.
+4. Release Governance Approved Action Consume Execution Receipt Record Audit Receipt Record.
