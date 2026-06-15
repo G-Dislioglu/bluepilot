@@ -13,6 +13,8 @@ test('eight point readiness covers all requested wiring areas without side effec
   assert.equal(readiness.summary.totalPoints, 8);
   assert.equal(readiness.summary.wiredReadOnly, 4);
   assert.equal(readiness.summary.lockedForLaterActivation, 4);
+  assert.equal(readiness.points.find((point) => point.id === 'goat_desktop_bridge')?.status, 'wired_contract_only');
+  assert.equal(readiness.points.find((point) => point.id === 'goat_desktop_bridge')?.endpoint, '/probe/goat-desktop-bridge-contract');
   assert.deepEqual(readiness.points.map((point) => point.id), [
     'operator_ledger_ui',
     'soulmatch_builder_patrol_ui',
@@ -35,7 +37,7 @@ test('operator dashboard model summarizes eight panels', () => {
 
   assert.equal(model.version, 'bluepilot-operator-dashboard-readonly-v0.1');
   assert.equal(model.panels.length, 8);
-  assert.ok(model.panels.some((panel) => panel.id === 'goat_desktop_bridge'));
+  assert.equal(model.panels.find((panel) => panel.id === 'goat_desktop_bridge')?.status, 'wired_contract_only');
   assert.ok(model.panels.some((panel) => panel.id === 'merge_release_readiness'));
   assert.equal(model.sideEffects.fileWrites, false);
 });

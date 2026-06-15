@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bluepilot-readonly-integration-bundle-2`.
+- Aktueller Arbeitsbranch: `bluepilot-goat-desktop-bridge-contract`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -774,6 +774,12 @@
   /cockpit/operator-read-only` rendert diese Sicht als default-off Operator-Dashboard, wenn
   `BLUEPILOT_OPERATOR_READ_ONLY_ROUTE_ENABLED=true` gesetzt ist. GOAT, Maya-Gates, Provider/
   Runtime und Merge/Release sind sichtbar, bleiben aber locked und fuehren keine Aktion aus.
+- GOAT-Desktop-Bridge-Contract 2026-06-15: `GET /probe/goat-desktop-bridge-contract` beschreibt
+  die lokale GOAT-`/builder-cue`-Grenze als proposal-only Vertrag. `POST
+  /probe/goat-desktop-builder-cue-preflight` prueft Payloads trocken gegen Pflichtfelder, lokale
+  Quellen und BBox-Form, ohne GOAT aufzurufen, Screenshots zu lesen, Popup-Vorschlaege zu
+  emittieren oder Desktop-Aktionen auszufuehren. Der Acht-Punkte-GOAT-Status ist dadurch
+  `wired_contract_only`.
 
 ## Maya-Anbindung
 
@@ -809,10 +815,9 @@ geschlossen.
 Naechste Integrationsbloecke nach der Acht-Punkte-Verdrahtung:
 
 1. Operator Dashboard visuell testen und ggf. als dauerhaftes Cockpit-Review-Surface freigeben.
-2. GOAT Desktop Bridge als contract-only `builder-cue` Schema bauen, ohne lokale Desktop-Aktion.
-3. Maya-Core Gate Enforcement verpflichtend vor jede spaetere Provider-/Write-/Runtime-Aktion
+2. Maya-Core Gate Enforcement verpflichtend vor jede spaetere Provider-/Write-/Runtime-Aktion
    schalten.
-4. Merge/Release-Readiness in eine PR-Sequenz pruefen, bevor echte Merges oder Deploys erlaubt
+3. Merge/Release-Readiness in eine PR-Sequenz pruefen, bevor echte Merges oder Deploys erlaubt
    werden.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption

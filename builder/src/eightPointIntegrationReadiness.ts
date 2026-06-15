@@ -5,8 +5,13 @@ import {
   buildRepoMutationKillSwitchReadonly,
   type SideEffectLock,
 } from './readonlyIntegrationSurfaces.js';
+import { buildGoatDesktopBridgeContract } from './goatDesktopBridgeContract.js';
 
-export type IntegrationPointStatus = 'wired_read_only' | 'locked_ready_for_review' | 'deferred_until_lock';
+export type IntegrationPointStatus =
+  | 'wired_read_only'
+  | 'wired_contract_only'
+  | 'locked_ready_for_review'
+  | 'deferred_until_lock';
 
 export interface IntegrationPoint {
   id: string;
@@ -104,11 +109,11 @@ export function buildEightPointIntegrationReadiness(now = new Date()): EightPoin
     {
       id: 'goat_desktop_bridge',
       title: 'GOAT Desktop Bridge',
-      status: 'locked_ready_for_review',
-      endpoint: '/probe/eight-point-integration-readiness',
-      operatorValue: 'Desktop bridge is represented as proposal-only readiness.',
+      status: 'wired_contract_only',
+      endpoint: '/probe/goat-desktop-bridge-contract',
+      operatorValue: 'Desktop bridge has a local-only builder-cue contract and dry preflight.',
       lockedActions: ['mouse_move', 'keyboard_input', 'screen_capture', 'desktop_action_execution'],
-      nextStep: 'Add a contract-only builder-cue schema, then local GOAT readiness probing.',
+      nextStep: 'Review dry builder-cue payloads before any local GOAT bridge call is enabled.',
     },
     {
       id: 'maya_core_gate_enforcement',
@@ -158,6 +163,7 @@ export function buildOperatorDashboardModel(now = new Date()): OperatorDashboard
   const patrol = buildPatrolVisualCoverageReadonly(now);
   const killSwitch = buildRepoMutationKillSwitchReadonly(now);
   const aicos = buildAicosPermissionMapReadonly(now);
+  const goat = buildGoatDesktopBridgeContract(now);
 
   return {
     service: 'bluepilot-builder',
@@ -206,7 +212,17 @@ export function buildOperatorDashboardModel(now = new Date()): OperatorDashboard
           'registryWrites:false',
         ],
       },
-      ...readiness.points.slice(4).map((point) => ({
+      {
+        id: 'goat_desktop_bridge',
+        title: 'GOAT Desktop Bridge',
+        status: 'wired_contract_only',
+        lines: [
+          `endpoint:${goat.bridge.proposalEndpoint}`,
+          `sources:${goat.payloadContract.acceptedLocalGeometrySources.join(',')}`,
+          `mayExecute:${goat.activationBoundary.mayExecute}`,
+        ],
+      },
+      ...readiness.points.slice(5).map((point) => ({
         id: point.id,
         title: point.title,
         status: point.status,

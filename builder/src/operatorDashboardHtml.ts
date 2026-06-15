@@ -43,6 +43,7 @@ export function renderOperatorDashboardHtml(model: OperatorDashboardModel): stri
       --surface: #f5f7f8;
       --white: #ffffff;
       --ready: #176b4d;
+      --contract: #285f8f;
       --locked: #785a12;
       --deferred: #8a2f22;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -59,6 +60,7 @@ export function renderOperatorDashboardHtml(model: OperatorDashboardModel): stri
     .panel-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
     .panel-head span { border: 1px solid var(--line); border-radius: 999px; padding: 5px 9px; font-size: 12px; text-transform: uppercase; white-space: nowrap; }
     .panel-wired_read_only .panel-head span { color: var(--ready); border-color: color-mix(in srgb, var(--ready), white 68%); }
+    .panel-wired_contract_only .panel-head span { color: var(--contract); border-color: color-mix(in srgb, var(--contract), white 68%); }
     .panel-locked_ready_for_review .panel-head span { color: var(--locked); border-color: color-mix(in srgb, var(--locked), white 68%); }
     .panel-deferred_until_lock .panel-head span { color: var(--deferred); border-color: color-mix(in srgb, var(--deferred), white 68%); }
     ul { margin: 0; padding-left: 18px; color: var(--muted); line-height: 1.55; overflow-wrap: anywhere; }

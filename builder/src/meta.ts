@@ -23,6 +23,8 @@ export interface BluepilotMetaPayload {
     patrolVisualCoverage: '/probe/patrol-visual-coverage';
     repoMutationKillSwitch: '/probe/repo-mutation-kill-switch';
     aicosPermissionMap: '/probe/aicos-permission-map';
+    goatDesktopBridgeContract: '/probe/goat-desktop-bridge-contract';
+    goatDesktopBuilderCuePreflight: '/probe/goat-desktop-builder-cue-preflight';
     eightPointIntegrationReadiness: '/probe/eight-point-integration-readiness';
     operatorDashboardReadOnly: '/cockpit/operator-read-only';
     cockpitReadOnly: '/cockpit/read-only';
@@ -72,6 +74,8 @@ export function createBluepilotMetaPayload(
       patrolVisualCoverage: '/probe/patrol-visual-coverage',
       repoMutationKillSwitch: '/probe/repo-mutation-kill-switch',
       aicosPermissionMap: '/probe/aicos-permission-map',
+      goatDesktopBridgeContract: '/probe/goat-desktop-bridge-contract',
+      goatDesktopBuilderCuePreflight: '/probe/goat-desktop-builder-cue-preflight',
       eightPointIntegrationReadiness: '/probe/eight-point-integration-readiness',
       operatorDashboardReadOnly: '/cockpit/operator-read-only',
       cockpitReadOnly: '/cockpit/read-only',

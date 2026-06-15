@@ -1,6 +1,7 @@
 import { createServer } from 'node:http';
 
 import { handleCockpitReadOnlyRouteRequest } from './cockpitReadOnlyRoute.js';
+import { handleGoatDesktopBridgeRequest } from './goatDesktopBridgeRoute.js';
 import { handleHealthRequest } from './health.js';
 import { handleMetaRequest } from './meta.js';
 import { handleOperatorDashboardRequest } from './operatorDashboardRoute.js';
@@ -50,6 +51,10 @@ const server = createServer((request, response) => {
     }
 
     if (await handleReadonlyIntegrationRequest(request, response)) {
+      return;
+    }
+
+    if (await handleGoatDesktopBridgeRequest(request, response)) {
       return;
     }
 

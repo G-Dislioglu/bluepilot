@@ -5,6 +5,24 @@
 
 ---
 
+## 2026-06-15 - GOAT Desktop Bridge Contract-only
+
+- Gebaut: `GET /probe/goat-desktop-bridge-contract` und
+  `POST /probe/goat-desktop-builder-cue-preflight` als Bluepilot-Surface fuer den lokalen
+  GOAT-Desktop-`/builder-cue`-Vorschlagskanal.
+- Verhalten: Bluepilot beschreibt den lokalen GOAT-Vertrag mit `http://127.0.0.1:8765`,
+  `/healthz`, `/builder-cue`, Pflichtfeldern `source`, `action_type`, `label`, `bbox` und
+  akzeptierten lokalen Quellen `uia`, `ocr`, `active_window`, `test_cue`. Payloads koennen trocken
+  vorgeprueft werden; `vision` wird als Quelle blockiert.
+- Sicherheitsentscheidung: Bluepilot ruft GOAT nicht auf, erzeugt kein Popup, liest keinen
+  Bildschirm, bewegt keine Maus, tippt nicht, ruft keinen Provider, startet keine Runtime,
+  schreibt nichts dauerhaft, deployt nicht und mergt nicht.
+- Beweis: Fokus-Tests fuer GOAT-Contract, GOAT-Route, Eight-Point-Readiness und Meta sind mit
+  12/12 gruen. `npm run typecheck`, `git diff --check` und der volle Builder-Testlauf mit
+  313/313 Tests sind gruen.
+- Roter Faden weiter: Als naechstes Maya-Core Gate Enforcement als Pflicht-Gate fuer spaetere
+  Provider-/Write-/Runtime-Aktivierung bauen.
+
 ## 2026-06-15 - Acht-Punkte-Verdrahtung / Operator Dashboard und Activation Locks
 
 - Gebaut: `GET /probe/eight-point-integration-readiness` und default-off

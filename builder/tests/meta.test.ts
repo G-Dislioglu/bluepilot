@@ -17,6 +17,8 @@ test('bluepilot meta payload exposes BPK completion and read-only surfaces', () 
   assert.equal(meta.git.commit, 'abc123');
   assert.equal(meta.git.branch, 'feature/meta');
   assert.equal(meta.surfaces.capabilityAudit, '/probe/repo-capability-audit');
+  assert.equal(meta.surfaces.goatDesktopBridgeContract, '/probe/goat-desktop-bridge-contract');
+  assert.equal(meta.surfaces.goatDesktopBuilderCuePreflight, '/probe/goat-desktop-builder-cue-preflight');
   assert.equal(meta.sideEffects.metaReadWritesFiles, false);
   assert.equal(meta.sideEffects.metaCallsProviders, false);
   assert.equal(meta.sideEffects.metaExecutesRuntime, false);
