@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-135-138-consume-execution-authority`.
+- Aktueller Arbeitsbranch: `bpk-139-142-consume-execution-receipt-preflight`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -244,7 +244,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-138.
+- Hoechster Contract: BP-149. Aktueller BPK-Contract: BPK-142.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -567,6 +567,14 @@
   Artefakt ohne Execution.
 - BPK-138: Release governance approved action consume execution authority; Release-Action-
   Execution-Authorization-Artefakt ohne Merge oder externe Aktion.
+- BPK-139: Cockpit patch permit consume execution receipt preflight; Execution-Receipt nur
+  vorgeprueft, ohne Receipt-Write oder Patch-Apply.
+- BPK-140: Memory cache audit export permit consume execution receipt preflight; Export-
+  Execution-Receipt nur vorgeprueft, ohne Receipt-Write oder Datei-Write.
+- BPK-141: Runtime patch permit consume execution receipt preflight; Runtime-Execution-Receipt
+  nur vorgeprueft, ohne Receipt-Write oder Execution.
+- BPK-142: Release governance approved action consume execution receipt preflight; Release-
+  Action-Execution-Receipt nur vorgeprueft, ohne Receipt-Write, Merge oder externe Aktion.
 
 ## Maya-Anbindung
 
@@ -593,21 +601,22 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-138 ist das gebuendelte Permit-/Approved-Action-Consume-Execution-Authority Bundle
-abgeschlossen: Ready-Consume-Execution-Preflights erzeugen side-effect-freie Execution-
-Authorization-Artefakte; Consume, Writes, Execution, Merge und externe Side Effects bleiben
+Nach BPK-142 ist das gebuendelte Permit-/Approved-Action-Consume-Execution-Receipt-Preflight
+Bundle abgeschlossen: Ready-Consume-Execution-Authority-Artefakte werden fuer spaetere
+Receipt-Erfassung vorgeprueft; Consume, Receipt-Write, Writes, Execution, Merge und externe Side
+Effects bleiben
 geschlossen.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Permit Consume Execution Receipt Preflight: Execution-Receipt vorpruefen, ohne
-   Patch-Apply.
-2. Memory Cache Audit Export Permit Consume Execution Receipt Preflight: Export-Execution-
-   Receipt vorpruefen, ohne Datei-Write.
-3. Runtime Patch Permit Consume Execution Receipt Preflight: Runtime-Execution-Receipt
-   vorpruefen, ohne Execution.
-4. Release Governance Approved Action Consume Execution Receipt Preflight: Release-Action-
-   Execution-Receipt vorpruefen, ohne Merge oder externe Aktion.
+1. Cockpit Patch Permit Consume Execution Receipt Authority: Receipt-Erfassung autorisieren,
+   ohne Receipt-Write oder Patch-Apply.
+2. Memory Cache Audit Export Permit Consume Execution Receipt Authority: Export-Receipt-
+   Erfassung autorisieren, ohne Receipt-Write oder Datei-Write.
+3. Runtime Patch Permit Consume Execution Receipt Authority: Runtime-Receipt-Erfassung
+   autorisieren, ohne Receipt-Write oder Execution.
+4. Release Governance Approved Action Consume Execution Receipt Authority: Release-Action-
+   Receipt-Erfassung autorisieren, ohne Receipt-Write, Merge oder externe Aktion.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:

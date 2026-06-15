@@ -485,6 +485,18 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 - BPK-138: `builder/src/releaseGovernanceApprovedActionConsumeExecutionAuthority.ts` zeichnet
   ein side-effect-freies Release-Governance-Approved-Action-Consume-Execution-Authorization-
   Artefakt auf. Action-Consume, Merge und externe Aktionen bleiben geschlossen.
+- BPK-139: `builder/src/cockpitPatchPermitConsumeExecutionReceiptPreflight.ts` prueft Cockpit-
+  Patch-Consume-Execution-Authority fuer spaetere Receipt-Erfassung vor. Consume, Receipt-Write,
+  Patch-Anwendung, Servermutation und Route-Mutation bleiben geschlossen.
+- BPK-140: `builder/src/memoryCacheAuditExportPermitConsumeExecutionReceiptPreflight.ts` prueft
+  Memory-Cache-Audit-Export-Consume-Execution-Authority fuer spaetere Receipt-Erfassung vor.
+  Consume, Receipt-Write, Datei-Write, Durable Store und externe Aktionen bleiben geschlossen.
+- BPK-141: `builder/src/runtimePatchPermitConsumeExecutionReceiptPreflight.ts` prueft Runtime-
+  Patch-Consume-Execution-Authority fuer spaetere Receipt-Erfassung vor. Consume, Receipt-Write,
+  Patch-Anwendung, Servermutation, Route-Mutation und Runtime-Execution bleiben geschlossen.
+- BPK-142: `builder/src/releaseGovernanceApprovedActionConsumeExecutionReceiptPreflight.ts`
+  prueft Release-Governance-Approved-Action-Consume-Execution-Authority fuer spaetere Receipt-
+  Erfassung vor. Action-Consume, Receipt-Write, Merge und externe Aktionen bleiben geschlossen.
 
 ## Maya-Anbindung
 
@@ -530,12 +542,12 @@ Stufe 3 - Ethik + Builder-Schloss:
 
 ## Naechster Block
 
-Nach BPK-138 ist das Permit-/Approved-Action-Consume-Execution-Authority Bundle abgeschlossen, wenn:
+Nach BPK-142 ist das Permit-/Approved-Action-Consume-Execution-Receipt-Preflight Bundle abgeschlossen, wenn:
 
-- die Review-Packets fuer BPK-135 bis BPK-138 existieren,
-- die vier fokussierten Consume-Execution-Authority-Tests und `npm run typecheck` in `builder/` gruen
+- die Review-Packets fuer BPK-139 bis BPK-142 existieren,
+- die vier fokussierten Consume-Execution-Receipt-Preflight-Tests und `npm run typecheck` in `builder/` gruen
   sind,
-- `node tools/verify-task-lock.cjs BPK-135 --verify` bis BPK-138 gruen sind,
+- `node tools/verify-task-lock.cjs BPK-139 --verify` bis BPK-142 gruen sind,
 - `git diff --check` gruen ist,
 - keine Server-Mounts, keine Renderer-Aenderung, keine Durable Persistenz, keine DB, kein
   Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein Write, kein Deploy und
@@ -543,7 +555,7 @@ Nach BPK-138 ist das Permit-/Approved-Action-Consume-Execution-Authority Bundle 
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Permit Consume Execution Receipt Preflight.
-2. Memory Cache Audit Export Permit Consume Execution Receipt Preflight.
-3. Runtime Patch Permit Consume Execution Receipt Preflight.
-4. Release Governance Approved Action Consume Execution Receipt Preflight.
+1. Cockpit Patch Permit Consume Execution Receipt Authority.
+2. Memory Cache Audit Export Permit Consume Execution Receipt Authority.
+3. Runtime Patch Permit Consume Execution Receipt Authority.
+4. Release Governance Approved Action Consume Execution Receipt Authority.
