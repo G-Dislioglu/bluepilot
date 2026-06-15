@@ -1,0 +1,31 @@
+{
+  "task_id": "BPK-128",
+  "task_name": "bluepilot-memory-cache-audit-export-permit-consume-application-authority-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-127-130-consume-application-authority",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "memory_cache_boundary",
+  "goal": "Add a side-effect-free application authority builder that records memory-cache audit export consume application authorization from ready application preflight while keeping permit consume, file writes, durable persistence, packages, workflows, deployment, DB, providers, GitHub, and external actions closed.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/memoryCacheAuditExportPermitConsumeApplicationPreflight.ts", "builder/src/memoryCacheAuditExportPermitConsumeApplicationAuthority.ts", "builder/tests/memoryCacheAuditExportPermitConsumeApplicationAuthority.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-127.json", "contracts/BPK-128.json", "contracts/BPK-129.json", "contracts/BPK-130.json",
+    "builder/src/cockpitPatchPermitConsumeApplicationAuthority.ts", "builder/src/memoryCacheAuditExportPermitConsumeApplicationAuthority.ts", "builder/src/runtimePatchPermitConsumeApplicationAuthority.ts", "builder/src/releaseGovernanceApprovedActionConsumeApplicationAuthority.ts",
+    "builder/tests/cockpitPatchPermitConsumeApplicationAuthority.test.ts", "builder/tests/memoryCacheAuditExportPermitConsumeApplicationAuthority.test.ts", "builder/tests/runtimePatchPermitConsumeApplicationAuthority.test.ts", "builder/tests/releaseGovernanceApprovedActionConsumeApplicationAuthority.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-127.md", "review-packets/BPK-128.md", "review-packets/BPK-129.md", "review-packets/BPK-130.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not consume permits, write export files, persist durable state, call providers, call DB, call GitHub, change package files, workflows, deployment files, or perform external actions."],
+  "claims": ["Ready memory-cache audit export consume application preflight can produce a side-effect-free application authorization artifact.", "Application authority id, authorizer, and expiry refs are required.", "Permit consume and file writes remain false."],
+  "assumptions": ["Actual permit consumption and export writing require later task locks."],
+  "dod": ["builder/src/memoryCacheAuditExportPermitConsumeApplicationAuthority.ts exports authorizeMemoryCacheAuditExportPermitConsumeApplication.", "Ready, missing authority id, and blocked preflight cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/memoryCacheAuditExportPermitConsumeApplicationAuthority.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-128 --verify", "git diff --check"],
+  "stop_conditions": ["Permit consumption, file write, durable persistence, external calls, DB, GitHub, package, workflow, deployment, or write changes become necessary."],
+  "prior_task_findings": "BPK-124 preflighted memory-cache audit export consume application without consuming the permit or writing a file.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "6e7033f"
+}

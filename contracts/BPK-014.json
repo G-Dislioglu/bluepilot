@@ -1,0 +1,107 @@
+{
+  "task_id": "BPK-014",
+  "task_name": "bluepilot-cockpit-ui-implementation-plan-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/cockpit-ui-implementation-plan",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free cockpit UI implementation planner that turns a BPK-009 cockpit projection contract into implementation phases, screen requirements, and visual-evidence gates for a later UI block. Do not add actual frontend files, CSS, HTML, React, routes, runtime calls, package changes, deployment changes, or screenshots.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "contracts/BPK-009.json",
+    "contracts/BPK-013.json",
+    "review-packets/BPK-013.md",
+    "builder/src/cockpitProjectionAdoptionContract.ts",
+    "builder/src/cockpitUiImplementationPlan.ts",
+    "builder/tests/cockpitUiImplementationPlan.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BPK-014.json",
+    "builder/src/cockpitUiImplementationPlan.ts",
+    "builder/tests/cockpitUiImplementationPlan.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-014.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    ".github/**",
+    "builder/src/server.ts",
+    "builder/src/cockpitProjectionAdoptionContract.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/scripts/**",
+    "builder/data/**",
+    "builder/public/**",
+    "builder/src/**/*.tsx",
+    "builder/src/**/*.css",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not implement UI files, CSS, HTML, React, route handlers, screenshots, package scripts, dependencies, environment variables, deployment notes, runtime calls, provider calls, DB writes, or GitHub writes.",
+    "Do not change BPK-009 semantics."
+  ],
+  "claims": [
+    "A cockpit UI implementation plan can be generated from the cockpit projection contract without building UI.",
+    "Visual evidence requirements must be explicit before UI implementation.",
+    "Executable controls remain disabled unless a later contract opens runtime behavior.",
+    "The UI plan is side-effect-free and tested independently."
+  ],
+  "assumptions": [
+    "Actual UI implementation requires a later block with browser/screenshot evidence.",
+    "The cockpit projection contract is the input shape for future UI work.",
+    "This block produces planning data, not rendered pixels."
+  ],
+  "dod": [
+    "builder/src/cockpitUiImplementationPlan.ts exports side-effect-free UI plan types and generator.",
+    "The generator returns screen sections, controls, evidence gates, and no-go reasons.",
+    "The generator blocks implementation when the cockpit model is invalid or executable actions are enabled.",
+    "builder/tests/cockpitUiImplementationPlan.test.ts covers ready plan, review plan, invalid model, executable action guard, and no-mutation behavior.",
+    "STATE.md and docs/SESSION-LOG.md record BPK-014.",
+    "review-packets/BPK-014.md records scope, safety invariants, gates, and verification.",
+    "The focused UI implementation plan test and npm run typecheck in builder/ pass.",
+    "node tools/verify-task-lock.cjs BPK-014 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "npx tsx --test tests/cockpitUiImplementationPlan.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-014 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "Actual UI files, screenshots, routes, package changes, runtime calls, deployment changes, or external service calls become necessary.",
+    "Changing BPK-009 behavior becomes necessary."
+  ],
+  "prior_task_findings": "BPK-009 created a cockpit projection adoption contract. BPK-014 should plan the UI implementation and evidence gates without building UI.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "fb55678"
+}

@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-073",
+  "task_name": "bluepilot-runtime-server-patch-operator-dry-run-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-071-074-operator-dry-runs-runbook",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "runtime_boundary",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free operator dry-run planner for BPK-069 runtime patch application readiness, simulating application steps while keeping execution, patch application, server mutation, route mount, orchestrator, providers, DB, GitHub, writes, packages, workflows, and deployment out of scope.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/runtimeServerPatchApplicationReadiness.ts", "builder/src/runtimeServerPatchOperatorDryRun.ts", "builder/tests/runtimeServerPatchOperatorDryRun.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-071.json", "contracts/BPK-072.json", "contracts/BPK-073.json", "contracts/BPK-074.json",
+    "builder/src/cockpitServerPatchOperatorDryRun.ts", "builder/src/memoryCacheAuditExportRenderDryRun.ts", "builder/src/runtimeServerPatchOperatorDryRun.ts", "builder/src/releaseGovernanceOperatorActionRunbook.ts",
+    "builder/tests/cockpitServerPatchOperatorDryRun.test.ts", "builder/tests/memoryCacheAuditExportRenderDryRun.test.ts", "builder/tests/runtimeServerPatchOperatorDryRun.test.ts", "builder/tests/releaseGovernanceOperatorActionRunbook.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-071.md", "review-packets/BPK-072.md", "review-packets/BPK-073.md", "review-packets/BPK-074.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not apply patches, mount routes, call orchestrator, call providers, call DB, call GitHub, write files, deploy, change workflows, change packages, or enable execution."],
+  "claims": ["Runtime server patch application can be dry-run planned without applying it.", "Ready BPK-069 readiness and operator dry-run refs are required.", "Execution and patch application remain false."],
+  "assumptions": ["Actual runtime patch application requires a later task lock."],
+  "dod": ["builder/src/runtimeServerPatchOperatorDryRun.ts exports planRuntimeServerPatchOperatorDryRun.", "Ready, missing dry-run ref, and blocked readiness cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/runtimeServerPatchOperatorDryRun.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-073 --verify", "git diff --check"],
+  "stop_conditions": ["Route mount, execution, orchestrator, provider, DB, GitHub, write, deployment, package, or workflow changes become necessary."],
+  "prior_task_findings": "BPK-069 assessed runtime server patch application readiness without applying patches.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "c6c8700"
+}

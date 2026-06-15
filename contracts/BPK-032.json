@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-032",
+  "task_name": "bluepilot-cockpit-live-model-adapter-implementation-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-031-034-adapter-contract-implementation-bundle",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "operator_cockpit",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free cockpit live model adapter materializer that turns a ready BPK-028 plan into a read-only cockpit model while keeping route wiring and executable actions closed.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/cockpitLiveModelAdapterPlan.ts", "builder/src/cockpitLiveModelAdapter.ts", "builder/tests/cockpitLiveModelAdapter.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-031.json", "contracts/BPK-032.json", "contracts/BPK-033.json", "contracts/BPK-034.json",
+    "builder/src/prReceiptArtifactImport.ts", "builder/src/cockpitLiveModelAdapter.ts", "builder/src/liveAicosMemoryCacheAdapter.ts", "builder/src/runtimeExecutionRouteContract.ts",
+    "builder/tests/prReceiptArtifactImport.test.ts", "builder/tests/cockpitLiveModelAdapter.test.ts", "builder/tests/liveAicosMemoryCacheAdapter.test.ts", "builder/tests/runtimeExecutionRouteContract.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-031.md", "review-packets/BPK-032.md", "review-packets/BPK-033.md", "review-packets/BPK-034.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not change cockpit route, renderer, server mount, runtime route, provider, DB, package, workflow, or deployment files.", "Do not make cockpit actions executable."],
+  "claims": ["A ready adapter plan can materialize a read-only cockpit model.", "Route wiring remains separate.", "All actions remain disabled even if a plan contains weak action reasons."],
+  "assumptions": ["A later route-source block may pass this model to the existing read-only route."],
+  "dod": ["builder/src/cockpitLiveModelAdapter.ts exports materializeCockpitLiveModel.", "Ready plans produce models with disabled actions.", "Blocked plans do not materialize.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/cockpitLiveModelAdapter.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-032 --verify", "git diff --check"],
+  "stop_conditions": ["Route wiring, renderer changes, runtime changes, provider calls, DB calls, package changes, or executable cockpit actions become necessary."],
+  "prior_task_findings": "BPK-028 planned a read-only live model adapter. BPK-032 may materialize the model without wiring it.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "244dfea"
+}

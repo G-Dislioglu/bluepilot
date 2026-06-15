@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-063",
+  "task_name": "bluepilot-cockpit-server-patch-candidate-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-063-066-patch-candidates-audit-export-handoff",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "operator_cockpit",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free patch candidate builder for the BPK-059 cockpit mount patch preflight, describing candidate files and guard checks without applying patches, changing server, route, renderer, runtime, package, workflow, or deployment files.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/cockpitMountPatchPreflight.ts", "builder/src/cockpitServerPatchCandidate.ts", "builder/tests/cockpitServerPatchCandidate.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-063.json", "contracts/BPK-064.json", "contracts/BPK-065.json", "contracts/BPK-066.json",
+    "builder/src/cockpitServerPatchCandidate.ts", "builder/src/memoryCacheAuditExportContract.ts", "builder/src/runtimeServerPatchCandidate.ts", "builder/src/releaseGovernanceHandoffPacket.ts",
+    "builder/tests/cockpitServerPatchCandidate.test.ts", "builder/tests/memoryCacheAuditExportContract.test.ts", "builder/tests/runtimeServerPatchCandidate.test.ts", "builder/tests/releaseGovernanceHandoffPacket.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-063.md", "review-packets/BPK-064.md", "review-packets/BPK-065.md", "review-packets/BPK-066.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not apply patches, mutate server files, change renderer files, enable cockpit actions, call AICOS, call providers, call DB, call GitHub, change package files, workflows, or deployment files."],
+  "claims": ["Cockpit server patch candidates can be represented without applying them.", "Ready BPK-059 preflight and candidate refs are required.", "Patch application remains false."],
+  "assumptions": ["A later patch application task would need a new lock."],
+  "dod": ["builder/src/cockpitServerPatchCandidate.ts exports buildCockpitServerPatchCandidate.", "Ready, missing candidate ref, and blocked preflight cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/cockpitServerPatchCandidate.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-063 --verify", "git diff --check"],
+  "stop_conditions": ["Server mutation, route mutation, renderer mutation, executable actions, external calls, DB, GitHub, package, workflow, or deployment changes become necessary."],
+  "prior_task_findings": "BPK-059 preflighted the cockpit mount patch without changing files.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "cae8a42"
+}

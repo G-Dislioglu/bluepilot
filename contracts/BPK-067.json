@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-067",
+  "task_name": "bluepilot-cockpit-server-patch-application-readiness-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-067-070-application-readiness-evidence-approval",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "operator_cockpit",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free readiness gate for applying BPK-063 cockpit server patch candidates, requiring operator and diff refs while keeping patch application, server mutation, route mutation, renderer changes, runtime, packages, workflows, deployment, DB, providers, GitHub, and writes closed.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/cockpitServerPatchCandidate.ts", "builder/src/cockpitServerPatchApplicationReadiness.ts", "builder/tests/cockpitServerPatchApplicationReadiness.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-067.json", "contracts/BPK-068.json", "contracts/BPK-069.json", "contracts/BPK-070.json",
+    "builder/src/cockpitServerPatchApplicationReadiness.ts", "builder/src/memoryCacheAuditExportEvidencePack.ts", "builder/src/runtimeServerPatchApplicationReadiness.ts", "builder/src/releaseGovernanceOperatorApprovalGate.ts",
+    "builder/tests/cockpitServerPatchApplicationReadiness.test.ts", "builder/tests/memoryCacheAuditExportEvidencePack.test.ts", "builder/tests/runtimeServerPatchApplicationReadiness.test.ts", "builder/tests/releaseGovernanceOperatorApprovalGate.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-067.md", "review-packets/BPK-068.md", "review-packets/BPK-069.md", "review-packets/BPK-070.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not apply patches, mutate server files, mutate route files, change renderer files, enable cockpit actions, call AICOS, call providers, call DB, call GitHub, change package files, workflows, deployment files, or write files."],
+  "claims": ["Cockpit server patch application readiness can be represented without applying the patch.", "Ready BPK-063 candidate, operator approval ref, and diff ref are required.", "Patch application remains false."],
+  "assumptions": ["Actual cockpit patch application requires a later task lock."],
+  "dod": ["builder/src/cockpitServerPatchApplicationReadiness.ts exports assessCockpitServerPatchApplicationReadiness.", "Ready, missing operator approval ref, and blocked candidate cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/cockpitServerPatchApplicationReadiness.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-067 --verify", "git diff --check"],
+  "stop_conditions": ["Server mutation, route mutation, renderer mutation, executable actions, external calls, DB, GitHub, package, workflow, deployment, or write changes become necessary."],
+  "prior_task_findings": "BPK-063 represented cockpit server patch candidates without applying them.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "f75b991"
+}

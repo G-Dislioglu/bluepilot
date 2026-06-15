@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-064",
+  "task_name": "bluepilot-memory-cache-audit-export-contract-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-063-066-patch-candidates-audit-export-handoff",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "external_read_boundary",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add an export contract for BPK-060 memory cache invalidation audit trails, producing an export manifest without writing files, durable storage, DB, filesystem cache, scheduler, routes, package, workflow, deployment, or external-call changes.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/memoryCacheInvalidationAuditTrail.ts", "builder/src/memoryCacheAuditExportContract.ts", "builder/tests/memoryCacheAuditExportContract.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-063.json", "contracts/BPK-064.json", "contracts/BPK-065.json", "contracts/BPK-066.json",
+    "builder/src/cockpitServerPatchCandidate.ts", "builder/src/memoryCacheAuditExportContract.ts", "builder/src/runtimeServerPatchCandidate.ts", "builder/src/releaseGovernanceHandoffPacket.ts",
+    "builder/tests/cockpitServerPatchCandidate.test.ts", "builder/tests/memoryCacheAuditExportContract.test.ts", "builder/tests/runtimeServerPatchCandidate.test.ts", "builder/tests/releaseGovernanceHandoffPacket.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-063.md", "review-packets/BPK-064.md", "review-packets/BPK-065.md", "review-packets/BPK-066.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not write export files, add durable storage, DB writes, filesystem cache files, scheduler, routes, package changes, workflow changes, deployment files, or external calls."],
+  "claims": ["Audit trails can be described as export manifests without writing files.", "Ready BPK-060 trail and export refs are required.", "File writes remain false."],
+  "assumptions": ["Actual export persistence would be a later task."],
+  "dod": ["builder/src/memoryCacheAuditExportContract.ts exports buildMemoryCacheAuditExportContract.", "Ready, missing export ref, and blocked audit trail cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/memoryCacheAuditExportContract.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-064 --verify", "git diff --check"],
+  "stop_conditions": ["File writes, durable storage, DB, filesystem cache, scheduler, route, package, workflow, deployment, or external-call changes become necessary."],
+  "prior_task_findings": "BPK-060 built an in-memory audit trail for cache invalidation evidence.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "cae8a42"
+}

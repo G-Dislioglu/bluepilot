@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-079",
+  "task_name": "bluepilot-cockpit-patch-operator-decision-gate-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-079-082-operator-final-decision-gates",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "operator_cockpit",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free operator decision gate for BPK-075 cockpit patch dry-run evidence, accepting explicit approve/defer/reject decisions without applying patches, changing server, route, renderer, runtime, package, workflow, deployment, DB, providers, GitHub, or writes.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/cockpitPatchOperatorDryRunEvidence.ts", "builder/src/cockpitPatchOperatorDecisionGate.ts", "builder/tests/cockpitPatchOperatorDecisionGate.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-079.json", "contracts/BPK-080.json", "contracts/BPK-081.json", "contracts/BPK-082.json",
+    "builder/src/cockpitPatchOperatorDecisionGate.ts", "builder/src/memoryCacheAuditExportDecisionGate.ts", "builder/src/runtimePatchOperatorDecisionGate.ts", "builder/src/releaseGovernanceFinalDecisionGate.ts",
+    "builder/tests/cockpitPatchOperatorDecisionGate.test.ts", "builder/tests/memoryCacheAuditExportDecisionGate.test.ts", "builder/tests/runtimePatchOperatorDecisionGate.test.ts", "builder/tests/releaseGovernanceFinalDecisionGate.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-079.md", "review-packets/BPK-080.md", "review-packets/BPK-081.md", "review-packets/BPK-082.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not apply patches, mutate server files, mutate route files, change renderer files, enable cockpit actions, call AICOS, call providers, call DB, call GitHub, change package files, workflows, deployment files, or write files."],
+  "claims": ["Cockpit dry-run evidence can be converted to an operator decision without applying the patch.", "Ready BPK-075 evidence and explicit decision refs are required.", "Patch application remains false."],
+  "assumptions": ["Approved decision gates only authorize a later task lock, not execution in this task."],
+  "dod": ["builder/src/cockpitPatchOperatorDecisionGate.ts exports evaluateCockpitPatchOperatorDecisionGate.", "Approved, missing decision ref, and rejected or blocked evidence cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/cockpitPatchOperatorDecisionGate.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-079 --verify", "git diff --check"],
+  "stop_conditions": ["Server mutation, route mutation, renderer mutation, executable actions, external calls, DB, GitHub, package, workflow, deployment, or write changes become necessary."],
+  "prior_task_findings": "BPK-075 bundled cockpit patch dry-run evidence without applying patches.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "8988921"
+}

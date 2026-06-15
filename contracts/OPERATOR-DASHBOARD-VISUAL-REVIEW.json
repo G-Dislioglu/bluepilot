@@ -1,0 +1,84 @@
+{
+  "task_id": "OPERATOR-DASHBOARD-VISUAL-REVIEW",
+  "task_name": "bluepilot-operator-dashboard-visual-review-v0.1",
+  "created": "2026-06-15",
+  "scope": "bluepilot/builder/integration/operator-dashboard-visual-review",
+  "mode": "standard",
+  "task_type": "ui_task",
+  "risk_class": "medium",
+  "impact_class": "operator_cockpit_visual_review",
+  "target_persona": "operator_user",
+  "goal": "Visually verify the default-off operator dashboard after the eight-point read-only and contract-only integration stack, without adding runtime, provider, write, merge, or deploy behavior.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/operatorDashboardRoute.ts",
+    "builder/src/operatorDashboardHtml.ts",
+    "builder/src/eightPointIntegrationReadiness.ts",
+    "builder/src/server.ts",
+    "builder/tests/operatorDashboardRoute.test.ts",
+    "builder/tests/operatorDashboardHtml.test.ts",
+    "builder/tests/eightPointIntegrationReadiness.test.ts"
+  ],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/OPERATOR-DASHBOARD-VISUAL-REVIEW.json",
+    "review-packets/OPERATOR-DASHBOARD-VISUAL-REVIEW.md",
+    "builder/output/playwright/operator-dashboard-desktop-cli.png",
+    "builder/output/playwright/operator-dashboard-mobile-cli.png",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    ".github/**",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/providers.ts",
+    "builder/src/db.ts",
+    "builder/src/probeDryRun.ts",
+    "builder/src/server.ts",
+    "builder/src/operatorDashboardRoute.ts",
+    "builder/src/operatorDashboardHtml.ts",
+    "soulmatch/**",
+    "goat-desktop/**",
+    "aicos-registry/**"
+  ],
+  "scope_out": [
+    "Do not change dashboard implementation code, mount new routes, call providers, execute runtime, write DB, write GitHub, create PRs, merge branches, deploy, or change package/workflow files."
+  ],
+  "claims": [
+    "The operator dashboard renders all eight integration panels.",
+    "Desktop and mobile layouts have no panel overlaps.",
+    "Desktop and mobile layouts have no horizontal overflow.",
+    "The only observed console error is the non-blocking favicon.ico 404."
+  ],
+  "assumptions": [
+    "Visual review is performed against the local builder server with BLUEPILOT_OPERATOR_READ_ONLY_ROUTE_ENABLED=true.",
+    "This task records evidence only; permanent UI changes require a separate implementation lock if issues are found."
+  ],
+  "dod": [
+    "Local /cockpit/operator-read-only route is opened in a browser.",
+    "Desktop and mobile screenshots are captured.",
+    "DOM layout measurements confirm 8 panels, expected statuses, no overlaps, and no horizontal overflow.",
+    "Focused tests, typecheck, diff-check, and full builder tests pass."
+  ],
+  "evidence_required": ["screenshot_check", "playwright_flow", "human_ui_review"],
+  "required_commands": [
+    "npx --yes --package @playwright/cli playwright-cli -s=bluepilot-operator snapshot",
+    "npx --yes --package @playwright/cli playwright-cli -s=bluepilot-operator screenshot --filename builder\\\\output\\\\playwright\\\\operator-dashboard-desktop-cli.png --full-page",
+    "npx --yes --package @playwright/cli playwright-cli -s=bluepilot-operator screenshot --filename builder\\\\output\\\\playwright\\\\operator-dashboard-mobile-cli.png --full-page",
+    "npx tsx --test tests/operatorDashboardHtml.test.ts tests/operatorDashboardRoute.test.ts tests/eightPointIntegrationReadiness.test.ts tests/meta.test.ts",
+    "npm run typecheck",
+    "git diff --check",
+    "npm test"
+  ],
+  "stop_conditions": [
+    "A dashboard code change, route mutation, provider call, runtime execution, durable write, GitHub write, PR creation, merge, deploy, package change, or workflow change becomes necessary."
+  ],
+  "prior_task_findings": "All eight integration points are read-only or contract-only; the operator dashboard now needs visual evidence before stacked branch review.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "eb585b4"
+}

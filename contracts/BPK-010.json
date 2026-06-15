@@ -1,0 +1,113 @@
+{
+  "task_id": "BPK-010",
+  "task_name": "bluepilot-live-aicos-card-binding-intake-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/live-aicos-card-binding-intake",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free intake normalizer for live AICOS card snapshots that validates, normalizes, deduplicates, and quarantines card data before it can feed card-conditioned dispatch. Do not call AICOS, maya-core, providers, runtime dispatch, GitHub, database, frontend, package scripts, or external services.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "contracts/BPK-004.json",
+    "contracts/BPK-009.json",
+    "review-packets/BPK-009.md",
+    "builder/src/cardConditionedDispatch.ts",
+    "builder/src/aicosCardBindingIntake.ts",
+    "builder/tests/aicosCardBindingIntake.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BPK-010.json",
+    "builder/src/aicosCardBindingIntake.ts",
+    "builder/tests/aicosCardBindingIntake.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-010.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusClaimGate.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/server.ts",
+    "builder/src/architectPhase1.ts",
+    "builder/src/cardConditionedDispatch.ts",
+    "builder/src/cockpitProjectionAdoptionContract.ts",
+    "builder/src/dispatchFrontendReadiness.ts",
+    "builder/src/runtimeDispatchIntegrationContract.ts",
+    "builder/src/preRegisteredClaims.ts",
+    "builder/src/workerPacketWlpAdapter.ts",
+    "builder/scripts/**",
+    "builder/data/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not call AICOS or any external service.",
+    "Do not add a cache, persistence layer, runtime route, provider call, GitHub write, or database write.",
+    "Do not add package scripts, dependencies, environment variables, deployment notes, or frontend files.",
+    "Do not change card-conditioned dispatch semantics."
+  ],
+  "claims": [
+    "Live card snapshots can be validated and normalized before dispatch without calling AICOS.",
+    "Invalid, duplicate, or evidence-less card snapshots are quarantined fail-closed.",
+    "Accepted snapshots are returned as DispatchConditionCard-compatible data.",
+    "The intake normalizer is side-effect-free and tested independently."
+  ],
+  "assumptions": [
+    "A later block may fetch live AICOS data; this block only validates passed-in snapshots.",
+    "Card evidence references are required before a live card can influence dispatch.",
+    "Quarantine output is enough for operator review at this stage."
+  ],
+  "dod": [
+    "builder/src/aicosCardBindingIntake.ts exports side-effect-free intake types and normalizer.",
+    "The normalizer returns accepted cards and quarantined snapshots with deterministic reasons.",
+    "The normalizer rejects invalid IDs, missing titles, invalid status/policy, unsafe paths, missing evidence, and duplicates.",
+    "builder/tests/aicosCardBindingIntake.test.ts covers accepted card, invalid fields, duplicate, unsafe path, and no-mutation behavior.",
+    "STATE.md and docs/SESSION-LOG.md record BPK-010.",
+    "review-packets/BPK-010.md records scope, safety invariants, gates, and verification.",
+    "The focused intake test and npm run typecheck in builder/ pass.",
+    "node tools/verify-task-lock.cjs BPK-010 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "npx tsx --test tests/aicosCardBindingIntake.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-010 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "A live AICOS call, cache, persistence layer, route, provider, database, GitHub write, package change, deployment change, or frontend file becomes necessary.",
+    "Changing card-conditioned dispatch behavior becomes necessary."
+  ],
+  "prior_task_findings": "BPK-009 created a cockpit-consumable projection contract. BPK-010 should prepare live card data intake without fetching or trusting live data implicitly.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "fdcd5b5"
+}

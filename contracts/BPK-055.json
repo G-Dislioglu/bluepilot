@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-055",
+  "task_name": "bluepilot-cockpit-mount-implementation-plan-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-055-058-implementation-plan-evidence-promotion",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "operator_cockpit",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free implementation plan for a future cockpit default-off mount, based on BPK-051, listing planned files and gates without changing server, route, renderer, runtime, package, workflow, or deployment files.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/cockpitDefaultOffMountContract.ts", "builder/src/cockpitMountImplementationPlan.ts", "builder/tests/cockpitMountImplementationPlan.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-055.json", "contracts/BPK-056.json", "contracts/BPK-057.json", "contracts/BPK-058.json",
+    "builder/src/cockpitMountImplementationPlan.ts", "builder/src/memoryCacheInvalidationEvidenceBinding.ts", "builder/src/runtimeMountImplementationPlan.ts", "builder/src/prReceiptEvidencePromotionGate.ts",
+    "builder/tests/cockpitMountImplementationPlan.test.ts", "builder/tests/memoryCacheInvalidationEvidenceBinding.test.ts", "builder/tests/runtimeMountImplementationPlan.test.ts", "builder/tests/prReceiptEvidencePromotionGate.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-055.md", "review-packets/BPK-056.md", "review-packets/BPK-057.md", "review-packets/BPK-058.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not implement the mount, mutate server files, change renderer files, enable cockpit actions, call AICOS, call providers, call DB, call GitHub, change package files, workflows, or deployment files."],
+  "claims": ["Cockpit mount implementation can be planned without changing files.", "Ready BPK-051 contract and reviewer ref are required.", "Server mutation remains not executed."],
+  "assumptions": ["A later implementation task would need a new lock."],
+  "dod": ["builder/src/cockpitMountImplementationPlan.ts exports planCockpitMountImplementation.", "Ready, missing reviewer, and blocked contract cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/cockpitMountImplementationPlan.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-055 --verify", "git diff --check"],
+  "stop_conditions": ["Server mutation, route mutation, renderer mutation, executable actions, external calls, DB, GitHub, package, workflow, or deployment changes become necessary."],
+  "prior_task_findings": "BPK-051 described the cockpit default-off mount contract without implementation.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "efaabca"
+}

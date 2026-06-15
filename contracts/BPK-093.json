@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-093",
+  "task_name": "bluepilot-runtime-patch-permit-issuance-readiness-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-091-094-issuance-readiness",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "critical",
+  "impact_class": "runtime_boundary",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free readiness builder for runtime patch permit issuance, requiring policy and issuer refs while keeping permit issuance, patch application, server mutation, route mutation, runtime execution, packages, workflows, deployment, DB, providers, GitHub, and writes closed.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/runtimePatchPermitPrepEvidence.ts", "builder/src/runtimePatchPermitIssuanceReadiness.ts", "builder/tests/runtimePatchPermitIssuanceReadiness.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-091.json", "contracts/BPK-092.json", "contracts/BPK-093.json", "contracts/BPK-094.json",
+    "builder/src/cockpitPatchPermitIssuanceReadiness.ts", "builder/src/memoryCacheAuditExportPermitIssuanceReadiness.ts", "builder/src/runtimePatchPermitIssuanceReadiness.ts", "builder/src/releaseGovernanceApprovedActionReadiness.ts",
+    "builder/tests/cockpitPatchPermitIssuanceReadiness.test.ts", "builder/tests/memoryCacheAuditExportPermitIssuanceReadiness.test.ts", "builder/tests/runtimePatchPermitIssuanceReadiness.test.ts", "builder/tests/releaseGovernanceApprovedActionReadiness.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-091.md", "review-packets/BPK-092.md", "review-packets/BPK-093.md", "review-packets/BPK-094.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not issue permits, apply runtime patches, mutate server files, mutate route files, run runtime execution, call providers, call DB, call GitHub, change package files, workflows, deployment files, or write files."],
+  "claims": ["Runtime patch permit issuance can be classified as readiness without issuing a permit.", "Policy and issuer refs are required for ready status.", "Runtime execution remains false and disallowed."],
+  "assumptions": ["Actual permit issuance, patch application, and execution require later task locks."],
+  "dod": ["builder/src/runtimePatchPermitIssuanceReadiness.ts exports buildRuntimePatchPermitIssuanceReadiness.", "Ready, missing policy ref, and blocked evidence cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/runtimePatchPermitIssuanceReadiness.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-093 --verify", "git diff --check"],
+  "stop_conditions": ["Permit issuance, runtime patch application, server mutation, route mutation, runtime execution, external calls, DB, GitHub, package, workflow, deployment, or write changes become necessary."],
+  "prior_task_findings": "BPK-089 bundled runtime patch permit-prep evidence without issuing a permit or enabling execution.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "a987965"
+}

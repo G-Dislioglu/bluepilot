@@ -1,0 +1,114 @@
+{
+  "task_id": "BPK-011",
+  "task_name": "bluepilot-bpk-branch-merge-release-sequencing-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-branch-merge-release-sequencing",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free BPK branch merge/release sequencing planner that orders BPK branches, detects missing predecessors or non-green checks, and emits release-note sections. Do not perform git merges, pushes to main, GitHub API calls, package changes, runtime changes, deployment changes, frontend changes, or external service calls.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "contracts/BPK-008.json",
+    "contracts/BPK-009.json",
+    "contracts/BPK-010.json",
+    "review-packets/BPK-010.md",
+    "builder/src/bpkBranchMergeReleaseSequencing.ts",
+    "builder/tests/bpkBranchMergeReleaseSequencing.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BPK-011.json",
+    "builder/src/bpkBranchMergeReleaseSequencing.ts",
+    "builder/tests/bpkBranchMergeReleaseSequencing.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-011.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusClaimGate.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/server.ts",
+    "builder/src/architectPhase1.ts",
+    "builder/src/aicosCardBindingIntake.ts",
+    "builder/src/cockpitProjectionAdoptionContract.ts",
+    "builder/src/dispatchFrontendReadiness.ts",
+    "builder/src/runtimeDispatchIntegrationContract.ts",
+    "builder/src/cardConditionedDispatch.ts",
+    "builder/src/preRegisteredClaims.ts",
+    "builder/src/workerPacketWlpAdapter.ts",
+    "builder/scripts/**",
+    "builder/data/**",
+    ".github/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not merge branches, push to main, create PRs, call GitHub APIs, or change workflows.",
+    "Do not add package scripts, dependencies, environment variables, deployment notes, runtime routes, provider calls, database writes, GitHub writes, or frontend files.",
+    "Do not change BPK-008 through BPK-010 semantics."
+  ],
+  "claims": [
+    "BPK branch merge order can be planned deterministically without executing git operations.",
+    "Missing predecessors, blocked candidates, and failing checks block release readiness.",
+    "Review-required candidates keep the release in review state.",
+    "Release-note sections can be generated from branch metadata."
+  ],
+  "assumptions": [
+    "Actual PR creation, merge, and deployment remain human/operator-controlled.",
+    "Branch metadata is supplied by a caller or operator, not fetched in this block.",
+    "BPK-008 through BPK-010 are the current requested release sequence."
+  ],
+  "dod": [
+    "builder/src/bpkBranchMergeReleaseSequencing.ts exports side-effect-free sequencing types and planner.",
+    "The planner returns ready, review_required, or blocked with deterministic blockers and ordered branches.",
+    "The planner detects missing predecessors, duplicate task IDs, blocked candidates, and failing checks.",
+    "builder/tests/bpkBranchMergeReleaseSequencing.test.ts covers ready order, review state, missing predecessor, failing check, duplicate task, and no-mutation behavior.",
+    "STATE.md and docs/SESSION-LOG.md record BPK-011.",
+    "review-packets/BPK-011.md records scope, safety invariants, gates, and verification.",
+    "The focused sequencing test and npm run typecheck in builder/ pass.",
+    "node tools/verify-task-lock.cjs BPK-011 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "npx tsx --test tests/bpkBranchMergeReleaseSequencing.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-011 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "A real merge, PR creation, GitHub API call, workflow change, deployment change, runtime change, package change, or frontend file becomes necessary.",
+    "Changing BPK-008 through BPK-010 behavior becomes necessary."
+  ],
+  "prior_task_findings": "BPK-008 through BPK-010 prepared runtime adoption, cockpit adoption, and AICOS card intake as pure contracts. BPK-011 should sequence their branch merge/release path without executing merges.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "f07d00b"
+}

@@ -1,0 +1,31 @@
+{
+  "task_id": "BPK-137",
+  "task_name": "bluepilot-runtime-patch-permit-consume-execution-authority-v0.1",
+  "created": "2026-06-15",
+  "scope": "bluepilot/builder/bpk-135-138-consume-execution-authority",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "critical",
+  "impact_class": "runtime_boundary",
+  "goal": "Add a side-effect-free execution authority builder that records runtime patch consume execution authorization from ready execution preflight while keeping permit consume, patch application, server mutation, route mutation, runtime execution, packages, workflows, deployment, DB, providers, GitHub, and writes closed.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/runtimePatchPermitConsumeExecutionPreflight.ts", "builder/src/runtimePatchPermitConsumeExecutionAuthority.ts", "builder/tests/runtimePatchPermitConsumeExecutionAuthority.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-135.json", "contracts/BPK-136.json", "contracts/BPK-137.json", "contracts/BPK-138.json",
+    "builder/src/cockpitPatchPermitConsumeExecutionAuthority.ts", "builder/src/memoryCacheAuditExportPermitConsumeExecutionAuthority.ts", "builder/src/runtimePatchPermitConsumeExecutionAuthority.ts", "builder/src/releaseGovernanceApprovedActionConsumeExecutionAuthority.ts",
+    "builder/tests/cockpitPatchPermitConsumeExecutionAuthority.test.ts", "builder/tests/memoryCacheAuditExportPermitConsumeExecutionAuthority.test.ts", "builder/tests/runtimePatchPermitConsumeExecutionAuthority.test.ts", "builder/tests/releaseGovernanceApprovedActionConsumeExecutionAuthority.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-135.md", "review-packets/BPK-136.md", "review-packets/BPK-137.md", "review-packets/BPK-138.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not consume permits, apply runtime patches, mutate server files, mutate route files, run runtime execution, call providers, call DB, call GitHub, change package files, workflows, deployment files, or write files."],
+  "claims": ["Ready runtime patch consume execution preflight can produce a side-effect-free execution authorization artifact.", "Execution authority id, authorizer, and expiry refs are required.", "Permit consume and runtime execution remain false."],
+  "assumptions": ["Actual permit consumption, patch application, and execution require later task locks."],
+  "dod": ["builder/src/runtimePatchPermitConsumeExecutionAuthority.ts exports authorizeRuntimePatchPermitConsumeExecution.", "Ready, missing authority id, and blocked preflight cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/runtimePatchPermitConsumeExecutionAuthority.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-137 --verify", "git diff --check"],
+  "stop_conditions": ["Permit consumption, runtime patch application, server mutation, route mutation, runtime execution, external calls, DB, GitHub, package, workflow, deployment, or write changes become necessary."],
+  "prior_task_findings": "BPK-133 preflighted runtime patch consume execution without consuming the permit or executing runtime work.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "4364ad3"
+}

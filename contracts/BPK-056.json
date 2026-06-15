@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-056",
+  "task_name": "bluepilot-memory-cache-invalidation-evidence-binding-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-055-058-implementation-plan-evidence-promotion",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "external_read_boundary",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Bind BPK-052 operator invalidation results to BPK-048 facade/store binding evidence, without durable storage, DB, filesystem cache, scheduler, routes, package, workflow, deployment, or external-call changes.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/memoryCacheOperatorInvalidationContract.ts", "builder/src/memoryCacheFacadeStoreBinding.ts", "builder/src/memoryCacheInvalidationEvidenceBinding.ts", "builder/tests/memoryCacheInvalidationEvidenceBinding.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-055.json", "contracts/BPK-056.json", "contracts/BPK-057.json", "contracts/BPK-058.json",
+    "builder/src/cockpitMountImplementationPlan.ts", "builder/src/memoryCacheInvalidationEvidenceBinding.ts", "builder/src/runtimeMountImplementationPlan.ts", "builder/src/prReceiptEvidencePromotionGate.ts",
+    "builder/tests/cockpitMountImplementationPlan.test.ts", "builder/tests/memoryCacheInvalidationEvidenceBinding.test.ts", "builder/tests/runtimeMountImplementationPlan.test.ts", "builder/tests/prReceiptEvidencePromotionGate.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-055.md", "review-packets/BPK-056.md", "review-packets/BPK-057.md", "review-packets/BPK-058.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not add durable storage, DB writes, filesystem cache files, scheduler, routes, package changes, workflow changes, deployment files, or external calls."],
+  "claims": ["Invalidation evidence can be bound to the prior read facade/store binding.", "Successful invalidation and evidence ref are required.", "Durable persistence remains closed."],
+  "assumptions": ["This binds supplied evidence only; it does not perform another invalidation."],
+  "dod": ["builder/src/memoryCacheInvalidationEvidenceBinding.ts exports bindMemoryCacheInvalidationEvidence.", "Ready, missing evidence, and blocked invalidation cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/memoryCacheInvalidationEvidenceBinding.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-056 --verify", "git diff --check"],
+  "stop_conditions": ["Durable storage, DB, filesystem cache, scheduler, route, package, workflow, deployment, or external-call changes become necessary."],
+  "prior_task_findings": "BPK-052 invalidates in-process entries; BPK-048 binds store reads to the facade.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "efaabca"
+}

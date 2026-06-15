@@ -1,0 +1,116 @@
+{
+  "task_id": "BPK-002",
+  "task_name": "Permit Generalisierung",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/sandbox-write-permit-generalization",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "safety",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Generalize the BP-146 one-shot permit path onto the BP-149 generic POST /probe/sandbox-write endpoint by reusing the existing smartPush writePermit path. The endpoint must require permitId for write operations, compute create/update coordinates from the actual sandbox file state, and block delete/undo until a dedicated permit type exists.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "docs/CODEX-RICHTUNGSBRIEF-optimized.md",
+    "builder/src/sandboxWrite.ts",
+    "builder/tests/sandboxWrite.test.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/tests/opusSmartPush.test.ts",
+    "builder/src/mayaBuilderGateClient.ts",
+    "builder/src/writePermitContentHash.ts",
+    "review-packets/BPK-001.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BPK-002.json",
+    "builder/src/sandboxWrite.ts",
+    "builder/tests/sandboxWrite.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-002.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/opusPatchMode.ts",
+    "builder/src/mayaBuilderGateClient.ts",
+    "builder/src/writePermitContentHash.ts",
+    "builder/src/server.ts",
+    "builder/src/sandboxRealWrite.ts",
+    "builder/src/sandboxWriteProbe.ts",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not add a new permit store or duplicate maya-core permit logic.",
+    "Do not change smartPush, corridor, contentHash, GitHub adapter, server routing, package files, or deployment settings.",
+    "Do not perform a live GitHub write.",
+    "Do not enable or set runtime environment variables.",
+    "Do not implement delete/undo permits in this block; block delete until a separate permit type is contracted."
+  ],
+  "claims": [
+    "POST /probe/sandbox-write requires permitId for write operations before GitHub write is attempted.",
+    "For write operations, the endpoint inspects sandbox file state, derives create/update and baseSha, then calls smartPush with targetRepo G-Dislioglu/bluepilot-sandbox and writePermit.",
+    "The existing smartPush permit path remains the single corridor consume point; no duplicate permit consume is built.",
+    "Delete operations are blocked before GitHub mutation because no dedicated delete/undo permit type exists yet.",
+    "Existing env gate and path/content validation remain fail-closed."
+  ],
+  "assumptions": [
+    "BPK-001 is committed and pushed on bpk-001-doc-drift-hygiene.",
+    "BP-145 already implemented smartPush writePermit and corridor consume semantics.",
+    "BP-149 created the generic sandbox-write endpoint but did not bind it to permitId.",
+    "Delete/undo is safety-sensitive and needs a later explicit permit contract."
+  ],
+  "dod": [
+    "builder/src/sandboxWrite.ts routes write operations through smartPush(writePermit) after read-only file-state inspection.",
+    "builder/src/sandboxWrite.ts rejects missing or malformed permitId before GitHub write.",
+    "builder/src/sandboxWrite.ts blocks delete operations before GitHub delete.",
+    "builder/tests/sandboxWrite.test.ts proves create/update permit wiring, missing permit block, corridor/write block propagation, and delete block.",
+    "STATE.md and docs/SESSION-LOG.md record BPK-002.",
+    "review-packets/BPK-002.md records scope, safety invariants, gates, and verification.",
+    "npm test and npm run typecheck in builder/ pass.",
+    "node tools/verify-task-lock.cjs BPK-002 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result",
+    "runtime_check"
+  ],
+  "required_commands": [
+    "npm test",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-002 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "A maya-core code change becomes necessary.",
+    "A new permit store or duplicate consume implementation becomes necessary.",
+    "Package or dependency changes become necessary.",
+    "A live GitHub write or environment change becomes necessary.",
+    "Delete/undo cannot be safely blocked without broader product decision."
+  ],
+  "prior_task_findings": "BPK-001 restored BP-149 anchor truth. Local code review found the generic sandbox-write endpoint already exists, while the existing permit consume path lives in smartPush(writePermit). BPK-002 should connect those existing pieces, not build a second permit mechanism.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "c4cdf70"
+}

@@ -1,0 +1,103 @@
+{
+  "task_id": "BPK-016",
+  "task_name": "bluepilot-pr-review-connector-or-manual-receipts-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/pr-review-manual-receipts",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free manual PR/review receipt normalizer that converts operator-supplied PR metadata into BPK-012 review records and quarantines invalid receipts. Do not call GitHub, create PRs, merge branches, change workflows, add package changes, or touch runtime/frontend behavior.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "contracts/BPK-012.json",
+    "review-packets/BPK-012.md",
+    "builder/src/bpkPrReviewExecution.ts",
+    "builder/src/bpkPrReviewManualReceipts.ts",
+    "builder/tests/bpkPrReviewManualReceipts.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BPK-016.json",
+    "builder/src/bpkPrReviewManualReceipts.ts",
+    "builder/tests/bpkPrReviewManualReceipts.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-016.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    ".github/**",
+    "builder/src/bpkPrReviewExecution.ts",
+    "builder/src/server.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/scripts/**",
+    "builder/data/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not call GitHub APIs, create PRs, merge branches, push to main, or change workflows.",
+    "Do not add package scripts, dependencies, environment variables, deployment notes, runtime routes, provider calls, database writes, GitHub writes, or frontend files.",
+    "Do not change BPK-012 semantics."
+  ],
+  "claims": [
+    "Operator-supplied PR review receipts can be normalized without GitHub side effects.",
+    "Invalid PR URLs, invalid task IDs, missing commits, invalid review decisions, and non-green check statuses are quarantined.",
+    "Accepted receipts are BPK-012-compatible review records.",
+    "The normalizer is side-effect-free and tested independently."
+  ],
+  "assumptions": [
+    "The operator may paste PR metadata manually before a live GitHub connector exists.",
+    "Actual GitHub connector behavior belongs to a later block.",
+    "BPK-012 remains the merge-readiness evaluator."
+  ],
+  "dod": [
+    "builder/src/bpkPrReviewManualReceipts.ts exports side-effect-free receipt types and normalizer.",
+    "The normalizer returns accepted BPK-012 records and quarantined receipts with deterministic reasons.",
+    "builder/tests/bpkPrReviewManualReceipts.test.ts covers accepted receipt, invalid PR URL, invalid decision, failing/missing check, duplicate task, and no-mutation behavior.",
+    "STATE.md and docs/SESSION-LOG.md record BPK-016.",
+    "review-packets/BPK-016.md records scope, safety invariants, gates, and verification.",
+    "The focused manual receipt test and npm run typecheck in builder/ pass.",
+    "node tools/verify-task-lock.cjs BPK-016 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "npx tsx --test tests/bpkPrReviewManualReceipts.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-016 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "A GitHub API call, PR creation, merge, push, workflow change, runtime change, package change, deployment change, or frontend file becomes necessary.",
+    "Changing BPK-012 behavior becomes necessary."
+  ],
+  "prior_task_findings": "BPK-012 evaluates supplied PR review metadata. BPK-016 should safely normalize manual receipts into that shape without GitHub side effects.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "f47927e"
+}

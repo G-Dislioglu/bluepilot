@@ -1,0 +1,31 @@
+{
+  "task_id": "BPK-133",
+  "task_name": "bluepilot-runtime-patch-permit-consume-execution-preflight-v0.1",
+  "created": "2026-06-15",
+  "scope": "bluepilot/builder/bpk-131-134-consume-execution-preflight",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "critical",
+  "impact_class": "runtime_boundary",
+  "goal": "Add a side-effect-free execution preflight builder that validates runtime patch consume application authority is ready for later execution while keeping permit consume, patch application, server mutation, route mutation, runtime execution, packages, workflows, deployment, DB, providers, GitHub, and writes closed.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/runtimePatchPermitConsumeApplicationAuthority.ts", "builder/src/runtimePatchPermitConsumeExecutionPreflight.ts", "builder/tests/runtimePatchPermitConsumeExecutionPreflight.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-131.json", "contracts/BPK-132.json", "contracts/BPK-133.json", "contracts/BPK-134.json",
+    "builder/src/cockpitPatchPermitConsumeExecutionPreflight.ts", "builder/src/memoryCacheAuditExportPermitConsumeExecutionPreflight.ts", "builder/src/runtimePatchPermitConsumeExecutionPreflight.ts", "builder/src/releaseGovernanceApprovedActionConsumeExecutionPreflight.ts",
+    "builder/tests/cockpitPatchPermitConsumeExecutionPreflight.test.ts", "builder/tests/memoryCacheAuditExportPermitConsumeExecutionPreflight.test.ts", "builder/tests/runtimePatchPermitConsumeExecutionPreflight.test.ts", "builder/tests/releaseGovernanceApprovedActionConsumeExecutionPreflight.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-131.md", "review-packets/BPK-132.md", "review-packets/BPK-133.md", "review-packets/BPK-134.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not consume permits, apply runtime patches, mutate server files, mutate route files, run runtime execution, call providers, call DB, call GitHub, change package files, workflows, deployment files, or write files."],
+  "claims": ["Ready runtime patch consume application authority can be preflighted for later execution without executing it.", "Execution preflight ref, executor ref, and execution policy ref are required.", "Permit consume and runtime execution remain false."],
+  "assumptions": ["Actual permit consumption, patch application, and execution require later task locks."],
+  "dod": ["builder/src/runtimePatchPermitConsumeExecutionPreflight.ts exports preflightRuntimePatchPermitConsumeExecution.", "Ready, missing execution ref, and blocked authority cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/runtimePatchPermitConsumeExecutionPreflight.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-133 --verify", "git diff --check"],
+  "stop_conditions": ["Permit consumption, runtime patch application, server mutation, route mutation, runtime execution, external calls, DB, GitHub, package, workflow, deployment, or write changes become necessary."],
+  "prior_task_findings": "BPK-129 recorded side-effect-free runtime patch consume application authority without consuming the permit or executing runtime work.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "3dbe14d"
+}

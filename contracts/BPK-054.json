@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-054",
+  "task_name": "bluepilot-pr-receipt-loader-evidence-pack-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-051-054-default-off-mounts-invalidation-evidence",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "release_governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a PR receipt loader evidence pack builder that bundles BPK-046 loader result, BPK-050 runbook, evidence refs, and release summary without reading files, calling GitHub, creating PRs, merging, writing, changing workflows, packages, or deployment files.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/prReceiptFileLoaderImplementation.ts", "builder/src/prReceiptLoaderOperatorRunbook.ts", "builder/src/prReceiptLoaderEvidencePack.ts", "builder/tests/prReceiptLoaderEvidencePack.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-051.json", "contracts/BPK-052.json", "contracts/BPK-053.json", "contracts/BPK-054.json",
+    "builder/src/cockpitDefaultOffMountContract.ts", "builder/src/memoryCacheOperatorInvalidationContract.ts", "builder/src/runtimeDefaultOffMountContract.ts", "builder/src/prReceiptLoaderEvidencePack.ts",
+    "builder/tests/cockpitDefaultOffMountContract.test.ts", "builder/tests/memoryCacheOperatorInvalidationContract.test.ts", "builder/tests/runtimeDefaultOffMountContract.test.ts", "builder/tests/prReceiptLoaderEvidencePack.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-051.md", "review-packets/BPK-052.md", "review-packets/BPK-053.md", "review-packets/BPK-054.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not read files, call GitHub, create PRs, merge, write files, change workflows, change package files, change deployment files, or mutate external state."],
+  "claims": ["Loader and runbook evidence can be bundled without external actions.", "Ready loader and runbook are required.", "The evidence pack is review-only and does not authorize merge."],
+  "assumptions": ["Evidence refs are supplied by the operator or previous review packets."],
+  "dod": ["builder/src/prReceiptLoaderEvidencePack.ts exports buildPrReceiptLoaderEvidencePack.", "Ready, missing evidence, and blocked runbook cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/prReceiptLoaderEvidencePack.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-054 --verify", "git diff --check"],
+  "stop_conditions": ["Filesystem reads, GitHub calls, PR creation, merge, writes, workflow changes, package changes, deployment changes, or external state mutation become necessary."],
+  "prior_task_findings": "BPK-046 implemented bounded local loader; BPK-050 described operator usage.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "abc279f"
+}

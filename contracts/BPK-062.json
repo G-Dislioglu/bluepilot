@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-062",
+  "task_name": "bluepilot-pr-receipt-governance-release-decision-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-059-062-patch-preflight-audit-release-decision",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "release_governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a review-only release governance decision for BPK-058 PR receipt evidence promotion gates, deciding release-governance readiness while still forbidding GitHub calls, PR creation, merge, writes, workflow changes, packages, and deployment.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/prReceiptEvidencePromotionGate.ts", "builder/src/prReceiptGovernanceReleaseDecision.ts", "builder/tests/prReceiptGovernanceReleaseDecision.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-059.json", "contracts/BPK-060.json", "contracts/BPK-061.json", "contracts/BPK-062.json",
+    "builder/src/cockpitMountPatchPreflight.ts", "builder/src/memoryCacheInvalidationAuditTrail.ts", "builder/src/runtimeMountPatchPreflight.ts", "builder/src/prReceiptGovernanceReleaseDecision.ts",
+    "builder/tests/cockpitMountPatchPreflight.test.ts", "builder/tests/memoryCacheInvalidationAuditTrail.test.ts", "builder/tests/runtimeMountPatchPreflight.test.ts", "builder/tests/prReceiptGovernanceReleaseDecision.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-059.md", "review-packets/BPK-060.md", "review-packets/BPK-061.md", "review-packets/BPK-062.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not read files, call GitHub, create PRs, merge, write files, change workflows, change package files, change deployment files, or mutate external state."],
+  "claims": ["Release governance readiness can be decided without merge.", "Ready promotion gate and governance decision ref are required.", "Merge and external actions remain false."],
+  "assumptions": ["The decision feeds release governance review only."],
+  "dod": ["builder/src/prReceiptGovernanceReleaseDecision.ts exports decidePrReceiptGovernanceRelease.", "Ready, missing decision ref, and blocked gate cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/prReceiptGovernanceReleaseDecision.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-062 --verify", "git diff --check"],
+  "stop_conditions": ["Filesystem reads, GitHub calls, PR creation, merge, writes, workflow changes, package changes, deployment changes, or external state mutation become necessary."],
+  "prior_task_findings": "BPK-058 gated PR receipt evidence promotion into release governance.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "6bdb9f8"
+}

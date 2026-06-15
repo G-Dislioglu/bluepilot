@@ -1,0 +1,109 @@
+{
+  "task_id": "BPK-026",
+  "task_name": "bluepilot-runtime-execution-decision-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-023-026-decision-bundle",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "runtime_boundary",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free runtime execution decision layer that keeps contract-only mode closed, permits future dry-run execution only with explicit evidence, and blocks write execution until a separate permit authority contract exists.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/runtimeDryRunAdapterContract.ts",
+    "builder/src/runtimeExecutionDecision.ts",
+    "builder/tests/runtimeExecutionDecision.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BPK-023.json",
+    "contracts/BPK-024.json",
+    "contracts/BPK-025.json",
+    "contracts/BPK-026.json",
+    "builder/src/bpkBranchPrConsolidation.ts",
+    "builder/src/cockpitLiveModelSourceDecision.ts",
+    "builder/src/liveAicosCachePersistenceDecision.ts",
+    "builder/src/runtimeExecutionDecision.ts",
+    "builder/tests/bpkBranchPrConsolidation.test.ts",
+    "builder/tests/cockpitLiveModelSourceDecision.test.ts",
+    "builder/tests/liveAicosCachePersistenceDecision.test.ts",
+    "builder/tests/runtimeExecutionDecision.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-023.md",
+    "review-packets/BPK-024.md",
+    "review-packets/BPK-025.md",
+    "review-packets/BPK-026.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    ".github/**",
+    "builder/src/server.ts",
+    "builder/src/runtimeDryRunRoute.ts",
+    "builder/src/probeDryRun.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/providers.ts",
+    "builder/src/db.ts",
+    "builder/scripts/**",
+    "builder/data/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not mount or change runtime routes, call orchestrator, call providers, call DB, call GitHub, write files, deploy, change workflows, or change packages.",
+    "Do not allow write execution in this block."
+  ],
+  "claims": [
+    "Runtime execution readiness can be decided without executing runtime work.",
+    "Dry-run execution requires operator approval, Maya gate evidence, provider isolation evidence, and bounded runtime.",
+    "Write execution remains blocked until a separate permit authority contract exists."
+  ],
+  "assumptions": [
+    "BPK-020 remains contract-only until a later mount contract changes it.",
+    "This block decides readiness only and does not mutate routes."
+  ],
+  "dod": [
+    "builder/src/runtimeExecutionDecision.ts exports decideRuntimeExecution.",
+    "Contract-only mode keeps runtime execution closed.",
+    "Dry-run execution can become ready only with required evidence and bounds.",
+    "Write execution is blocked.",
+    "Focused tests, typecheck, task-lock verify, and diff-check pass."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "npx tsx --test tests/runtimeExecutionDecision.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-026 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "Runtime route changes, orchestrator calls, provider calls, DB calls, GitHub calls, writes, deployment, package, workflow, or write execution become necessary."
+  ],
+  "prior_task_findings": "BPK-020 mounted a contract-only runtime dry-run route. BPK-026 may decide whether runtime execution can be considered later, but must not execute or mount it.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "9bbad06"
+}

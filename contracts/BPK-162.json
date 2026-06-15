@@ -1,0 +1,31 @@
+{
+  "task_id": "BPK-162",
+  "task_name": "bluepilot-release-governance-approved-action-consume-execution-receipt-record-audit-preflight-v0.1",
+  "created": "2026-06-15",
+  "scope": "bluepilot/builder/bpk-159-162-consume-execution-receipt-record-audit-preflight",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "release_governance",
+  "goal": "Add a side-effect-free audit preflight builder that validates release-governance approved-action consume execution receipt record artifacts are ready for later audit authorization while keeping audit writes, durable writes, merge, external actions, GitHub, packages, workflows, deployment, DB, and providers closed.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/releaseGovernanceApprovedActionConsumeExecutionReceiptRecord.ts", "builder/src/releaseGovernanceApprovedActionConsumeExecutionReceiptRecordAuditPreflight.ts", "builder/tests/releaseGovernanceApprovedActionConsumeExecutionReceiptRecordAuditPreflight.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-159.json", "contracts/BPK-160.json", "contracts/BPK-161.json", "contracts/BPK-162.json",
+    "builder/src/cockpitPatchPermitConsumeExecutionReceiptRecordAuditPreflight.ts", "builder/src/memoryCacheAuditExportPermitConsumeExecutionReceiptRecordAuditPreflight.ts", "builder/src/runtimePatchPermitConsumeExecutionReceiptRecordAuditPreflight.ts", "builder/src/releaseGovernanceApprovedActionConsumeExecutionReceiptRecordAuditPreflight.ts",
+    "builder/tests/cockpitPatchPermitConsumeExecutionReceiptRecordAuditPreflight.test.ts", "builder/tests/memoryCacheAuditExportPermitConsumeExecutionReceiptRecordAuditPreflight.test.ts", "builder/tests/runtimePatchPermitConsumeExecutionReceiptRecordAuditPreflight.test.ts", "builder/tests/releaseGovernanceApprovedActionConsumeExecutionReceiptRecordAuditPreflight.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-159.md", "review-packets/BPK-160.md", "review-packets/BPK-161.md", "review-packets/BPK-162.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not write audits, perform durable receipt writes, consume actions, merge, create PRs, call GitHub, perform external actions, call providers, call DB, change package files, workflows, deployment files, or write files."],
+  "claims": ["Recorded release-governance approved-action consume execution receipt artifacts can be preflighted for later audit authorization without writing an audit.", "Audit ref, auditor ref, and audit policy ref are required.", "Audit writes, merge, external actions, and durable persistence remain false."],
+  "assumptions": ["Audit authorization, durable audit persistence, PR work, and merge require later task locks."],
+  "dod": ["builder/src/releaseGovernanceApprovedActionConsumeExecutionReceiptRecordAuditPreflight.ts exports preflightReleaseGovernanceApprovedActionConsumeExecutionReceiptRecordAudit.", "Ready, missing audit ref, and incomplete record cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/releaseGovernanceApprovedActionConsumeExecutionReceiptRecordAuditPreflight.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-162 --verify", "git diff --check"],
+  "stop_conditions": ["Audit write, durable receipt write, action consumption, merge, PR creation, GitHub calls, external actions, DB, package, workflow, deployment, or write changes become necessary."],
+  "prior_task_findings": "BPK-158 produced an in-memory release-governance approved-action consume execution receipt record without durable persistence.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "d8104ba"
+}

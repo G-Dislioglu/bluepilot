@@ -1,0 +1,98 @@
+{
+  "task_id": "BPK-028",
+  "task_name": "bluepilot-cockpit-live-model-adapter-plan-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-027-030-operational-preflight-bundle",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "operator_cockpit",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free plan for a future read-only cockpit live model adapter that can append accepted Live AICOS card evidence to a cockpit model without route wiring, renderer changes, runtime actions, or executable controls.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/cockpitLiveModelSourceDecision.ts",
+    "builder/src/cockpitProjectionAdoptionContract.ts",
+    "builder/src/cockpitLiveModelAdapterPlan.ts",
+    "builder/tests/cockpitLiveModelAdapterPlan.test.ts"
+  ],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-027.json",
+    "contracts/BPK-028.json",
+    "contracts/BPK-029.json",
+    "contracts/BPK-030.json",
+    "builder/src/branchPrReceiptIntakeReport.ts",
+    "builder/src/cockpitLiveModelAdapterPlan.ts",
+    "builder/src/liveAicosMemoryCacheAdapterPlan.ts",
+    "builder/src/runtimeExecutionMountPreflight.ts",
+    "builder/tests/branchPrReceiptIntakeReport.test.ts",
+    "builder/tests/cockpitLiveModelAdapterPlan.test.ts",
+    "builder/tests/liveAicosMemoryCacheAdapterPlan.test.ts",
+    "builder/tests/runtimeExecutionMountPreflight.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-027.md",
+    "review-packets/BPK-028.md",
+    "review-packets/BPK-029.md",
+    "review-packets/BPK-030.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    ".github/**",
+    "builder/src/server.ts",
+    "builder/src/cockpitReadOnlyRoute.ts",
+    "builder/src/cockpitReadOnlyHtml.ts",
+    "builder/src/runtimeDryRunRoute.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/providers.ts",
+    "builder/src/db.ts",
+    "builder/scripts/**",
+    "builder/data/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not change cockpit route, renderer, server mount, runtime route, provider, DB, package, workflow, or deployment files.",
+    "Do not make cockpit actions executable."
+  ],
+  "claims": [
+    "Accepted Live AICOS cards can be represented as a future read-only cockpit panel.",
+    "Adapter planning remains separate from route wiring.",
+    "All cockpit actions stay disabled."
+  ],
+  "assumptions": [
+    "BPK-024 has already decided live source readiness.",
+    "A later contract may implement the adapter or wire it to the route."
+  ],
+  "dod": [
+    "builder/src/cockpitLiveModelAdapterPlan.ts exports planCockpitLiveModelAdapter.",
+    "The plan builds a read-only planned model only when decision and network result are ready.",
+    "Missing adapter reference requires review and blocked decisions block the plan.",
+    "Focused test, typecheck, task-lock verify, and diff-check pass."
+  ],
+  "evidence_required": ["test_result"],
+  "required_commands": [
+    "npx tsx --test tests/cockpitLiveModelAdapterPlan.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-028 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "Route wiring, renderer changes, runtime changes, provider calls, DB calls, package changes, or executable cockpit actions become necessary."
+  ],
+  "prior_task_findings": "BPK-024 decided live model source readiness. BPK-028 may plan a future adapter without wiring it.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "00fa035"
+}

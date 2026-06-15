@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-037",
+  "task_name": "bluepilot-runtime-execution-route-mount-readiness-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-035-038-route-cache-runtime-file-decisions",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "runtime_boundary",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a pure mount-readiness decision for a future runtime execution route by composing BPK-030 preflight and BPK-034 route contract response without mounting routes, changing server files, calling orchestrator/providers/DB/GitHub, writing files, deploying, or changing packages.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/runtimeExecutionMountPreflight.ts", "builder/src/runtimeExecutionRouteContract.ts", "builder/src/runtimeExecutionRouteMountReadiness.ts", "builder/tests/runtimeExecutionRouteMountReadiness.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-035.json", "contracts/BPK-036.json", "contracts/BPK-037.json", "contracts/BPK-038.json",
+    "builder/src/cockpitLiveModelRouteSourceContract.ts", "builder/src/liveAicosMemoryCacheLifecycleGuard.ts", "builder/src/runtimeExecutionRouteMountReadiness.ts", "builder/src/prReceiptArtifactFileLoaderDecision.ts",
+    "builder/tests/cockpitLiveModelRouteSourceContract.test.ts", "builder/tests/liveAicosMemoryCacheLifecycleGuard.test.ts", "builder/tests/runtimeExecutionRouteMountReadiness.test.ts", "builder/tests/prReceiptArtifactFileLoaderDecision.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-035.md", "review-packets/BPK-036.md", "review-packets/BPK-037.md", "review-packets/BPK-038.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not mount or change runtime routes, call orchestrator, call providers, call DB, call GitHub, write files, deploy, change workflows, or change packages."],
+  "claims": ["Mount readiness can be assessed without mounting.", "Execution remains false.", "Mount reference is required for readiness."],
+  "assumptions": ["A later contract would perform actual mount changes."],
+  "dod": ["builder/src/runtimeExecutionRouteMountReadiness.ts exports assessRuntimeExecutionRouteMountReadiness.", "Ready, missing mount ref, and not-ready contract cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/runtimeExecutionRouteMountReadiness.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-037 --verify", "git diff --check"],
+  "stop_conditions": ["Runtime route changes, orchestrator calls, provider calls, DB calls, GitHub calls, writes, deployment, package, workflow, or execution authorization become necessary."],
+  "prior_task_findings": "BPK-034 defined a contract-only route response. BPK-037 may decide mount readiness without mounting.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "d40826e"
+}

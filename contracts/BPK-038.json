@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-038",
+  "task_name": "bluepilot-pr-receipt-artifact-file-loader-decision-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-035-038-route-cache-runtime-file-decisions",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "release_governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a pure decision layer for whether local PR receipt artifact files may be read later, enforcing safe relative JSON paths, prefixes, max size, and operator approval without actually reading files.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/prReceiptArtifactImport.ts", "builder/src/prReceiptArtifactFileLoaderDecision.ts", "builder/tests/prReceiptArtifactFileLoaderDecision.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-035.json", "contracts/BPK-036.json", "contracts/BPK-037.json", "contracts/BPK-038.json",
+    "builder/src/cockpitLiveModelRouteSourceContract.ts", "builder/src/liveAicosMemoryCacheLifecycleGuard.ts", "builder/src/runtimeExecutionRouteMountReadiness.ts", "builder/src/prReceiptArtifactFileLoaderDecision.ts",
+    "builder/tests/cockpitLiveModelRouteSourceContract.test.ts", "builder/tests/liveAicosMemoryCacheLifecycleGuard.test.ts", "builder/tests/runtimeExecutionRouteMountReadiness.test.ts", "builder/tests/prReceiptArtifactFileLoaderDecision.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-035.md", "review-packets/BPK-036.md", "review-packets/BPK-037.md", "review-packets/BPK-038.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not read files, call GitHub, create PRs, merge, change workflows, change package files, or mutate external state."],
+  "claims": ["Local receipt file reads need path, size, and operator guards.", "Only JSON under allowed prefixes can become eligible.", "This block does not read the file."],
+  "assumptions": ["A later loader contract may use this decision before filesystem access."],
+  "dod": ["builder/src/prReceiptArtifactFileLoaderDecision.ts exports decidePrReceiptArtifactFileLoader.", "Ready, missing approval, and unsafe path cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/prReceiptArtifactFileLoaderDecision.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-038 --verify", "git diff --check"],
+  "stop_conditions": ["Filesystem reads, GitHub calls, PR creation, merge, workflow changes, package changes, or external state mutation become necessary."],
+  "prior_task_findings": "BPK-031 imports supplied artifact data. BPK-038 may decide whether file loading should later be allowed without reading files.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "d40826e"
+}

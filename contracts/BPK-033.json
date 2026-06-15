@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-033",
+  "task_name": "bluepilot-live-aicos-memory-cache-adapter-implementation-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-031-034-adapter-contract-implementation-bundle",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "external_read_boundary",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add an in-memory Live AICOS cache adapter that creates and reads cache entries from supplied plan and network results without durable storage, filesystem writes, DB writes, routes, schedulers, package changes, or deployment changes.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/liveAicosMemoryCacheAdapterPlan.ts", "builder/src/liveAicosMemoryCacheAdapter.ts", "builder/tests/liveAicosMemoryCacheAdapter.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-031.json", "contracts/BPK-032.json", "contracts/BPK-033.json", "contracts/BPK-034.json",
+    "builder/src/prReceiptArtifactImport.ts", "builder/src/cockpitLiveModelAdapter.ts", "builder/src/liveAicosMemoryCacheAdapter.ts", "builder/src/runtimeExecutionRouteContract.ts",
+    "builder/tests/prReceiptArtifactImport.test.ts", "builder/tests/cockpitLiveModelAdapter.test.ts", "builder/tests/liveAicosMemoryCacheAdapter.test.ts", "builder/tests/runtimeExecutionRouteContract.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-031.md", "review-packets/BPK-032.md", "review-packets/BPK-033.md", "review-packets/BPK-034.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not implement durable storage, DB writes, filesystem cache files, scheduler, route, package, workflow, or deployment changes."],
+  "claims": ["Accepted network payloads can be held as explicit memory cache entries.", "Fresh/stale checks are pure timestamp comparisons.", "Durable persistence remains closed."],
+  "assumptions": ["Process lifetime storage and global cache maps are left to a later integration block."],
+  "dod": ["builder/src/liveAicosMemoryCacheAdapter.ts exports write/read helpers.", "Ready plan stores an entry, stale reads are detected, and blocked plans do not store.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/liveAicosMemoryCacheAdapter.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-033 --verify", "git diff --check"],
+  "stop_conditions": ["Storage implementation, DB writes, filesystem cache, route, scheduler, package, workflow, or deployment changes become necessary."],
+  "prior_task_findings": "BPK-029 planned memory-only cache readiness. BPK-033 may implement explicit memory entries without durable persistence.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "244dfea"
+}

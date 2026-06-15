@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-049",
+  "task_name": "bluepilot-runtime-handler-mount-readiness-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-047-050-mount-readiness-binding-runbook",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "runtime_boundary",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free readiness assessor for mounting the BPK-045 runtime execution handler skeleton, requiring ready handler output and mount contract while keeping execution, server mutation, route mount, orchestrator, providers, DB, GitHub, writes, packages, workflows, and deployment out of scope.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/runtimeExecutionRouteHandlerSkeleton.ts", "builder/src/runtimeExecutionRouteMountContract.ts", "builder/src/runtimeHandlerMountReadiness.ts", "builder/tests/runtimeHandlerMountReadiness.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-047.json", "contracts/BPK-048.json", "contracts/BPK-049.json", "contracts/BPK-050.json",
+    "builder/src/cockpitHandlerMountReadiness.ts", "builder/src/memoryCacheFacadeStoreBinding.ts", "builder/src/runtimeHandlerMountReadiness.ts", "builder/src/prReceiptLoaderOperatorRunbook.ts",
+    "builder/tests/cockpitHandlerMountReadiness.test.ts", "builder/tests/memoryCacheFacadeStoreBinding.test.ts", "builder/tests/runtimeHandlerMountReadiness.test.ts", "builder/tests/prReceiptLoaderOperatorRunbook.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-047.md", "review-packets/BPK-048.md", "review-packets/BPK-049.md", "review-packets/BPK-050.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not mount routes, call orchestrator, call providers, call DB, call GitHub, write files, deploy, change workflows, change packages, or enable execution."],
+  "claims": ["Runtime handler mount readiness can be assessed without mounting.", "Ready BPK-045 handler output and BPK-041 mount contract are required.", "Execution remains false."],
+  "assumptions": ["A later server mount block may use this readiness result behind a default-off route."],
+  "dod": ["builder/src/runtimeHandlerMountReadiness.ts exports assessRuntimeHandlerMountReadiness.", "Ready, missing module ref, and handler execution blocker cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/runtimeHandlerMountReadiness.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-049 --verify", "git diff --check"],
+  "stop_conditions": ["Route mount, execution, orchestrator, provider, DB, GitHub, write, deployment, package, or workflow changes become necessary."],
+  "prior_task_findings": "BPK-045 added a runtime execution route handler skeleton without execution.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "cdcfa2e"
+}

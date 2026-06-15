@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-051",
+  "task_name": "bluepilot-cockpit-default-off-mount-contract-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-051-054-default-off-mounts-invalidation-evidence",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "operator_cockpit",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free default-off mount contract for the BPK-047 cockpit handler readiness result, describing the future mount shape without changing server, route, renderer, runtime, package, workflow, or deployment files.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/cockpitHandlerMountReadiness.ts", "builder/src/cockpitDefaultOffMountContract.ts", "builder/tests/cockpitDefaultOffMountContract.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-051.json", "contracts/BPK-052.json", "contracts/BPK-053.json", "contracts/BPK-054.json",
+    "builder/src/cockpitDefaultOffMountContract.ts", "builder/src/memoryCacheOperatorInvalidationContract.ts", "builder/src/runtimeDefaultOffMountContract.ts", "builder/src/prReceiptLoaderEvidencePack.ts",
+    "builder/tests/cockpitDefaultOffMountContract.test.ts", "builder/tests/memoryCacheOperatorInvalidationContract.test.ts", "builder/tests/runtimeDefaultOffMountContract.test.ts", "builder/tests/prReceiptLoaderEvidencePack.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-051.md", "review-packets/BPK-052.md", "review-packets/BPK-053.md", "review-packets/BPK-054.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not mount routes, mutate server files, change renderer files, enable cockpit actions, call AICOS, call providers, call DB, call GitHub, change package files, workflows, or deployment files."],
+  "claims": ["Cockpit default-off mount shape can be contracted without mounting.", "Ready BPK-047 readiness and env gate are required.", "Server mutation and executable actions remain closed."],
+  "assumptions": ["A later implementation block may use this mount contract."],
+  "dod": ["builder/src/cockpitDefaultOffMountContract.ts exports contractCockpitDefaultOffMount.", "Ready, enabled env, and blocked readiness cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/cockpitDefaultOffMountContract.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-051 --verify", "git diff --check"],
+  "stop_conditions": ["Route mounting, server mutation, renderer mutation, executable actions, external calls, DB, GitHub, package, workflow, or deployment changes become necessary."],
+  "prior_task_findings": "BPK-047 assessed cockpit handler mount readiness without mounting.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "abc279f"
+}

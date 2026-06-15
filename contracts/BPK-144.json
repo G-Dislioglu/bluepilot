@@ -1,0 +1,31 @@
+{
+  "task_id": "BPK-144",
+  "task_name": "bluepilot-memory-cache-audit-export-permit-consume-execution-receipt-authority-v0.1",
+  "created": "2026-06-15",
+  "scope": "bluepilot/builder/bpk-143-146-consume-execution-receipt-authority",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "memory_cache_boundary",
+  "goal": "Add a side-effect-free receipt authority builder that records memory-cache audit export consume execution receipt authorization from ready receipt preflight while keeping permit consume, receipt recording, file writes, durable persistence, packages, workflows, deployment, DB, providers, GitHub, and external actions closed.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/memoryCacheAuditExportPermitConsumeExecutionReceiptPreflight.ts", "builder/src/memoryCacheAuditExportPermitConsumeExecutionReceiptAuthority.ts", "builder/tests/memoryCacheAuditExportPermitConsumeExecutionReceiptAuthority.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-143.json", "contracts/BPK-144.json", "contracts/BPK-145.json", "contracts/BPK-146.json",
+    "builder/src/cockpitPatchPermitConsumeExecutionReceiptAuthority.ts", "builder/src/memoryCacheAuditExportPermitConsumeExecutionReceiptAuthority.ts", "builder/src/runtimePatchPermitConsumeExecutionReceiptAuthority.ts", "builder/src/releaseGovernanceApprovedActionConsumeExecutionReceiptAuthority.ts",
+    "builder/tests/cockpitPatchPermitConsumeExecutionReceiptAuthority.test.ts", "builder/tests/memoryCacheAuditExportPermitConsumeExecutionReceiptAuthority.test.ts", "builder/tests/runtimePatchPermitConsumeExecutionReceiptAuthority.test.ts", "builder/tests/releaseGovernanceApprovedActionConsumeExecutionReceiptAuthority.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-143.md", "review-packets/BPK-144.md", "review-packets/BPK-145.md", "review-packets/BPK-146.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not consume permits, record receipts, write export files, persist durable state, call providers, call DB, call GitHub, change package files, workflows, deployment files, or perform external actions."],
+  "claims": ["Ready memory-cache audit export consume execution receipt preflight can produce a side-effect-free receipt authorization artifact.", "Receipt authority id, authorizer, and expiry refs are required.", "Receipt recording and file writes remain false."],
+  "assumptions": ["Actual receipt recording and export writing require later task locks."],
+  "dod": ["builder/src/memoryCacheAuditExportPermitConsumeExecutionReceiptAuthority.ts exports authorizeMemoryCacheAuditExportPermitConsumeExecutionReceipt.", "Ready, missing authority id, and blocked preflight cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/memoryCacheAuditExportPermitConsumeExecutionReceiptAuthority.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-144 --verify", "git diff --check"],
+  "stop_conditions": ["Permit consumption, receipt recording, file write, durable persistence, external calls, DB, GitHub, package, workflow, deployment, or write changes become necessary."],
+  "prior_task_findings": "BPK-140 preflighted memory-cache audit export consume execution receipt without recording it.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "de40f8f"
+}

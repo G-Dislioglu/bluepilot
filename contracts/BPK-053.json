@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-053",
+  "task_name": "bluepilot-runtime-default-off-mount-contract-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-051-054-default-off-mounts-invalidation-evidence",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "runtime_boundary",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free default-off mount contract for the BPK-049 runtime handler readiness result, describing the future route mount shape while keeping execution, server mutation, route mount, orchestrator, providers, DB, GitHub, writes, packages, workflows, and deployment out of scope.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/runtimeHandlerMountReadiness.ts", "builder/src/runtimeDefaultOffMountContract.ts", "builder/tests/runtimeDefaultOffMountContract.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-051.json", "contracts/BPK-052.json", "contracts/BPK-053.json", "contracts/BPK-054.json",
+    "builder/src/cockpitDefaultOffMountContract.ts", "builder/src/memoryCacheOperatorInvalidationContract.ts", "builder/src/runtimeDefaultOffMountContract.ts", "builder/src/prReceiptLoaderEvidencePack.ts",
+    "builder/tests/cockpitDefaultOffMountContract.test.ts", "builder/tests/memoryCacheOperatorInvalidationContract.test.ts", "builder/tests/runtimeDefaultOffMountContract.test.ts", "builder/tests/prReceiptLoaderEvidencePack.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-051.md", "review-packets/BPK-052.md", "review-packets/BPK-053.md", "review-packets/BPK-054.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not mount routes, call orchestrator, call providers, call DB, call GitHub, write files, deploy, change workflows, change packages, or enable execution."],
+  "claims": ["Runtime default-off mount shape can be contracted without mounting.", "Ready BPK-049 readiness and disabled env state are required.", "Execution remains false."],
+  "assumptions": ["A later implementation block may use this mount contract."],
+  "dod": ["builder/src/runtimeDefaultOffMountContract.ts exports contractRuntimeDefaultOffMount.", "Ready, enabled env, and blocked readiness cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/runtimeDefaultOffMountContract.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-053 --verify", "git diff --check"],
+  "stop_conditions": ["Route mount, execution, orchestrator, provider, DB, GitHub, write, deployment, package, or workflow changes become necessary."],
+  "prior_task_findings": "BPK-049 assessed runtime handler mount readiness without mounting.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "abc279f"
+}

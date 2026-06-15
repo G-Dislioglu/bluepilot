@@ -1,0 +1,31 @@
+{
+  "task_id": "BPK-106",
+  "task_name": "bluepilot-release-governance-authority-review-decision-gate-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-103-106-authority-review-decision-gates",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "release_governance",
+  "goal": "Add a side-effect-free authority-review decision gate for release-governance authority-review intake while keeping merge, external actions, GitHub, packages, workflows, deployment, DB, providers, and writes closed.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/releaseGovernanceAuthorityReviewIntake.ts", "builder/src/releaseGovernanceAuthorityReviewDecisionGate.ts", "builder/tests/releaseGovernanceAuthorityReviewDecisionGate.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-103.json", "contracts/BPK-104.json", "contracts/BPK-105.json", "contracts/BPK-106.json",
+    "builder/src/cockpitPatchAuthorityReviewDecisionGate.ts", "builder/src/memoryCacheAuditExportAuthorityReviewDecisionGate.ts", "builder/src/runtimePatchAuthorityReviewDecisionGate.ts", "builder/src/releaseGovernanceAuthorityReviewDecisionGate.ts",
+    "builder/tests/cockpitPatchAuthorityReviewDecisionGate.test.ts", "builder/tests/memoryCacheAuditExportAuthorityReviewDecisionGate.test.ts", "builder/tests/runtimePatchAuthorityReviewDecisionGate.test.ts", "builder/tests/releaseGovernanceAuthorityReviewDecisionGate.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-103.md", "review-packets/BPK-104.md", "review-packets/BPK-105.md", "review-packets/BPK-106.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not merge, create PRs, call GitHub, perform external actions, call providers, call DB, change package files, workflows, deployment files, or write files."],
+  "claims": ["Release-governance authority-review intake can be reduced to an approve/defer/reject gate without merging or external action.", "Decision, authority, and rationale refs are required.", "Only approve can be ready; defer and reject remain blocked."],
+  "assumptions": ["Actual action preflight, execution, PR work, and merge require later task locks."],
+  "dod": ["builder/src/releaseGovernanceAuthorityReviewDecisionGate.ts exports decideReleaseGovernanceAuthorityReview.", "Approved, missing decision ref, and rejected decision cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/releaseGovernanceAuthorityReviewDecisionGate.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-106 --verify", "git diff --check"],
+  "stop_conditions": ["Merge, PR creation, GitHub calls, external actions, DB, package, workflow, deployment, or write changes become necessary."],
+  "prior_task_findings": "BPK-102 accepted release-governance approved-action request packets for authority review without merge or external action.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "e2fc143"
+}

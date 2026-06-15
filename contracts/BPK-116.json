@@ -1,0 +1,31 @@
+{
+  "task_id": "BPK-116",
+  "task_name": "bluepilot-memory-cache-audit-export-permit-consume-preflight-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-115-118-permit-consume-preflight",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "memory_cache_boundary",
+  "goal": "Add a side-effect-free consume preflight builder that validates a memory-cache audit export permit artifact is ready for later consumption while keeping permit consume, file writes, durable persistence, packages, workflows, deployment, DB, providers, GitHub, and external actions closed.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/memoryCacheAuditExportPermitIssueAuthority.ts", "builder/src/memoryCacheAuditExportPermitConsumePreflight.ts", "builder/tests/memoryCacheAuditExportPermitConsumePreflight.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-115.json", "contracts/BPK-116.json", "contracts/BPK-117.json", "contracts/BPK-118.json",
+    "builder/src/cockpitPatchPermitConsumePreflight.ts", "builder/src/memoryCacheAuditExportPermitConsumePreflight.ts", "builder/src/runtimePatchPermitConsumePreflight.ts", "builder/src/releaseGovernanceApprovedActionConsumePreflight.ts",
+    "builder/tests/cockpitPatchPermitConsumePreflight.test.ts", "builder/tests/memoryCacheAuditExportPermitConsumePreflight.test.ts", "builder/tests/runtimePatchPermitConsumePreflight.test.ts", "builder/tests/releaseGovernanceApprovedActionConsumePreflight.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-115.md", "review-packets/BPK-116.md", "review-packets/BPK-117.md", "review-packets/BPK-118.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not consume permits, write export files, persist durable state, call providers, call DB, call GitHub, change package files, workflows, deployment files, or perform external actions."],
+  "claims": ["Issued memory-cache audit export permit artifacts can be preflighted for later consumption without consuming them.", "Consume ref, consumer ref, and consume policy ref are required.", "Permit consume and file writes remain false."],
+  "assumptions": ["Actual permit consumption and export writing require later task locks."],
+  "dod": ["builder/src/memoryCacheAuditExportPermitConsumePreflight.ts exports preflightMemoryCacheAuditExportPermitConsume.", "Ready, missing consume ref, and blocked authority cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/memoryCacheAuditExportPermitConsumePreflight.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-116 --verify", "git diff --check"],
+  "stop_conditions": ["Permit consumption, file write, durable persistence, external calls, DB, GitHub, package, workflow, deployment, or write changes become necessary."],
+  "prior_task_findings": "BPK-112 recorded a side-effect-free memory-cache audit export permit artifact without consuming it.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "9fd1837"
+}

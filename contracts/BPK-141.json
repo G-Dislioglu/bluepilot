@@ -1,0 +1,31 @@
+{
+  "task_id": "BPK-141",
+  "task_name": "bluepilot-runtime-patch-permit-consume-execution-receipt-preflight-v0.1",
+  "created": "2026-06-15",
+  "scope": "bluepilot/builder/bpk-139-142-consume-execution-receipt-preflight",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "critical",
+  "impact_class": "runtime_boundary",
+  "goal": "Add a side-effect-free receipt preflight builder that validates runtime patch consume execution authority is ready for later receipt recording while keeping permit consume, receipt recording, patch application, server mutation, route mutation, runtime execution, packages, workflows, deployment, DB, providers, GitHub, and writes closed.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/runtimePatchPermitConsumeExecutionAuthority.ts", "builder/src/runtimePatchPermitConsumeExecutionReceiptPreflight.ts", "builder/tests/runtimePatchPermitConsumeExecutionReceiptPreflight.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-139.json", "contracts/BPK-140.json", "contracts/BPK-141.json", "contracts/BPK-142.json",
+    "builder/src/cockpitPatchPermitConsumeExecutionReceiptPreflight.ts", "builder/src/memoryCacheAuditExportPermitConsumeExecutionReceiptPreflight.ts", "builder/src/runtimePatchPermitConsumeExecutionReceiptPreflight.ts", "builder/src/releaseGovernanceApprovedActionConsumeExecutionReceiptPreflight.ts",
+    "builder/tests/cockpitPatchPermitConsumeExecutionReceiptPreflight.test.ts", "builder/tests/memoryCacheAuditExportPermitConsumeExecutionReceiptPreflight.test.ts", "builder/tests/runtimePatchPermitConsumeExecutionReceiptPreflight.test.ts", "builder/tests/releaseGovernanceApprovedActionConsumeExecutionReceiptPreflight.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-139.md", "review-packets/BPK-140.md", "review-packets/BPK-141.md", "review-packets/BPK-142.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not consume permits, record receipts, apply runtime patches, mutate server files, mutate route files, run runtime execution, call providers, call DB, call GitHub, change package files, workflows, deployment files, or write files."],
+  "claims": ["Ready runtime patch consume execution authority can be preflighted for later receipt recording without executing it.", "Receipt ref, recorder ref, and receipt policy ref are required.", "Permit consume, receipt recording, and runtime execution remain false."],
+  "assumptions": ["Actual permit consumption, receipt recording, patch application, and execution require later task locks."],
+  "dod": ["builder/src/runtimePatchPermitConsumeExecutionReceiptPreflight.ts exports preflightRuntimePatchPermitConsumeExecutionReceipt.", "Ready, missing receipt ref, and blocked authority cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/runtimePatchPermitConsumeExecutionReceiptPreflight.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-141 --verify", "git diff --check"],
+  "stop_conditions": ["Permit consumption, receipt recording, runtime patch application, server mutation, route mutation, runtime execution, external calls, DB, GitHub, package, workflow, deployment, or write changes become necessary."],
+  "prior_task_findings": "BPK-137 recorded side-effect-free runtime patch consume execution authorization without consuming the permit or executing runtime work.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "b49a821"
+}

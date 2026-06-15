@@ -1,0 +1,116 @@
+{
+  "task_id": "BPK-007",
+  "task_name": "Dispatch / Frontend zuletzt",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/dispatch-frontend-readiness",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "governance",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free dispatch/frontend readiness projection that combines the WLP contract draft, card-conditioned dispatch plan, and pre-registered claims gate into one deterministic status object for later runtime and cockpit adoption. Do not add a runtime route, worker dispatch, provider call, package dependency, live write, or frontend screen.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "docs/CODEX-RICHTUNGSBRIEF-optimized.md",
+    "contracts/BPK-003.json",
+    "contracts/BPK-004.json",
+    "contracts/BPK-005.json",
+    "contracts/BPK-006.json",
+    "review-packets/BPK-006.md",
+    "builder/src/workerPacketWlpAdapter.ts",
+    "builder/src/cardConditionedDispatch.ts",
+    "builder/src/preRegisteredClaims.ts",
+    "builder/src/dispatchFrontendReadiness.ts",
+    "builder/tests/dispatchFrontendReadiness.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "contracts/BPK-007.json",
+    "builder/src/dispatchFrontendReadiness.ts",
+    "builder/tests/dispatchFrontendReadiness.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-007.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusClaimGate.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/server.ts",
+    "builder/src/architectPhase1.ts",
+    "builder/src/cardConditionedDispatch.ts",
+    "builder/src/preRegisteredClaims.ts",
+    "builder/src/workerPacketWlpAdapter.ts",
+    "builder/scripts/**",
+    "builder/data/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "docs/WORKCELL_LOCK_PROTOCOL.md",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not integrate readiness into orchestrateTask, server routes, existing claim gate, smart push, provider calls, or live dispatch.",
+    "Do not add or change frontend files.",
+    "Do not add package scripts, dependencies, feature flags, environment variables, or deployment instructions.",
+    "Do not change the semantics of BPK-003 through BPK-006 artifacts."
+  ],
+  "claims": [
+    "Dispatch readiness can be derived deterministically from the WLP contract draft, card-conditioned dispatch plan, and pre-registered claims gate.",
+    "Dispatch is allowed only when card-conditioned dispatch and pre-registered claims both allow and the contract has explicit evidence requirements.",
+    "A frontend/cockpit projection can be produced without opening runtime dispatch or adding a UI.",
+    "The readiness projection is side-effect-free and tested independently."
+  ],
+  "assumptions": [
+    "BPK-003 through BPK-006 are committed and available as pure pre-dispatch governance artifacts.",
+    "Frontend adoption should consume a projection contract first, not a live runtime route.",
+    "Runtime dispatch integration belongs to a later main block after this readiness projection is stable."
+  ],
+  "dod": [
+    "builder/src/dispatchFrontendReadiness.ts exports side-effect-free readiness types and a projection function.",
+    "The projection returns dispatch_ready, frontend_review, or blocked with deterministic reasons.",
+    "The projection keeps frontend rendering separate from dispatch execution.",
+    "builder/tests/dispatchFrontendReadiness.test.ts covers ready, review, blocked, evidence-missing, task-mismatch, and no-mutation behavior.",
+    "STATE.md and docs/SESSION-LOG.md record BPK-007.",
+    "review-packets/BPK-007.md records scope, safety invariants, gates, and verification.",
+    "The focused readiness test and npm run typecheck in builder/ pass.",
+    "node tools/verify-task-lock.cjs BPK-007 --verify exits 0.",
+    "git diff --check exits 0."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "npx tsx --test tests/dispatchFrontendReadiness.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-007 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "A runtime route, provider call, GitHub write, database write, deployment change, or frontend file becomes necessary.",
+    "Changing BPK-003, BPK-004, BPK-005, or BPK-006 semantics becomes necessary.",
+    "Package or dependency changes become necessary."
+  ],
+  "prior_task_findings": "BPK-003 through BPK-006 created pure pre-dispatch governance artifacts and a generated command/schema manifest. BPK-007 should close the requested line with a pure readiness projection for later dispatch and frontend adoption.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "44caf13"
+}

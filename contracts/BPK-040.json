@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-040",
+  "task_name": "bluepilot-live-aicos-memory-cache-read-facade-v0.1",
+  "created": "2026-06-13",
+  "scope": "bluepilot/builder/bpk-039-042-mount-facade-loader-contracts",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "external_read_boundary",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a read-only facade over explicit Live AICOS memory cache reads and lifecycle guard results, without durable storage, DB, filesystem cache, scheduler, routes, workflow, package, or deployment changes.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/liveAicosMemoryCacheAdapter.ts", "builder/src/liveAicosMemoryCacheLifecycleGuard.ts", "builder/src/liveAicosMemoryCacheReadFacade.ts", "builder/tests/liveAicosMemoryCacheReadFacade.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-039.json", "contracts/BPK-040.json", "contracts/BPK-041.json", "contracts/BPK-042.json",
+    "builder/src/cockpitRouteSourceMountPrep.ts", "builder/src/liveAicosMemoryCacheReadFacade.ts", "builder/src/runtimeExecutionRouteMountContract.ts", "builder/src/prReceiptFileLoaderContract.ts",
+    "builder/tests/cockpitRouteSourceMountPrep.test.ts", "builder/tests/liveAicosMemoryCacheReadFacade.test.ts", "builder/tests/runtimeExecutionRouteMountContract.test.ts", "builder/tests/prReceiptFileLoaderContract.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-039.md", "review-packets/BPK-040.md", "review-packets/BPK-041.md", "review-packets/BPK-042.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not implement durable storage, DB writes, filesystem cache files, scheduler, route, package, workflow, or deployment changes."],
+  "claims": ["Fresh memory cache entries can be exposed through a read-only facade.", "Stale or blocked lifecycle prevents facade readiness.", "Durable persistence remains closed."],
+  "assumptions": ["A caller supplies explicit memory cache read results."],
+  "dod": ["builder/src/liveAicosMemoryCacheReadFacade.ts exports buildLiveAicosMemoryCacheReadFacade.", "Ready, missing facade ref, and stale read cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/liveAicosMemoryCacheReadFacade.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-040 --verify", "git diff --check"],
+  "stop_conditions": ["Durable storage, DB writes, filesystem cache, scheduler, route, package, workflow, or deployment changes become necessary."],
+  "prior_task_findings": "BPK-036 guards memory cache lifecycle. BPK-040 may expose a read-only facade without persistence.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "71b8018"
+}

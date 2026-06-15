@@ -1,0 +1,33 @@
+{
+  "task_id": "BPK-072",
+  "task_name": "bluepilot-memory-cache-audit-export-render-dry-run-v0.1",
+  "created": "2026-06-14",
+  "scope": "bluepilot/builder/bpk-071-074-operator-dry-runs-runbook",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "external_read_boundary",
+  "target_persona": null,
+  "council_session_required": false,
+  "goal": "Add a side-effect-free render dry-run for BPK-068 memory cache audit export evidence packs, producing a preview payload without writing files, durable storage, DB, filesystem cache, scheduler, routes, package, workflow, deployment, or external-call changes.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/memoryCacheAuditExportEvidencePack.ts", "builder/src/memoryCacheAuditExportRenderDryRun.ts", "builder/tests/memoryCacheAuditExportRenderDryRun.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-071.json", "contracts/BPK-072.json", "contracts/BPK-073.json", "contracts/BPK-074.json",
+    "builder/src/cockpitServerPatchOperatorDryRun.ts", "builder/src/memoryCacheAuditExportRenderDryRun.ts", "builder/src/runtimeServerPatchOperatorDryRun.ts", "builder/src/releaseGovernanceOperatorActionRunbook.ts",
+    "builder/tests/cockpitServerPatchOperatorDryRun.test.ts", "builder/tests/memoryCacheAuditExportRenderDryRun.test.ts", "builder/tests/runtimeServerPatchOperatorDryRun.test.ts", "builder/tests/releaseGovernanceOperatorActionRunbook.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-071.md", "review-packets/BPK-072.md", "review-packets/BPK-073.md", "review-packets/BPK-074.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not write export files, add durable storage, DB writes, filesystem cache files, scheduler, routes, package changes, workflow changes, deployment files, or external calls."],
+  "claims": ["Audit export evidence packs can be rendered as dry-run previews without writing files.", "Ready BPK-068 evidence pack and render refs are required.", "File writes remain false."],
+  "assumptions": ["Actual export persistence would be a later task."],
+  "dod": ["builder/src/memoryCacheAuditExportRenderDryRun.ts exports renderMemoryCacheAuditExportDryRun.", "Ready, missing render ref, and blocked evidence pack cases are tested.", "Focused test, typecheck, task-lock verify, and diff-check pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/memoryCacheAuditExportRenderDryRun.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-072 --verify", "git diff --check"],
+  "stop_conditions": ["File writes, durable storage, DB, filesystem cache, scheduler, route, package, workflow, deployment, or external-call changes become necessary."],
+  "prior_task_findings": "BPK-068 bundled memory cache audit export contracts as evidence packs without file writes.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "c6c8700"
+}
