@@ -6,6 +6,7 @@ import {
   type SideEffectLock,
 } from './readonlyIntegrationSurfaces.js';
 import { buildGoatDesktopBridgeContract } from './goatDesktopBridgeContract.js';
+import { buildMayaCoreGateEnforcementContract } from './mayaCoreGateEnforcementContract.js';
 
 export type IntegrationPointStatus =
   | 'wired_read_only'
@@ -30,6 +31,7 @@ export interface EightPointIntegrationReadiness {
   summary: {
     totalPoints: 8;
     wiredReadOnly: number;
+    wiredContractOnly: number;
     lockedForLaterActivation: number;
   };
   points: IntegrationPoint[];
@@ -118,11 +120,11 @@ export function buildEightPointIntegrationReadiness(now = new Date()): EightPoin
     {
       id: 'maya_core_gate_enforcement',
       title: 'Maya-Core Gate Enforcement',
-      status: 'locked_ready_for_review',
-      endpoint: '/health/maya-gate',
-      operatorValue: 'Budget, corridor, and cost gates are known prerequisites for activation.',
+      status: 'wired_contract_only',
+      endpoint: '/probe/maya-core-gate-enforcement',
+      operatorValue: 'Budget, corridor, and cost evidence are required before activation review.',
       lockedActions: ['provider_call', 'write_action', 'runtime_action_without_gate'],
-      nextStep: 'Require healthy Maya gates before any non-readonly runtime or provider route.',
+      nextStep: 'Submit health/maya-gate evidence to the dry enforcement preflight before activation.',
     },
     {
       id: 'provider_runtime_flows',
@@ -150,7 +152,10 @@ export function buildEightPointIntegrationReadiness(now = new Date()): EightPoin
     summary: {
       totalPoints: 8,
       wiredReadOnly: points.filter((point) => point.status === 'wired_read_only').length,
-      lockedForLaterActivation: points.filter((point) => point.status !== 'wired_read_only').length,
+      wiredContractOnly: points.filter((point) => point.status === 'wired_contract_only').length,
+      lockedForLaterActivation: points.filter((point) => (
+        point.status !== 'wired_read_only' && point.status !== 'wired_contract_only'
+      )).length,
     },
     points,
     sideEffects: lockedSideEffects(),
@@ -164,6 +169,7 @@ export function buildOperatorDashboardModel(now = new Date()): OperatorDashboard
   const killSwitch = buildRepoMutationKillSwitchReadonly(now);
   const aicos = buildAicosPermissionMapReadonly(now);
   const goat = buildGoatDesktopBridgeContract(now);
+  const mayaGate = buildMayaCoreGateEnforcementContract(now);
 
   return {
     service: 'bluepilot-builder',
@@ -222,7 +228,17 @@ export function buildOperatorDashboardModel(now = new Date()): OperatorDashboard
           `mayExecute:${goat.activationBoundary.mayExecute}`,
         ],
       },
-      ...readiness.points.slice(5).map((point) => ({
+      {
+        id: 'maya_core_gate_enforcement',
+        title: 'Maya-Core Gate Enforcement',
+        status: 'wired_contract_only',
+        lines: [
+          `sourceProbe:${mayaGate.sourceProbe}`,
+          `targets:${mayaGate.protectedTargets.join(',')}`,
+          `callsMayaCore:${mayaGate.activationBoundary.callsMayaCore}`,
+        ],
+      },
+      ...readiness.points.slice(6).map((point) => ({
         id: point.id,
         title: point.title,
         status: point.status,

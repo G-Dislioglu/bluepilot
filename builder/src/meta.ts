@@ -25,6 +25,8 @@ export interface BluepilotMetaPayload {
     aicosPermissionMap: '/probe/aicos-permission-map';
     goatDesktopBridgeContract: '/probe/goat-desktop-bridge-contract';
     goatDesktopBuilderCuePreflight: '/probe/goat-desktop-builder-cue-preflight';
+    mayaCoreGateEnforcement: '/probe/maya-core-gate-enforcement';
+    mayaCoreGateEnforcementPreflight: '/probe/maya-core-gate-enforcement-preflight';
     eightPointIntegrationReadiness: '/probe/eight-point-integration-readiness';
     operatorDashboardReadOnly: '/cockpit/operator-read-only';
     cockpitReadOnly: '/cockpit/read-only';
@@ -76,6 +78,8 @@ export function createBluepilotMetaPayload(
       aicosPermissionMap: '/probe/aicos-permission-map',
       goatDesktopBridgeContract: '/probe/goat-desktop-bridge-contract',
       goatDesktopBuilderCuePreflight: '/probe/goat-desktop-builder-cue-preflight',
+      mayaCoreGateEnforcement: '/probe/maya-core-gate-enforcement',
+      mayaCoreGateEnforcementPreflight: '/probe/maya-core-gate-enforcement-preflight',
       eightPointIntegrationReadiness: '/probe/eight-point-integration-readiness',
       operatorDashboardReadOnly: '/cockpit/operator-read-only',
       cockpitReadOnly: '/cockpit/read-only',

@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bluepilot-goat-desktop-bridge-contract`.
+- Aktueller Arbeitsbranch: `bluepilot-maya-core-gate-enforcement-contract`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -780,6 +780,12 @@
   Quellen und BBox-Form, ohne GOAT aufzurufen, Screenshots zu lesen, Popup-Vorschlaege zu
   emittieren oder Desktop-Aktionen auszufuehren. Der Acht-Punkte-GOAT-Status ist dadurch
   `wired_contract_only`.
+- Maya-Core-Gate-Enforcement-Contract 2026-06-15: `GET /probe/maya-core-gate-enforcement`
+  beschreibt Budget-, Corridor-, Cost-, Operator-, Permit- und Provider-Isolation-Evidence fuer
+  spaetere Provider-, Write- und Runtime-Aktivierung. `POST
+  /probe/maya-core-gate-enforcement-preflight` prueft diese Evidence trocken, ohne Maya-Core
+  aufzurufen oder Provider, Runtime, Writes, Permits, Deploys oder Merges auszufuehren. Der
+  Acht-Punkte-Maya-Gate-Status ist dadurch `wired_contract_only`.
 
 ## Maya-Anbindung
 
@@ -815,8 +821,8 @@ geschlossen.
 Naechste Integrationsbloecke nach der Acht-Punkte-Verdrahtung:
 
 1. Operator Dashboard visuell testen und ggf. als dauerhaftes Cockpit-Review-Surface freigeben.
-2. Maya-Core Gate Enforcement verpflichtend vor jede spaetere Provider-/Write-/Runtime-Aktion
-   schalten.
+2. Provider/Runtime Activation Preflight auf Basis von Maya-Gate-Evidence und bestehenden
+   Runtime-Contracts vorbereiten.
 3. Merge/Release-Readiness in eine PR-Sequenz pruefen, bevor echte Merges oder Deploys erlaubt
    werden.
 

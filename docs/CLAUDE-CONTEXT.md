@@ -50,7 +50,7 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
-- Aktueller Arbeitsbranch: `bluepilot-goat-desktop-bridge-contract`.
+- Aktueller Arbeitsbranch: `bluepilot-maya-core-gate-enforcement-contract`.
 - Hoechster dokumentierter Contract-/State-Stand: BP-149.
 - `docs/CLAUDE-CONTEXT.md` war vor BPK-001 veraltet und beschrieb noch die
   BP-121/BP-125-nahe Welt. Dieser Anker ersetzt diese alte Wahrheit.
@@ -576,9 +576,13 @@ read-only verdrahtet und das zweite Readonly-Buendel ist darauf aufgebaut:
   `GET /probe/goat-desktop-bridge-contract` beschreibt die lokale `/builder-cue`-Grenze und
   `POST /probe/goat-desktop-builder-cue-preflight` prueft Payloads trocken. Bluepilot ruft GOAT
   nicht auf und fuehrt keine Desktop-Aktion aus.
+- Maya-Core Gate Enforcement ist jetzt als contract-only Surface angebunden:
+  `GET /probe/maya-core-gate-enforcement` beschreibt Evidence vor Provider/Write/Runtime und
+  `POST /probe/maya-core-gate-enforcement-preflight` prueft diese Evidence trocken. Die neue
+  Surface ruft Maya-Core nicht auf; Live-Reachability bleibt bei `/health/maya-gate`.
 
 Naechste Integrationsbloecke:
 
 1. Operator Dashboard visuell pruefen und ggf. als dauerhaftes Cockpit-Review-Surface freigeben.
-2. Maya-Core Gate Enforcement als Pflicht-Gate vor Provider/Write/Runtime.
+2. Provider/Runtime Activation Preflight auf Basis von Maya-Gate-Evidence.
 3. Merge/Release-Readiness als PR-Sequenz vor echten Merges oder Deploys.

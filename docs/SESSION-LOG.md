@@ -5,6 +5,24 @@
 
 ---
 
+## 2026-06-15 - Maya-Core Gate Enforcement Contract-only
+
+- Gebaut: `GET /probe/maya-core-gate-enforcement` und
+  `POST /probe/maya-core-gate-enforcement-preflight` als trockene Enforcement-Surface fuer
+  Provider-Calls, Write-Actions und Runtime-Execution.
+- Verhalten: Bluepilot beschreibt, welche Evidence vor Aktivierungsreview vorliegen muss:
+  Budget-Gate und Cost-Record fuer Provider, Corridor-Gate plus Operator-Approval und Permit fuer
+  Writes, Budget+Corridor plus Operator- und Provider-Isolation fuer Runtime. Fehlende oder
+  unerreichbare Evidence blockiert fail-closed.
+- Sicherheitsentscheidung: Die neue Preflight-Route ruft Maya-Core nicht auf. Live-Reachability
+  bleibt auf `/health/maya-gate` isoliert. Keine Provider-Calls, keine Runtime-Execution, keine
+  Datei-/DB-/GitHub-Writes, keine Permit-Ausstellung, kein Deploy und kein Merge.
+- Beweis: Fokus-Tests fuer Maya-Gate-Contract, Maya-Gate-Route, Eight-Point-Readiness, Meta und
+  Operator-Dashboard sind mit 15/15 gruen. `npm run typecheck`, `git diff --check` und der volle
+  Builder-Testlauf mit 321/321 Tests sind gruen.
+- Roter Faden weiter: Als naechstes Provider/Runtime Activation Preflight oder Merge/Release-
+  Readiness als PR-Sequenz bauen.
+
 ## 2026-06-15 - GOAT Desktop Bridge Contract-only
 
 - Gebaut: `GET /probe/goat-desktop-bridge-contract` und

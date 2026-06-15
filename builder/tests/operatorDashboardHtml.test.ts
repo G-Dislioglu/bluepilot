@@ -11,6 +11,7 @@ test('operator dashboard renders read-only HTML for all panels', () => {
   assert.ok(html.includes('<title>Bluepilot Operator Dashboard Readonly</title>'));
   assert.ok(html.includes('BPK Execution Ledger'));
   assert.ok(html.includes('GOAT Desktop Bridge'));
+  assert.ok(html.includes('Maya-Core Gate Enforcement'));
   assert.ok(html.includes('Merge and Release Readiness'));
   assert.ok(html.includes('keine Writes'));
 });

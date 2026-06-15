@@ -3,6 +3,7 @@ import { createServer } from 'node:http';
 import { handleCockpitReadOnlyRouteRequest } from './cockpitReadOnlyRoute.js';
 import { handleGoatDesktopBridgeRequest } from './goatDesktopBridgeRoute.js';
 import { handleHealthRequest } from './health.js';
+import { handleMayaCoreGateEnforcementRequest } from './mayaCoreGateEnforcementRoute.js';
 import { handleMetaRequest } from './meta.js';
 import { handleOperatorDashboardRequest } from './operatorDashboardRoute.js';
 import { handleProbeDryRunRequest } from './probeDryRun.js';
@@ -55,6 +56,10 @@ const server = createServer((request, response) => {
     }
 
     if (await handleGoatDesktopBridgeRequest(request, response)) {
+      return;
+    }
+
+    if (await handleMayaCoreGateEnforcementRequest(request, response)) {
       return;
     }
 
