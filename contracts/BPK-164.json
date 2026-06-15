@@ -1,0 +1,31 @@
+{
+  "task_id": "BPK-164",
+  "task_name": "bluepilot-memory-cache-audit-export-permit-consume-execution-receipt-record-audit-authority-v0.1",
+  "created": "2026-06-15",
+  "scope": "bluepilot/builder/bpk-163-166-consume-execution-receipt-record-audit-authority",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "memory_cache_audit_boundary",
+  "goal": "Add a side-effect-free audit authority builder that authorizes memory cache audit export permit consume execution receipt record audit artifacts without writing files, durable state, audits, or external actions.",
+  "eligible_context": ["docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md", "builder/src/memoryCacheAuditExportPermitConsumeExecutionReceiptRecordAuditPreflight.ts", "builder/src/memoryCacheAuditExportPermitConsumeExecutionReceiptRecordAuditAuthority.ts", "builder/tests/memoryCacheAuditExportPermitConsumeExecutionReceiptRecordAuditAuthority.test.ts"],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/BPK-163.json", "contracts/BPK-164.json", "contracts/BPK-165.json", "contracts/BPK-166.json",
+    "builder/src/cockpitPatchPermitConsumeExecutionReceiptRecordAuditAuthority.ts", "builder/src/memoryCacheAuditExportPermitConsumeExecutionReceiptRecordAuditAuthority.ts", "builder/src/runtimePatchPermitConsumeExecutionReceiptRecordAuditAuthority.ts", "builder/src/releaseGovernanceApprovedActionConsumeExecutionReceiptRecordAuditAuthority.ts",
+    "builder/tests/cockpitPatchPermitConsumeExecutionReceiptRecordAuditAuthority.test.ts", "builder/tests/memoryCacheAuditExportPermitConsumeExecutionReceiptRecordAuditAuthority.test.ts", "builder/tests/runtimePatchPermitConsumeExecutionReceiptRecordAuditAuthority.test.ts", "builder/tests/releaseGovernanceApprovedActionConsumeExecutionReceiptRecordAuditAuthority.test.ts",
+    "docs/CLAUDE-CONTEXT.md", "docs/SESSION-LOG.md", "STATE.md",
+    "review-packets/BPK-163.md", "review-packets/BPK-164.md", "review-packets/BPK-165.md", "review-packets/BPK-166.md"
+  ],
+  "forbidden_files": ["tools/**", "package.json", "package-lock.json", "builder/package.json", "builder/package-lock.json", ".github/**", "builder/src/server.ts", "builder/src/cockpitReadOnlyRoute.ts", "builder/src/cockpitReadOnlyHtml.ts", "builder/src/runtimeDryRunRoute.ts", "builder/src/probeDryRun.ts", "builder/src/opusTaskOrchestrator.ts", "builder/src/opusSmartPush.ts", "builder/src/providers.ts", "builder/src/db.ts", "builder/scripts/**", "builder/data/**", ".specify/**", "contracts/BP-*.json", "review-packets/BP-*.md", "AGENTS.md", "soulmatch/**"],
+  "scope_out": ["Do not write audits, perform durable receipt writes, consume permits, write files, call providers, call DB, call GitHub, change package files, workflows, deployment files, or write runtime artifacts."],
+  "claims": ["Memory cache audit export consume execution receipt record audit preflight artifacts can be authorized without writing an audit or export file.", "Audit authority id, authorized-by ref, and expiry ref are required.", "Audit writes, file writes, external actions, permit consumption, and durable persistence remain false."],
+  "assumptions": ["Actual audit/export persistence requires a later task lock."],
+  "dod": ["builder/src/memoryCacheAuditExportPermitConsumeExecutionReceiptRecordAuditAuthority.ts exports authorizeMemoryCacheAuditExportPermitConsumeExecutionReceiptRecordAudit.", "Ready, missing audit authority id, and blocked preflight cases are tested.", "Focused test, typecheck, task-lock verify, diff-check, and full builder tests pass."],
+  "evidence_required": ["test_result"],
+  "required_commands": ["npx tsx --test tests/memoryCacheAuditExportPermitConsumeExecutionReceiptRecordAuditAuthority.test.ts", "npm run typecheck", "node tools/verify-task-lock.cjs BPK-164 --verify", "git diff --check", "npm test"],
+  "stop_conditions": ["Audit write, durable receipt write, permit consumption, file write, external calls, DB, GitHub, package, workflow, deployment, or runtime write changes become necessary."],
+  "prior_task_findings": "BPK-160 produced side-effect-free memory cache audit export consume execution receipt record audit preflight artifacts.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "87298bd"
+}
