@@ -13,7 +13,7 @@
   - `01e831d` - BP-124 Doku/Review
   - `c0cfce1` - BP-125 Contract
   - `70894f0` - BP-125 Anker und Leseregel
-- Aktueller Arbeitsbranch: `bpk-163-166-consume-execution-receipt-record-audit-authority`.
+- Aktueller Arbeitsbranch: `bpk-167-170-consume-execution-receipt-record-audit`.
 - BPK-001 aktualisiert die Bluepilot-Ankerwahrheit: `docs/CLAUDE-CONTEXT.md` ist jetzt auf
   BP-149 ausgerichtet, und `docs/CODEX-RICHTUNGSBRIEF-optimized.md` ist der bereinigte
   Arbeitsanker fuer den BPK-Pfad.
@@ -599,6 +599,14 @@
   Authorization-Artefakt ohne Runtime-Execution oder Patch-Apply.
 - BPK-166: Release governance approved action consume execution receipt record audit authority;
   Audit-Authorization-Artefakt ohne Merge, GitHub-Aktion oder externe Aktion.
+- BPK-167: Cockpit patch permit consume execution receipt record audit; In-memory Audit-Artefakt
+  ohne Audit-Persistenz, Patch-Apply oder Server-/Route-Mutation.
+- BPK-168: Memory cache audit export permit consume execution receipt record audit; In-memory
+  Audit-Artefakt ohne Datei-Write, Durable Store oder externe Aktion.
+- BPK-169: Runtime patch permit consume execution receipt record audit; In-memory Audit-Artefakt
+  ohne Runtime-Execution oder Patch-Apply.
+- BPK-170: Release governance approved action consume execution receipt record audit; In-memory
+  Audit-Artefakt ohne Merge, GitHub-Aktion oder externe Aktion.
 
 ## Maya-Anbindung
 
@@ -625,17 +633,17 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-166 ist das gebuendelte Permit-/Approved-Action-Consume-Execution-Receipt-Record-Audit-
-Authority Bundle abgeschlossen: Ready-Audit-Preflight-Artefakte werden fuer spaetere
-Audit-Erzeugung autorisiert; Audit-Write, durable Receipt-Persistenz, Writes, Runtime-Execution,
-Merge und externe Side Effects bleiben geschlossen.
+Nach BPK-170 ist das gebuendelte Permit-/Approved-Action-Consume-Execution-Receipt-Record-Audit-
+Bundle abgeschlossen: Ready-Audit-Authority-Artefakte erzeugen in-memory Audit-Artefakte;
+Audit-Persistenz, durable Receipt-Persistenz, Writes, Runtime-Execution, Merge und externe Side
+Effects bleiben geschlossen.
 
 Naechste Hauptbloecke:
 
-1. Cockpit Patch Permit Consume Execution Receipt Record Audit.
-2. Memory Cache Audit Export Permit Consume Execution Receipt Record Audit.
-3. Runtime Patch Permit Consume Execution Receipt Record Audit.
-4. Release Governance Approved Action Consume Execution Receipt Record Audit.
+1. Cockpit Patch Permit Consume Execution Receipt Record Audit Receipt Preflight.
+2. Memory Cache Audit Export Permit Consume Execution Receipt Record Audit Receipt Preflight.
+3. Runtime Patch Permit Consume Execution Receipt Record Audit Receipt Preflight.
+4. Release Governance Approved Action Consume Execution Receipt Record Audit Receipt Preflight.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption
 vermischt:
