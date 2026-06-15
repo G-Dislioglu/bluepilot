@@ -5,6 +5,24 @@
 
 ---
 
+## 2026-06-15 - BPK-195 bis BPK-198 Permit / Approved Action Consume Execution Receipt Record Audit Receipt Record Audit Preflight
+
+- Gebaut: vier side-effect-freie Consume-Execution-Receipt-Record-Audit-Receipt-Record-Audit-
+  Preflight-Schichten fuer Cockpit, Memory, Runtime und Release.
+- Verhalten: In-memory Audit-Receipt-Record-Artefakte werden fuer spaetere
+  Audit-Receipt-Record-Audit-Authority vorgeprueft. Es wird kein Audit dauerhaft geschrieben,
+  kein Audit-Receipt-Record persistiert, kein Permit konsumiert, keine Action konsumiert, kein
+  Patch angewendet, kein Export geschrieben, keine Runtime ausgefuehrt und kein Merge oder
+  externe Release-Aktion ausgefuehrt.
+- Sicherheitsentscheidung: Keine Server-Mounts, keine Renderer-Aenderung, keine Durable
+  Persistenz, keine DB, kein Provider, keine GitHub-Aktion, keine PR-Erstellung, kein Merge, kein
+  Write, kein Deploy und keine Package-Aenderung.
+- Beweis: vier fokussierte Audit-Receipt-Record-Audit-Preflight-Tests, Typecheck,
+  Task-Lock-Verify, Diff-Check und voller Builder-Testlauf sind gruen.
+- Roter Faden weiter: Naechste Hauptbloecke koennen Audit-Receipt-Record-Audit-Authority-
+  Artefakte erzeugen, weiterhin ohne durable Audit-Persistenz, Runtime-Execution, Merge oder
+  externe Aktion.
+
 ## 2026-06-15 - BPK-191 bis BPK-194 Permit / Approved Action Consume Execution Receipt Record Audit Receipt Record
 
 - Gebaut: vier side-effect-freie Consume-Execution-Receipt-Record-Audit-Receipt-Record-
