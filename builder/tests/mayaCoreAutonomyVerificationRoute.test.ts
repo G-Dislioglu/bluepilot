@@ -82,6 +82,7 @@ test('POST /probe/maya-core-autonomy-verification-preflight prepares verify payl
           scopeRef: 'bluepilot:runtime_dry_run',
           ethicsCharterRef: 'maya-ethics-charter:canonical',
           safetyEvidenceRef: 'safety:evidence:bluepilot-runtime',
+          issuedAt: '2026-06-16T16:00:00.000Z',
           expiresAt: '2026-06-16T17:00:00.000Z',
           hardStopCategories,
           sourceOfTruth: 'maya_kaya',

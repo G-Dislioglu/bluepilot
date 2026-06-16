@@ -29,6 +29,7 @@ const decision = {
   scopeRef: 'bluepilot:runtime_dry_run',
   ethicsCharterRef: 'maya-ethics-charter:canonical',
   safetyEvidenceRef: 'safety:evidence:bluepilot-runtime',
+  issuedAt: '2026-06-16T16:00:00.000Z',
   expiresAt: '2026-06-16T17:00:00.000Z',
   hardStopCategories,
   sourceOfTruth: 'maya_kaya',
@@ -65,6 +66,7 @@ test('ready preflight creates planned Maya-core verify request only', () => {
   assert.equal(preflight.plannedRequest?.path, '/api/maya/autonomy/authority');
   assert.equal(preflight.plannedRequest?.body.mode, 'verify');
   assert.equal(preflight.plannedRequest?.body.verify.decision.scopeRef, 'bluepilot:runtime_dry_run');
+  assert.equal(preflight.plannedRequest?.body.verify.decision.issuedAt, '2026-06-16T16:00:00.000Z');
   assert.equal(preflight.plannedRequest?.body.verify.decision.sourceOfTruth, 'maya_kaya');
   assert.equal(preflight.sideEffects.callsMayaKaya, false);
 });

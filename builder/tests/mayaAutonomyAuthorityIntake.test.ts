@@ -51,6 +51,8 @@ test('maya autonomy authority contract names Maya/Kaya as source of truth', () =
   assert.equal(contract.sideEffects.executesRuntime, false);
   assert.ok(contract.requiredDecisionFields.includes('hardStopCategories'));
   assert.ok(contract.requiredDecisionFields.includes('scopeRef'));
+  assert.ok(contract.requiredDecisionFields.includes('issuedAt'));
+  assert.ok(contract.requiredDecisionFields.includes('expiresAt'));
   assert.ok(contract.requiredDecisionFields.includes('sourceOfTruth'));
 });
 
@@ -70,6 +72,8 @@ test('valid Maya/Kaya full-access decision normalizes activation handoff evidenc
   assert.equal(preflight.normalizedDecision?.status, 'maya_autonomy_decision_allowed');
   assert.equal(preflight.normalizedDecision?.autonomyMode, 'full_access');
   assert.equal(preflight.normalizedDecision?.scopeRef, 'bluepilot:runtime_dry_run');
+  assert.equal(preflight.normalizedDecision?.issuedAt, '2026-06-16T15:00:00.000Z');
+  assert.equal(preflight.normalizedDecision?.expiresAt, '2026-06-16T16:00:00.000Z');
   assert.equal(preflight.normalizedDecision?.sourceOfTruth, 'maya_kaya');
   assert.equal(preflight.activationDecisionHandoff?.target, 'runtime_dry_run');
   assert.equal(preflight.activationDecisionHandoff?.mayaAuthorityDecision.grantScope, 'full_access');
@@ -88,6 +92,21 @@ test('decision must preserve Maya-core verification fields', () => {
 
   assert.equal(preflight.status, 'blocked');
   assert.ok(preflight.blockers.includes('maya_autonomy_authority.source_of_truth_must_be_maya_kaya'));
+});
+
+test('decision must carry Maya-core timestamp fields', () => {
+  const preflight = buildMayaAutonomyAuthorityIntakePreflight({
+    target: 'runtime_dry_run',
+    expectedAutonomyMode: 'full_access',
+    decision: decision({
+      issuedAt: undefined,
+      expiresAt: undefined,
+    }),
+  }, new Date('2026-06-16T15:30:00.000Z'));
+
+  assert.equal(preflight.status, 'blocked');
+  assert.ok(preflight.blockers.includes('maya_autonomy_authority.issued_at_required'));
+  assert.ok(preflight.blockers.includes('maya_autonomy_authority.expires_at_required'));
 });
 
 test('missing authority decision blocks execution handoff', () => {

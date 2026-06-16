@@ -82,6 +82,7 @@ test('POST /probe/maya-autonomy-authority-intake-preflight returns activation ha
           scopeRef: 'bluepilot:runtime_dry_run',
           ethicsCharterRef: 'maya-ethics-charter:canonical',
           safetyEvidenceRef: 'safety:evidence:bluepilot-runtime',
+          issuedAt: '2026-06-16T15:00:00.000Z',
           expiresAt: '2026-06-16T16:00:00.000Z',
           hardStopCategories,
           sourceOfTruth: 'maya_kaya',
@@ -93,7 +94,7 @@ test('POST /probe/maya-autonomy-authority-intake-preflight returns activation ha
       decisionReady: boolean;
       activationDecisionHandoff: {
         target: string;
-        mayaAuthorityDecision: { status: string; grantScope: string; scopeRef: string; sourceOfTruth: string };
+        mayaAuthorityDecision: { status: string; grantScope: string; scopeRef: string; issuedAt: string; sourceOfTruth: string };
       };
       sideEffects: { callsMayaKaya: boolean; executesRuntime: boolean };
     };
@@ -105,6 +106,7 @@ test('POST /probe/maya-autonomy-authority-intake-preflight returns activation ha
     assert.equal(body.activationDecisionHandoff.mayaAuthorityDecision.status, 'maya_autonomy_decision_allowed');
     assert.equal(body.activationDecisionHandoff.mayaAuthorityDecision.grantScope, 'full_access');
     assert.equal(body.activationDecisionHandoff.mayaAuthorityDecision.scopeRef, 'bluepilot:runtime_dry_run');
+    assert.equal(body.activationDecisionHandoff.mayaAuthorityDecision.issuedAt, '2026-06-16T15:00:00.000Z');
     assert.equal(body.activationDecisionHandoff.mayaAuthorityDecision.sourceOfTruth, 'maya_kaya');
     assert.equal(body.sideEffects.callsMayaKaya, false);
     assert.equal(body.sideEffects.executesRuntime, false);
