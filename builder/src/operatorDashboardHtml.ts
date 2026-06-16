@@ -35,6 +35,43 @@ interface ActivationControl {
 function activationControls(): ActivationControl[] {
   return [
     {
+      id: 'maya-authority-verify',
+      title: 'Maya Authority Verify',
+      endpoint: '/probe/maya-core-autonomy-verification-preflight',
+      payload: {
+        target: 'runtime_dry_run',
+        expectedAutonomyMode: 'full_access',
+        expectedGrantScope: 'full_access',
+        expectedSubjectRef: 'user:g-dislioglu',
+        expectedEthicsCharterRef: 'maya-ethics-charter:canonical',
+        mayaCoreUrlConfigured: true,
+        mayaCoreGateTokenConfigured: true,
+        verificationEndpoint: '/api/maya/autonomy/authority',
+        decision: {
+          status: 'maya_autonomy_decision_allowed',
+          authorityRef: 'maya-kaya:authority:canonical',
+          decisionRef: 'maya-kaya:decision:replace-with-live-decision',
+          subjectRef: 'user:g-dislioglu',
+          autonomyMode: 'full_access',
+          grantScope: 'full_access',
+          ethicsCharterRef: 'maya-ethics-charter:canonical',
+          safetyEvidenceRef: 'safety:evidence:replace-with-live-ref',
+          hardStopCategories: [
+            'banking',
+            'financial_transaction',
+            'illegal_action',
+            'ethics_charter_violation',
+            'malware_or_abuse',
+            'privacy_invasion',
+            'deception_or_impersonation',
+            'weapons',
+            'self_harm',
+            'medical_or_legal_high_stakes_submission',
+          ],
+        },
+      },
+    },
+    {
       id: 'provider-preflight',
       title: 'Provider Preflight',
       endpoint: '/probe/provider-runtime-activation-preflight',

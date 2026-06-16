@@ -868,6 +868,11 @@
   `activationDecisionHandoff.mayaAuthorityDecision`; fehlende, abgelaufene, falsch gescopte oder
   hard-stop-policy-unvollstaendige Decisions blockieren fail-closed. Bluepilot ruft Maya/Kaya
   dabei nicht live auf und bleibt Consumer plus Executor-Guard.
+- Maya-Core-Autonomy-Verification-Dashboard 2026-06-16: `GET
+  /probe/maya-core-autonomy-verification-contract` und `POST
+  /probe/maya-core-autonomy-verification-preflight` planen den Verify-Request gegen Maya-core
+  `/api/maya/autonomy/authority`, rufen Maya/Kaya aber noch nicht live auf. Das Operator Dashboard
+  zeigt `Maya/Kaya Authority Status` und eine copy-only `Maya Authority Verify` Control.
 
 ## Maya-Anbindung
 

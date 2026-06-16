@@ -12,6 +12,7 @@ test('operator dashboard renders read-only HTML for all panels', () => {
   assert.ok(html.includes('BPK Execution Ledger'));
   assert.ok(html.includes('GOAT Desktop Bridge'));
   assert.ok(html.includes('Maya-Core Gate Enforcement'));
+  assert.ok(html.includes('Maya/Kaya Authority Status'));
   assert.ok(html.includes('Provider and Runtime Flows'));
   assert.ok(html.includes('Merge and Release Readiness'));
   assert.ok(html.includes('Activation Controls'));
@@ -23,6 +24,8 @@ test('operator dashboard renders activation controls without submit actions', ()
   const html = renderOperatorDashboardHtml(buildOperatorDashboardModel(new Date('2026-06-15T14:00:00.000Z')));
 
   assert.ok(html.includes('Provider Preflight'));
+  assert.ok(html.includes('Maya Authority Verify'));
+  assert.ok(html.includes('/probe/maya-core-autonomy-verification-preflight'));
   assert.ok(html.includes('Runtime Preflight'));
   assert.ok(html.includes('Write Preflight'));
   assert.ok(html.includes('Activation Lock'));

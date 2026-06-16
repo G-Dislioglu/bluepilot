@@ -9,6 +9,7 @@ import { handleHealthRequest } from './health.js';
 import { handlePermitApplyRequest } from './permitApply.js';
 import { handleMayaCoreGateEnforcementRequest } from './mayaCoreGateEnforcementRoute.js';
 import { handleMayaAutonomyAuthorityIntakeRequest } from './mayaAutonomyAuthorityIntakeRoute.js';
+import { handleMayaCoreAutonomyVerificationRequest } from './mayaCoreAutonomyVerificationRoute.js';
 import { handleMergeReleaseReadinessRequest } from './mergeReleaseReadinessRoute.js';
 import { handleMetaRequest } from './meta.js';
 import { handleOperatorDashboardRequest } from './operatorDashboardRoute.js';
@@ -98,6 +99,10 @@ const server = createServer((request, response) => {
     }
 
     if (await handleMayaAutonomyAuthorityIntakeRequest(request, response)) {
+      return;
+    }
+
+    if (await handleMayaCoreAutonomyVerificationRequest(request, response)) {
       return;
     }
 
