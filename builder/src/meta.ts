@@ -37,6 +37,8 @@ export interface BluepilotMetaPayload {
     runtimeDryRunExecutorMountLockPreflight: '/probe/runtime-dry-run-executor-mount-lock-preflight';
     writeExecutorMountLockContract: '/probe/write-executor-mount-lock-contract';
     writeExecutorMountLockPreflight: '/probe/write-executor-mount-lock-preflight';
+    durableAuditReceiptStoreContract: '/probe/durable-audit-receipt-store-contract';
+    durableAuditReceiptStorePreflight: '/probe/durable-audit-receipt-store-preflight';
     mergeReleaseReadinessContract: '/probe/merge-release-readiness-contract';
     mergeReleaseReadinessPreflight: '/probe/merge-release-readiness-preflight';
     eightPointIntegrationReadiness: '/probe/eight-point-integration-readiness';
@@ -102,6 +104,8 @@ export function createBluepilotMetaPayload(
       runtimeDryRunExecutorMountLockPreflight: '/probe/runtime-dry-run-executor-mount-lock-preflight',
       writeExecutorMountLockContract: '/probe/write-executor-mount-lock-contract',
       writeExecutorMountLockPreflight: '/probe/write-executor-mount-lock-preflight',
+      durableAuditReceiptStoreContract: '/probe/durable-audit-receipt-store-contract',
+      durableAuditReceiptStorePreflight: '/probe/durable-audit-receipt-store-preflight',
       mergeReleaseReadinessContract: '/probe/merge-release-readiness-contract',
       mergeReleaseReadinessPreflight: '/probe/merge-release-readiness-preflight',
       eightPointIntegrationReadiness: '/probe/eight-point-integration-readiness',

@@ -2,6 +2,7 @@ import { createServer } from 'node:http';
 
 import { handleActivationLockRequest } from './activationLockRoute.js';
 import { handleCockpitReadOnlyRouteRequest } from './cockpitReadOnlyRoute.js';
+import { handleDurableAuditReceiptStoreRequest } from './durableAuditReceiptStoreRoute.js';
 import { handleGoatDesktopBridgeRequest } from './goatDesktopBridgeRoute.js';
 import { handleHealthRequest } from './health.js';
 import { handlePermitApplyRequest } from './permitApply.js';
@@ -59,6 +60,10 @@ const server = createServer((request, response) => {
     }
 
     if (await handleWriteExecutorMountLockRequest(request, response)) {
+      return;
+    }
+
+    if (await handleDurableAuditReceiptStoreRequest(request, response)) {
       return;
     }
 

@@ -5,6 +5,21 @@
 
 ---
 
+## 2026-06-16 - Durable Audit Receipt Store
+
+- Gebaut: `GET /probe/durable-audit-receipt-store-contract` und
+  `POST /probe/durable-audit-receipt-store-preflight`.
+- Verhalten: Bluepilot prueft Confirmation, Target, Operator-Store-Ref, Audit-Run-Ref,
+  Receipt-Batch-Ref, Retention-Policy-Ref und Executor-Mount-Evidence. Bei gueltiger Evidence
+  entsteht ein geplanter Audit-Receipt-Record.
+- Sicherheitsentscheidung: Auch bei `store_ready_for_activation_review` bleiben Durable
+  Persistence, DB-/File-/GitHub-Writes, Provider-Calls, Runtime-Execution, Permit-Issue, Merge
+  und Deploy false. Keine DB-Schema- oder Write-Path-Aenderung.
+- Beweis: Fokus-Tests fuer Durable-Audit-Receipt-Store, die drei Executor-Mount-Locks und Meta
+  werden in diesem Buendel ausgefuehrt.
+- Roter Faden weiter: Full Checks laufen lassen, Branch pushen und PR erstellen. Echte durable
+  Persistenz bleibt ein spaeterer separater Aktivierungsschritt.
+
 ## 2026-06-16 - Write Executor Mount Lock
 
 - Gebaut: `GET /probe/write-executor-mount-lock-contract` und
