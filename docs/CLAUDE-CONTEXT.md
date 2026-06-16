@@ -639,6 +639,11 @@ read-only verdrahtet und das zweite Readonly-Buendel ist darauf aufgebaut:
   `mayaAuthorityDecision` mit `status:"maya_autonomy_decision_allowed"` plus lokale Executor- und
   Receipt-Evidence. Die anderen Apps sollen dieselbe Maya/Kaya-Authority konsumieren statt eigene
   Vollzugriffsquellen zu definieren.
+- Maya Autonomy Authority Intake ist als geschlossene Consumer-Surface angebunden:
+  `GET /probe/maya-autonomy-authority-contract` und
+  `POST /probe/maya-autonomy-authority-intake-preflight` pruefen und normalisieren Maya/Kaya-
+  Decisions vor der Activation-Decision-Uebergabe. Bluepilot ruft Maya/Kaya dabei nicht live auf
+  und bleibt Consumer plus Executor-Guard.
 
 Naechste Integrationsbloecke:
 

@@ -8,6 +8,7 @@ import { handleGoatDesktopBridgeRequest } from './goatDesktopBridgeRoute.js';
 import { handleHealthRequest } from './health.js';
 import { handlePermitApplyRequest } from './permitApply.js';
 import { handleMayaCoreGateEnforcementRequest } from './mayaCoreGateEnforcementRoute.js';
+import { handleMayaAutonomyAuthorityIntakeRequest } from './mayaAutonomyAuthorityIntakeRoute.js';
 import { handleMergeReleaseReadinessRequest } from './mergeReleaseReadinessRoute.js';
 import { handleMetaRequest } from './meta.js';
 import { handleOperatorDashboardRequest } from './operatorDashboardRoute.js';
@@ -93,6 +94,10 @@ const server = createServer((request, response) => {
     }
 
     if (await handleMayaCoreGateEnforcementRequest(request, response)) {
+      return;
+    }
+
+    if (await handleMayaAutonomyAuthorityIntakeRequest(request, response)) {
       return;
     }
 

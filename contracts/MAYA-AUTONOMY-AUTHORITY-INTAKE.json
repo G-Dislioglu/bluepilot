@@ -1,0 +1,86 @@
+{
+  "task_id": "MAYA-AUTONOMY-AUTHORITY-INTAKE",
+  "task_name": "bluepilot-maya-autonomy-authority-intake-v0.1",
+  "created": "2026-06-16",
+  "scope": "bluepilot/builder/operator/maya-autonomy-authority-intake",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "cross_app_autonomy_authority_intake",
+  "goal": "Add a side-effect-free Bluepilot intake surface that validates and normalizes Maya/Kaya autonomy authority decisions before handing them to activation-decision operator mode.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/mayaAutonomyAuthorityIntake.ts",
+    "builder/src/mayaAutonomyAuthorityIntakeRoute.ts",
+    "builder/tests/mayaAutonomyAuthorityIntake.test.ts",
+    "builder/tests/mayaAutonomyAuthorityIntakeRoute.test.ts",
+    "builder/tests/meta.test.ts"
+  ],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/MAYA-AUTONOMY-AUTHORITY-INTAKE.json",
+    "review-packets/MAYA-AUTONOMY-AUTHORITY-INTAKE.md",
+    "builder/src/mayaAutonomyAuthorityIntake.ts",
+    "builder/src/mayaAutonomyAuthorityIntakeRoute.ts",
+    "builder/src/server.ts",
+    "builder/src/meta.ts",
+    "builder/tests/mayaAutonomyAuthorityIntake.test.ts",
+    "builder/tests/mayaAutonomyAuthorityIntakeRoute.test.ts",
+    "builder/tests/meta.test.ts",
+    "builder/data/bpk-governance-manifest.json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    ".github/**",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/db.ts",
+    "builder/src/providers.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/sandboxWrite.ts",
+    "builder/src/sandboxRealWrite.ts",
+    "soulmatch/**",
+    "goat-desktop/**",
+    "aicos-registry/**"
+  ],
+  "scope_out": [
+    "Do not call Maya/Kaya live, call providers, execute runtime, write files/GitHub/database, persist receipts, issue permits, merge, deploy, change packages, change workflows, or reopen retired sandbox write routes."
+  ],
+  "claims": [
+    "Bluepilot can validate and normalize a Maya/Kaya autonomy authority decision without becoming the source of truth.",
+    "A valid decision must carry allowed status, authority references, subject, autonomy mode, grant scope, ethics charter reference, safety evidence reference, and the shared hard-stop policy.",
+    "Expired, missing, mismatched, or incomplete decisions fail closed before activation-decision handoff.",
+    "The new route exposes only contract and preflight surfaces and does not call Maya/Kaya live."
+  ],
+  "assumptions": [
+    "Maya-core will implement the canonical decision issuer/verifier in a separate repo task.",
+    "Activation-decision operator mode remains the local Bluepilot executor decision layer after intake normalization."
+  ],
+  "dod": [
+    "Contract and preflight route for Maya/Kaya autonomy authority intake are exposed.",
+    "Valid Maya/Kaya full-access evidence produces a normalized activation-decision handoff.",
+    "Missing, expired, mismatched, or hard-stop-policy-incomplete evidence blocks.",
+    "Meta advertises the new surfaces.",
+    "Focused tests, typecheck, task-lock verification, diff-check, and full builder tests pass."
+  ],
+  "evidence_required": ["test_result"],
+  "required_commands": [
+    "npx tsx --test tests/mayaAutonomyAuthorityIntake.test.ts tests/mayaAutonomyAuthorityIntakeRoute.test.ts tests/meta.test.ts",
+    "npm run typecheck",
+    "node scripts/generate-bpk-governance-manifest.mjs",
+    "node tools/verify-task-lock.cjs MAYA-AUTONOMY-AUTHORITY-INTAKE --verify --contract contracts/MAYA-AUTONOMY-AUTHORITY-INTAKE.json",
+    "git diff --check",
+    "npm test"
+  ],
+  "stop_conditions": [
+    "Live Maya/Kaya call, provider call, runtime execution, file/GitHub/database write, durable persistence, permit issue, merge, deploy, package change, workflow change, or sandbox write reopening becomes necessary."
+  ],
+  "prior_task_findings": "Bluepilot now consumes Maya/Kaya autonomy decisions in activation-decision operator mode. It still needs a dedicated intake/normalization surface before the activation-decision handoff.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "733a04d"
+}

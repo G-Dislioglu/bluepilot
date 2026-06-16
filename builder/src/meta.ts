@@ -27,6 +27,8 @@ export interface BluepilotMetaPayload {
     goatDesktopBuilderCuePreflight: '/probe/goat-desktop-builder-cue-preflight';
     mayaCoreGateEnforcement: '/probe/maya-core-gate-enforcement';
     mayaCoreGateEnforcementPreflight: '/probe/maya-core-gate-enforcement-preflight';
+    mayaAutonomyAuthorityContract: '/probe/maya-autonomy-authority-contract';
+    mayaAutonomyAuthorityIntakePreflight: '/probe/maya-autonomy-authority-intake-preflight';
     providerRuntimeActivationContract: '/probe/provider-runtime-activation-contract';
     providerRuntimeActivationPreflight: '/probe/provider-runtime-activation-preflight';
     activationLockContract: '/probe/activation-lock-contract';
@@ -96,6 +98,8 @@ export function createBluepilotMetaPayload(
       goatDesktopBuilderCuePreflight: '/probe/goat-desktop-builder-cue-preflight',
       mayaCoreGateEnforcement: '/probe/maya-core-gate-enforcement',
       mayaCoreGateEnforcementPreflight: '/probe/maya-core-gate-enforcement-preflight',
+      mayaAutonomyAuthorityContract: '/probe/maya-autonomy-authority-contract',
+      mayaAutonomyAuthorityIntakePreflight: '/probe/maya-autonomy-authority-intake-preflight',
       providerRuntimeActivationContract: '/probe/provider-runtime-activation-contract',
       providerRuntimeActivationPreflight: '/probe/provider-runtime-activation-preflight',
       activationLockContract: '/probe/activation-lock-contract',

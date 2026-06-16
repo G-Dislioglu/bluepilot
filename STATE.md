@@ -861,6 +861,13 @@
   `mayaAuthorityDecision` mit `status:"maya_autonomy_decision_allowed"`. Bluepilot bleibt
   Executor-Guard mit lokalen Locks, Receipt-Evidence und Hard-Stop-Pruefung. Maya-core, Soulmatch
   und AICOS sollen denselben Authority-Schnitt uebernehmen.
+- Maya-Autonomy-Authority-Intake 2026-06-16: `GET
+  /probe/maya-autonomy-authority-contract` und `POST
+  /probe/maya-autonomy-authority-intake-preflight` pruefen und normalisieren Maya/Kaya-
+  Autonomieentscheidungen vor der Activation-Decision-Uebergabe. Gueltige Evidence erzeugt
+  `activationDecisionHandoff.mayaAuthorityDecision`; fehlende, abgelaufene, falsch gescopte oder
+  hard-stop-policy-unvollstaendige Decisions blockieren fail-closed. Bluepilot ruft Maya/Kaya
+  dabei nicht live auf und bleibt Consumer plus Executor-Guard.
 
 ## Maya-Anbindung
 

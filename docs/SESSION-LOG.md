@@ -5,6 +5,20 @@
 
 ---
 
+## 2026-06-16 - Maya Autonomy Authority Intake
+
+- Gebaut: `GET /probe/maya-autonomy-authority-contract` und
+  `POST /probe/maya-autonomy-authority-intake-preflight`.
+- Verhalten: Bluepilot prueft und normalisiert eine von Maya/Kaya gelieferte
+  Autonomie-Decision, bevor sie an `activationDecisionOperatorMode` weitergereicht wird.
+  Gueltige Decisions erzeugen `activationDecisionHandoff.mayaAuthorityDecision`.
+- Sicherheitsentscheidung: Bluepilot wird dadurch nicht zur Authority. Die Surface ruft Maya/Kaya
+  nicht live auf, fuehrt nichts aus, schreibt nichts und persistiert nichts. Fehlende,
+  abgelaufene, falsch gescopte oder hard-stop-policy-unvollstaendige Decisions blockieren
+  fail-closed.
+- Roter Faden weiter: Maya-core muss die kanonische Decision tatsaechlich ausstellen oder
+  verifizieren; Bluepilot kann sie dann als Consumer strukturiert aufnehmen.
+
 ## 2026-06-16 - Maya Autonomy Delegation Consumer
 
 - Entscheidung: App-uebergreifende Autonomie und Vollzugriff gehoeren zu Maya/Kaya als
