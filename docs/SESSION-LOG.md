@@ -5,6 +5,24 @@
 
 ---
 
+## 2026-06-16 - Activation Lock Boundary
+
+- Gebaut: `GET /probe/activation-lock-contract` und `POST /probe/activation-lock-preflight`
+  als explizite Aktivierungsgrenze fuer Provider-Calls, Runtime-Dry-Run und Write-Actions.
+- Verhalten: Bluepilot kombiniert die vorhandene Maya-Core-Gate- und Provider/Runtime-
+  Preflight-Evidence mit Operator-Entscheidung, Live-Evidence, Ziel-/Pfad- und Content-Hash-
+  Bindung fuer Write-Actions. Ergebnis kann `activation_lock_ready` sein.
+- Sicherheitsentscheidung: Auch bei `activation_lock_ready` bleiben
+  `providerExecutionAllowed:false`, `runtimeExecutionAllowed:false`, `writeExecutionAllowed:false`,
+  `runtimeRouteMountAllowed:false` und `permitIssueAllowed:false`. Die neue Surface ruft keine
+  Provider, Runtime, Maya-Core, DB, GitHub oder durable Writer auf und oeffnet keine retired
+  Sandbox-Write-Route.
+- Beweis: Fokus-Tests fuer Activation-Lock, Provider/Runtime, Maya-Gate und Meta sind mit
+  22/22 gruen. `npm run typecheck`, Manifest-Refresh, `git diff --check` und der volle
+  Builder-Testlauf mit 345/345 Tests sind gruen.
+- Roter Faden weiter: Full Checks laufen lassen, Branch pushen und als PR bereitstellen. Echte
+  Ausfuehrung bleibt ein spaeterer separater Executor-Mount-Lock.
+
 ## 2026-06-15 - Live Operator Maya Evidence Review
 
 - Geprueft: Live-Render-Service `https://bluepilot-builder.onrender.com` nach gesetztem
