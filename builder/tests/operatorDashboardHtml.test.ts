@@ -14,7 +14,23 @@ test('operator dashboard renders read-only HTML for all panels', () => {
   assert.ok(html.includes('Maya-Core Gate Enforcement'));
   assert.ok(html.includes('Provider and Runtime Flows'));
   assert.ok(html.includes('Merge and Release Readiness'));
+  assert.ok(html.includes('Activation Controls'));
+  assert.ok(html.includes('/probe/activation-lock-preflight'));
   assert.ok(html.includes('keine Writes'));
+});
+
+test('operator dashboard renders activation controls without submit actions', () => {
+  const html = renderOperatorDashboardHtml(buildOperatorDashboardModel(new Date('2026-06-15T14:00:00.000Z')));
+
+  assert.ok(html.includes('Provider Preflight'));
+  assert.ok(html.includes('Runtime Preflight'));
+  assert.ok(html.includes('Write Preflight'));
+  assert.ok(html.includes('Activation Lock'));
+  assert.ok(html.includes('data-copy-target="activation-lock-payload"'));
+  assert.ok(html.includes('&quot;target&quot;: &quot;runtime_dry_run&quot;'));
+  assert.ok(!html.includes('<form'));
+  assert.ok(!html.includes('type="submit"'));
+  assert.ok(!html.includes('fetch('));
 });
 
 test('operator dashboard escapes panel text', () => {

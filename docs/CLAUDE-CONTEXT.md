@@ -600,6 +600,10 @@ read-only verdrahtet und das zweite Readonly-Buendel ist darauf aufgebaut:
   Provider-, Runtime- und Write-Aktivierungsreife aus vorhandener Gate-Evidence. Auch bei
   `activation_lock_ready` bleiben Provider-Ausfuehrung, Runtime-Ausfuehrung, Runtime-Route-Mount,
   Write-Ausfuehrung und Permit-Ausstellung false.
+- Operator Dashboard Activation Controls sind jetzt im read-only Dashboard vorhanden:
+  Provider-Preflight, Runtime-Preflight, Write-Preflight und Activation-Lock werden als
+  copy-only Payload-Controls dargestellt. Es gibt keine Forms, Submit-Buttons oder
+  browserseitigen POSTs; die Surface bleibt Review-UI.
 
 Naechste Integrationsbloecke:
 
