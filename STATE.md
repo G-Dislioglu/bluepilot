@@ -855,6 +855,12 @@
   und weitere Hard-Stops bleiben auch bei Vollzugriff blockiert. Die Surface bewertet nur;
   Ausfuehrung, Writes, Provider, Runtime, Persistenz, Permits und Deploy bleiben in dieser
   Schicht geschlossen.
+- Maya-Autonomy-Delegation-Consumer 2026-06-16: Die Architektur wurde korrigiert:
+  App-uebergreifende Autonomie und Vollzugriff gehoeren zu Maya/Kaya als zentraler Authority.
+  Bluepilot besitzt Vollzugriff nicht mehr als lokale Quelle der Wahrheit, sondern konsumiert ein
+  `mayaAuthorityDecision` mit `status:"maya_autonomy_decision_allowed"`. Bluepilot bleibt
+  Executor-Guard mit lokalen Locks, Receipt-Evidence und Hard-Stop-Pruefung. Maya-core, Soulmatch
+  und AICOS sollen denselben Authority-Schnitt uebernehmen.
 
 ## Maya-Anbindung
 
@@ -894,9 +900,9 @@ Naechste Integrationsbloecke nach der Acht-Punkte-Verdrahtung:
    `builder/output/playwright/` und `builder/output/live-review/`.
 2. Provider/Runtime/Write-Aktivierung hat jetzt einen Activation-Lock und Dashboard-Controls.
    Runtime-Dry-Run, Provider-Call und Write-Action besitzen je einen Executor-Mount-Lock; der
-   Durable-Audit-Receipt-Store plant Receipts ohne Persistenz. Der Operator-Mode entscheidet,
-   wann Vollzugriff ohne wiederholte Prompts ausreicht. Echte Route-, Provider-, Write- oder
-   Persistenz-Aktivierung bleibt ein separater Schritt.
+   Durable-Audit-Receipt-Store plant Receipts ohne Persistenz. Der Operator-Mode konsumiert
+   Maya/Kaya-Autonomieentscheidungen. Echte Route-, Provider-, Write- oder Persistenz-Aktivierung
+   bleibt ein separater Schritt.
 3. Gestapelte Integrations-Branches reviewen und bewusst entscheiden, ob und in welcher
    Reihenfolge weitere echte PRs/Merges/Deploys manuell erfolgen.
 

@@ -1,0 +1,79 @@
+{
+  "task_id": "MAYA-AUTONOMY-DELEGATION-CONSUMER",
+  "task_name": "bluepilot-maya-autonomy-delegation-consumer-v0.1",
+  "created": "2026-06-16",
+  "scope": "bluepilot/builder/operator/maya-autonomy-delegation-consumer",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "cross_app_autonomy_authority_consumer",
+  "goal": "Reframe Bluepilot activation decisions so Maya/Kaya is the cross-app autonomy source of truth. Bluepilot consumes a Maya/Kaya authority decision and keeps local executor locks as guardrails; it does not own the canonical full-access grant.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/activationDecisionOperatorMode.ts",
+    "builder/tests/activationDecisionOperatorMode.test.ts",
+    "builder/tests/activationDecisionOperatorModeRoute.test.ts"
+  ],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/MAYA-AUTONOMY-DELEGATION-CONSUMER.json",
+    "review-packets/MAYA-AUTONOMY-DELEGATION-CONSUMER.md",
+    "builder/src/activationDecisionOperatorMode.ts",
+    "builder/tests/activationDecisionOperatorMode.test.ts",
+    "builder/tests/activationDecisionOperatorModeRoute.test.ts",
+    "builder/data/bpk-governance-manifest.json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    ".github/**",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/db.ts",
+    "builder/src/providers.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/sandboxWrite.ts",
+    "builder/src/sandboxRealWrite.ts",
+    "soulmatch/**",
+    "goat-desktop/**",
+    "aicos-registry/**"
+  ],
+  "scope_out": [
+    "Do not call Maya/Kaya live, call providers, execute runtime, write files/GitHub/database, persist receipts, issue permits, merge, deploy, change packages, change workflows, or alter retired sandbox write routes."
+  ],
+  "claims": [
+    "Bluepilot treats Maya/Kaya as the source of truth for autonomy and full-access grants.",
+    "Execution modes require a Maya/Kaya authority decision with status maya_autonomy_decision_allowed.",
+    "Full access still requires local executor and receipt-store evidence in Bluepilot.",
+    "Hard-stop categories remain blocked locally even if a malformed caller claims full access."
+  ],
+  "assumptions": [
+    "Maya-core will implement the canonical authority endpoint and decision artifacts in a separate repo task.",
+    "Soulmatch and AICOS will consume the same Maya/Kaya authority pattern rather than duplicating full-access ownership."
+  ],
+  "dod": [
+    "Activation decision contract names Maya/Kaya as source of truth and Bluepilot as consumer/executor guard.",
+    "Full-access preflight requires a ready Maya/Kaya authority decision.",
+    "Missing Maya/Kaya authority decision blocks execution modes.",
+    "Focused tests, typecheck, task-lock verification, diff-check, and full builder tests pass."
+  ],
+  "evidence_required": ["test_result"],
+  "required_commands": [
+    "npx tsx --test tests/activationDecisionOperatorMode.test.ts tests/activationDecisionOperatorModeRoute.test.ts tests/meta.test.ts",
+    "npm run typecheck",
+    "node scripts/generate-bpk-governance-manifest.mjs",
+    "node tools/verify-task-lock.cjs MAYA-AUTONOMY-DELEGATION-CONSUMER --verify --contract contracts/MAYA-AUTONOMY-DELEGATION-CONSUMER.json",
+    "git diff --check",
+    "npm test"
+  ],
+  "stop_conditions": [
+    "Live Maya/Kaya calls, provider call, runtime execution, file/GitHub/database write, durable persistence, permit issue, merge, deploy, package change, workflow change, or sandbox write reopening becomes necessary."
+  ],
+  "prior_task_findings": "Bluepilot had a local operator-mode decision surface. The user clarified that cross-app autonomy should belong to Maya/Kaya because the user works through Maya/Kaya across apps.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "dc06a13"
+}

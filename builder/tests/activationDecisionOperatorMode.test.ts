@@ -26,6 +26,16 @@ function fullAccessRequest() {
     ethicsCharterRef: 'maya-ethics-charter:canonical',
     safetyEvidenceRef: 'safety:evidence:runtime',
     userIntentRef: 'user:intent:continue-autonomously',
+    mayaAuthorityDecision: {
+      status: 'maya_autonomy_decision_allowed',
+      authorityRef: 'maya-kaya:authority:canonical',
+      decisionRef: 'maya-kaya:decision:runtime',
+      subjectRef: 'user:g-dislioglu',
+      autonomyMode: 'full_access',
+      grantScope: 'full_access',
+      ethicsCharterRef: 'maya-ethics-charter:canonical',
+      safetyEvidenceRef: 'safety:evidence:runtime',
+    },
     executorEvidence: readyExecutor,
     durableReceiptStore: readyStore,
   };
@@ -37,6 +47,8 @@ test('activation decision contract defines autonomy modes and hard stops', () =>
   assert.equal(contract.version, 'bluepilot-activation-decision-operator-mode-contract-v0.1');
   assert.ok(contract.autonomyModes.includes('full_access'));
   assert.ok(contract.hardStopCategories.includes('banking'));
+  assert.equal(contract.autonomyAuthority.sourceOfTruth, 'maya_kaya');
+  assert.equal(contract.autonomyAuthority.localAppRole, 'consumer_and_executor_guard');
   assert.equal(contract.decisionBoundary.evaluatesOnly, true);
   assert.equal(contract.decisionBoundary.executesRuntime, false);
   assert.equal(contract.sideEffects.runtimeExecution, false);
@@ -49,6 +61,8 @@ test('full access can allow execution without repeated prompts when evidence is 
   assert.equal(preflight.executeAllowed, true);
   assert.equal(preflight.repeatedPromptRequired, false);
   assert.equal(preflight.operatorGrantCarriesForward, true);
+  assert.equal(preflight.authoritySource, 'maya_kaya');
+  assert.equal(preflight.mayaAuthorityDecisionReady, true);
   assert.equal(preflight.allowedActions.runtimeDryRun, true);
   assert.equal(preflight.allowedActions.providerCall, false);
   assert.equal(preflight.sideEffects.runtimeExecution, false);
@@ -86,9 +100,29 @@ test('supervised execution requires a per-action approval ref', () => {
     ...fullAccessRequest(),
     autonomyMode: 'supervised_execution',
     operatorGrantScope: 'task',
+    mayaAuthorityDecision: {
+      status: 'maya_autonomy_decision_allowed',
+      authorityRef: 'maya-kaya:authority:canonical',
+      decisionRef: 'maya-kaya:decision:supervised',
+      subjectRef: 'user:g-dislioglu',
+      autonomyMode: 'supervised_execution',
+      grantScope: 'task',
+      ethicsCharterRef: 'maya-ethics-charter:canonical',
+      safetyEvidenceRef: 'safety:evidence:runtime',
+    },
   }, new Date('2026-06-16T15:00:00.000Z'));
 
   assert.equal(preflight.status, 'blocked');
   assert.ok(preflight.blockers.includes('activation_decision.per_action_approval_ref_required'));
   assert.equal(preflight.repeatedPromptRequired, true);
+});
+
+test('execution modes require a Maya/Kaya authority decision', () => {
+  const { mayaAuthorityDecision: _mayaAuthorityDecision, ...request } = fullAccessRequest();
+  const preflight = buildActivationDecisionOperatorModePreflight(request, new Date('2026-06-16T15:00:00.000Z'));
+
+  assert.equal(preflight.status, 'blocked');
+  assert.equal(preflight.executeAllowed, false);
+  assert.equal(preflight.mayaAuthorityDecisionReady, false);
+  assert.ok(preflight.blockers.includes('activation_decision.maya_authority_decision_required'));
 });

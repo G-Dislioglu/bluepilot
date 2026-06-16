@@ -37,6 +37,7 @@ test('GET /probe/activation-decision-operator-mode-contract exposes autonomy con
       version: string;
       autonomyModes: string[];
       hardStopCategories: string[];
+      autonomyAuthority: { sourceOfTruth: string; localAppRole: string };
       decisionBoundary: { evaluatesOnly: boolean; callsProviders: boolean };
     };
 
@@ -44,6 +45,8 @@ test('GET /probe/activation-decision-operator-mode-contract exposes autonomy con
     assert.equal(body.version, 'bluepilot-activation-decision-operator-mode-contract-v0.1');
     assert.ok(body.autonomyModes.includes('full_access'));
     assert.ok(body.hardStopCategories.includes('banking'));
+    assert.equal(body.autonomyAuthority.sourceOfTruth, 'maya_kaya');
+    assert.equal(body.autonomyAuthority.localAppRole, 'consumer_and_executor_guard');
     assert.equal(body.decisionBoundary.evaluatesOnly, true);
     assert.equal(body.decisionBoundary.callsProviders, false);
   });
@@ -63,6 +66,16 @@ test('POST /probe/activation-decision-operator-mode-preflight allows full access
         ethicsCharterRef: 'maya-ethics-charter:canonical',
         safetyEvidenceRef: 'safety:evidence:runtime',
         userIntentRef: 'user:intent:continue-autonomously',
+        mayaAuthorityDecision: {
+          status: 'maya_autonomy_decision_allowed',
+          authorityRef: 'maya-kaya:authority:canonical',
+          decisionRef: 'maya-kaya:decision:runtime',
+          subjectRef: 'user:g-dislioglu',
+          autonomyMode: 'full_access',
+          grantScope: 'full_access',
+          ethicsCharterRef: 'maya-ethics-charter:canonical',
+          safetyEvidenceRef: 'safety:evidence:runtime',
+        },
         executorEvidence: {
           status: 'executor_mount_lock_ready',
           executorMountReady: true,
@@ -77,6 +90,8 @@ test('POST /probe/activation-decision-operator-mode-preflight allows full access
       status: string;
       executeAllowed: boolean;
       repeatedPromptRequired: boolean;
+      authoritySource: string;
+      mayaAuthorityDecisionReady: boolean;
       allowedActions: { runtimeDryRun: boolean };
       sideEffects: { runtimeExecution: boolean };
     };
@@ -85,6 +100,8 @@ test('POST /probe/activation-decision-operator-mode-preflight allows full access
     assert.equal(body.status, 'execute_allowed');
     assert.equal(body.executeAllowed, true);
     assert.equal(body.repeatedPromptRequired, false);
+    assert.equal(body.authoritySource, 'maya_kaya');
+    assert.equal(body.mayaAuthorityDecisionReady, true);
     assert.equal(body.allowedActions.runtimeDryRun, true);
     assert.equal(body.sideEffects.runtimeExecution, false);
   });
