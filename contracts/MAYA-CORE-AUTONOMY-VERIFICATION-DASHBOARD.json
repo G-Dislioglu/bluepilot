@@ -1,0 +1,61 @@
+{
+  "task_id": "MAYA-CORE-AUTONOMY-VERIFICATION-DASHBOARD",
+  "task_name": "bluepilot-maya-core-autonomy-verification-dashboard-v0.1",
+  "created": "2026-06-16",
+  "scope": "bluepilot/builder/operator/maya-core-autonomy-verification-dashboard",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "cross_app_autonomy_authority_consumer",
+  "goal": "Prepare Bluepilot for Maya-core live autonomy verification and expose Maya/Kaya authority status in the operator dashboard without making live calls or executing actions.",
+  "allowed_files": [
+    "contracts/MAYA-CORE-AUTONOMY-VERIFICATION-DASHBOARD.json",
+    "review-packets/MAYA-CORE-AUTONOMY-VERIFICATION-DASHBOARD.md",
+    "builder/src/mayaCoreAutonomyVerificationPreflight.ts",
+    "builder/src/mayaCoreAutonomyVerificationRoute.ts",
+    "builder/src/server.ts",
+    "builder/src/meta.ts",
+    "builder/src/eightPointIntegrationReadiness.ts",
+    "builder/src/operatorDashboardHtml.ts",
+    "builder/tests/mayaCoreAutonomyVerificationPreflight.test.ts",
+    "builder/tests/mayaCoreAutonomyVerificationRoute.test.ts",
+    "builder/tests/eightPointIntegrationReadiness.test.ts",
+    "builder/tests/operatorDashboardHtml.test.ts",
+    "builder/tests/operatorDashboardRoute.test.ts",
+    "builder/tests/meta.test.ts",
+    "builder/data/bpk-governance-manifest.json",
+    "docs/SESSION-LOG.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "STATE.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    ".github/**",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/db.ts",
+    "builder/src/providers.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/sandboxWrite.ts",
+    "builder/src/sandboxRealWrite.ts"
+  ],
+  "claims": [
+    "Bluepilot can prepare a Maya-core authority verify request without calling Maya/Kaya live.",
+    "The operator dashboard exposes Maya/Kaya authority source, verify endpoint, and local no-grant/no-call status.",
+    "All new surfaces remain side-effect-free."
+  ],
+  "evidence_required": ["test_result"],
+  "required_commands": [
+    "npx tsx --test tests/mayaCoreAutonomyVerificationPreflight.test.ts tests/mayaCoreAutonomyVerificationRoute.test.ts tests/eightPointIntegrationReadiness.test.ts tests/operatorDashboardHtml.test.ts tests/operatorDashboardRoute.test.ts tests/meta.test.ts",
+    "npm run typecheck",
+    "node scripts/generate-bpk-governance-manifest.mjs",
+    "node tools/verify-task-lock.cjs MAYA-CORE-AUTONOMY-VERIFICATION-DASHBOARD --verify --contract contracts/MAYA-CORE-AUTONOMY-VERIFICATION-DASHBOARD.json",
+    "git diff --check",
+    "npm test"
+  ],
+  "scope_out": [
+    "No live Maya/Kaya call, provider call, runtime execution, file/GitHub/database write, durable persistence, permit issue, merge, deploy, package change, workflow change, or sandbox write reopening."
+  ],
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "7d69f59"
+}

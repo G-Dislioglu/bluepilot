@@ -39,13 +39,15 @@ test('eight point readiness covers all requested wiring areas without side effec
   assert.equal(readiness.sideEffects.deploys, false);
 });
 
-test('operator dashboard model summarizes eight panels', () => {
+test('operator dashboard model summarizes authority status plus eight readiness panels', () => {
   const model = buildOperatorDashboardModel(new Date('2026-06-15T14:00:00.000Z'));
 
   assert.equal(model.version, 'bluepilot-operator-dashboard-readonly-v0.1');
-  assert.equal(model.panels.length, 8);
+  assert.equal(model.panels.length, 9);
   assert.equal(model.panels.find((panel) => panel.id === 'goat_desktop_bridge')?.status, 'wired_contract_only');
   assert.equal(model.panels.find((panel) => panel.id === 'maya_core_gate_enforcement')?.status, 'wired_contract_only');
+  assert.equal(model.panels.find((panel) => panel.id === 'maya_kaya_authority_status')?.status, 'wired_contract_only');
+  assert.ok(model.panels.find((panel) => panel.id === 'maya_kaya_authority_status')?.lines.includes('sourceOfTruth:maya_kaya'));
   assert.equal(model.panels.find((panel) => panel.id === 'provider_runtime_flows')?.status, 'wired_contract_only');
   assert.equal(model.panels.find((panel) => panel.id === 'merge_release_readiness')?.status, 'wired_contract_only');
   assert.equal(model.sideEffects.fileWrites, false);

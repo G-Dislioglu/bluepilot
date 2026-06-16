@@ -5,6 +5,17 @@
 
 ---
 
+## 2026-06-16 - Maya-Core Autonomy Verification Dashboard
+
+- Gebaut: `GET /probe/maya-core-autonomy-verification-contract` und
+  `POST /probe/maya-core-autonomy-verification-preflight`.
+- Verhalten: Bluepilot plant den Maya-core-Verify-Request fuer
+  `/api/maya/autonomy/authority`, prueft aber nur Readiness, Config und Decision-Evidence.
+- Dashboard: Operator Dashboard zeigt `Maya/Kaya Authority Status` und eine copy-only
+  `Maya Authority Verify` Control.
+- Sicherheitsentscheidung: Kein Live-Call zu Maya/Kaya, keine Provider, keine Runtime, keine
+  Writes, keine Persistence, kein Merge, kein Deploy.
+
 ## 2026-06-16 - Maya Autonomy Authority Intake
 
 - Gebaut: `GET /probe/maya-autonomy-authority-contract` und

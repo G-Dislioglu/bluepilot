@@ -7,6 +7,7 @@ import {
 } from './readonlyIntegrationSurfaces.js';
 import { buildGoatDesktopBridgeContract } from './goatDesktopBridgeContract.js';
 import { buildMayaCoreGateEnforcementContract } from './mayaCoreGateEnforcementContract.js';
+import { buildMayaCoreAutonomyVerificationContract } from './mayaCoreAutonomyVerificationPreflight.js';
 import { buildMergeReleaseReadinessContract } from './mergeReleaseReadinessPreflight.js';
 import { buildProviderRuntimeActivationContract } from './providerRuntimeActivationPreflight.js';
 
@@ -173,6 +174,7 @@ export function buildOperatorDashboardModel(now = new Date()): OperatorDashboard
   const aicos = buildAicosPermissionMapReadonly(now);
   const goat = buildGoatDesktopBridgeContract(now);
   const mayaGate = buildMayaCoreGateEnforcementContract(now);
+  const mayaAuthority = buildMayaCoreAutonomyVerificationContract(now);
   const providerRuntime = buildProviderRuntimeActivationContract(now);
   const mergeRelease = buildMergeReleaseReadinessContract(now);
 
@@ -241,6 +243,17 @@ export function buildOperatorDashboardModel(now = new Date()): OperatorDashboard
           `sourceProbe:${mayaGate.sourceProbe}`,
           `targets:${mayaGate.protectedTargets.join(',')}`,
           `callsMayaCore:${mayaGate.activationBoundary.callsMayaCore}`,
+        ],
+      },
+      {
+        id: 'maya_kaya_authority_status',
+        title: 'Maya/Kaya Authority Status',
+        status: 'wired_contract_only',
+        lines: [
+          `sourceOfTruth:${mayaAuthority.sourceOfTruth}`,
+          `verifyEndpoint:${mayaAuthority.mayaCoreEndpoint}`,
+          `callsMayaKaya:${mayaAuthority.boundary.callsMayaKaya}`,
+          `grantsAutonomyLocally:${mayaAuthority.boundary.grantsAutonomyLocally}`,
         ],
       },
       {
