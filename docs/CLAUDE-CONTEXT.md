@@ -625,11 +625,19 @@ read-only verdrahtet und das zweite Readonly-Buendel ist darauf aufgebaut:
   `POST /probe/durable-audit-receipt-store-preflight` planen Audit-Receipt-Records aus Executor-
   Mount-Evidence. Auch bei `store_ready_for_activation_review` bleiben Durable Persistence,
   DB-/File-/GitHub-Writes, Provider-Calls, Runtime-Execution und Permit-Issue false.
+- Activation Decision Operator Mode ist jetzt als Entscheidungsschicht angebunden:
+  `GET /probe/activation-decision-operator-mode-contract` und
+  `POST /probe/activation-decision-operator-mode-preflight` unterscheiden `read_only`,
+  `review_only`, `supervised_execution` und `full_access`. `full_access` darf innerhalb
+  gueltiger Operator-, Charta-, Safety-, Executor- und Receipt-Evidence ohne wiederholte Prompts
+  `execute_allowed` liefern. Banking/Finanztransaktionen, Ethics-Charta-Verstoesse und weitere
+  Hard-Stops bleiben auch bei Vollzugriff blockiert. Die Surface bewertet nur und fuehrt selbst
+  nichts aus.
 
 Naechste Integrationsbloecke:
 
-1. Falls Gurcan echte Ausfuehrung will: die drei Executor-Mount-Locks und den Receipt-Store
-   bewusst in eine spaetere echte Aktivierungs-/Execution-Schicht ueberfuehren, nicht still
-   zusammen oeffnen.
+1. Falls Gurcan echte Ausfuehrung will: die drei Executor-Mount-Locks, den Receipt-Store und die
+   Operator-Mode-Decision bewusst in eine spaetere echte Aktivierungs-/Execution-Schicht
+   ueberfuehren, nicht still zusammen oeffnen.
 2. Gestapelte Integrations-Branches reviewen und bewusst ueber echte PRs/Merges/Deploys
    entscheiden.
