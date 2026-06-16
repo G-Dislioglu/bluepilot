@@ -9,6 +9,18 @@ export interface ActivationDecisionEvidence {
   ref?: unknown;
 }
 
+export interface MayaAutonomyAuthorityDecisionEvidence {
+  status?: unknown;
+  authorityRef?: unknown;
+  decisionRef?: unknown;
+  subjectRef?: unknown;
+  autonomyMode?: unknown;
+  grantScope?: unknown;
+  ethicsCharterRef?: unknown;
+  safetyEvidenceRef?: unknown;
+  expiresAt?: unknown;
+}
+
 export interface ActivationDecisionOperatorModeRequest {
   autonomyMode?: unknown;
   target?: unknown;
@@ -22,6 +34,7 @@ export interface ActivationDecisionOperatorModeRequest {
   bankingOrFinancialAction?: unknown;
   externalIrreversibleAction?: unknown;
   prohibitedActionCategories?: unknown;
+  mayaAuthorityDecision?: MayaAutonomyAuthorityDecisionEvidence;
   executorEvidence?: ActivationDecisionEvidence;
   durableReceiptStore?: ActivationDecisionEvidence;
 }
@@ -46,6 +59,12 @@ export interface ActivationDecisionOperatorModeContract {
   autonomyModes: OperatorAutonomyMode[];
   protectedTargets: ActivationDecisionTarget[];
   hardStopCategories: string[];
+  autonomyAuthority: {
+    sourceOfTruth: 'maya_kaya';
+    acceptedDecisionStatus: 'maya_autonomy_decision_allowed';
+    localAppRole: 'consumer_and_executor_guard';
+    repeatedPromptPolicy: 'maya_full_access_grant_carries_forward_inside_scope';
+  };
   requiredEvidence: Record<OperatorAutonomyMode, string[]>;
   decisionBoundary: {
     evaluatesOnly: true;
@@ -72,6 +91,8 @@ export interface ActivationDecisionOperatorModePreflight {
   executeAllowed: boolean;
   repeatedPromptRequired: boolean;
   operatorGrantCarriesForward: boolean;
+  authoritySource: 'maya_kaya' | 'local_review_only';
+  mayaAuthorityDecisionReady: boolean;
   allowedActions: {
     providerCall: boolean;
     runtimeDryRun: boolean;
@@ -104,7 +125,7 @@ const REQUIRED_EVIDENCE: Record<OperatorAutonomyMode, string[]> = {
   review_only: ['target', 'userIntentRef', 'activationDecisionRef'],
   supervised_execution: [
     'target',
-    'operatorGrantRef',
+    'mayaAuthorityDecision.maya_autonomy_decision_allowed',
     'perActionApprovalRef',
     'activationDecisionRef',
     'ethicsCharterRef',
@@ -114,8 +135,8 @@ const REQUIRED_EVIDENCE: Record<OperatorAutonomyMode, string[]> = {
   ],
   full_access: [
     'target',
-    'operatorGrantRef',
-    'operatorGrantScope.full_access',
+    'mayaAuthorityDecision.maya_autonomy_decision_allowed',
+    'mayaAuthorityDecision.grantScope.full_access',
     'activationDecisionRef',
     'ethicsCharterRef',
     'safetyEvidenceRef',
@@ -149,6 +170,12 @@ export function buildActivationDecisionOperatorModeContract(
     autonomyModes: AUTONOMY_MODES,
     protectedTargets: TARGETS,
     hardStopCategories: HARD_STOP_CATEGORIES,
+    autonomyAuthority: {
+      sourceOfTruth: 'maya_kaya',
+      acceptedDecisionStatus: 'maya_autonomy_decision_allowed',
+      localAppRole: 'consumer_and_executor_guard',
+      repeatedPromptPolicy: 'maya_full_access_grant_carries_forward_inside_scope',
+    },
     requiredEvidence: REQUIRED_EVIDENCE,
     decisionBoundary: {
       evaluatesOnly: true,
@@ -179,6 +206,7 @@ export function buildActivationDecisionOperatorModePreflight(
   const ethicsCharterRef = normalizeString(request.ethicsCharterRef);
   const safetyEvidenceRef = normalizeString(request.safetyEvidenceRef);
   const userIntentRef = normalizeString(request.userIntentRef);
+  const mayaAuthorityDecisionReady = requireMayaAuthorityDecision(request, autonomyMode, blockers);
 
   requireRef(userIntentRef, 'activation_decision.user_intent_ref_required', blockers);
 
@@ -208,7 +236,6 @@ export function buildActivationDecisionOperatorModePreflight(
   }
 
   if (autonomyMode === 'supervised_execution' || autonomyMode === 'full_access') {
-    requireRef(operatorGrantRef, 'activation_decision.operator_grant_ref_required', blockers);
     requireRef(activationDecisionRef, 'activation_decision.activation_decision_ref_required', blockers);
     requireRef(ethicsCharterRef, 'activation_decision.ethics_charta_ref_required', blockers);
     requireRef(safetyEvidenceRef, 'activation_decision.safety_evidence_ref_required', blockers);
@@ -221,7 +248,7 @@ export function buildActivationDecisionOperatorModePreflight(
   }
 
   if (autonomyMode === 'full_access' && operatorGrantScope !== 'full_access') {
-    blockers.push('activation_decision.full_access_scope_required');
+    reviewItems.push('activation_decision.local_operator_grant_scope_is_advisory_maya_authority_required');
   }
 
   const canExecuteMode = autonomyMode === 'supervised_execution' || autonomyMode === 'full_access';
@@ -244,6 +271,8 @@ export function buildActivationDecisionOperatorModePreflight(
     executeAllowed,
     repeatedPromptRequired: autonomyMode !== 'full_access',
     operatorGrantCarriesForward: autonomyMode === 'full_access' && executeAllowed,
+    authoritySource: canExecuteMode ? 'maya_kaya' : 'local_review_only',
+    mayaAuthorityDecisionReady,
     allowedActions: {
       providerCall: executeAllowed && target === 'provider_call',
       runtimeDryRun: executeAllowed && target === 'runtime_dry_run',
@@ -254,6 +283,56 @@ export function buildActivationDecisionOperatorModePreflight(
     contract: buildActivationDecisionOperatorModeContract(now),
     sideEffects: lockedSideEffects(),
   };
+}
+
+function requireMayaAuthorityDecision(
+  request: ActivationDecisionOperatorModeRequest,
+  autonomyMode: OperatorAutonomyMode | undefined,
+  blockers: string[],
+): boolean {
+  if (autonomyMode !== 'supervised_execution' && autonomyMode !== 'full_access') {
+    return false;
+  }
+
+  const decision = request.mayaAuthorityDecision;
+  if (!decision) {
+    blockers.push('activation_decision.maya_authority_decision_required');
+    return false;
+  }
+
+  const status = normalizeString(decision.status);
+  const authorityRef = normalizeString(decision.authorityRef);
+  const decisionRef = normalizeString(decision.decisionRef);
+  const subjectRef = normalizeString(decision.subjectRef);
+  const decisionMode = normalizeString(decision.autonomyMode);
+  const grantScope = normalizeString(decision.grantScope);
+  const ethicsCharterRef = normalizeString(decision.ethicsCharterRef);
+  const safetyEvidenceRef = normalizeString(decision.safetyEvidenceRef);
+
+  if (status !== 'maya_autonomy_decision_allowed') {
+    blockers.push('activation_decision.maya_authority_decision_not_allowed');
+  }
+  requireRef(authorityRef, 'activation_decision.maya_authority_ref_required', blockers);
+  requireRef(decisionRef, 'activation_decision.maya_decision_ref_required', blockers);
+  requireRef(subjectRef, 'activation_decision.maya_subject_ref_required', blockers);
+  requireRef(ethicsCharterRef, 'activation_decision.maya_ethics_charta_ref_required', blockers);
+  requireRef(safetyEvidenceRef, 'activation_decision.maya_safety_evidence_ref_required', blockers);
+
+  if (decisionMode !== autonomyMode) {
+    blockers.push('activation_decision.maya_authority_mode_mismatch');
+  }
+  if (autonomyMode === 'full_access' && grantScope !== 'full_access') {
+    blockers.push('activation_decision.maya_full_access_scope_required');
+  }
+
+  return status === 'maya_autonomy_decision_allowed'
+    && !!authorityRef
+    && !!decisionRef
+    && !!subjectRef
+    && !!ethicsCharterRef
+    && !!safetyEvidenceRef
+    && decisionMode === autonomyMode
+    && (autonomyMode !== 'full_access' || grantScope === 'full_access');
 }
 
 function requireReadyExecutionEvidence(
@@ -349,10 +428,10 @@ function nextStepForStatus(
   autonomyMode: OperatorAutonomyMode | undefined,
 ): string {
   if (status === 'execute_allowed' && autonomyMode === 'full_access') {
-    return 'Full-access grant is sufficient for this target; proceed to the target executor activation without repeated operator prompts.';
+    return 'Maya/Kaya full-access decision is sufficient for this target; proceed to the target executor activation without repeated operator prompts.';
   }
   if (status === 'execute_allowed') {
-    return 'Per-action supervised approval is sufficient for this target; proceed to the target executor activation.';
+    return 'Maya/Kaya supervised decision plus per-action approval is sufficient for this target; proceed to the target executor activation.';
   }
   if (status === 'review_required') {
     return 'Action remains review-only until execution-mode evidence is complete.';

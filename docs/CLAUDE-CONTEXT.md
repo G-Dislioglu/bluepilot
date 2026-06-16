@@ -633,11 +633,16 @@ read-only verdrahtet und das zweite Readonly-Buendel ist darauf aufgebaut:
   `execute_allowed` liefern. Banking/Finanztransaktionen, Ethics-Charta-Verstoesse und weitere
   Hard-Stops bleiben auch bei Vollzugriff blockiert. Die Surface bewertet nur und fuehrt selbst
   nichts aus.
+- Maya/Kaya-Autonomie-Delegation ist jetzt die Architekturvorgabe: App-uebergreifende Autonomie
+  und Vollzugriff gehoeren zu Maya/Kaya als zentraler Authority. Bluepilot ist Consumer und
+  Executor-Guard. Execution-Modi akzeptieren Vollzugriff nur noch ueber ein
+  `mayaAuthorityDecision` mit `status:"maya_autonomy_decision_allowed"` plus lokale Executor- und
+  Receipt-Evidence. Die anderen Apps sollen dieselbe Maya/Kaya-Authority konsumieren statt eigene
+  Vollzugriffsquellen zu definieren.
 
 Naechste Integrationsbloecke:
 
-1. Falls Gurcan echte Ausfuehrung will: die drei Executor-Mount-Locks, den Receipt-Store und die
-   Operator-Mode-Decision bewusst in eine spaetere echte Aktivierungs-/Execution-Schicht
-   ueberfuehren, nicht still zusammen oeffnen.
+1. Falls Gurcan echte Ausfuehrung will: zuerst Maya-core als zentrale Autonomie-Authority bauen
+   und dann Bluepilot/Soulmatch/AICOS als Consumer dieser Authority verdrahten.
 2. Gestapelte Integrations-Branches reviewen und bewusst ueber echte PRs/Merges/Deploys
    entscheiden.

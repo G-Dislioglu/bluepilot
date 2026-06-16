@@ -5,6 +5,20 @@
 
 ---
 
+## 2026-06-16 - Maya Autonomy Delegation Consumer
+
+- Entscheidung: App-uebergreifende Autonomie und Vollzugriff gehoeren zu Maya/Kaya als
+  zentraler Vertrauens- und Autonomie-Authority, nicht dupliziert in jede App.
+- Geaendert: Bluepilots `activationDecisionOperatorMode` behandelt Maya/Kaya jetzt als
+  `sourceOfTruth`. Execution-Modi brauchen ein `mayaAuthorityDecision` mit
+  `status:"maya_autonomy_decision_allowed"`. Bluepilot bleibt Consumer und Executor-Guard:
+  lokale Locks, Receipt-Store-Evidence und Hard-Stops werden weiterhin geprueft.
+- Sicherheitsentscheidung: Bluepilot ruft Maya/Kaya in diesem Buendel noch nicht live auf und
+  fuehrt nichts aus. Banking/Finanztransaktionen, Ethics-Charta-Verstoesse und weitere Hard-Stops
+  bleiben lokal blockiert, auch wenn ein Caller Vollzugriff behauptet.
+- Roter Faden weiter: Maya-core soll die kanonische Autonomie-Authority bauen; Soulmatch, AICOS
+  und Bluepilot sollen diese Authority konsumieren statt eigene Vollzugriffslogik zu besitzen.
+
 ## 2026-06-16 - Activation Decision Operator Mode
 
 - Gebaut: `GET /probe/activation-decision-operator-mode-contract` und
