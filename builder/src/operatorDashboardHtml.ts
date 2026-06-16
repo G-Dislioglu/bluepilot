@@ -57,6 +57,8 @@ function activationControls(): ActivationControl[] {
           scopeRef: 'bluepilot:runtime_dry_run',
           ethicsCharterRef: 'maya-ethics-charter:canonical',
           safetyEvidenceRef: 'safety:evidence:replace-with-live-ref',
+          issuedAt: '2099-06-16T16:00:00.000Z',
+          expiresAt: '2099-06-16T17:00:00.000Z',
           sourceOfTruth: 'maya_kaya',
           hardStopCategories: [
             'banking',
@@ -94,6 +96,8 @@ function activationControls(): ActivationControl[] {
           scopeRef: 'bluepilot:runtime_dry_run',
           ethicsCharterRef: 'maya-ethics-charter:canonical',
           safetyEvidenceRef: 'safety:evidence:replace-with-live-ref',
+          issuedAt: '2099-06-16T16:00:00.000Z',
+          expiresAt: '2099-06-16T17:00:00.000Z',
           sourceOfTruth: 'maya_kaya',
           hardStopCategories: [
             'banking',

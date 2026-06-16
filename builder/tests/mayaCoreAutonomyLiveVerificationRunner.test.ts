@@ -30,6 +30,7 @@ const decision = {
   scopeRef: 'bluepilot:runtime_dry_run',
   ethicsCharterRef: 'maya-ethics-charter:canonical',
   safetyEvidenceRef: 'safety:evidence:bluepilot-live',
+  issuedAt: '2026-06-16T16:00:00.000Z',
   expiresAt: '2026-06-16T17:00:00.000Z',
   hardStopCategories,
   sourceOfTruth: 'maya_kaya',
@@ -86,8 +87,9 @@ test('execute flag verifies against Maya-core with gate token only', async () =>
     capturedUrl = url;
     capturedToken = init.headers['x-maya-core-gate-token'];
     capturedBody = JSON.parse(init.body) as unknown;
-    const body = capturedBody as { verify: { decision: { scopeRef: string; sourceOfTruth: string } } };
+    const body = capturedBody as { verify: { decision: { scopeRef: string; issuedAt: string; sourceOfTruth: string } } };
     assert.equal(body.verify.decision.scopeRef, 'bluepilot:runtime_dry_run');
+    assert.equal(body.verify.decision.issuedAt, '2026-06-16T16:00:00.000Z');
     assert.equal(body.verify.decision.sourceOfTruth, 'maya_kaya');
     return {
       ok: true,

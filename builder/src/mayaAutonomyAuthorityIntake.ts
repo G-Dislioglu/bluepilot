@@ -37,8 +37,8 @@ export interface NormalizedMayaAuthorityDecision {
   scopeRef: string;
   ethicsCharterRef: string;
   safetyEvidenceRef: string;
-  issuedAt?: string;
-  expiresAt?: string;
+  issuedAt: string;
+  expiresAt: string;
   hardStopCategories: string[];
   sourceOfTruth: 'maya_kaya';
 }
@@ -110,6 +110,8 @@ const REQUIRED_DECISION_FIELDS = [
   'scopeRef',
   'ethicsCharterRef',
   'safetyEvidenceRef',
+  'issuedAt',
+  'expiresAt',
   'hardStopCategories',
   'sourceOfTruth',
 ];
@@ -262,6 +264,8 @@ function normalizeDecision(
   requireRef(scopeRef, 'maya_autonomy_authority.scope_ref_required', options.blockers);
   requireRef(ethicsCharterRef, 'maya_autonomy_authority.ethics_charta_ref_required', options.blockers);
   requireRef(safetyEvidenceRef, 'maya_autonomy_authority.safety_evidence_ref_required', options.blockers);
+  requireRef(issuedAt, 'maya_autonomy_authority.issued_at_required', options.blockers);
+  requireRef(expiresAt, 'maya_autonomy_authority.expires_at_required', options.blockers);
   if (sourceOfTruth !== 'maya_kaya') {
     options.blockers.push('maya_autonomy_authority.source_of_truth_must_be_maya_kaya');
   }
@@ -306,6 +310,8 @@ function normalizeDecision(
     || !scopeRef
     || !ethicsCharterRef
     || !safetyEvidenceRef
+    || !issuedAt
+    || !expiresAt
     || sourceOfTruth !== 'maya_kaya'
   ) {
     return undefined;
@@ -321,8 +327,8 @@ function normalizeDecision(
     scopeRef,
     ethicsCharterRef,
     safetyEvidenceRef,
-    ...(issuedAt ? { issuedAt } : {}),
-    ...(expiresAt ? { expiresAt } : {}),
+    issuedAt,
+    expiresAt,
     hardStopCategories,
     sourceOfTruth: 'maya_kaya',
   };

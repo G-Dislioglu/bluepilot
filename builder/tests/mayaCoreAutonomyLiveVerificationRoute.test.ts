@@ -28,6 +28,7 @@ const decision = {
   scopeRef: 'bluepilot:runtime_dry_run',
   ethicsCharterRef: 'maya-ethics-charter:canonical',
   safetyEvidenceRef: 'safety:evidence:bluepilot-route-live',
+  issuedAt: '2026-06-16T16:00:00.000Z',
   expiresAt: '2026-06-16T17:00:00.000Z',
   hardStopCategories,
   sourceOfTruth: 'maya_kaya',
