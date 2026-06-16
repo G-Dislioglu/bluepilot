@@ -888,6 +888,12 @@
   `ARCHIVE`, 117 `KEEP_STAGED`. `cardConditionedDispatch.ts`, `workerPacketWlpAdapter.ts` und
   `preRegisteredClaims.ts` sind nicht serverReachable und stehen auf `CONNECT`. Keine
   `builder/src`-Datei wurde geaendert.
+- WIRE-GATE-001 2026-06-16: `tools/verify-task-lock.cjs` akzeptiert optional
+  `orphan_gate: "off" | "warn" | "enforce"`; fehlendes Feld bleibt `off`. Bei `warn`/`enforce`
+  prueft das Gate nur geaenderte Nicht-Test-Module unter `builder/src/` aus dem aktuellen
+  `baseline_ref`-Diff. Ein Modul muss `serverReachable` ueber genutzte Value-Imports sein oder
+  oben `// @orphan-by-design: Grund/Folgeplan` tragen. Type-only, test-only, unused Value Imports
+  und Orchestrator-Diagnose zaehlen nicht. Legacy-Altbestand wird nicht blockiert.
 
 ## Maya-Anbindung
 
@@ -924,12 +930,11 @@ geschlossen.
 
 Naechste Integrationsbloecke nach der Acht-Punkte-Verdrahtung und WIRE-CENSUS-001:
 
-1. Vor WIRE-GATE-001 muss der gepushte WIRE-CENSUS-001-Branch extern verifiziert werden,
-   inklusive Stichprobe der 117 `KEEP_STAGED`-Eintraege. `KEEP_STAGED` ist kein Fertig-Label.
-2. WIRE-GATE-001 soll den Scanner in ein Gate verwandeln: neue `builder/src`-Module brauchen
-   einen echten Runtime-/Dry-Run-Consumer oder ein bewusstes `orphan-by-design` mit Folgeplan.
-3. WIRE-SLICE-001 soll das erste CONNECT-Buendel aus dem Census end-to-end verdrahten:
+1. Vor `WIRE-SLICE-001` sollte der gepushte WIRE-GATE-001-Branch extern verifiziert werden.
+2. WIRE-SLICE-001 soll das erste CONNECT-Buendel aus dem Census end-to-end verdrahten:
    User/Route/Capability -> Dry-Run oder Runtime -> Status/Result -> sichtbarer Readback.
+3. Die 117 `KEEP_STAGED`-Eintraege aus dem Census brauchen eine eigene Review-Spur:
+   konkreter Consumer/Folgeblock oder Abstufung zu `COLLAPSE`/`ARCHIVE`.
 4. Operator Dashboard ist lokal und live visuell geprueft: Desktop und Mobile rendern acht
    Panels ohne Ueberlappung oder horizontalen Overflow; Evidence liegt unter
    `builder/output/playwright/` und `builder/output/live-review/`.

@@ -656,11 +656,16 @@ read-only verdrahtet und das zweite Readonly-Buendel ist darauf aufgebaut:
   303 Module gescannt, 82 `runtime_value_connected`, 221 nicht live. Die nicht-live Module sind
   in `docs/ORPHAN-CENSUS-v0.1.md` als `CONNECT`, `COLLAPSE`, `ARCHIVE` oder `KEEP_STAGED`
   klassifiziert. Es wurde nichts verdrahtet, geloescht oder archiviert.
+- WIRE-GATE-001 fuehrt den Schutz gegen neue liegengelassene Dateien ein:
+  Contracts koennen optional `orphan_gate: "off" | "warn" | "enforce"` setzen. Default ist
+  `off`. Das Gate prueft nur geaenderte `builder/src`-Nicht-Test-Module im aktuellen
+  `baseline_ref`-Diff und blockiert bei `enforce`, wenn ein Modul nicht `serverReachable` ist und
+  keinen Top-of-file `// @orphan-by-design: ...` Folgeplan traegt. Legacy-Altbestand aus dem
+  Census wird nicht blockiert.
 
 Naechste Integrationsbloecke:
 
-1. `WIRE-GATE-001`: Den Orphan-Schutz in den Verify-/Build-Prozess bringen, damit neue Module
-   ohne echten Consumer oder bewusstes `orphan-by-design` nicht mehr still liegenbleiben.
+1. Externe Pruefung des gepushten `WIRE-GATE-001`-Branches.
 2. `WIRE-SLICE-001`: Erstes CONNECT-Buendel aus dem Census verdrahten, mit sichtbarem
    Runtime-/Dry-Run-Readback.
 3. Maya-core muss fuer `/api/maya/autonomy/authority` Builder-Gate-Token akzeptieren und deployt

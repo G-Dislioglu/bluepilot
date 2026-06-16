@@ -96,6 +96,11 @@ function validateContractFields(contract) {
     failContract(`task_type muss einer von ${[...validTaskTypes].join(', ')} sein.`);
   }
 
+  const validOrphanGateModes = new Set(['off', 'warn', 'enforce']);
+  if (contract.orphan_gate !== undefined && !validOrphanGateModes.has(contract.orphan_gate)) {
+    failContract('orphan_gate muss einer von off, warn oder enforce sein.');
+  }
+
   if (!Array.isArray(contract.reuse_target) || contract.reuse_target.length === 0) {
     failContract('reuse_target muss mindestens einen benannten Reuse-Pfad enthalten.');
   }
@@ -360,6 +365,134 @@ function getDriftDecision(outsideAllowed, mode) {
   return { type: 'REWORK', exitCode: 1, reason: `mode:${mode} - outside ALLOWED = REWORK` };
 }
 
+function isBuilderSourceModule(file) {
+  const normalized = normalizeRepoPath(file);
+  const basename = path.basename(normalized);
+  return normalized.startsWith('builder/src/')
+    && normalized.endsWith('.ts')
+    && !normalized.endsWith('.d.ts')
+    && !basename.includes('.test.')
+    && !basename.includes('.spec.')
+    && fs.existsSync(path.resolve(__dirname, '..', normalized));
+}
+
+function readTopOfFile(file, maxLines = 12) {
+  const absolutePath = path.resolve(__dirname, '..', normalizeRepoPath(file));
+  return fs.readFileSync(absolutePath, 'utf8').split(/\r?\n/).slice(0, maxLines).join('\n');
+}
+
+function getOrphanByDesignReason(file) {
+  const topOfFile = readTopOfFile(file);
+  const match = topOfFile.match(/^\s*\/\/\s*@orphan-by-design:\s*(\S.*)$/m);
+  return match ? match[1].trim() : null;
+}
+
+function buildModuleLookup(scanResult) {
+  return new Map(scanResult.modules.map((moduleRecord) => [moduleRecord.module, moduleRecord]));
+}
+
+function runOrphanGate(changedFiles, contract) {
+  const mode = contract.orphan_gate || 'off';
+  if (mode === 'off') {
+    return {
+      mode,
+      evaluated: [],
+      acceptedExceptions: [],
+      violations: [],
+    };
+  }
+
+  const changedModules = changedFiles.filter(isBuilderSourceModule).sort();
+  if (changedModules.length === 0) {
+    return {
+      mode,
+      evaluated: [],
+      acceptedExceptions: [],
+      violations: [],
+    };
+  }
+
+  let scanOrphans;
+  try {
+    ({ scanOrphans } = require('./orphan-scan.cjs'));
+  } catch (err) {
+    console.error(`Orphan gate konnte tools/orphan-scan.cjs nicht laden: ${err.message}`);
+    process.exit(1);
+  }
+
+  const scanResult = scanOrphans();
+  const moduleLookup = buildModuleLookup(scanResult);
+  const evaluated = [];
+  const acceptedExceptions = [];
+  const violations = [];
+
+  for (const modulePath of changedModules) {
+    const moduleRecord = moduleLookup.get(modulePath);
+    const orphanByDesignReason = getOrphanByDesignReason(modulePath);
+    const serverReachable = moduleRecord?.serverReachable === true;
+    const passed = serverReachable || orphanByDesignReason !== null;
+    const gateRecord = {
+      module: modulePath,
+      serverReachable,
+      orchestratorReachable: moduleRecord?.orchestratorReachable === true,
+      usedValueImporters: moduleRecord?.usedValueImporters ?? [],
+      unusedValueImporters: moduleRecord?.unusedValueImporters ?? [],
+      typeImporters: moduleRecord?.typeImporters ?? [],
+      testImporters: moduleRecord?.testImporters ?? [],
+      orphanByDesignReason,
+    };
+
+    evaluated.push(gateRecord);
+    if (orphanByDesignReason !== null) {
+      acceptedExceptions.push(gateRecord);
+    } else if (!passed) {
+      violations.push(gateRecord);
+    }
+  }
+
+  return {
+    mode,
+    evaluated,
+    acceptedExceptions,
+    violations,
+  };
+}
+
+function formatList(values) {
+  return values.length > 0 ? values.join(', ') : '-';
+}
+
+function printOrphanGateResult(result) {
+  console.log('');
+  console.log(`ORPHAN_GATE: ${result.mode}`);
+
+  if (result.mode === 'off') {
+    console.log('  off - nicht ausgewertet');
+    return;
+  }
+
+  if (result.evaluated.length === 0) {
+    console.log('  Keine geaenderten builder/src Module im aktuellen Task.');
+    return;
+  }
+
+  result.evaluated.forEach((moduleRecord) => {
+    const status = moduleRecord.serverReachable
+      ? 'PASS live'
+      : moduleRecord.orphanByDesignReason
+        ? 'PASS orphan-by-design'
+        : 'FAIL orphan';
+    console.log(`  ${status}: ${moduleRecord.module}`);
+    console.log(`    usedValueImporters: ${formatList(moduleRecord.usedValueImporters)}`);
+    console.log(`    unusedValueImporters: ${formatList(moduleRecord.unusedValueImporters)}`);
+    console.log(`    typeImporters: ${formatList(moduleRecord.typeImporters)}`);
+    console.log(`    testImporters: ${formatList(moduleRecord.testImporters)}`);
+    if (moduleRecord.orphanByDesignReason) {
+      console.log(`    orphanByDesign: ${moduleRecord.orphanByDesignReason}`);
+    }
+  });
+}
+
 function runVerify(contract) {
   const sep = '-'.repeat(62);
   const taskType = contract.task_type || 'unbekannt';
@@ -412,6 +545,9 @@ function runVerify(contract) {
     console.log('ALLOWED_FILES: Alle Aenderungen im Scope');
   }
 
+  const orphanGateResult = runOrphanGate(changedFiles, contract);
+  printOrphanGateResult(orphanGateResult);
+
   const evidenceMap = {
     code_task: 'test_result ODER runtime_check (Pflicht)',
     doc_task: 'content_check ODER link_check (Pflicht)',
@@ -426,6 +562,22 @@ function runVerify(contract) {
 
   console.log('');
   console.log(sep);
+
+  if (orphanGateResult.mode === 'enforce' && orphanGateResult.violations.length > 0) {
+    console.log('');
+    console.log('ORPHAN_GATE -> REWORK');
+    orphanGateResult.violations.forEach((violation) => {
+      console.log(`  ${violation.module}`);
+      console.log('    Kein serverReachable Used-Value-Consumer und kein @orphan-by-design Tag.');
+    });
+    console.log(sep);
+    process.exit(1);
+  }
+
+  if (orphanGateResult.mode === 'warn' && orphanGateResult.violations.length > 0) {
+    console.log('');
+    console.log('ORPHAN_GATE WARNUNG - nicht-live Module gefunden, Verify bleibt gruen.');
+  }
 
   switch (driftDecision.type) {
     case 'CLEAN':

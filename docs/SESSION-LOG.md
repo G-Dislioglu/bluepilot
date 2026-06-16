@@ -5,6 +5,26 @@
 
 ---
 
+## 2026-06-16 - WIRE-GATE-001 Orphan Gate
+
+- Gebaut: `orphan_gate` als optionales Contract-Feld fuer `tools/verify-task-lock.cjs`.
+  Werte: `off`, `warn`, `enforce`; fehlendes Feld bleibt `off`, damit bestehende Contracts ihr
+  Verhalten behalten.
+- Verhalten: Im Verify-Lauf werden nur geaenderte, vorhandene Nicht-Test-Module unter
+  `builder/src/` aus dem aktuellen `baseline_ref`-Diff geprueft. Die Legacy-Census-Liste wird
+  nicht blockiert. Connectivity kommt aus `tools/orphan-scan.cjs` und zaehlt nur
+  `serverReachable` ueber genutzte Value-Imports. Type-only, test-only, unused Value Imports und
+  Orchestrator-Diagnose zaehlen nicht.
+- Ausnahme: Ein Modul ohne Live-Consumer kann nur mit Top-of-file
+  `// @orphan-by-design: Grund/Folgeplan` passieren. Das ist sichtbar staged, nicht fertig.
+- Beweis: `node --test tools/orphan-gate.test.cjs` prueft 9 CLI-Faelle in temporaeren Git-Repos:
+  enforce-fail fuer neue Waisen, pass fuer used-value-connected, fail fuer type-only und unused
+  value import, pass fuer `orphan-by-design`, warn ohne Fail, off/fehlendes Feld, invaliden
+  Contract-Wert und Nichtbewertung von Legacy-Modulen ausserhalb des Diffs.
+- Roter Faden weiter: Nach externer Pruefung des Gate-Branches kann `WIRE-SLICE-001` das erste
+  CONNECT-Buendel wirklich verdrahten. Die 117 `KEEP_STAGED` aus dem Census bleiben eine eigene
+  Review-Spur und sind nicht als erledigt zu behandeln.
+
 ## 2026-06-16 - WIRE-CENSUS-001 Orphan Census
 
 - Gebaut: `tools/orphan-scan.cjs` als read-only Census-Scanner fuer `builder/src` und

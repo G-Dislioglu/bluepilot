@@ -1,0 +1,95 @@
+{
+  "task_id": "WIRE-GATE-001",
+  "task_name": "bluepilot-standing-orphan-gate-in-verify-task-lock-v0.4",
+  "created": "2026-06-16",
+  "scope": "bluepilot/tools/orphan-gate",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "governance_tooling",
+  "goal": "Make effectiveness part of done by adding a standing orphan gate to the WLP. Add a recognized optional field orphan_gate (off | warn | enforce, default off). In --verify, after the forbidden and outside-allowed checks, when enforce, fail the task if a module THIS task added or changed under builder/src is not live-reachable via USED value imports and carries no '// @orphan-by-design: <reason>' tag; warn reports without failing. The gate evaluates only the current task's changed set, never the legacy backlog, makes no network calls, and treats type-only, test-only and unused/side-effect-only imports as non-connection. Its guarantee is honestly bounded: usage is checked heuristically, not proven.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "tools/verify-task-lock.cjs",
+    "tools/orphan-scan.cjs",
+    "docs/ORPHAN-CENSUS-v0.1.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "tools/verify-task-lock.cjs",
+    "tools/orphan-scan.cjs",
+    "tools/orphan-gate.test.cjs",
+    "docs/WLP-ORPHAN-GATE-v0.1.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/WIRE-GATE-001.md",
+    "contracts/WIRE-GATE-001.json"
+  ],
+  "forbidden_files": [
+    "builder/src/**",
+    "builder/tests/**",
+    "builder/package.json",
+    "package.json",
+    "package-lock.json",
+    ".github/**",
+    "builder/scripts/**",
+    "builder/data/**",
+    "builder/output/**",
+    ".specify/**",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not make the gate enforce by default; default is off. Do not evaluate or fail on modules outside the current task's changed set. Do not add any network or provider call; static analysis only. Do not change builder/src application code. Do not trigger the gate via reuse_target; the only trigger is the orphan_gate field. Do not claim the gate proves runtime invocation; it checks heuristic usage and reports residual blind spots."
+  ],
+  "claims": [
+    "validateContractFields can accept a new optional field orphan_gate in {off, warn, enforce} without breaking existing contracts, which omit it.",
+    "runVerify can host an orphan-gate check after checkForbidden and checkOutsideAllowed without changing behavior when orphan_gate is off or absent.",
+    "tools/orphan-scan.cjs can be required as a library to compute live-reachability via used value imports for the changed set.",
+    "type-only, test-only and unused/side-effect-only imports are reported separately and do NOT satisfy the gate; an unused value import cannot make the gate green.",
+    "the gate's usage detection is a heuristic; it may miss dynamic dispatch or re-export chains, which is documented rather than hidden."
+  ],
+  "assumptions": [
+    "tools/orphan-scan.cjs exists from WIRE-CENSUS-001 and exposes connectivity fields including serverReachable, usedValueImporters, unusedValueImporters, typeImporters, testImporters.",
+    "baseline_ref is set to the WIRE-CENSUS-001 commit f067c14.",
+    "The current task's changed set comes from getChangedFiles(baseline_ref)."
+  ],
+  "dod": [
+    "validateContractFields recognizes optional field orphan_gate in {off, warn, enforce}; absence means off; an invalid value fails validation with a clear message.",
+    "runVerify runs the orphan-gate check after checkForbidden and checkOutsideAllowed, active only for warn or enforce; off or absent leaves behavior unchanged.",
+    "The gate evaluates ONLY changed/added non-test files under builder/src in the current diff; modules outside the diff are never evaluated.",
+    "Connectivity uses orphan-scan: a changed module passes only if serverReachable is true from the single explicit root builder/src/server.ts; orchestratorReachable, type-only, test-only and unused/side-effect-only imports are listed but do not count.",
+    "Under enforce, a non-connected changed module without a '// @orphan-by-design: <reason>' top-of-file tag exits non-zero naming the file; under warn it prints a warning and exits zero; tagged modules pass and are printed as accepted exceptions.",
+    "tools/orphan-gate.test.cjs covers: non-connected new module fails under enforce; used-value-connected new module passes; type-only-only new module fails; UNUSED value-import-only new module fails; @orphan-by-design module passes; warn mode does not fail; a legacy module outside the diff is not evaluated.",
+    "docs/WLP-ORPHAN-GATE-v0.1.md documents the field, the tag format, the used-value connectivity rule, the changed-set-only scope and the heuristic's residual blind spots.",
+    "node --test tools/orphan-gate.test.cjs, task-lock verify and diff-check pass."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "node --test tools/orphan-gate.test.cjs",
+    "node tools/verify-task-lock.cjs WIRE-GATE-001 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "Making the gate enforce by default for all contracts becomes necessary.",
+    "The gate would need to evaluate the legacy backlog or fail on files outside the task diff.",
+    "The gate would need a network call, a provider call, full type-checking, or any builder/src application change."
+  ],
+  "prior_task_findings": "WIRE-CENSUS-001 delivered tools/orphan-scan.cjs with separate connectivity fields and the used-value usage check. The legacy lattice is handled by census triage, not by this gate, which only stops new orphans.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "f067c14"
+}
