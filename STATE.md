@@ -840,6 +840,12 @@
   Permit-Ref, Target-Repo-/Target-Path-Ref, Content-Hash-Ref und `activation_lock_ready` fuer
   `write_action`. File-/GitHub-/DB-Writes, Durable Persistence, Permit-Issue, Provider-Calls,
   Runtime-Ausfuehrung und Deploy bleiben geschlossen.
+- Durable-Audit-Receipt-Store 2026-06-16: `GET
+  /probe/durable-audit-receipt-store-contract` und `POST
+  /probe/durable-audit-receipt-store-preflight` pruefen, ob ein Audit-Receipt-Store-Plan aus
+  Executor-Mount-Evidence reviewbereit ist. Bei gueltiger Evidence entsteht nur ein geplanter
+  Audit-Receipt-Record; Durable Persistence, DB-/File-/GitHub-Writes, Provider-Calls,
+  Runtime-Ausfuehrung, Permit-Issue und Deploy bleiben geschlossen.
 
 ## Maya-Anbindung
 
@@ -878,8 +884,9 @@ Naechste Integrationsbloecke nach der Acht-Punkte-Verdrahtung:
    Panels ohne Ueberlappung oder horizontalen Overflow; Evidence liegt unter
    `builder/output/playwright/` und `builder/output/live-review/`.
 2. Provider/Runtime/Write-Aktivierung hat jetzt einen Activation-Lock und Dashboard-Controls.
-   Runtime-Dry-Run, Provider-Call und Write-Action besitzen je einen Executor-Mount-Lock; echte
-   Route-, Provider- oder Write-Aktivierung bleibt ein separater Schritt.
+   Runtime-Dry-Run, Provider-Call und Write-Action besitzen je einen Executor-Mount-Lock; der
+   Durable-Audit-Receipt-Store plant Receipts ohne Persistenz. Echte Route-, Provider-, Write-
+   oder Persistenz-Aktivierung bleibt ein separater Schritt.
 3. Gestapelte Integrations-Branches reviewen und bewusst entscheiden, ob und in welcher
    Reihenfolge weitere echte PRs/Merges/Deploys manuell erfolgen.
 

@@ -620,10 +620,16 @@ read-only verdrahtet und das zweite Readonly-Buendel ist darauf aufgebaut:
   `write_action` plus Permit-, Ziel- und Content-Hash-Bindung. Auch bei
   `executor_mount_lock_ready` bleiben File-/GitHub-/DB-Writes, Durable Persistence und Permit-
   Issue false.
+- Durable Audit Receipt Store ist jetzt als geschlossene Readiness-Surface angebunden:
+  `GET /probe/durable-audit-receipt-store-contract` und
+  `POST /probe/durable-audit-receipt-store-preflight` planen Audit-Receipt-Records aus Executor-
+  Mount-Evidence. Auch bei `store_ready_for_activation_review` bleiben Durable Persistence,
+  DB-/File-/GitHub-Writes, Provider-Calls, Runtime-Execution und Permit-Issue false.
 
 Naechste Integrationsbloecke:
 
-1. Falls Gurcan echte Ausfuehrung will: die drei Executor-Mount-Locks bewusst in eine spaetere
-   echte Aktivierungs-/Execution-Schicht ueberfuehren, nicht alle still zusammen oeffnen.
+1. Falls Gurcan echte Ausfuehrung will: die drei Executor-Mount-Locks und den Receipt-Store
+   bewusst in eine spaetere echte Aktivierungs-/Execution-Schicht ueberfuehren, nicht still
+   zusammen oeffnen.
 2. Gestapelte Integrations-Branches reviewen und bewusst ueber echte PRs/Merges/Deploys
    entscheiden.

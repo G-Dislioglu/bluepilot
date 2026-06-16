@@ -1,0 +1,84 @@
+{
+  "task_id": "DURABLE-AUDIT-RECEIPT-STORE",
+  "task_name": "bluepilot-durable-audit-receipt-store-v0.1",
+  "created": "2026-06-16",
+  "scope": "bluepilot/builder/audit/durable-audit-receipt-store",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "durable_audit_receipt_store_boundary",
+  "goal": "Add a durable audit/receipt store readiness surface that composes executor mount evidence and plans audit receipt records without performing durable persistence, database writes, file writes, GitHub writes, provider calls, runtime execution, permit issuance, merges, or deploys.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/providerCallExecutorMountLock.ts",
+    "builder/src/runtimeDryRunExecutorMountLock.ts",
+    "builder/src/writeExecutorMountLock.ts",
+    "builder/src/meta.ts",
+    "builder/src/server.ts"
+  ],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/DURABLE-AUDIT-RECEIPT-STORE.json",
+    "review-packets/DURABLE-AUDIT-RECEIPT-STORE.md",
+    "builder/src/durableAuditReceiptStore.ts",
+    "builder/src/durableAuditReceiptStoreRoute.ts",
+    "builder/src/meta.ts",
+    "builder/src/server.ts",
+    "builder/tests/durableAuditReceiptStore.test.ts",
+    "builder/tests/durableAuditReceiptStoreRoute.test.ts",
+    "builder/tests/meta.test.ts",
+    "builder/data/bpk-governance-manifest.json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    ".github/**",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/db.ts",
+    "builder/src/providers.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/sandboxWrite.ts",
+    "builder/src/sandboxRealWrite.ts",
+    "soulmatch/**",
+    "goat-desktop/**",
+    "aicos-registry/**"
+  ],
+  "scope_out": [
+    "Do not persist audit receipts durably, write DB/files/GitHub, issue permits, call providers, execute runtime, merge, deploy, change packages, change workflows, or alter retired sandbox write routes."
+  ],
+  "claims": [
+    "Bluepilot can preflight durable audit/receipt store readiness from executor mount evidence.",
+    "The surface can produce a planned audit receipt record without durable persistence.",
+    "Even when storeReady is true, durablePersistenceAllowed, databaseWritesAllowed, fileWritesAllowed, and githubWritesAllowed remain false."
+  ],
+  "assumptions": [
+    "Actual durable persistence remains a later explicit env-gated operation.",
+    "This bundle intentionally does not alter the database schema or write path."
+  ],
+  "dod": [
+    "GET /probe/durable-audit-receipt-store-contract returns the closed store boundary.",
+    "POST /probe/durable-audit-receipt-store-preflight validates executor mount evidence without persistence.",
+    "Meta exposes the new surfaces.",
+    "Focused tests, typecheck, task-lock verification, diff-check, and full builder tests pass."
+  ],
+  "evidence_required": ["test_result"],
+  "required_commands": [
+    "npx tsx --test tests/durableAuditReceiptStore.test.ts tests/durableAuditReceiptStoreRoute.test.ts tests/providerCallExecutorMountLock.test.ts tests/runtimeDryRunExecutorMountLock.test.ts tests/writeExecutorMountLock.test.ts tests/meta.test.ts",
+    "npm run typecheck",
+    "node scripts/generate-bpk-governance-manifest.mjs",
+    "node tools/verify-task-lock.cjs DURABLE-AUDIT-RECEIPT-STORE --verify --contract contracts/DURABLE-AUDIT-RECEIPT-STORE.json",
+    "git diff --check",
+    "npm test"
+  ],
+  "stop_conditions": [
+    "Durable persistence, database write, file write, GitHub write, provider call, runtime execution, permit issue, merge, deploy, package change, workflow change, or sandbox write reopening becomes necessary."
+  ],
+  "prior_task_findings": "Runtime, provider, and write executor mount locks are merged and live. The next safest layer is a store-readiness plan that composes their evidence without persisting.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "056a31a"
+}
