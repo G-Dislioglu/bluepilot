@@ -1,0 +1,87 @@
+{
+  "task_id": "ACTIVATION-LOCK-BOUNDARY",
+  "task_name": "bluepilot-activation-lock-boundary-v0.1",
+  "created": "2026-06-16",
+  "scope": "bluepilot/builder/integration/activation-lock-boundary",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "provider_runtime_write_activation_boundary",
+  "goal": "Add an explicit activation-lock boundary for provider calls, runtime dry-run, and write actions based on Maya-gate and provider/runtime preflight evidence, without executing providers, runtime, writes, permit issuance, merges, or deploys.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/mayaCoreGateEnforcementContract.ts",
+    "builder/src/providerRuntimeActivationPreflight.ts",
+    "builder/src/runtimeExecutionDecision.ts",
+    "builder/src/meta.ts",
+    "builder/src/server.ts"
+  ],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/ACTIVATION-LOCK-BOUNDARY.json",
+    "review-packets/ACTIVATION-LOCK-BOUNDARY.md",
+    "builder/src/activationLockBoundary.ts",
+    "builder/src/activationLockRoute.ts",
+    "builder/src/meta.ts",
+    "builder/src/server.ts",
+    "builder/data/bpk-governance-manifest.json",
+    "builder/tests/activationLockBoundary.test.ts",
+    "builder/tests/activationLockRoute.test.ts",
+    "builder/tests/meta.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    ".github/**",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/providers.ts",
+    "builder/src/db.ts",
+    "builder/src/runtimeDryRunRoute.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/sandboxWrite.ts",
+    "builder/src/sandboxRealWrite.ts",
+    "soulmatch/**",
+    "goat-desktop/**",
+    "aicos-registry/**"
+  ],
+  "scope_out": [
+    "Do not call providers, execute runtime, mount runtime execution, issue permits, write DB/files/GitHub, create PRs from the app, merge, deploy, change package/workflow files, or reopen retired sandbox write routes."
+  ],
+  "claims": [
+    "Bluepilot can evaluate provider-call activation-lock readiness from provider/runtime and Maya-gate evidence.",
+    "Bluepilot can evaluate runtime dry-run activation-lock readiness while keeping runtime execution and route mount closed.",
+    "Bluepilot can evaluate write-action activation-lock readiness from Maya corridor, permit, target, path, and content-hash evidence while keeping writes and permit issuance closed.",
+    "Even when activationLockReady is true, providerExecutionAllowed, runtimeExecutionAllowed, writeExecutionAllowed, runtimeRouteMountAllowed, and permitIssueAllowed remain false."
+  ],
+  "assumptions": [
+    "Actual provider calls, runtime execution, write execution, and permit issuance require later explicit executor locks.",
+    "Live Maya reachability remains owned by /health/maya-gate and dry evidence remains owned by the existing Maya/provider-runtime preflights."
+  ],
+  "dod": [
+    "GET /probe/activation-lock-contract returns the closed activation boundary.",
+    "POST /probe/activation-lock-preflight validates provider, runtime, and write activation-lock evidence without execution.",
+    "Meta exposes the new activation-lock surfaces.",
+    "Focused tests, typecheck, task-lock verification, diff-check, and full builder tests pass."
+  ],
+  "evidence_required": ["test_result"],
+  "required_commands": [
+    "npx tsx --test tests/activationLockBoundary.test.ts tests/activationLockRoute.test.ts tests/providerRuntimeActivationPreflight.test.ts tests/providerRuntimeActivationRoute.test.ts tests/mayaCoreGateEnforcementRoute.test.ts tests/meta.test.ts",
+    "npm run typecheck",
+    "node scripts/generate-bpk-governance-manifest.mjs",
+    "node tools/verify-task-lock.cjs ACTIVATION-LOCK-BOUNDARY --verify --contract contracts/ACTIVATION-LOCK-BOUNDARY.json",
+    "git diff --check",
+    "npm test"
+  ],
+  "stop_conditions": [
+    "A provider call, runtime execution, route mount, DB write, file write by the app, GitHub write by the app, permit issue, merge, deploy, package change, workflow change, or retired sandbox-write reopening becomes necessary."
+  ],
+  "prior_task_findings": "Live operator Maya evidence shows the deployed service can prove gate readiness and render the operator dashboard, but provider, runtime, and write execution are still intentionally closed.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "d5e12bf"
+}

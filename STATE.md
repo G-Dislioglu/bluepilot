@@ -810,6 +810,12 @@
   meldet Budget, Corridor und Cost reachable/recorded. Provider-, Runtime- und Write-Preflights
   erreichen nur `ready_for_activation_review`; Provider-Aufruf, Runtime-Ausfuehrung,
   Runtime-Route-Mount, App-Writes, Permit-Ausstellung, Merge und Deploy bleiben geschlossen.
+- Activation-Lock-Boundary 2026-06-16: `GET /probe/activation-lock-contract` beschreibt die
+  letzte geschlossene Grenze vor Provider-, Runtime- und Write-Ausfuehrung. `POST
+  /probe/activation-lock-preflight` kann aus Maya-Gate-, Provider/Runtime-, Operator-,
+  Live-Evidence-, Permit-, Ziel-/Pfad- und Content-Hash-Refs `activation_lock_ready` bilden.
+  Trotzdem bleiben Provider-Ausfuehrung, Runtime-Ausfuehrung, Runtime-Route-Mount,
+  Write-Ausfuehrung, Permit-Ausstellung, App-Writes, Deploy und Merge geschlossen.
 
 ## Maya-Anbindung
 
@@ -847,8 +853,8 @@ Naechste Integrationsbloecke nach der Acht-Punkte-Verdrahtung:
 1. Operator Dashboard ist lokal und live visuell geprueft: Desktop und Mobile rendern acht
    Panels ohne Ueberlappung oder horizontalen Overflow; Evidence liegt unter
    `builder/output/playwright/` und `builder/output/live-review/`.
-2. Provider/Runtime/Write-Aktivierung als separaten echten Activation-Lock planen. Die aktuelle
-   Live-Evidence reicht fuer Review, nicht fuer Ausfuehrung.
+2. Provider/Runtime/Write-Aktivierung hat jetzt einen Activation-Lock. Der naechste Sprung zur
+   echten Ausfuehrung darf nur als separater Executor-Mount-Lock pro Zielklasse erfolgen.
 3. Gestapelte Integrations-Branches reviewen und bewusst entscheiden, ob und in welcher
    Reihenfolge weitere echte PRs/Merges/Deploys manuell erfolgen.
 

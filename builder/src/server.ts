@@ -1,5 +1,6 @@
 import { createServer } from 'node:http';
 
+import { handleActivationLockRequest } from './activationLockRoute.js';
 import { handleCockpitReadOnlyRouteRequest } from './cockpitReadOnlyRoute.js';
 import { handleGoatDesktopBridgeRequest } from './goatDesktopBridgeRoute.js';
 import { handleHealthRequest } from './health.js';
@@ -75,6 +76,10 @@ const server = createServer((request, response) => {
     }
 
     if (await handleMergeReleaseReadinessRequest(request, response)) {
+      return;
+    }
+
+    if (await handleActivationLockRequest(request, response)) {
       return;
     }
 

@@ -595,10 +595,15 @@ read-only verdrahtet und das zweite Readonly-Buendel ist darauf aufgebaut:
   `/health/maya-gate` meldet Budget, Corridor und Cost reachable/recorded. Provider-, Runtime-
   und Write-Preflights sind nur `ready_for_activation_review`; Provider, Runtime, Runtime-Route,
   App-Writes, Permits, Merge und Deploy bleiben geschlossen.
+- Activation Lock Boundary ist jetzt als geschlossene Surface angebunden:
+  `GET /probe/activation-lock-contract` und `POST /probe/activation-lock-preflight` bewerten
+  Provider-, Runtime- und Write-Aktivierungsreife aus vorhandener Gate-Evidence. Auch bei
+  `activation_lock_ready` bleiben Provider-Ausfuehrung, Runtime-Ausfuehrung, Runtime-Route-Mount,
+  Write-Ausfuehrung und Permit-Ausstellung false.
 
 Naechste Integrationsbloecke:
 
-1. Provider/Runtime/Write-Aktivierung als separaten echten Activation-Lock planen, falls Gurcan
-   das Ausfuehren wirklich oeffnen will.
+1. Falls Gurcan echte Ausfuehrung will: separaten Executor-Mount-Lock pro Zielklasse bauen
+   (Provider, Runtime-Dry-Run oder Write), nicht alle still zusammen oeffnen.
 2. Gestapelte Integrations-Branches reviewen und bewusst ueber echte PRs/Merges/Deploys
    entscheiden.
