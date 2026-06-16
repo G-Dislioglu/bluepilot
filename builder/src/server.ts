@@ -19,6 +19,7 @@ import { handleRuntimeDryRunRouteRequest } from './runtimeDryRunRoute.js';
 import { handleSandboxWriteRequest } from './sandboxWrite.js';
 import { handleSandboxRealWriteRequest } from './sandboxRealWrite.js';
 import { handleSandboxWriteProbeRequest } from './sandboxWriteProbe.js';
+import { handleWriteExecutorMountLockRequest } from './writeExecutorMountLockRoute.js';
 
 const port = Number.parseInt(process.env.PORT ?? '3000', 10);
 const host = process.env.HOST ?? '0.0.0.0';
@@ -54,6 +55,10 @@ const server = createServer((request, response) => {
     }
 
     if (await handleProviderCallExecutorMountLockRequest(request, response)) {
+      return;
+    }
+
+    if (await handleWriteExecutorMountLockRequest(request, response)) {
       return;
     }
 

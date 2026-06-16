@@ -614,10 +614,16 @@ read-only verdrahtet und das zweite Readonly-Buendel ist darauf aufgebaut:
   `POST /probe/provider-call-executor-mount-lock-preflight` pruefen Activation-Lock-Evidence
   fuer `provider_call`. Auch bei `executor_mount_lock_ready` bleiben Provider-Calls,
   Runtime-Ausfuehrung, Route-Mutation und Writes false.
+- Write Executor Mount Lock ist jetzt als geschlossene Surface angebunden:
+  `GET /probe/write-executor-mount-lock-contract` und
+  `POST /probe/write-executor-mount-lock-preflight` pruefen Activation-Lock-Evidence fuer
+  `write_action` plus Permit-, Ziel- und Content-Hash-Bindung. Auch bei
+  `executor_mount_lock_ready` bleiben File-/GitHub-/DB-Writes, Durable Persistence und Permit-
+  Issue false.
 
 Naechste Integrationsbloecke:
 
-1. Falls Gurcan echte Ausfuehrung will: separaten Executor-Mount-Lock pro Zielklasse bauen
-   (Write fehlt noch), nicht alle still zusammen oeffnen.
+1. Falls Gurcan echte Ausfuehrung will: die drei Executor-Mount-Locks bewusst in eine spaetere
+   echte Aktivierungs-/Execution-Schicht ueberfuehren, nicht alle still zusammen oeffnen.
 2. Gestapelte Integrations-Branches reviewen und bewusst ueber echte PRs/Merges/Deploys
    entscheiden.

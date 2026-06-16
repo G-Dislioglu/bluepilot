@@ -5,6 +5,20 @@
 
 ---
 
+## 2026-06-16 - Write Executor Mount Lock
+
+- Gebaut: `GET /probe/write-executor-mount-lock-contract` und
+  `POST /probe/write-executor-mount-lock-preflight`.
+- Verhalten: Bluepilot prueft Confirmation, Operator-Execution-Ref, Write-Mount-Ref, Permit-Ref,
+  Target-Repo-/Target-Path-Ref, Content-Hash-Ref und einen `activation_lock_ready`-Nachweis fuer
+  `write_action`.
+- Sicherheitsentscheidung: Auch bei `executor_mount_lock_ready` bleiben File-/GitHub-/DB-Writes,
+  Durable Persistence, Permit-Issue, Provider-Calls, Runtime-Execution und Deploy false.
+- Beweis: Fokus-Tests fuer Write-Executor-Mount-Lock, Maya-Gate, Activation-Lock und Meta werden
+  in diesem Buendel ausgefuehrt.
+- Roter Faden weiter: Full Checks laufen lassen, Branch pushen und PR erstellen. Echte Writes
+  bleiben ein spaeterer separater Aktivierungsschritt.
+
 ## 2026-06-16 - Provider Call Executor Mount Lock
 
 - Gebaut: `GET /probe/provider-call-executor-mount-lock-contract` und
