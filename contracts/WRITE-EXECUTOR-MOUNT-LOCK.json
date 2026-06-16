@@ -1,0 +1,84 @@
+{
+  "task_id": "WRITE-EXECUTOR-MOUNT-LOCK",
+  "task_name": "bluepilot-write-executor-mount-lock-v0.1",
+  "created": "2026-06-16",
+  "scope": "bluepilot/builder/write/write-executor-mount-lock",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "write_executor_mount_boundary",
+  "goal": "Add a write executor mount lock that composes activation-lock evidence before any later write execution activation, without writing files, GitHub, database, durable stores, issuing permits, calling providers, executing runtime, merging, or deploying.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/activationLockBoundary.ts",
+    "builder/src/mayaCoreGateEnforcementContract.ts",
+    "builder/src/meta.ts",
+    "builder/src/server.ts"
+  ],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/WRITE-EXECUTOR-MOUNT-LOCK.json",
+    "review-packets/WRITE-EXECUTOR-MOUNT-LOCK.md",
+    "builder/src/writeExecutorMountLock.ts",
+    "builder/src/writeExecutorMountLockRoute.ts",
+    "builder/src/meta.ts",
+    "builder/src/server.ts",
+    "builder/tests/writeExecutorMountLock.test.ts",
+    "builder/tests/writeExecutorMountLockRoute.test.ts",
+    "builder/tests/meta.test.ts",
+    "builder/data/bpk-governance-manifest.json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    ".github/**",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/providers.ts",
+    "builder/src/db.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/sandboxWrite.ts",
+    "builder/src/sandboxRealWrite.ts",
+    "builder/src/permitApply.ts",
+    "soulmatch/**",
+    "goat-desktop/**",
+    "aicos-registry/**"
+  ],
+  "scope_out": [
+    "Do not write files, GitHub, database, durable stores, issue permits, call providers, execute runtime, merge, deploy, change packages, change workflows, or alter retired sandbox write routes."
+  ],
+  "claims": [
+    "Bluepilot can preflight write executor mount readiness from Activation-Lock evidence.",
+    "The lock requires confirmation, operator execution ref, write mount ref, permit ref, target repo/path refs, content hash ref, and activation_lock_ready for write_action.",
+    "Even when executorMountReady is true, writesAllowed remains false."
+  ],
+  "assumptions": [
+    "Actual write execution remains a later explicit env-gated operation.",
+    "The existing retired sandbox write routes remain unchanged."
+  ],
+  "dod": [
+    "GET /probe/write-executor-mount-lock-contract returns the closed mount boundary.",
+    "POST /probe/write-executor-mount-lock-preflight validates activation-lock evidence without writes.",
+    "Meta exposes the new surfaces.",
+    "Focused tests, typecheck, task-lock verification, diff-check, and full builder tests pass."
+  ],
+  "evidence_required": ["test_result"],
+  "required_commands": [
+    "npx tsx --test tests/writeExecutorMountLock.test.ts tests/writeExecutorMountLockRoute.test.ts tests/mayaCoreGateEnforcementContract.test.ts tests/activationLockBoundary.test.ts tests/activationLockRoute.test.ts tests/meta.test.ts",
+    "npm run typecheck",
+    "node scripts/generate-bpk-governance-manifest.mjs",
+    "node tools/verify-task-lock.cjs WRITE-EXECUTOR-MOUNT-LOCK --verify --contract contracts/WRITE-EXECUTOR-MOUNT-LOCK.json",
+    "git diff --check",
+    "npm test"
+  ],
+  "stop_conditions": [
+    "File write, GitHub write, DB write, durable persistence, permit issue, provider call, runtime execution, merge, deploy, package change, workflow change, or sandbox write reopening becomes necessary."
+  ],
+  "prior_task_findings": "Provider Call Executor Mount Lock is merged and live. Write actions now need the equivalent executor mount lock before any write execution activation can be reviewed.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "772f407"
+}

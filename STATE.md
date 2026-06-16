@@ -834,6 +834,12 @@
   Provider-Mount-Ref, Provider-Isolation-Ref und `activation_lock_ready` fuer `provider_call`.
   Provider-Calls, Runtime-Ausfuehrung, Route-Mutation, Writes, Permits und Deploy bleiben
   geschlossen.
+- Write-Executor-Mount-Lock 2026-06-16: `GET /probe/write-executor-mount-lock-contract` und
+  `POST /probe/write-executor-mount-lock-preflight` pruefen, ob der Write-Executor-Mount
+  reviewbereit ist. Voraussetzung sind Confirmation, Operator-Execution-Ref, Write-Mount-Ref,
+  Permit-Ref, Target-Repo-/Target-Path-Ref, Content-Hash-Ref und `activation_lock_ready` fuer
+  `write_action`. File-/GitHub-/DB-Writes, Durable Persistence, Permit-Issue, Provider-Calls,
+  Runtime-Ausfuehrung und Deploy bleiben geschlossen.
 
 ## Maya-Anbindung
 
@@ -872,8 +878,8 @@ Naechste Integrationsbloecke nach der Acht-Punkte-Verdrahtung:
    Panels ohne Ueberlappung oder horizontalen Overflow; Evidence liegt unter
    `builder/output/playwright/` und `builder/output/live-review/`.
 2. Provider/Runtime/Write-Aktivierung hat jetzt einen Activation-Lock und Dashboard-Controls.
-   Runtime-Dry-Run und Provider-Call besitzen je einen Executor-Mount-Lock; echte Route- oder
-   Provider-Aktivierung bleibt ein separater Schritt.
+   Runtime-Dry-Run, Provider-Call und Write-Action besitzen je einen Executor-Mount-Lock; echte
+   Route-, Provider- oder Write-Aktivierung bleibt ein separater Schritt.
 3. Gestapelte Integrations-Branches reviewen und bewusst entscheiden, ob und in welcher
    Reihenfolge weitere echte PRs/Merges/Deploys manuell erfolgen.
 
