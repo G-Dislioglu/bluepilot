@@ -5,6 +5,24 @@
 
 ---
 
+## 2026-06-16 - WIRE-CENSUS-001 Orphan Census
+
+- Gebaut: `tools/orphan-scan.cjs` als read-only Census-Scanner fuer `builder/src` und
+  `docs/ORPHAN-CENSUS-v0.1.md` als Triage-Report.
+- Regel: Einzige Live-Wurzel ist `builder/src/server.ts`. `opusTaskOrchestrator.ts` ist nur eine
+  diagnostische Wurzel; `runtime_value_connected` wird ausschliesslich aus
+  `server.ts`-Reachability ueber genutzte Value-Imports abgeleitet.
+- Ergebnis: 303 Module gescannt; 82 `runtime_value_connected`, 221 nicht live. Die nicht-live
+  Module sind klassifiziert als 15 `CONNECT`, 87 `COLLAPSE`, 2 `ARCHIVE` und 117 `KEEP_STAGED`.
+  `cardConditionedDispatch.ts`, `workerPacketWlpAdapter.ts` und `preRegisteredClaims.ts` sind
+  nicht serverReachable und stehen gezielt auf `CONNECT`.
+- Sicherheitsentscheidung: Keine `builder/src`-, Test-, Runtime-, Route-, Provider-, DB-,
+  Write-, Merge- oder Deploy-Dateien wurden geaendert. Der Census verdrahtet nichts; er liefert
+  die Landkarte fuer Gate und Verdrahtungs-Slices.
+- Roter Faden weiter: Als naechstes `WIRE-GATE-001` bauen, damit neue Module ohne echten
+  Consumer oder bewusstes `orphan-by-design` nicht mehr still liegenbleiben. Danach
+  `WIRE-SLICE-001` fuer das erste echte CONNECT-Buendel.
+
 ## 2026-06-16 - Maya-Core Autonomy Live Verification Runner
 
 - Gebaut: `GET /probe/maya-core-autonomy-live-verification-contract` und

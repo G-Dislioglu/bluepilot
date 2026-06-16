@@ -881,6 +881,13 @@
   begrenzt: keine Authority-Issue, keine Runtime, keine Provider, keine Writes, keine Persistenz,
   kein Deploy und kein Merge. Das Operator Dashboard bietet eine copy-only `Maya Live Verify`
   Vorlage mit `executeLiveVerification:false` als Default.
+- WIRE-CENSUS-001 2026-06-16: `tools/orphan-scan.cjs` misst alle `builder/src`-Module gegen die
+  einzige Live-Wurzel `builder/src/server.ts`; `opusTaskOrchestrator.ts` bleibt nur
+  diagnostisch. Ergebnis in `docs/ORPHAN-CENSUS-v0.1.md`: 303 Module gescannt, 82
+  `runtime_value_connected`, 221 nicht live. Nicht-live Triage: 15 `CONNECT`, 87 `COLLAPSE`, 2
+  `ARCHIVE`, 117 `KEEP_STAGED`. `cardConditionedDispatch.ts`, `workerPacketWlpAdapter.ts` und
+  `preRegisteredClaims.ts` sind nicht serverReachable und stehen auf `CONNECT`. Keine
+  `builder/src`-Datei wurde geaendert.
 
 ## Maya-Anbindung
 
@@ -915,17 +922,23 @@ Audit-Receipt-Record-Preflight-Artefakte werden in-memory autorisiert; Audit-Per
 Receipt-Persistenz, Writes, Runtime-Execution, Merge und externe Side Effects bleiben
 geschlossen.
 
-Naechste Integrationsbloecke nach der Acht-Punkte-Verdrahtung:
+Naechste Integrationsbloecke nach der Acht-Punkte-Verdrahtung und WIRE-CENSUS-001:
 
-1. Operator Dashboard ist lokal und live visuell geprueft: Desktop und Mobile rendern acht
+1. Vor WIRE-GATE-001 muss der gepushte WIRE-CENSUS-001-Branch extern verifiziert werden,
+   inklusive Stichprobe der 117 `KEEP_STAGED`-Eintraege. `KEEP_STAGED` ist kein Fertig-Label.
+2. WIRE-GATE-001 soll den Scanner in ein Gate verwandeln: neue `builder/src`-Module brauchen
+   einen echten Runtime-/Dry-Run-Consumer oder ein bewusstes `orphan-by-design` mit Folgeplan.
+3. WIRE-SLICE-001 soll das erste CONNECT-Buendel aus dem Census end-to-end verdrahten:
+   User/Route/Capability -> Dry-Run oder Runtime -> Status/Result -> sichtbarer Readback.
+4. Operator Dashboard ist lokal und live visuell geprueft: Desktop und Mobile rendern acht
    Panels ohne Ueberlappung oder horizontalen Overflow; Evidence liegt unter
    `builder/output/playwright/` und `builder/output/live-review/`.
-2. Provider/Runtime/Write-Aktivierung hat jetzt einen Activation-Lock und Dashboard-Controls.
+5. Provider/Runtime/Write-Aktivierung hat jetzt einen Activation-Lock und Dashboard-Controls.
    Runtime-Dry-Run, Provider-Call und Write-Action besitzen je einen Executor-Mount-Lock; der
    Durable-Audit-Receipt-Store plant Receipts ohne Persistenz. Der Operator-Mode konsumiert
    Maya/Kaya-Autonomieentscheidungen. Echte Route-, Provider-, Write- oder Persistenz-Aktivierung
    bleibt ein separater Schritt.
-3. Gestapelte Integrations-Branches reviewen und bewusst entscheiden, ob und in welcher
+6. Gestapelte Integrations-Branches reviewen und bewusst entscheiden, ob und in welcher
    Reihenfolge weitere echte PRs/Merges/Deploys manuell erfolgen.
 
 Die alten Optionen bleiben historische Richtung, werden aber nicht still mit Runtime Adoption

@@ -1,0 +1,94 @@
+{
+  "task_id": "WIRE-CENSUS-001",
+  "task_name": "bluepilot-orphan-census-and-triage-v0.4",
+  "created": "2026-06-16",
+  "scope": "bluepilot/builder/orphan-census-readonly",
+  "mode": "standard",
+  "task_type": "governance_task",
+  "risk_class": "low",
+  "impact_class": "architecture_hygiene",
+  "goal": "Produce a deterministic, read-only census of every builder/src module against ONE explicit live root, builder/src/server.ts. Per module record: serverReachable, orchestratorReachable (diagnostic only), usedValueImporters, unusedValueImporters, typeImporters, testImporters, plus a derived summary state. runtime_value_connected means serverReachable via used value imports. Classify each non-live module as CONNECT, COLLAPSE, ARCHIVE or KEEP_STAGED with a one-line rationale. No source module is changed, wired, moved, archived or deleted. This contract only produces the map.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/server.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/cardConditionedDispatch.ts",
+    "builder/src/workerPacketWlpAdapter.ts",
+    "builder/src/preRegisteredClaims.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "tools/orphan-scan.cjs",
+    "docs/ORPHAN-CENSUS-v0.1.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/WIRE-CENSUS-001.md",
+    "contracts/WIRE-CENSUS-001.json"
+  ],
+  "forbidden_files": [
+    "builder/src/**",
+    "builder/tests/**",
+    "builder/package.json",
+    "package.json",
+    "package-lock.json",
+    ".github/**",
+    "builder/data/**",
+    "builder/scripts/**",
+    "builder/output/**",
+    ".specify/**",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not modify, wire, import, move, archive or delete any builder/src module. Do not change server.ts, the opus* motor, providers, db or any runtime path. Output is one script plus one report. The census decides classifications; it does not apply them."
+  ],
+  "claims": [
+    "The only runtime entry in the repo is builder/src/server.ts (npm start = tsx src/server.ts); there is no bin, Procfile, Dockerfile or second start, so server.ts is the single explicit live root.",
+    "opusTaskOrchestrator is NOT a separate live root: it is value-imported by sandboxRealWrite, opusBuildPipeline and probeDryRun, and server.ts imports probeDryRun and sandboxRealWrite, so the orchestrator is already transitively serverReachable. Treating it as a co-equal root would falsely mark orchestrator-only modules as live.",
+    "A value import counts only if the imported binding is actually used in the importing module body; type-only, test-only and unused/side-effect-only imports are not a live connection.",
+    "A module value-imported only by a non-serverReachable module is non_live_value_referenced; WIRE-SLICE-001's dispatchDryRunSlice will create exactly this case."
+  ],
+  "assumptions": [
+    "The single explicit live root is builder/src/server.ts. No live root is defined by glob; additional roots are added only when a real second process entry exists.",
+    "Codex's local tree is synced to current origin/main via git pull --ff-only before locking (it was one commit behind at fcef539; main was 9c01487), and baseline_ref is set to that synced commit.",
+    "The usage check is a documented heuristic without a full type-checker; re-exports and dynamic dispatch are noted as residual blind spots."
+  ],
+  "dod": [
+    "tools/orphan-scan.cjs walks builder/src from the single explicit root builder/src/server.ts and emits, per non-test module: serverReachable (bool, transitive from server.ts via USED value imports), orchestratorReachable (bool, transitive from opusTaskOrchestrator, diagnostic only), usedValueImporters[], unusedValueImporters[], typeImporters[], testImporters[].",
+    "Each module gets a derived summary state: runtime_value_connected (= serverReachable true) | non_live_value_referenced | type_only_referenced | test_only_referenced | unreferenced.",
+    "The live root is a named constant in the scanner, never an opus* glob; orchestratorReachable is reported but never used to decide runtime_value_connected.",
+    "Output is deterministic and exposes a reusable connectivity function so WIRE-GATE-001 can require it as a library.",
+    "docs/ORPHAN-CENSUS-v0.1.md lists every module that is not runtime_value_connected, each with exactly one classification (CONNECT | COLLAPSE | ARCHIVE | KEEP_STAGED) and a one-line rationale.",
+    "cardConditionedDispatch.ts, workerPacketWlpAdapter.ts and preRegisteredClaims.ts appear with their measured fields and state; if not runtime_value_connected they are classified CONNECT.",
+    "The census reports totals per summary state, per classification and per family (cockpit / runtime / memory / release / opus / other), plus a count of modules that are orchestratorReachable but NOT serverReachable.",
+    "node tools/orphan-scan.cjs, task-lock verify and diff-check pass."
+  ],
+  "evidence_required": [
+    "diff_ref",
+    "content_check"
+  ],
+  "required_commands": [
+    "node tools/orphan-scan.cjs",
+    "node tools/verify-task-lock.cjs WIRE-CENSUS-001 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "Any need to modify, wire, move, archive or delete a builder/src module.",
+    "Any need to touch server.ts, the opus* motor, providers, db, package files or workflows."
+  ],
+  "prior_task_findings": "Verified against commit 9c01487 (origin/main): the only runtime entry is server.ts. opusTaskOrchestrator is imported by sandboxRealWrite/opusBuildPipeline/probeDryRun, and server.ts imports probeDryRun and sandboxRealWrite, so the orchestrator is already serverReachable, not a separate root. The ~198-file cockpit/runtime/memory/release lattice has 0 import edges to the opus* motor. runPreflight hard-stops on a dirty tree and loads the contract only if present.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "9c01487"
+}

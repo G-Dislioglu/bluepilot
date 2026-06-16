@@ -650,10 +650,20 @@ read-only verdrahtet und das zweite Readonly-Buendel ist darauf aufgebaut:
   nur mit `executeLiveVerification:true` Maya-core `/api/maya/autonomy/authority` in Verify-Mode
   aufrufen. Ohne Flag bleibt es bei Readiness. Die Surface schreibt nichts, fuehrt nichts aus,
   ruft keine Provider, deployt nicht und issued keine Authority-Decision.
+- WIRE-CENSUS-001 hat die erste Verdrahtungs-Landkarte erzeugt:
+  `tools/orphan-scan.cjs` misst `builder/src` gegen die einzige Live-Wurzel
+  `builder/src/server.ts`. `opusTaskOrchestrator.ts` ist nur Diagnose. Ergebnis:
+  303 Module gescannt, 82 `runtime_value_connected`, 221 nicht live. Die nicht-live Module sind
+  in `docs/ORPHAN-CENSUS-v0.1.md` als `CONNECT`, `COLLAPSE`, `ARCHIVE` oder `KEEP_STAGED`
+  klassifiziert. Es wurde nichts verdrahtet, geloescht oder archiviert.
 
 Naechste Integrationsbloecke:
 
-1. Maya-core muss fuer `/api/maya/autonomy/authority` Builder-Gate-Token akzeptieren und deployt
+1. `WIRE-GATE-001`: Den Orphan-Schutz in den Verify-/Build-Prozess bringen, damit neue Module
+   ohne echten Consumer oder bewusstes `orphan-by-design` nicht mehr still liegenbleiben.
+2. `WIRE-SLICE-001`: Erstes CONNECT-Buendel aus dem Census verdrahten, mit sichtbarem
+   Runtime-/Dry-Run-Readback.
+3. Maya-core muss fuer `/api/maya/autonomy/authority` Builder-Gate-Token akzeptieren und deployt
    sein; danach Bluepilot Live-Verify gegen Render kontrolliert ausfuehren.
-2. Danach erst Runtime-/Provider-/Write-Aktivierung aus der verifizierten Maya/Kaya-Decision
+4. Danach erst Runtime-/Provider-/Write-Aktivierung aus der verifizierten Maya/Kaya-Decision
    ableiten.
