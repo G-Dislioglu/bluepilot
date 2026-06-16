@@ -604,6 +604,11 @@ read-only verdrahtet und das zweite Readonly-Buendel ist darauf aufgebaut:
   Provider-Preflight, Runtime-Preflight, Write-Preflight und Activation-Lock werden als
   copy-only Payload-Controls dargestellt. Es gibt keine Forms, Submit-Buttons oder
   browserseitigen POSTs; die Surface bleibt Review-UI.
+- Runtime Dry-Run Executor Mount Lock ist jetzt als geschlossene Surface angebunden:
+  `GET /probe/runtime-dry-run-executor-mount-lock-contract` und
+  `POST /probe/runtime-dry-run-executor-mount-lock-preflight` pruefen Activation-Lock-Evidence
+  fuer `runtime_dry_run`. Auch bei `executor_mount_lock_ready` bleiben Runtime-Ausfuehrung und
+  Route-Mutation false.
 
 Naechste Integrationsbloecke:
 

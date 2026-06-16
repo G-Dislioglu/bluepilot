@@ -13,6 +13,7 @@ import { handleProbeDryRunRequest } from './probeDryRun.js';
 import { handleProviderRuntimeActivationRequest } from './providerRuntimeActivationRoute.js';
 import { handleReadonlyIntegrationRequest } from './readonlyIntegrationRoutes.js';
 import { handleRepoCapabilityAuditRequest } from './repoCapabilityAuditRoute.js';
+import { handleRuntimeDryRunExecutorMountLockRequest } from './runtimeDryRunExecutorMountLockRoute.js';
 import { handleRuntimeDryRunRouteRequest } from './runtimeDryRunRoute.js';
 import { handleSandboxWriteRequest } from './sandboxWrite.js';
 import { handleSandboxRealWriteRequest } from './sandboxRealWrite.js';
@@ -44,6 +45,10 @@ const server = createServer((request, response) => {
     }
 
     if (await handleRuntimeDryRunRouteRequest(request, response)) {
+      return;
+    }
+
+    if (await handleRuntimeDryRunExecutorMountLockRequest(request, response)) {
       return;
     }
 

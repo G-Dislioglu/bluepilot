@@ -5,6 +5,20 @@
 
 ---
 
+## 2026-06-16 - Runtime Dry-Run Executor Mount Lock
+
+- Gebaut: `GET /probe/runtime-dry-run-executor-mount-lock-contract` und
+  `POST /probe/runtime-dry-run-executor-mount-lock-preflight`.
+- Verhalten: Bluepilot prueft Confirmation, Operator-Execution-Ref, Route-Gate-Ref,
+  Runtime-Mount-Ref und einen `activation_lock_ready`-Nachweis fuer `runtime_dry_run`.
+- Sicherheitsentscheidung: Auch bei `executor_mount_lock_ready` bleiben Runtime-Execution,
+  Route-Mutation, Provider-Calls, Writes, Permit-Issue und Deploy false. Die bestehende
+  `/probe/runtime-dry-run`-Route bleibt unveraendert und default-off.
+- Beweis: Fokus-Tests fuer Runtime-Executor-Mount-Lock, Runtime-Dry-Run, Activation-Lock und
+  Meta sind mit 22/22 gruen. `npm run typecheck` ist gruen.
+- Roter Faden weiter: Full Checks laufen lassen, Branch pushen und PR erstellen. Echte Runtime-
+  Route-Aktivierung bleibt ein spaeterer separater Schritt.
+
 ## 2026-06-16 - Operator Dashboard Activation Controls
 
 - Gebaut: Das Operator-Dashboard rendert jetzt vier copy-only Activation Controls fuer
