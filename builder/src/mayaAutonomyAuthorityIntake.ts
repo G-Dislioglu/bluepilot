@@ -9,11 +9,13 @@ export interface MayaAutonomyAuthorityDecisionEvidence {
   subjectRef?: unknown;
   autonomyMode?: unknown;
   grantScope?: unknown;
+  scopeRef?: unknown;
   ethicsCharterRef?: unknown;
   safetyEvidenceRef?: unknown;
   issuedAt?: unknown;
   expiresAt?: unknown;
   hardStopCategories?: unknown;
+  sourceOfTruth?: unknown;
 }
 
 export interface MayaAutonomyAuthorityIntakeRequest {
@@ -32,11 +34,13 @@ export interface NormalizedMayaAuthorityDecision {
   subjectRef: string;
   autonomyMode: MayaAutonomyMode;
   grantScope: string;
+  scopeRef: string;
   ethicsCharterRef: string;
   safetyEvidenceRef: string;
   issuedAt?: string;
   expiresAt?: string;
   hardStopCategories: string[];
+  sourceOfTruth: 'maya_kaya';
 }
 
 export interface MayaAutonomyAuthoritySideEffects {
@@ -103,9 +107,11 @@ const REQUIRED_DECISION_FIELDS = [
   'subjectRef',
   'autonomyMode',
   'grantScope',
+  'scopeRef',
   'ethicsCharterRef',
   'safetyEvidenceRef',
   'hardStopCategories',
+  'sourceOfTruth',
 ];
 
 const HARD_STOP_CATEGORIES = [
@@ -238,11 +244,13 @@ function normalizeDecision(
   const subjectRef = normalizeString(decision.subjectRef);
   const autonomyMode = normalizeDecisionAutonomyMode(decision.autonomyMode, options.blockers);
   const grantScope = normalizeString(decision.grantScope);
+  const scopeRef = normalizeString(decision.scopeRef);
   const ethicsCharterRef = normalizeString(decision.ethicsCharterRef);
   const safetyEvidenceRef = normalizeString(decision.safetyEvidenceRef);
   const issuedAt = normalizeOptionalIsoDate(decision.issuedAt, 'issuedAt', options.blockers);
   const expiresAt = normalizeOptionalIsoDate(decision.expiresAt, 'expiresAt', options.blockers);
   const hardStopCategories = normalizeStringArray(decision.hardStopCategories);
+  const sourceOfTruth = normalizeString(decision.sourceOfTruth);
 
   if (status !== 'maya_autonomy_decision_allowed') {
     options.blockers.push('maya_autonomy_authority.decision_not_allowed');
@@ -251,8 +259,12 @@ function normalizeDecision(
   requireRef(decisionRef, 'maya_autonomy_authority.decision_ref_required', options.blockers);
   requireRef(subjectRef, 'maya_autonomy_authority.subject_ref_required', options.blockers);
   requireRef(grantScope, 'maya_autonomy_authority.grant_scope_required', options.blockers);
+  requireRef(scopeRef, 'maya_autonomy_authority.scope_ref_required', options.blockers);
   requireRef(ethicsCharterRef, 'maya_autonomy_authority.ethics_charta_ref_required', options.blockers);
   requireRef(safetyEvidenceRef, 'maya_autonomy_authority.safety_evidence_ref_required', options.blockers);
+  if (sourceOfTruth !== 'maya_kaya') {
+    options.blockers.push('maya_autonomy_authority.source_of_truth_must_be_maya_kaya');
+  }
 
   if (autonomyMode === 'full_access' && grantScope !== 'full_access') {
     options.blockers.push('maya_autonomy_authority.full_access_scope_required');
@@ -291,8 +303,10 @@ function normalizeDecision(
     || !subjectRef
     || !autonomyMode
     || !grantScope
+    || !scopeRef
     || !ethicsCharterRef
     || !safetyEvidenceRef
+    || sourceOfTruth !== 'maya_kaya'
   ) {
     return undefined;
   }
@@ -304,11 +318,13 @@ function normalizeDecision(
     subjectRef,
     autonomyMode,
     grantScope,
+    scopeRef,
     ethicsCharterRef,
     safetyEvidenceRef,
     ...(issuedAt ? { issuedAt } : {}),
     ...(expiresAt ? { expiresAt } : {}),
     hardStopCategories,
+    sourceOfTruth: 'maya_kaya',
   };
 }
 

@@ -54,8 +54,10 @@ function activationControls(): ActivationControl[] {
           subjectRef: 'user:g-dislioglu',
           autonomyMode: 'full_access',
           grantScope: 'full_access',
+          scopeRef: 'bluepilot:runtime_dry_run',
           ethicsCharterRef: 'maya-ethics-charter:canonical',
           safetyEvidenceRef: 'safety:evidence:replace-with-live-ref',
+          sourceOfTruth: 'maya_kaya',
           hardStopCategories: [
             'banking',
             'financial_transaction',
@@ -89,8 +91,10 @@ function activationControls(): ActivationControl[] {
           subjectRef: 'user:g-dislioglu',
           autonomyMode: 'full_access',
           grantScope: 'full_access',
+          scopeRef: 'bluepilot:runtime_dry_run',
           ethicsCharterRef: 'maya-ethics-charter:canonical',
           safetyEvidenceRef: 'safety:evidence:replace-with-live-ref',
+          sourceOfTruth: 'maya_kaya',
           hardStopCategories: [
             'banking',
             'financial_transaction',

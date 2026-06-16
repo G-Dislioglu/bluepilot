@@ -27,10 +27,12 @@ const decision = {
   subjectRef: 'user:g-dislioglu',
   autonomyMode: 'full_access',
   grantScope: 'full_access',
+  scopeRef: 'bluepilot:runtime_dry_run',
   ethicsCharterRef: 'maya-ethics-charter:canonical',
   safetyEvidenceRef: 'safety:evidence:bluepilot-live',
   expiresAt: '2026-06-16T17:00:00.000Z',
   hardStopCategories,
+  sourceOfTruth: 'maya_kaya',
 };
 
 const readyRequest = {
@@ -84,6 +86,9 @@ test('execute flag verifies against Maya-core with gate token only', async () =>
     capturedUrl = url;
     capturedToken = init.headers['x-maya-core-gate-token'];
     capturedBody = JSON.parse(init.body) as unknown;
+    const body = capturedBody as { verify: { decision: { scopeRef: string; sourceOfTruth: string } } };
+    assert.equal(body.verify.decision.scopeRef, 'bluepilot:runtime_dry_run');
+    assert.equal(body.verify.decision.sourceOfTruth, 'maya_kaya');
     return {
       ok: true,
       status: 200,

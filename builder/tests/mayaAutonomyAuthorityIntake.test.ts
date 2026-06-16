@@ -27,11 +27,13 @@ function decision(overrides: Record<string, unknown> = {}): Record<string, unkno
     subjectRef: 'user:g-dislioglu',
     autonomyMode: 'full_access',
     grantScope: 'full_access',
+    scopeRef: 'bluepilot:runtime_dry_run',
     ethicsCharterRef: 'maya-ethics-charter:canonical',
     safetyEvidenceRef: 'safety:evidence:bluepilot-runtime',
     issuedAt: '2026-06-16T15:00:00.000Z',
     expiresAt: '2026-06-16T16:00:00.000Z',
     hardStopCategories,
+    sourceOfTruth: 'maya_kaya',
     ...overrides,
   };
 }
@@ -48,6 +50,8 @@ test('maya autonomy authority contract names Maya/Kaya as source of truth', () =
   assert.equal(contract.sideEffects.callsMayaKaya, false);
   assert.equal(contract.sideEffects.executesRuntime, false);
   assert.ok(contract.requiredDecisionFields.includes('hardStopCategories'));
+  assert.ok(contract.requiredDecisionFields.includes('scopeRef'));
+  assert.ok(contract.requiredDecisionFields.includes('sourceOfTruth'));
 });
 
 test('valid Maya/Kaya full-access decision normalizes activation handoff evidence', () => {
@@ -65,10 +69,25 @@ test('valid Maya/Kaya full-access decision normalizes activation handoff evidenc
   assert.equal(preflight.authoritySource, 'maya_kaya');
   assert.equal(preflight.normalizedDecision?.status, 'maya_autonomy_decision_allowed');
   assert.equal(preflight.normalizedDecision?.autonomyMode, 'full_access');
+  assert.equal(preflight.normalizedDecision?.scopeRef, 'bluepilot:runtime_dry_run');
+  assert.equal(preflight.normalizedDecision?.sourceOfTruth, 'maya_kaya');
   assert.equal(preflight.activationDecisionHandoff?.target, 'runtime_dry_run');
   assert.equal(preflight.activationDecisionHandoff?.mayaAuthorityDecision.grantScope, 'full_access');
   assert.deepEqual(preflight.blockers, []);
   assert.equal(preflight.sideEffects.callsMayaKaya, false);
+});
+
+test('decision must preserve Maya-core verification fields', () => {
+  const preflight = buildMayaAutonomyAuthorityIntakePreflight({
+    target: 'runtime_dry_run',
+    expectedAutonomyMode: 'full_access',
+    decision: decision({
+      sourceOfTruth: 'local_app',
+    }),
+  }, new Date('2026-06-16T15:30:00.000Z'));
+
+  assert.equal(preflight.status, 'blocked');
+  assert.ok(preflight.blockers.includes('maya_autonomy_authority.source_of_truth_must_be_maya_kaya'));
 });
 
 test('missing authority decision blocks execution handoff', () => {
