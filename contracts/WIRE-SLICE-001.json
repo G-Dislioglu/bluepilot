@@ -1,0 +1,104 @@
+{
+  "task_id": "WIRE-SLICE-001",
+  "task_name": "bluepilot-first-vertical-wiring-slice-dispatch-dryrun-v0.4",
+  "created": "2026-06-16",
+  "scope": "bluepilot/builder/first-wiring-slice-dispatch-dryrun",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "runtime_integration",
+  "goal": "Prove the dispatch-readiness data flow composes end-to-end in DRY-RUN by wiring the existing chain workerPacketWlpAdapter -> cardConditionedDispatch -> preRegisteredClaims -> dispatchFrontendReadiness -> runtimeDispatchIntegrationContract into one read-only composition module exercised by an executed test that turns a sample worker packet into a dispatch-readiness result. No provider, write, route, DB or orchestrator change. After this task the chain modules are non_live_value_referenced (a real used value importer exists, but it is not yet live-reachable); live exposure is WIRE-SLICE-002. Also backfill a retroactive WLP record for cardConditionedDispatch. Done means the chain runs through in dry-run, proven by test.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "docs/ORPHAN-CENSUS-v0.1.md",
+    "builder/src/workerPacketWlpAdapter.ts",
+    "builder/src/cardConditionedDispatch.ts",
+    "builder/src/preRegisteredClaims.ts",
+    "builder/src/dispatchFrontendReadiness.ts",
+    "builder/src/runtimeDispatchIntegrationContract.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "builder/src/dispatchDryRunSlice.ts",
+    "builder/tests/wireSlice001DispatchDryRun.test.ts",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/WIRE-SLICE-001.md",
+    "review-packets/cardConditionedDispatch-backfill.md",
+    "contracts/WIRE-SLICE-001.json"
+  ],
+  "forbidden_files": [
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/providers.ts",
+    "builder/src/db.ts",
+    "builder/src/server.ts",
+    "builder/src/cockpit*.ts",
+    "builder/src/runtime*.ts",
+    "builder/src/memory*.ts",
+    "builder/src/release*.ts",
+    "builder/package.json",
+    "package.json",
+    "package-lock.json",
+    ".github/**",
+    "builder/scripts/**",
+    "builder/data/**",
+    "builder/output/**",
+    ".specify/**",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not call any provider, write any file, mount any route, touch the DB or modify the orchestrator. Do not drag in the cockpit/memory/release lattice beyond reading the named runtime dispatch modules. The slice is a pure dry-run composition exercised only by its test; it is NOT yet live-reachable, and the contract must not claim it is."
+  ],
+  "claims": [
+    "workerPacketWlpAdapter can turn a sample worker packet into the input planCardConditionedDispatch(input) expects.",
+    "The chain adapter -> cardConditionedDispatch -> preRegisteredClaims -> dispatchFrontendReadiness -> runtimeDispatchIntegrationContract can be composed as a side-effect-free dry-run yielding a dispatch-readiness result.",
+    "After this task the chain modules become non_live_value_referenced: they have a real used value importer (dispatchDryRunSlice) but serverReachable stays false (not yet reachable from builder/src/server.ts).",
+    "No orchestrator, route, provider, write or DB change is required for the dry-run proof."
+  ],
+  "assumptions": [
+    "All five chain modules exist and expose pure functions over explicit inputs.",
+    "A dry-run readiness result is sufficient end-to-end proof; live exposure is WIRE-SLICE-002.",
+    "WIRE-GATE-001 is live, so this contract's orphan_gate: enforce is honored; baseline_ref is e328ef0."
+  ],
+  "dod": [
+    "builder/src/dispatchDryRunSlice.ts value-imports and actually uses all five chain modules, exposing one dry-run entry that composes them into a dispatch-readiness result with no side effects.",
+    "Because the slice is not yet live-reachable, dispatchDryRunSlice.ts carries '// @orphan-by-design: dry-run dispatch composition; live exposure in WIRE-SLICE-002; consumer = future route/orchestrator'.",
+    "builder/tests/wireSlice001DispatchDryRun.test.ts executes the composition on a sample worker packet and asserts each chain step is actually invoked and a readiness result is produced.",
+    "node tools/orphan-scan.cjs shows cardConditionedDispatch, workerPacketWlpAdapter and preRegisteredClaims now list dispatchDryRunSlice as a used value importer, with summary state non_live_value_referenced (serverReachable still false).",
+    "review-packets/cardConditionedDispatch-backfill.md is a retroactive WLP record: purpose, input/output types, prior build task, and the new used value importer with file path.",
+    "Focused test, builder typecheck, orphan-scan, task-lock verify and diff-check pass."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "cd builder && npx tsx --test tests/wireSlice001DispatchDryRun.test.ts",
+    "npm --prefix builder run typecheck",
+    "node tools/orphan-scan.cjs",
+    "node tools/verify-task-lock.cjs WIRE-SLICE-001 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "Composing the chain requires a real provider call, a real write, a route mount, a DB call or an orchestrator change.",
+    "The slice cannot stay a side-effect-free dry-run.",
+    "More than the named composition module, its test and the docs must change."
+  ],
+  "prior_task_findings": "WIRE-CENSUS-001 measured the three differentiators as not runtime_value_connected despite type-only references. WIRE-GATE-001 now enforces visible orphan exceptions for new builder/src modules. After this slice the modules are non_live_value_referenced, NOT live-connected.",
+  "orphan_gate": "enforce",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "e328ef0"
+}

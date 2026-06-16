@@ -5,6 +5,25 @@
 
 ---
 
+## 2026-06-16 - WIRE-SLICE-001 Dispatch Dry-Run Slice
+
+- Gebaut: `builder/src/dispatchDryRunSlice.ts` als side-effect-freie Composition fuer
+  `workerPacketWlpAdapter -> cardConditionedDispatch -> preRegisteredClaims ->
+  dispatchFrontendReadiness -> runtimeDispatchIntegrationContract`.
+- Verhalten: Ein Sample-WorkerPacket kann trocken in einen WLP-Contract-Draft, Card-Dispatch-
+  Plan, Pre-Registered-Claims-Gate, Frontend-Readiness-Projektion und Runtime-Dry-Run-
+  Integrationsvertrag ueberfuehrt werden. Provider, Writes, Route-Mount, DB und Orchestrator
+  bleiben explizit geschlossen.
+- Gate-Status: Die neue Datei traegt sichtbar
+  `// @orphan-by-design: dry-run dispatch composition; live exposure in WIRE-SLICE-002; consumer = future route/orchestrator`
+  und passiert dadurch das neue `orphan_gate: enforce`, ohne live zu behaupten.
+- Beweis: Fokus-Test und Typecheck sind gruen. `node tools/orphan-scan.cjs` misst
+  `dispatchDryRunSlice.ts` als genutzten Value-Importer fuer `cardConditionedDispatch.ts`,
+  `workerPacketWlpAdapter.ts` und `preRegisteredClaims.ts`; alle drei bleiben
+  `serverReachable:false` und wechseln auf `non_live_value_referenced`.
+- Roter Faden weiter: Extern pruefen lassen; danach WIRE-SLICE-002 fuer live oder default-off
+  Route/Capability-Readback statt weiterer nur-staged Module.
+
 ## 2026-06-16 - WIRE-GATE-001 Orphan Gate
 
 - Gebaut: `orphan_gate` als optionales Contract-Feld fuer `tools/verify-task-lock.cjs`.

@@ -894,6 +894,13 @@
   `baseline_ref`-Diff. Ein Modul muss `serverReachable` ueber genutzte Value-Imports sein oder
   oben `// @orphan-by-design: Grund/Folgeplan` tragen. Type-only, test-only, unused Value Imports
   und Orchestrator-Diagnose zaehlen nicht. Legacy-Altbestand wird nicht blockiert.
+- WIRE-SLICE-001 2026-06-16: `builder/src/dispatchDryRunSlice.ts` komponiert die erste
+  Dispatch-Dry-Run-Kette aus `workerPacketWlpAdapter`, `cardConditionedDispatch`,
+  `preRegisteredClaims`, `dispatchFrontendReadiness` und `runtimeDispatchIntegrationContract`.
+  Die Datei ist bewusst `@orphan-by-design`, weil Live-Exposure erst WIRE-SLICE-002 ist. Scanner-
+  Evidence: `cardConditionedDispatch.ts`, `workerPacketWlpAdapter.ts` und
+  `preRegisteredClaims.ts` haben nun `dispatchDryRunSlice.ts` als genutzten Value-Importer und
+  bleiben `serverReachable:false`.
 
 ## Maya-Anbindung
 
@@ -930,9 +937,9 @@ geschlossen.
 
 Naechste Integrationsbloecke nach der Acht-Punkte-Verdrahtung und WIRE-CENSUS-001:
 
-1. Vor `WIRE-SLICE-001` sollte der gepushte WIRE-GATE-001-Branch extern verifiziert werden.
-2. WIRE-SLICE-001 soll das erste CONNECT-Buendel aus dem Census end-to-end verdrahten:
-   User/Route/Capability -> Dry-Run oder Runtime -> Status/Result -> sichtbarer Readback.
+1. Vor `WIRE-SLICE-002` sollte der gepushte WIRE-SLICE-001-Branch extern verifiziert werden.
+2. WIRE-SLICE-002 soll die Dry-Run-Scheibe default-off live erreichbar machen:
+   Route/Capability -> Dry-Run -> Status/Result -> sichtbarer Readback.
 3. Die 117 `KEEP_STAGED`-Eintraege aus dem Census brauchen eine eigene Review-Spur:
    konkreter Consumer/Folgeblock oder Abstufung zu `COLLAPSE`/`ARCHIVE`.
 4. Operator Dashboard ist lokal und live visuell geprueft: Desktop und Mobile rendern acht

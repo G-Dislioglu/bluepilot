@@ -662,12 +662,17 @@ read-only verdrahtet und das zweite Readonly-Buendel ist darauf aufgebaut:
   `baseline_ref`-Diff und blockiert bei `enforce`, wenn ein Modul nicht `serverReachable` ist und
   keinen Top-of-file `// @orphan-by-design: ...` Folgeplan traegt. Legacy-Altbestand aus dem
   Census wird nicht blockiert.
+- WIRE-SLICE-001 beweist die erste Dry-Run-Verdrahtung:
+  `builder/src/dispatchDryRunSlice.ts` komponiert WorkerPacket-WLP-Adapter,
+  Card-Conditioned Dispatch, Pre-Registered Claims, Dispatch-Frontend-Readiness und Runtime-
+  Dispatch-Integration. Es ist bewusst noch nicht live-reachable und traegt den
+  `@orphan-by-design`-Folgeplan fuer WIRE-SLICE-002.
 
 Naechste Integrationsbloecke:
 
-1. Externe Pruefung des gepushten `WIRE-GATE-001`-Branches.
-2. `WIRE-SLICE-001`: Erstes CONNECT-Buendel aus dem Census verdrahten, mit sichtbarem
-   Runtime-/Dry-Run-Readback.
+1. Externe Pruefung des gepushten `WIRE-SLICE-001`-Branches.
+2. `WIRE-SLICE-002`: Die Dry-Run-Scheibe live oder default-off erreichbar machen, mit sichtbarem
+   Status/Result-Readback.
 3. Maya-core muss fuer `/api/maya/autonomy/authority` Builder-Gate-Token akzeptieren und deployt
    sein; danach Bluepilot Live-Verify gegen Render kontrolliert ausfuehren.
 4. Danach erst Runtime-/Provider-/Write-Aktivierung aus der verifizierten Maya/Kaya-Decision
