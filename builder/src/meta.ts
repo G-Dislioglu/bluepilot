@@ -31,6 +31,8 @@ export interface BluepilotMetaPayload {
     mayaAutonomyAuthorityIntakePreflight: '/probe/maya-autonomy-authority-intake-preflight';
     mayaCoreAutonomyVerificationContract: '/probe/maya-core-autonomy-verification-contract';
     mayaCoreAutonomyVerificationPreflight: '/probe/maya-core-autonomy-verification-preflight';
+    mayaCoreAutonomyLiveVerificationContract: '/probe/maya-core-autonomy-live-verification-contract';
+    mayaCoreAutonomyLiveVerificationRun: '/probe/maya-core-autonomy-live-verification-run';
     providerRuntimeActivationContract: '/probe/provider-runtime-activation-contract';
     providerRuntimeActivationPreflight: '/probe/provider-runtime-activation-preflight';
     activationLockContract: '/probe/activation-lock-contract';
@@ -104,6 +106,8 @@ export function createBluepilotMetaPayload(
       mayaAutonomyAuthorityIntakePreflight: '/probe/maya-autonomy-authority-intake-preflight',
       mayaCoreAutonomyVerificationContract: '/probe/maya-core-autonomy-verification-contract',
       mayaCoreAutonomyVerificationPreflight: '/probe/maya-core-autonomy-verification-preflight',
+      mayaCoreAutonomyLiveVerificationContract: '/probe/maya-core-autonomy-live-verification-contract',
+      mayaCoreAutonomyLiveVerificationRun: '/probe/maya-core-autonomy-live-verification-run',
       providerRuntimeActivationContract: '/probe/provider-runtime-activation-contract',
       providerRuntimeActivationPreflight: '/probe/provider-runtime-activation-preflight',
       activationLockContract: '/probe/activation-lock-contract',

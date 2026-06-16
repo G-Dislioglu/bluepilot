@@ -26,6 +26,9 @@ test('operator dashboard renders activation controls without submit actions', ()
   assert.ok(html.includes('Provider Preflight'));
   assert.ok(html.includes('Maya Authority Verify'));
   assert.ok(html.includes('/probe/maya-core-autonomy-verification-preflight'));
+  assert.ok(html.includes('Maya Live Verify'));
+  assert.ok(html.includes('/probe/maya-core-autonomy-live-verification-run'));
+  assert.ok(html.includes('&quot;executeLiveVerification&quot;: false'));
   assert.ok(html.includes('Runtime Preflight'));
   assert.ok(html.includes('Write Preflight'));
   assert.ok(html.includes('Activation Lock'));

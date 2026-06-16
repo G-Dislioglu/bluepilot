@@ -644,10 +644,16 @@ read-only verdrahtet und das zweite Readonly-Buendel ist darauf aufgebaut:
   `POST /probe/maya-autonomy-authority-intake-preflight` pruefen und normalisieren Maya/Kaya-
   Decisions vor der Activation-Decision-Uebergabe. Bluepilot ruft Maya/Kaya dabei nicht live auf
   und bleibt Consumer plus Executor-Guard.
+- Maya-Core Autonomy Live Verification Runner ist als gated Verify-Surface angebunden:
+  `GET /probe/maya-core-autonomy-live-verification-contract` und
+  `POST /probe/maya-core-autonomy-live-verification-run` koennen nach erfolgreichem Preflight und
+  nur mit `executeLiveVerification:true` Maya-core `/api/maya/autonomy/authority` in Verify-Mode
+  aufrufen. Ohne Flag bleibt es bei Readiness. Die Surface schreibt nichts, fuehrt nichts aus,
+  ruft keine Provider, deployt nicht und issued keine Authority-Decision.
 
 Naechste Integrationsbloecke:
 
-1. Falls Gurcan echte Ausfuehrung will: zuerst Maya-core als zentrale Autonomie-Authority bauen
-   und dann Bluepilot/Soulmatch/AICOS als Consumer dieser Authority verdrahten.
-2. Gestapelte Integrations-Branches reviewen und bewusst ueber echte PRs/Merges/Deploys
-   entscheiden.
+1. Maya-core muss fuer `/api/maya/autonomy/authority` Builder-Gate-Token akzeptieren und deployt
+   sein; danach Bluepilot Live-Verify gegen Render kontrolliert ausfuehren.
+2. Danach erst Runtime-/Provider-/Write-Aktivierung aus der verifizierten Maya/Kaya-Decision
+   ableiten.

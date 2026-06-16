@@ -873,6 +873,14 @@
   /probe/maya-core-autonomy-verification-preflight` planen den Verify-Request gegen Maya-core
   `/api/maya/autonomy/authority`, rufen Maya/Kaya aber noch nicht live auf. Das Operator Dashboard
   zeigt `Maya/Kaya Authority Status` und eine copy-only `Maya Authority Verify` Control.
+- Maya-Core-Autonomy-Live-Verification-Runner 2026-06-16: `GET
+  /probe/maya-core-autonomy-live-verification-contract` und `POST
+  /probe/maya-core-autonomy-live-verification-run` fuehren nach erfolgreichem Preflight und nur
+  mit `executeLiveVerification:true` einen echten Verify-POST gegen Maya-core aus. Der Call nutzt
+  `MAYA_CORE_URL` plus `MAYA_CORE_GATE_TOKEN`/`MAYA_BUILDER_GATE_TOKEN` und bleibt auf Verify
+  begrenzt: keine Authority-Issue, keine Runtime, keine Provider, keine Writes, keine Persistenz,
+  kein Deploy und kein Merge. Das Operator Dashboard bietet eine copy-only `Maya Live Verify`
+  Vorlage mit `executeLiveVerification:false` als Default.
 
 ## Maya-Anbindung
 
@@ -886,6 +894,8 @@
 
 - Bluepilot braucht `MAYA_CORE_URL`.
 - Bluepilot braucht `MAYA_CORE_GATE_TOKEN` oder `MAYA_BUILDER_GATE_TOKEN`.
+- Fuer Live-Autonomy-Verify muss maya-core `/api/maya/autonomy/authority` den Builder-Gate-Token
+  akzeptieren; sonst bleibt der Bluepilot-Runner fail-closed.
 - Fuer den migrierten Builder braucht Bluepilot zusaetzlich
   `BLUEPILOT_BUILDER_DATABASE_URL` aus der dedizierten Builder-Datenbank.
 - Der spaetere Render-Service fuer den Builder soll `builder/` als Root Directory nutzen:
