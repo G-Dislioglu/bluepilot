@@ -821,6 +821,12 @@
   Activation-Lock. Die Controls enthalten Payload-Textfelder und Copy-Buttons, aber keine Forms,
   Submit-Buttons oder browserseitigen POSTs. Dashboard bleibt read-only; Ausfuehrung bleibt
   separaten Executor-Mount-Locks vorbehalten.
+- Runtime-Dry-Run-Executor-Mount-Lock 2026-06-16: `GET
+  /probe/runtime-dry-run-executor-mount-lock-contract` und `POST
+  /probe/runtime-dry-run-executor-mount-lock-preflight` pruefen, ob der Runtime-Dry-Run-
+  Executor-Mount reviewbereit ist. Voraussetzung sind Confirmation, Operator-Execution-Ref,
+  Route-Gate-Ref, Runtime-Mount-Ref und `activation_lock_ready` fuer `runtime_dry_run`.
+  Runtime-Ausfuehrung, Route-Mutation, Provider, Writes, Permits und Deploy bleiben geschlossen.
 
 ## Maya-Anbindung
 
@@ -859,8 +865,8 @@ Naechste Integrationsbloecke nach der Acht-Punkte-Verdrahtung:
    Panels ohne Ueberlappung oder horizontalen Overflow; Evidence liegt unter
    `builder/output/playwright/` und `builder/output/live-review/`.
 2. Provider/Runtime/Write-Aktivierung hat jetzt einen Activation-Lock und Dashboard-Controls.
-   Der naechste Sprung zur echten Ausfuehrung darf nur als separater Executor-Mount-Lock pro
-   Zielklasse erfolgen.
+   Runtime-Dry-Run besitzt jetzt den ersten Executor-Mount-Lock; echte Route-Aktivierung bleibt
+   ein separater Schritt.
 3. Gestapelte Integrations-Branches reviewen und bewusst entscheiden, ob und in welcher
    Reihenfolge weitere echte PRs/Merges/Deploys manuell erfolgen.
 

@@ -1,0 +1,86 @@
+{
+  "task_id": "RUNTIME-DRY-RUN-EXECUTOR-MOUNT-LOCK",
+  "task_name": "bluepilot-runtime-dry-run-executor-mount-lock-v0.1",
+  "created": "2026-06-16",
+  "scope": "bluepilot/builder/runtime/runtime-dry-run-executor-mount-lock",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "runtime_executor_mount_boundary",
+  "goal": "Add a runtime-dry-run executor mount lock that composes activation-lock evidence before any later runtime route activation, without executing runtime, mutating routes, calling providers, writing state, issuing permits, merging, or deploying.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/runtimeDryRunRoute.ts",
+    "builder/src/runtimeDryRunAdapterContract.ts",
+    "builder/src/activationLockBoundary.ts",
+    "builder/src/meta.ts",
+    "builder/src/server.ts"
+  ],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/RUNTIME-DRY-RUN-EXECUTOR-MOUNT-LOCK.json",
+    "review-packets/RUNTIME-DRY-RUN-EXECUTOR-MOUNT-LOCK.md",
+    "builder/src/runtimeDryRunExecutorMountLock.ts",
+    "builder/src/runtimeDryRunExecutorMountLockRoute.ts",
+    "builder/src/meta.ts",
+    "builder/src/server.ts",
+    "builder/tests/runtimeDryRunExecutorMountLock.test.ts",
+    "builder/tests/runtimeDryRunExecutorMountLockRoute.test.ts",
+    "builder/tests/meta.test.ts",
+    "builder/data/bpk-governance-manifest.json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    ".github/**",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/providers.ts",
+    "builder/src/db.ts",
+    "builder/src/runtimeDryRunRoute.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/sandboxWrite.ts",
+    "builder/src/sandboxRealWrite.ts",
+    "soulmatch/**",
+    "goat-desktop/**",
+    "aicos-registry/**"
+  ],
+  "scope_out": [
+    "Do not execute runtime, mutate the runtime route, call providers, write DB/files/GitHub, issue permits, merge, deploy, change packages, change workflows, or alter retired sandbox write routes."
+  ],
+  "claims": [
+    "Bluepilot can preflight runtime-dry-run executor mount readiness from Activation-Lock evidence.",
+    "The lock requires confirmation, operator execution ref, route gate ref, runtime mount ref, and activation_lock_ready for runtime_dry_run.",
+    "Even when executorMountReady is true, runtimeExecutionAllowed and routeMutationAllowed remain false."
+  ],
+  "assumptions": [
+    "Actual runtime route activation remains a later explicit env-gated operation.",
+    "The existing /probe/runtime-dry-run route remains unchanged and default-off."
+  ],
+  "dod": [
+    "GET /probe/runtime-dry-run-executor-mount-lock-contract returns the closed mount boundary.",
+    "POST /probe/runtime-dry-run-executor-mount-lock-preflight validates activation-lock evidence without execution.",
+    "Meta exposes the new surfaces.",
+    "Focused tests, typecheck, task-lock verification, diff-check, and full builder tests pass."
+  ],
+  "evidence_required": ["test_result"],
+  "required_commands": [
+    "npx tsx --test tests/runtimeDryRunExecutorMountLock.test.ts tests/runtimeDryRunExecutorMountLockRoute.test.ts tests/runtimeDryRunRoute.test.ts tests/activationLockBoundary.test.ts tests/activationLockRoute.test.ts tests/meta.test.ts",
+    "npm run typecheck",
+    "node scripts/generate-bpk-governance-manifest.mjs",
+    "node tools/verify-task-lock.cjs RUNTIME-DRY-RUN-EXECUTOR-MOUNT-LOCK --verify --contract contracts/RUNTIME-DRY-RUN-EXECUTOR-MOUNT-LOCK.json",
+    "git diff --check",
+    "npm test"
+  ],
+  "stop_conditions": [
+    "Runtime execution, route mutation, provider call, DB write, file write, GitHub write, permit issue, merge, deploy, package change, workflow change, or sandbox write reopening becomes necessary."
+  ],
+  "prior_task_findings": "Operator Dashboard Activation Controls are merged and live. Runtime dry-run is the safest first executor class, but it still needs a separate mount lock before route activation.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "14b6708"
+}
