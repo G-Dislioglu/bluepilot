@@ -5,6 +5,23 @@
 
 ---
 
+## 2026-06-16 - Operator Dashboard Activation Controls
+
+- Gebaut: Das Operator-Dashboard rendert jetzt vier copy-only Activation Controls fuer
+  Provider-Preflight, Runtime-Preflight, Write-Preflight und Activation-Lock.
+- Verhalten: Die Controls zeigen Ziel-Endpunkt und vorbefuellte JSON-Payloads; Copy-Buttons
+  kopieren nur den Payload aus dem Textfeld. Es gibt keine Form, keinen Submit-Button und keinen
+  browserseitigen `fetch`.
+- Sicherheitsentscheidung: Keine Serverroute wurde geaendert, kein Provider aufgerufen, keine
+  Runtime ausgefuehrt, kein Write/Permit ausgeloest, kein Merge und kein Deploy aus der App.
+- Beweis: Fokus-Tests fuer Dashboard, Activation-Lock, Readiness und Meta sind mit 15/15 gruen.
+  `npm run typecheck` ist gruen. Playwright bestaetigt Desktop und Mobile mit acht Panels, vier
+  Controls, vier Copy-Buttons, null Forms, null Submit-Buttons, ohne Ueberlappung und ohne
+  horizontalen Overflow. `git diff --check` und der volle Builder-Testlauf mit 346/346 Tests
+  sind gruen.
+- Roter Faden weiter: Branch pushen und PR erstellen. Danach kann der erste zielklassen-spezifische
+  Executor-Mount-Lock vorbereitet werden, beginnend mit Runtime-Dry-Run.
+
 ## 2026-06-16 - Activation Lock Boundary
 
 - Gebaut: `GET /probe/activation-lock-contract` und `POST /probe/activation-lock-preflight`

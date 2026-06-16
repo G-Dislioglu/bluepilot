@@ -1,0 +1,88 @@
+{
+  "task_id": "OPERATOR-DASHBOARD-ACTIVATION-CONTROLS",
+  "task_name": "bluepilot-operator-dashboard-activation-controls-v0.1",
+  "created": "2026-06-16",
+  "scope": "bluepilot/builder/operator-dashboard/activation-controls",
+  "mode": "standard",
+  "task_type": "ui_task",
+  "risk_class": "medium",
+  "impact_class": "operator_activation_review_controls",
+  "target_persona": "operator_user",
+  "goal": "Add operator dashboard activation controls for provider preflight, runtime preflight, write preflight, and activation lock payload review without submitting requests, executing providers, executing runtime, writing files, issuing permits, merging, or deploying.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/operatorDashboardHtml.ts",
+    "builder/src/operatorDashboardRoute.ts",
+    "builder/src/activationLockBoundary.ts",
+    "builder/src/providerRuntimeActivationPreflight.ts",
+    "builder/src/mayaCoreGateEnforcementContract.ts",
+    "builder/tests/operatorDashboardHtml.test.ts",
+    "builder/tests/operatorDashboardRoute.test.ts"
+  ],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/OPERATOR-DASHBOARD-ACTIVATION-CONTROLS.json",
+    "review-packets/OPERATOR-DASHBOARD-ACTIVATION-CONTROLS.md",
+    "builder/src/operatorDashboardHtml.ts",
+    "builder/tests/operatorDashboardHtml.test.ts",
+    "builder/output/playwright/operator-dashboard-controls-desktop.png",
+    "builder/output/playwright/operator-dashboard-controls-mobile.png",
+    "builder/data/bpk-governance-manifest.json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    ".github/**",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/providers.ts",
+    "builder/src/db.ts",
+    "builder/src/server.ts",
+    "builder/src/runtimeDryRunRoute.ts",
+    "builder/src/sandboxWrite.ts",
+    "builder/src/sandboxRealWrite.ts",
+    "soulmatch/**",
+    "goat-desktop/**",
+    "aicos-registry/**"
+  ],
+  "scope_out": [
+    "Do not add browser-side POST submission, route mutations, provider calls, runtime execution, writes, permit issuance, merge, deploy, package changes, or workflow changes."
+  ],
+  "claims": [
+    "The operator dashboard renders four activation controls for provider, runtime, write, and activation-lock review.",
+    "Controls are copy-only payload surfaces and contain no forms or submit buttons.",
+    "Desktop and mobile layouts render without overlap or horizontal overflow.",
+    "The dashboard remains read-only and does not execute activation actions."
+  ],
+  "assumptions": [
+    "Operators will submit preflight payloads intentionally outside the dashboard until a later executor-specific lock is approved.",
+    "Actual execution remains owned by later Provider, Runtime, or Write executor locks."
+  ],
+  "dod": [
+    "Dashboard HTML includes activation controls for all four review payloads.",
+    "Tests confirm no form or submit path exists.",
+    "Playwright screenshots and layout measurements pass on desktop and mobile.",
+    "Focused tests, typecheck, task-lock verification, diff-check, and full builder tests pass."
+  ],
+  "evidence_required": ["screenshot_check", "playwright_flow", "human_ui_review"],
+  "required_commands": [
+    "npx tsx --test tests/operatorDashboardHtml.test.ts tests/operatorDashboardRoute.test.ts tests/eightPointIntegrationReadiness.test.ts tests/activationLockRoute.test.ts tests/meta.test.ts",
+    "npm run typecheck",
+    "npx --yes --package @playwright/cli playwright-cli -s=bluepilot-dashboard-controls screenshot --filename builder\\\\output\\\\playwright\\\\operator-dashboard-controls-desktop.png --full-page",
+    "npx --yes --package @playwright/cli playwright-cli -s=bluepilot-dashboard-controls screenshot --filename builder\\\\output\\\\playwright\\\\operator-dashboard-controls-mobile.png --full-page",
+    "node scripts/generate-bpk-governance-manifest.mjs",
+    "node tools/verify-task-lock.cjs OPERATOR-DASHBOARD-ACTIVATION-CONTROLS --verify --contract contracts/OPERATOR-DASHBOARD-ACTIVATION-CONTROLS.json",
+    "git diff --check",
+    "npm test"
+  ],
+  "stop_conditions": [
+    "A browser-side submit path, provider call, runtime execution, app write, permit issuance, merge, deploy, package change, workflow change, or route mutation becomes necessary."
+  ],
+  "prior_task_findings": "Activation Lock Boundary is merged and live. Operators can now review activation readiness, but the dashboard still lacked ergonomic payload controls.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "4527f50"
+}
