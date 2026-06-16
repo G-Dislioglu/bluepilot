@@ -588,9 +588,17 @@ read-only verdrahtet und das zweite Readonly-Buendel ist darauf aufgebaut:
   `GET /probe/merge-release-readiness-contract` beschreibt die PR-/Merge-/Deploy-Grenze und
   `POST /probe/merge-release-readiness-preflight` prueft Branch-/PR-Reihenfolge aus gelieferten
   Metadaten. Bluepilot erstellt keine PRs, ruft GitHub nicht auf, merged nicht und deployt nicht.
+- Live Operator Maya Evidence Review ist jetzt dokumentiert: Der Render-Service meldet ueber
+  `/api/meta` `main` auf Commit `7a7fb3c` und BPK `226/226`. Nach gesetztem
+  `BLUEPILOT_OPERATOR_READ_ONLY_ROUTE_ENABLED=true` rendert `/cockpit/operator-read-only` live
+  acht Panels auf Desktop und Mobile ohne Ueberlappung oder horizontalen Overflow. Live
+  `/health/maya-gate` meldet Budget, Corridor und Cost reachable/recorded. Provider-, Runtime-
+  und Write-Preflights sind nur `ready_for_activation_review`; Provider, Runtime, Runtime-Route,
+  App-Writes, Permits, Merge und Deploy bleiben geschlossen.
 
 Naechste Integrationsbloecke:
 
-1. Operator Dashboard visuell pruefen und ggf. als dauerhaftes Cockpit-Review-Surface freigeben.
+1. Provider/Runtime/Write-Aktivierung als separaten echten Activation-Lock planen, falls Gurcan
+   das Ausfuehren wirklich oeffnen will.
 2. Gestapelte Integrations-Branches reviewen und bewusst ueber echte PRs/Merges/Deploys
    entscheiden.
