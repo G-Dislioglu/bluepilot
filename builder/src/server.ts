@@ -1,5 +1,6 @@
 import { createServer } from 'node:http';
 
+import { handleActivationDecisionOperatorModeRequest } from './activationDecisionOperatorModeRoute.js';
 import { handleActivationLockRequest } from './activationLockRoute.js';
 import { handleCockpitReadOnlyRouteRequest } from './cockpitReadOnlyRoute.js';
 import { handleDurableAuditReceiptStoreRequest } from './durableAuditReceiptStoreRoute.js';
@@ -64,6 +65,10 @@ const server = createServer((request, response) => {
     }
 
     if (await handleDurableAuditReceiptStoreRequest(request, response)) {
+      return;
+    }
+
+    if (await handleActivationDecisionOperatorModeRequest(request, response)) {
       return;
     }
 

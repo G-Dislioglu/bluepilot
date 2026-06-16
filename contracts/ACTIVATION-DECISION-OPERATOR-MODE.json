@@ -1,0 +1,87 @@
+{
+  "task_id": "ACTIVATION-DECISION-OPERATOR-MODE",
+  "task_name": "bluepilot-activation-decision-operator-mode-v0.1",
+  "created": "2026-06-16",
+  "scope": "bluepilot/builder/operator/activation-decision-operator-mode",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "operator_autonomy_execution_decision_boundary",
+  "goal": "Add an activation decision and operator autonomy mode surface that defines read-only, review-only, supervised execution, and full-access behavior. Full access may carry forward without repeated prompts when required evidence is present, while banking, financial transaction, ethics-charter violations, and hard-stop categories remain blocked. This task evaluates only and does not execute actions.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/durableAuditReceiptStore.ts",
+    "builder/src/providerCallExecutorMountLock.ts",
+    "builder/src/runtimeDryRunExecutorMountLock.ts",
+    "builder/src/writeExecutorMountLock.ts",
+    "builder/src/meta.ts",
+    "builder/src/server.ts"
+  ],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/ACTIVATION-DECISION-OPERATOR-MODE.json",
+    "review-packets/ACTIVATION-DECISION-OPERATOR-MODE.md",
+    "builder/src/activationDecisionOperatorMode.ts",
+    "builder/src/activationDecisionOperatorModeRoute.ts",
+    "builder/src/meta.ts",
+    "builder/src/server.ts",
+    "builder/tests/activationDecisionOperatorMode.test.ts",
+    "builder/tests/activationDecisionOperatorModeRoute.test.ts",
+    "builder/tests/meta.test.ts",
+    "builder/data/bpk-governance-manifest.json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    ".github/**",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/db.ts",
+    "builder/src/providers.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/sandboxWrite.ts",
+    "builder/src/sandboxRealWrite.ts",
+    "soulmatch/**",
+    "goat-desktop/**",
+    "aicos-registry/**"
+  ],
+  "scope_out": [
+    "Do not call providers, execute runtime, write files/GitHub/database, persist receipts, issue permits, merge, deploy, change packages, change workflows, or alter retired sandbox write routes."
+  ],
+  "claims": [
+    "Bluepilot distinguishes read_only, review_only, supervised_execution, and full_access autonomy modes.",
+    "Full access can produce execute_allowed without repeated operator prompts when operator grant, ethics charter, safety, executor, and receipt-store evidence are present.",
+    "Banking, financial transactions, ethics-charter violations, and other hard-stop categories remain blocked even in full_access.",
+    "The surface evaluates execution permission only; it does not perform execution side effects."
+  ],
+  "assumptions": [
+    "The canonical ethics charter remains referenced by evidence ref and is not copied into this task.",
+    "Actual provider, runtime, write, and persistence execution remain later target-specific activation tasks."
+  ],
+  "dod": [
+    "GET /probe/activation-decision-operator-mode-contract returns autonomy modes and hard-stop categories.",
+    "POST /probe/activation-decision-operator-mode-preflight can return execute_allowed for full_access with ready evidence and no repeated prompt requirement.",
+    "POST /probe/activation-decision-operator-mode-preflight blocks banking and ethics-charter violation categories even in full_access.",
+    "Meta exposes the new surfaces.",
+    "Focused tests, typecheck, task-lock verification, diff-check, and full builder tests pass."
+  ],
+  "evidence_required": ["test_result"],
+  "required_commands": [
+    "npx tsx --test tests/activationDecisionOperatorMode.test.ts tests/activationDecisionOperatorModeRoute.test.ts tests/durableAuditReceiptStore.test.ts tests/providerCallExecutorMountLock.test.ts tests/runtimeDryRunExecutorMountLock.test.ts tests/writeExecutorMountLock.test.ts tests/meta.test.ts",
+    "npm run typecheck",
+    "node scripts/generate-bpk-governance-manifest.mjs",
+    "node tools/verify-task-lock.cjs ACTIVATION-DECISION-OPERATOR-MODE --verify --contract contracts/ACTIVATION-DECISION-OPERATOR-MODE.json",
+    "git diff --check",
+    "npm test"
+  ],
+  "stop_conditions": [
+    "Provider call, runtime execution, file/GitHub/database write, durable persistence, permit issue, merge, deploy, package change, workflow change, or sandbox write reopening becomes necessary."
+  ],
+  "prior_task_findings": "Runtime, provider, write, and durable receipt store preflight surfaces are merged and live. The next layer must decide when full-access grants carry forward without repeated prompts while hard-stop categories remain blocked.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "b3ed470"
+}

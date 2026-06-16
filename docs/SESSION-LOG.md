@@ -5,6 +5,24 @@
 
 ---
 
+## 2026-06-16 - Activation Decision Operator Mode
+
+- Gebaut: `GET /probe/activation-decision-operator-mode-contract` und
+  `POST /probe/activation-decision-operator-mode-preflight`.
+- Verhalten: Bluepilot unterscheidet `read_only`, `review_only`, `supervised_execution` und
+  `full_access`. Bei `full_access` kann ein gueltiger Operator-Grant ohne wiederholte
+  Nachfragen weitertragen, wenn Operator-Grant, Charta-/Safety-Evidence, Executor-Evidence und
+  Receipt-Store-Evidence vorhanden sind.
+- Sicherheitsentscheidung: Vollzugriff umgeht keine Hard-Stops. Banking/Finanztransaktionen,
+  Ethics-Charta-Verstoesse, illegale Aktionen, Missbrauch, Privacy-Invasion, Taeuschung,
+  Waffen, Self-Harm und High-Stakes Legal/Medical bleiben blockiert. Die Surface bewertet nur;
+  sie ruft keine Provider, fuehrt keine Runtime aus, schreibt nichts und persistiert keine
+  Receipts.
+- Beweis: Fokus-Tests fuer Operator-Mode, Durable-Receipt-Store, die drei Executor-Mount-Locks
+  und Meta werden in diesem Buendel ausgefuehrt.
+- Roter Faden weiter: Nach gruener PR kann die erste echte Ziel-Activation auf dieser
+  Decision-Surface aufbauen, ohne bei Vollzugriff dauernd neu zu fragen.
+
 ## 2026-06-16 - Durable Audit Receipt Store
 
 - Gebaut: `GET /probe/durable-audit-receipt-store-contract` und
