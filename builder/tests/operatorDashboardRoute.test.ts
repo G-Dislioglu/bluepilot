@@ -63,6 +63,7 @@ test('GET /cockpit/operator-read-only renders dashboard when enabled', async () 
     assert.ok(html.includes('Bluepilot Operator Dashboard Readonly'));
     assert.ok(html.includes('Repo Mutation Kill Switch'));
     assert.ok(html.includes('Maya/Kaya Authority Status'));
+    assert.ok(html.includes('/probe/maya-core-autonomy-live-verification-run'));
   });
 });
 

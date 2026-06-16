@@ -5,6 +5,21 @@
 
 ---
 
+## 2026-06-16 - Maya-Core Autonomy Live Verification Runner
+
+- Gebaut: `GET /probe/maya-core-autonomy-live-verification-contract` und
+  `POST /probe/maya-core-autonomy-live-verification-run`.
+- Verhalten: Bluepilot nutzt den vorhandenen Intake/Preflight und fuehrt erst bei
+  `executeLiveVerification:true` einen echten Verify-POST gegen Maya-core
+  `/api/maya/autonomy/authority` aus. Ohne Execute-Flag bleibt der Runner bei
+  `ready_for_live_verification` und ruft Maya-core nicht.
+- Dashboard: Operator Dashboard zeigt eine copy-only `Maya Live Verify` Control mit
+  `executeLiveVerification:false` als sicherem Default.
+- Sicherheitsentscheidung: Nur Verify-Call an Maya-core. Keine Authority-Issue, keine Provider,
+  keine Runtime, keine Writes, keine Persistence, kein Merge, kein Deploy.
+- Roter Faden weiter: Maya-core muss den Builder-Gate-Token auf der Authority-Route akzeptieren;
+  danach kann Render-Live-Verify kontrolliert ausgefuehrt werden.
+
 ## 2026-06-16 - Maya-Core Autonomy Verification Dashboard
 
 - Gebaut: `GET /probe/maya-core-autonomy-verification-contract` und

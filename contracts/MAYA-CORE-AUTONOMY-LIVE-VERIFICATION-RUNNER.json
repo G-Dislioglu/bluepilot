@@ -1,0 +1,63 @@
+{
+  "task_id": "MAYA-CORE-AUTONOMY-LIVE-VERIFICATION-RUNNER",
+  "task_name": "bluepilot-maya-core-autonomy-live-verification-runner-v0.1",
+  "created": "2026-06-16",
+  "scope": "bluepilot/builder/maya-core-autonomy-live-verification-runner",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "cross_app_autonomy_authority_live_verify",
+  "goal": "Allow Bluepilot to perform a gated live verify call against Maya-core autonomy authority after preflight, without executing app actions or mutating durable state.",
+  "allowed_files": [
+    "contracts/MAYA-CORE-AUTONOMY-LIVE-VERIFICATION-RUNNER.json",
+    "review-packets/MAYA-CORE-AUTONOMY-LIVE-VERIFICATION-RUNNER.md",
+    "builder/src/mayaCoreAutonomyLiveVerificationRunner.ts",
+    "builder/src/mayaCoreAutonomyLiveVerificationRoute.ts",
+    "builder/src/mayaCoreAutonomyVerificationPreflight.ts",
+    "builder/src/mayaCoreAutonomyVerificationRoute.ts",
+    "builder/src/server.ts",
+    "builder/src/meta.ts",
+    "builder/src/operatorDashboardHtml.ts",
+    "builder/tests/mayaCoreAutonomyLiveVerificationRunner.test.ts",
+    "builder/tests/mayaCoreAutonomyLiveVerificationRoute.test.ts",
+    "builder/tests/mayaCoreAutonomyVerificationPreflight.test.ts",
+    "builder/tests/mayaCoreAutonomyVerificationRoute.test.ts",
+    "builder/tests/operatorDashboardHtml.test.ts",
+    "builder/tests/operatorDashboardRoute.test.ts",
+    "builder/tests/meta.test.ts",
+    "builder/data/bpk-governance-manifest.json",
+    "docs/SESSION-LOG.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "STATE.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    ".github/**",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/db.ts",
+    "builder/src/providers.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/sandboxWrite.ts",
+    "builder/src/sandboxRealWrite.ts"
+  ],
+  "claims": [
+    "Bluepilot exposes a gated live Maya-core autonomy verify runner.",
+    "The runner requires executeLiveVerification:true plus MAYA_CORE_URL and a gate token.",
+    "The runner only calls Maya-core /api/maya/autonomy/authority in verify mode and does not execute actions, providers, runtime, writes, deploys, merges, or persistence."
+  ],
+  "evidence_required": ["test_result"],
+  "required_commands": [
+    "npx tsx --test tests/mayaCoreAutonomyLiveVerificationRunner.test.ts tests/mayaCoreAutonomyLiveVerificationRoute.test.ts tests/mayaCoreAutonomyVerificationPreflight.test.ts tests/mayaCoreAutonomyVerificationRoute.test.ts tests/operatorDashboardHtml.test.ts tests/operatorDashboardRoute.test.ts tests/meta.test.ts",
+    "npm run typecheck",
+    "node scripts/generate-bpk-governance-manifest.mjs",
+    "node tools/verify-task-lock.cjs MAYA-CORE-AUTONOMY-LIVE-VERIFICATION-RUNNER --verify --contract contracts/MAYA-CORE-AUTONOMY-LIVE-VERIFICATION-RUNNER.json",
+    "git diff --check",
+    "npm test"
+  ],
+  "scope_out": [
+    "No provider call, runtime execution, file/GitHub/database write, durable persistence, permit issue, deploy, merge, package change, workflow change, sandbox write reopening, or Maya/Kaya authority issuance."
+  ],
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "7ea8f6e"
+}
