@@ -25,6 +25,8 @@ test('bluepilot meta payload exposes BPK completion and read-only surfaces', () 
   assert.equal(meta.surfaces.providerRuntimeActivationPreflight, '/probe/provider-runtime-activation-preflight');
   assert.equal(meta.surfaces.activationLockContract, '/probe/activation-lock-contract');
   assert.equal(meta.surfaces.activationLockPreflight, '/probe/activation-lock-preflight');
+  assert.equal(meta.surfaces.providerCallExecutorMountLockContract, '/probe/provider-call-executor-mount-lock-contract');
+  assert.equal(meta.surfaces.providerCallExecutorMountLockPreflight, '/probe/provider-call-executor-mount-lock-preflight');
   assert.equal(meta.surfaces.runtimeDryRunExecutorMountLockContract, '/probe/runtime-dry-run-executor-mount-lock-contract');
   assert.equal(meta.surfaces.runtimeDryRunExecutorMountLockPreflight, '/probe/runtime-dry-run-executor-mount-lock-preflight');
   assert.equal(meta.surfaces.mergeReleaseReadinessContract, '/probe/merge-release-readiness-contract');

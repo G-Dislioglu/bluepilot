@@ -1,0 +1,85 @@
+{
+  "task_id": "PROVIDER-CALL-EXECUTOR-MOUNT-LOCK",
+  "task_name": "bluepilot-provider-call-executor-mount-lock-v0.1",
+  "created": "2026-06-16",
+  "scope": "bluepilot/builder/provider/provider-call-executor-mount-lock",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "provider_executor_mount_boundary",
+  "goal": "Add a provider-call executor mount lock that composes activation-lock evidence before any later provider execution activation, without calling providers, executing runtime, mutating routes, writing state, issuing permits, merging, or deploying.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "builder/src/providerRuntimeActivationPreflight.ts",
+    "builder/src/activationLockBoundary.ts",
+    "builder/src/meta.ts",
+    "builder/src/server.ts"
+  ],
+  "excluded_context": [".env*", "node_modules/**", ".git/**", "C:/Users/**/.env*"],
+  "allowed_files": [
+    "contracts/PROVIDER-CALL-EXECUTOR-MOUNT-LOCK.json",
+    "review-packets/PROVIDER-CALL-EXECUTOR-MOUNT-LOCK.md",
+    "builder/src/providerCallExecutorMountLock.ts",
+    "builder/src/providerCallExecutorMountLockRoute.ts",
+    "builder/src/meta.ts",
+    "builder/src/server.ts",
+    "builder/tests/providerCallExecutorMountLock.test.ts",
+    "builder/tests/providerCallExecutorMountLockRoute.test.ts",
+    "builder/tests/meta.test.ts",
+    "builder/data/bpk-governance-manifest.json",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md"
+  ],
+  "forbidden_files": [
+    ".env*",
+    ".github/**",
+    "builder/package.json",
+    "builder/package-lock.json",
+    "builder/src/providers.ts",
+    "builder/src/db.ts",
+    "builder/src/runtimeDryRunRoute.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/opusSmartPush.ts",
+    "builder/src/sandboxWrite.ts",
+    "builder/src/sandboxRealWrite.ts",
+    "soulmatch/**",
+    "goat-desktop/**",
+    "aicos-registry/**"
+  ],
+  "scope_out": [
+    "Do not call providers, execute runtime, mutate routes, write DB/files/GitHub, issue permits, merge, deploy, change packages, change workflows, or alter retired sandbox write routes."
+  ],
+  "claims": [
+    "Bluepilot can preflight provider-call executor mount readiness from Activation-Lock evidence.",
+    "The lock requires confirmation, operator execution ref, provider mount ref, provider isolation ref, and activation_lock_ready for provider_call.",
+    "Even when executorMountReady is true, providerCallsAllowed remains false."
+  ],
+  "assumptions": [
+    "Actual provider execution remains a later explicit env-gated operation.",
+    "The provider runtime activation preflight remains contract-only and does not call providers."
+  ],
+  "dod": [
+    "GET /probe/provider-call-executor-mount-lock-contract returns the closed mount boundary.",
+    "POST /probe/provider-call-executor-mount-lock-preflight validates activation-lock evidence without provider calls.",
+    "Meta exposes the new surfaces.",
+    "Focused tests, typecheck, task-lock verification, diff-check, and full builder tests pass."
+  ],
+  "evidence_required": ["test_result"],
+  "required_commands": [
+    "npx tsx --test tests/providerCallExecutorMountLock.test.ts tests/providerCallExecutorMountLockRoute.test.ts tests/providerRuntimeActivationPreflight.test.ts tests/providerRuntimeActivationRoute.test.ts tests/activationLockBoundary.test.ts tests/activationLockRoute.test.ts tests/meta.test.ts",
+    "npm run typecheck",
+    "node scripts/generate-bpk-governance-manifest.mjs",
+    "node tools/verify-task-lock.cjs PROVIDER-CALL-EXECUTOR-MOUNT-LOCK --verify --contract contracts/PROVIDER-CALL-EXECUTOR-MOUNT-LOCK.json",
+    "git diff --check",
+    "npm test"
+  ],
+  "stop_conditions": [
+    "Provider call, runtime execution, route mutation, DB write, file write, GitHub write, permit issue, merge, deploy, package change, workflow change, or sandbox write reopening becomes necessary."
+  ],
+  "prior_task_findings": "Runtime Dry-Run Executor Mount Lock is merged and live. Provider calls now need an equivalent executor mount lock before any provider execution activation can be reviewed.",
+  "reuse_target": ["session_log", "review_packet", "next_task_pre_lock"],
+  "baseline_ref": "4e844a5"
+}

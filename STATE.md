@@ -827,6 +827,13 @@
   Executor-Mount reviewbereit ist. Voraussetzung sind Confirmation, Operator-Execution-Ref,
   Route-Gate-Ref, Runtime-Mount-Ref und `activation_lock_ready` fuer `runtime_dry_run`.
   Runtime-Ausfuehrung, Route-Mutation, Provider, Writes, Permits und Deploy bleiben geschlossen.
+- Provider-Call-Executor-Mount-Lock 2026-06-16: `GET
+  /probe/provider-call-executor-mount-lock-contract` und `POST
+  /probe/provider-call-executor-mount-lock-preflight` pruefen, ob der Provider-Call-
+  Executor-Mount reviewbereit ist. Voraussetzung sind Confirmation, Operator-Execution-Ref,
+  Provider-Mount-Ref, Provider-Isolation-Ref und `activation_lock_ready` fuer `provider_call`.
+  Provider-Calls, Runtime-Ausfuehrung, Route-Mutation, Writes, Permits und Deploy bleiben
+  geschlossen.
 
 ## Maya-Anbindung
 
@@ -865,8 +872,8 @@ Naechste Integrationsbloecke nach der Acht-Punkte-Verdrahtung:
    Panels ohne Ueberlappung oder horizontalen Overflow; Evidence liegt unter
    `builder/output/playwright/` und `builder/output/live-review/`.
 2. Provider/Runtime/Write-Aktivierung hat jetzt einen Activation-Lock und Dashboard-Controls.
-   Runtime-Dry-Run besitzt jetzt den ersten Executor-Mount-Lock; echte Route-Aktivierung bleibt
-   ein separater Schritt.
+   Runtime-Dry-Run und Provider-Call besitzen je einen Executor-Mount-Lock; echte Route- oder
+   Provider-Aktivierung bleibt ein separater Schritt.
 3. Gestapelte Integrations-Branches reviewen und bewusst entscheiden, ob und in welcher
    Reihenfolge weitere echte PRs/Merges/Deploys manuell erfolgen.
 

@@ -31,6 +31,8 @@ export interface BluepilotMetaPayload {
     providerRuntimeActivationPreflight: '/probe/provider-runtime-activation-preflight';
     activationLockContract: '/probe/activation-lock-contract';
     activationLockPreflight: '/probe/activation-lock-preflight';
+    providerCallExecutorMountLockContract: '/probe/provider-call-executor-mount-lock-contract';
+    providerCallExecutorMountLockPreflight: '/probe/provider-call-executor-mount-lock-preflight';
     runtimeDryRunExecutorMountLockContract: '/probe/runtime-dry-run-executor-mount-lock-contract';
     runtimeDryRunExecutorMountLockPreflight: '/probe/runtime-dry-run-executor-mount-lock-preflight';
     mergeReleaseReadinessContract: '/probe/merge-release-readiness-contract';
@@ -92,6 +94,8 @@ export function createBluepilotMetaPayload(
       providerRuntimeActivationPreflight: '/probe/provider-runtime-activation-preflight',
       activationLockContract: '/probe/activation-lock-contract',
       activationLockPreflight: '/probe/activation-lock-preflight',
+      providerCallExecutorMountLockContract: '/probe/provider-call-executor-mount-lock-contract',
+      providerCallExecutorMountLockPreflight: '/probe/provider-call-executor-mount-lock-preflight',
       runtimeDryRunExecutorMountLockContract: '/probe/runtime-dry-run-executor-mount-lock-contract',
       runtimeDryRunExecutorMountLockPreflight: '/probe/runtime-dry-run-executor-mount-lock-preflight',
       mergeReleaseReadinessContract: '/probe/merge-release-readiness-contract',
