@@ -25,10 +25,12 @@ const decision = {
   subjectRef: 'user:g-dislioglu',
   autonomyMode: 'full_access',
   grantScope: 'full_access',
+  scopeRef: 'bluepilot:runtime_dry_run',
   ethicsCharterRef: 'maya-ethics-charter:canonical',
   safetyEvidenceRef: 'safety:evidence:bluepilot-route-live',
   expiresAt: '2026-06-16T17:00:00.000Z',
   hardStopCategories,
+  sourceOfTruth: 'maya_kaya',
 };
 
 async function withRoute(
