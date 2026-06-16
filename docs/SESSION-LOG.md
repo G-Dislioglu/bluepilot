@@ -5,6 +5,20 @@
 
 ---
 
+## 2026-06-16 - Provider Call Executor Mount Lock
+
+- Gebaut: `GET /probe/provider-call-executor-mount-lock-contract` und
+  `POST /probe/provider-call-executor-mount-lock-preflight`.
+- Verhalten: Bluepilot prueft Confirmation, Operator-Execution-Ref, Provider-Mount-Ref,
+  Provider-Isolation-Ref und einen `activation_lock_ready`-Nachweis fuer `provider_call`.
+- Sicherheitsentscheidung: Auch bei `executor_mount_lock_ready` bleiben Provider-Calls,
+  Runtime-Execution, Route-Mutation, Writes, Permit-Issue und Deploy false. Provider/Runtime-
+  Activation bleibt contract-only.
+- Beweis: Fokus-Tests fuer Provider-Executor-Mount-Lock, Provider/Runtime-Activation,
+  Activation-Lock und Meta werden in diesem Buendel ausgefuehrt.
+- Roter Faden weiter: Full Checks laufen lassen, Branch pushen und PR erstellen. Echte Provider-
+  Ausfuehrung bleibt ein spaeterer separater Aktivierungsschritt.
+
 ## 2026-06-16 - Runtime Dry-Run Executor Mount Lock
 
 - Gebaut: `GET /probe/runtime-dry-run-executor-mount-lock-contract` und

@@ -10,6 +10,7 @@ import { handleMergeReleaseReadinessRequest } from './mergeReleaseReadinessRoute
 import { handleMetaRequest } from './meta.js';
 import { handleOperatorDashboardRequest } from './operatorDashboardRoute.js';
 import { handleProbeDryRunRequest } from './probeDryRun.js';
+import { handleProviderCallExecutorMountLockRequest } from './providerCallExecutorMountLockRoute.js';
 import { handleProviderRuntimeActivationRequest } from './providerRuntimeActivationRoute.js';
 import { handleReadonlyIntegrationRequest } from './readonlyIntegrationRoutes.js';
 import { handleRepoCapabilityAuditRequest } from './repoCapabilityAuditRoute.js';
@@ -49,6 +50,10 @@ const server = createServer((request, response) => {
     }
 
     if (await handleRuntimeDryRunExecutorMountLockRequest(request, response)) {
+      return;
+    }
+
+    if (await handleProviderCallExecutorMountLockRequest(request, response)) {
       return;
     }
 

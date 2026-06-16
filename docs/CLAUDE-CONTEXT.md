@@ -609,10 +609,15 @@ read-only verdrahtet und das zweite Readonly-Buendel ist darauf aufgebaut:
   `POST /probe/runtime-dry-run-executor-mount-lock-preflight` pruefen Activation-Lock-Evidence
   fuer `runtime_dry_run`. Auch bei `executor_mount_lock_ready` bleiben Runtime-Ausfuehrung und
   Route-Mutation false.
+- Provider Call Executor Mount Lock ist jetzt als geschlossene Surface angebunden:
+  `GET /probe/provider-call-executor-mount-lock-contract` und
+  `POST /probe/provider-call-executor-mount-lock-preflight` pruefen Activation-Lock-Evidence
+  fuer `provider_call`. Auch bei `executor_mount_lock_ready` bleiben Provider-Calls,
+  Runtime-Ausfuehrung, Route-Mutation und Writes false.
 
 Naechste Integrationsbloecke:
 
 1. Falls Gurcan echte Ausfuehrung will: separaten Executor-Mount-Lock pro Zielklasse bauen
-   (Provider, Runtime-Dry-Run oder Write), nicht alle still zusammen oeffnen.
+   (Write fehlt noch), nicht alle still zusammen oeffnen.
 2. Gestapelte Integrations-Branches reviewen und bewusst ueber echte PRs/Merges/Deploys
    entscheiden.
