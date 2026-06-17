@@ -667,13 +667,20 @@ read-only verdrahtet und das zweite Readonly-Buendel ist darauf aufgebaut:
   Card-Conditioned Dispatch, Pre-Registered Claims, Dispatch-Frontend-Readiness und Runtime-
   Dispatch-Integration. Es ist bewusst noch nicht live-reachable und traegt den
   `@orphan-by-design`-Folgeplan fuer WIRE-SLICE-002.
+- WIRE-SCAN-002 haertet die Census-Karte gegen versteckte Schreibeffekte:
+  `node tools/orphan-scan.cjs` ist jetzt read-only und verhaelt sich wie `--check`.
+  Nur `--write` regeneriert `docs/ORPHAN-CENSUS-v0.1.md`. Die Karte ist auf den Stand nach
+  WIRE-SLICE-001 aktualisiert: 304 Module gescannt, 222 nicht live; die Dry-Run-Kette ist als
+  nicht-live Value-Referenz sichtbar.
 
 Naechste Integrationsbloecke:
 
-1. Externe Pruefung des gepushten `WIRE-SLICE-001`-Branches.
+1. Externe Pruefung des gepushten `WIRE-SCAN-002`-Branches.
 2. `WIRE-SLICE-002`: Die Dry-Run-Scheibe live oder default-off erreichbar machen, mit sichtbarem
    Status/Result-Readback.
-3. Maya-core muss fuer `/api/maya/autonomy/authority` Builder-Gate-Token akzeptieren und deployt
+3. Die `KEEP_STAGED`-Eintraege brauchen eine eigene Review-Spur: konkreter Consumer/Folgeblock
+   oder Abstufung zu `COLLAPSE`/`ARCHIVE`.
+4. Maya-core muss fuer `/api/maya/autonomy/authority` Builder-Gate-Token akzeptieren und deployt
    sein; danach Bluepilot Live-Verify gegen Render kontrolliert ausfuehren.
-4. Danach erst Runtime-/Provider-/Write-Aktivierung aus der verifizierten Maya/Kaya-Decision
+5. Danach erst Runtime-/Provider-/Write-Aktivierung aus der verifizierten Maya/Kaya-Decision
    ableiten.

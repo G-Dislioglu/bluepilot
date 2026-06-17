@@ -901,6 +901,11 @@
   Evidence: `cardConditionedDispatch.ts`, `workerPacketWlpAdapter.ts` und
   `preRegisteredClaims.ts` haben nun `dispatchDryRunSlice.ts` als genutzten Value-Importer und
   bleiben `serverReachable:false`.
+- WIRE-SCAN-002 2026-06-17: `tools/orphan-scan.cjs` trennt Lesen und Schreiben. Default und
+  `--check` sind read-only, berechnen den Census in-memory und schlagen non-zero fehl, wenn
+  `docs/ORPHAN-CENSUS-v0.1.md` fehlt oder stale ist. Nur `--write` regeneriert den Report. Der
+  Report ist auf den Stand nach WIRE-SLICE-001 aktualisiert: 304 Module gescannt, 222 nicht live,
+  17 `CONNECT`, 87 `COLLAPSE`, 2 `ARCHIVE`, 116 `KEEP_STAGED`.
 
 ## Maya-Anbindung
 
@@ -937,10 +942,10 @@ geschlossen.
 
 Naechste Integrationsbloecke nach der Acht-Punkte-Verdrahtung und WIRE-CENSUS-001:
 
-1. Vor `WIRE-SLICE-002` sollte der gepushte WIRE-SLICE-001-Branch extern verifiziert werden.
+1. Vor `WIRE-SLICE-002` sollte der gepushte WIRE-SCAN-002-Branch extern verifiziert werden.
 2. WIRE-SLICE-002 soll die Dry-Run-Scheibe default-off live erreichbar machen:
    Route/Capability -> Dry-Run -> Status/Result -> sichtbarer Readback.
-3. Die 117 `KEEP_STAGED`-Eintraege aus dem Census brauchen eine eigene Review-Spur:
+3. Die 116 `KEEP_STAGED`-Eintraege aus dem aktualisierten Census brauchen eine eigene Review-Spur:
    konkreter Consumer/Folgeblock oder Abstufung zu `COLLAPSE`/`ARCHIVE`.
 4. Operator Dashboard ist lokal und live visuell geprueft: Desktop und Mobile rendern acht
    Panels ohne Ueberlappung oder horizontalen Overflow; Evidence liegt unter

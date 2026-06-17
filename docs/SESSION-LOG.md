@@ -5,6 +5,22 @@
 
 ---
 
+## 2026-06-17 - WIRE-SCAN-002 Orphan Scan Check/Write Modes
+
+- Gebaut: `tools/orphan-scan.cjs` hat jetzt explizite Modi. `--check` berechnet den Report
+  in-memory, vergleicht ihn mit `docs/ORPHAN-CENSUS-v0.1.md` und schreibt nichts. `--write`
+  regeneriert den Report bewusst. Ohne Argumente laeuft der Scanner read-only wie `--check`.
+- Verhalten: Stale oder fehlende Reports liefern einen non-zero Exit und klare `--write`-
+  Guidance, ohne die Datei nebenbei zu reparieren. Unbekannte Argumente schlagen mit Usage fehl.
+- Report-Pflege: `docs/ORPHAN-CENSUS-v0.1.md` ist auf den Stand nach WIRE-SLICE-001 gehoben:
+  304 Module gescannt, 222 nicht live. Die Dry-Run-Kette wird als echte nicht-live Value-
+  Referenz sichtbar; `dispatchDryRunSlice.ts` selbst bleibt staged/test-only.
+- Beweis: Der neue Modus-Test faehrt temporaere Git-Fixtures fuer `--write`, `--check`,
+  no-arg read-only und stale-check. `node tools/orphan-scan.cjs --check` ist im echten Repo
+  gruen und mutiert den Report nicht.
+- Roter Faden weiter: Extern pruefen lassen; danach `WIRE-SLICE-002` fuer default-off
+  Live-Erreichbarkeit oder die separate KEEP_STAGED-Triage starten.
+
 ## 2026-06-16 - WIRE-SLICE-001 Dispatch Dry-Run Slice
 
 - Gebaut: `builder/src/dispatchDryRunSlice.ts` als side-effect-freie Composition fuer

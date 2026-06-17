@@ -1,0 +1,93 @@
+{
+  "task_id": "WIRE-SCAN-002",
+  "task_name": "bluepilot-orphan-scan-check-write-modes-v0.1",
+  "created": "2026-06-17",
+  "scope": "bluepilot/tools/orphan-scan-readonly-check-and-report-refresh",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "governance_tooling",
+  "goal": "Harden tools/orphan-scan.cjs so verification can run without hidden file writes. Add explicit --check and --write modes: --check computes the report in memory, compares it with docs/ORPHAN-CENSUS-v0.1.md and exits non-zero if stale without writing; --write regenerates the report. Default no-arg behavior must be read-only check. Refresh docs/ORPHAN-CENSUS-v0.1.md to the current WIRE-SLICE-001 state.",
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "tools/orphan-scan.cjs",
+    "docs/ORPHAN-CENSUS-v0.1.md",
+    "review-packets/WIRE-SLICE-001.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "tools/orphan-scan.cjs",
+    "tools/orphan-scan-mode.test.cjs",
+    "docs/ORPHAN-CENSUS-v0.1.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/WIRE-SCAN-002.md",
+    "contracts/WIRE-SCAN-002.json"
+  ],
+  "forbidden_files": [
+    "builder/src/**",
+    "builder/tests/**",
+    "builder/package.json",
+    "package.json",
+    "package-lock.json",
+    ".github/**",
+    "builder/scripts/**",
+    "builder/data/**",
+    "builder/output/**",
+    ".specify/**",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not change builder runtime code, routes, tests or package files. Do not change orphan connectivity semantics. Do not alter verify-task-lock behavior. This task only separates orphan-scan read/check/write modes and refreshes the human-readable report."
+  ],
+  "claims": [
+    "orphan-scan --check is read-only and exits 0 only when docs/ORPHAN-CENSUS-v0.1.md matches the in-memory rendered report.",
+    "orphan-scan --write explicitly regenerates docs/ORPHAN-CENSUS-v0.1.md.",
+    "Running orphan-scan with no mode is read-only and behaves like --check.",
+    "The refreshed report reflects WIRE-SLICE-001: 304 modules, 222 non-live, and the dispatch chain modules are non_live_value_referenced with dispatchDryRunSlice as used value importer."
+  ],
+  "assumptions": [
+    "WIRE-SLICE-001 landed on this branch at 9cb282f.",
+    "The scanner render function can be reused in-memory without changing connectivity logic.",
+    "The report file is allowed in this task, unlike WIRE-SLICE-001."
+  ],
+  "dod": [
+    "tools/orphan-scan.cjs accepts --check and --write; unknown args fail with usage.",
+    "No-arg node tools/orphan-scan.cjs is read-only and does not write docs/ORPHAN-CENSUS-v0.1.md.",
+    "--check exits non-zero and prints stale guidance when the report differs; it does not mutate the report.",
+    "--write refreshes docs/ORPHAN-CENSUS-v0.1.md and exits zero.",
+    "tools/orphan-scan-mode.test.cjs covers no-arg read-only behavior, stale --check, and --write refresh in temporary fixtures.",
+    "docs/ORPHAN-CENSUS-v0.1.md is updated to the current WIRE-SLICE-001 state.",
+    "node --test tools/orphan-scan-mode.test.cjs, node tools/orphan-scan.cjs --check, node tools/verify-task-lock.cjs WIRE-SCAN-002 --verify and git diff --check pass."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "node --test tools/orphan-scan-mode.test.cjs",
+    "node tools/orphan-scan.cjs --check",
+    "node tools/verify-task-lock.cjs WIRE-SCAN-002 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "Changing builder/src or builder/tests becomes necessary.",
+    "Changing orphan connectivity semantics becomes necessary.",
+    "Changing verify-task-lock behavior becomes necessary."
+  ],
+  "orphan_gate": "off",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "9cb282f"
+}
