@@ -1,0 +1,4 @@
+{
+  "framework": "node-server",
+  "liveRoots": ["src/server.ts"]
+}
