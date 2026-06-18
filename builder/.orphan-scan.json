@@ -1,4 +1,7 @@
 {
   "framework": "node-server",
-  "liveRoots": ["src/server.ts"]
+  "liveRoots": ["src/server.ts"],
+  "scannerPath": "../tools/orphan-scan/orphan-scan.cjs",
+  "excludePaths": ["scripts/**"],
+  "gate": "warn"
 }
