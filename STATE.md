@@ -933,15 +933,18 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-232 liegt der Dependency-Graph fuer den Runtime-Patch-Permit-Consume-Receipt/Audit-Turm
-als Repo-Artefakt vor. Befund: 41 Source-Dateien und 41 direkte Tests, keine externe Source- oder
-Test-Importer, keine Server-Route und keine Governance-Manifest-Referenz. Der Turm ist damit ein
-Trim-Kandidat, aber geloescht wird erst in einem separaten Human-Gate-Block.
+Nach BPK-233 ist der Runtime-Patch-Permit-Consume-Receipt/Audit-Turm entfernt. Geloescht wurden
+exakt die in BPK-232 kartierten 41 Source-Dateien und 41 direkten Tests. `permitApply`,
+`builderSafetyPolicy`, `localSafetyGuard`, Provider, Activation-Locks, Runtime-Dry-Run-Routen,
+Deploy, Env, DB, Packages, Workflows und alte Audit-Contracts blieben unberuehrt.
 
-Naechster sinnvoller Block: BPK-233 als bewusster Turm-Schnitt, falls freigegeben. Dabei nur die
-41 Cluster-Source-Dateien und 41 direkten Tests entfernen, `permitApply`, `builderSafetyPolicy`,
-`localSafetyGuard`, Provider, Activation-Locks, Runtime-Dry-Run-Routen, Deploy, Env, DB, Packages
-und Workflows unberuehrt lassen. Backstop: Typecheck, volle Tests, Task-Lock, Diff-Check.
+Beweis: Typecheck gruen, volle Builder-Tests gruen mit 244/244, und es bleiben keine
+`runtimePatch*`/`runtimeServerPatch*` Source- oder Testdateien unter `builder/src` oder
+`builder/tests`.
+
+Naechster sinnvoller Block: Den verbliebenen post-226-Trim nur noch gegen echte Wiederverwendung
+pruefen, nicht mehr automatisch loeschen. Kandidaten sind die in BPK-229 markierten Align/Fold-
+Flaechen rund um alte Hard-Stop-Listen und doppelte Mount-Lock-/Receipt-Evidence.
 
 Nach BPK-226 ist das gebuendelte Permit-/Approved-Action-Consume-Execution-Receipt-Record-Audit-
 Receipt-Record-Audit-Receipt-Record-Authority-Bundle abgeschlossen: Ready-Audit-Receipt-Record-
