@@ -1,0 +1,91 @@
+{
+  "task_id": "BPK-227",
+  "task_name": "bluepilot-governance-manifest-lf-checkout-stability-v0.1",
+  "created": "2026-06-20",
+  "scope": "bluepilot/builder/governance-manifest-eol-stability",
+  "mode": "lite",
+  "task_type": "config_task",
+  "risk_class": "low",
+  "impact_class": "test_infrastructure",
+  "goal": "Make the committed BPK governance manifest check stable on Windows by forcing LF checkout for the generated manifest artifact.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    ".gitattributes",
+    "builder/data/bpk-governance-manifest.json",
+    "builder/scripts/generate-bpk-governance-manifest.mjs",
+    "builder/tests/bpkGovernanceManifest.test.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    ".gitattributes",
+    "builder/data/bpk-governance-manifest.json",
+    "contracts/BPK-227.json",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/BPK-227.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    ".github/**",
+    "builder/src/**",
+    "builder/scripts/**",
+    "builder/tests/**",
+    "builder/output/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not change manifest semantics, generator logic, tests, runtime routes, provider behavior, write behavior, deployment configuration, package files, secrets, or environment variables."
+  ],
+  "claims": [
+    "The BPK governance manifest check fails on Windows because the working-tree file is CRLF while the generator emits LF.",
+    "Forcing LF checkout for builder/data/bpk-governance-manifest.json mirrors the existing builder-repo-index convention.",
+    "The generated manifest content remains semantically unchanged."
+  ],
+  "assumptions": [
+    "Git may check out text files as CRLF on Windows when no eol rule is present.",
+    "The manifest generator should remain byte-exact rather than weakening its check."
+  ],
+  "dod": [
+    ".gitattributes forces LF checkout for builder/data/bpk-governance-manifest.json.",
+    "The manifest artifact is renormalized without semantic content changes.",
+    "Focused governance manifest test, typecheck, task-lock verify, diff-check, and full builder tests pass."
+  ],
+  "evidence_required": [
+    "diff_ref",
+    "build_result"
+  ],
+  "required_commands": [
+    "npx tsx --test tests/bpkGovernanceManifest.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-227 --verify",
+    "git diff --check",
+    "npm test"
+  ],
+  "stop_conditions": [
+    "Manifest semantics, generator code, tests, runtime, provider, write, DB, auth, deploy, package, workflow, or environment changes become necessary."
+  ],
+  "prior_task_findings": "Post-BPK-226 verification found live Bluepilot healthy on 05ec630c, typecheck green, and npm test red only because bpk-governance-manifest.json was checked out as CRLF on Windows while the generator emits LF.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "05ec630c1f4174c7a1fc805259f6df6eccbb8111"
+}

@@ -246,7 +246,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-150. Aktueller BPK-Contract: BPK-226.
+- Hoechster Contract: BP-150. Aktueller BPK-Contract: BPK-227.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -759,6 +759,10 @@
 - BPK-226: Release governance approved action consume execution receipt record audit receipt
   record audit receipt record authority; Audit-Receipt-Record-Audit-Receipt-Record-
   Authorization-Artefakt ohne Merge, GitHub-Aktion oder externe Aktion.
+- BPK-227: Governance Manifest LF Checkout Stability; `.gitattributes` erzwingt LF fuer
+  `builder/data/bpk-governance-manifest.json`, damit der bytegenaue Generator-Check auf Windows
+  nicht wegen CRLF-Arbeitskopie rot wird. Manifest-Semantik, Generator, Tests, Runtime, Provider,
+  Writes, Env und Deploy bleiben unveraendert.
 - Repo-Scan/Verdrahtung 2026-06-15: Bluepilot ergaenzt als ersten Integrationsschnitt eine
   read-only Meta- und Capability-Audit-Surface. `GET /api/meta` und `GET /meta` melden
   BPK-Abschluss, Git-Metadaten aus Env und sichere Bluepilot-Surfaces. `GET
@@ -908,6 +912,10 @@
 - Details: `docs/DEPLOY_MAYA_CORE_BINDING.md`.
 
 ## Naechster sinnvoller Schritt
+
+Nach BPK-227 ist der post-BPK-226-Verifikationsblock lokal wieder sauber pruefbar: Der
+Governance-Manifest-Waechter bleibt bytegenau und ist auf Windows nicht mehr durch CRLF-
+Checkout verrauscht.
 
 Nach BPK-226 ist das gebuendelte Permit-/Approved-Action-Consume-Execution-Receipt-Record-Audit-
 Receipt-Record-Audit-Receipt-Record-Authority-Bundle abgeschlossen: Ready-Audit-Receipt-Record-

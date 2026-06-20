@@ -5,6 +5,18 @@
 
 ---
 
+## 2026-06-20 - BPK-227 Governance Manifest LF Checkout Stability
+
+- Gebaut: `.gitattributes` erzwingt jetzt LF-Checkout fuer
+  `builder/data/bpk-governance-manifest.json`, analog zum bestehenden
+  `builder/data/builder-repo-index.json`.
+- Verhalten: Der bytegenaue Generator-Check fuer das BPK-Governance-Manifest bleibt streng,
+  scheitert aber auf Windows nicht mehr nur wegen CRLF in der Arbeitskopie.
+- Sicherheitsentscheidung: Keine Manifest-Semantik, kein Generator, kein Test, keine Runtime,
+  keine Provider, keine Writes, keine Env und kein Deploy wurden geaendert.
+- Roter Faden weiter: Nach gruener Testsuite kann die post-BPK-226 Surface-Karte als reine
+  Entscheidungsvorlage fuer den naechsten Human-Gate-Schritt gelesen werden.
+
 ## 2026-06-16 - Maya-Core Autonomy Live Verification Runner
 
 - Gebaut: `GET /probe/maya-core-autonomy-live-verification-contract` und
