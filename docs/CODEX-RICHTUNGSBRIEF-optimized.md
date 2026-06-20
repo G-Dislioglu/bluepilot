@@ -86,6 +86,12 @@ Jeder Block wird gegen echten Code und echten Git-Stand geprueft:
 
 Rot bleibt rot. Ein rotes Gate wird nicht durch Prosa gruen geschrieben.
 
+Charter-Check fuer Bluepilot-Bloecke: Fuegt dieser Block ein neues Limit, Gate,
+Approval oder Spec-/Zeremonie ohne lauffaehiges Artefakt hinzu? Wenn ja, als
+Entscheidungsvorschlag an Gurcan/Maya markieren und nicht still bauen. Bluepilot
+referenziert dafuer die bestehende soulmatch-Autonomie-Familie statt eine neue
+konkurrierende Charta zu schreiben.
+
 ## 5. Branch-, Commit- und Push-Regel
 
 Normalfall:

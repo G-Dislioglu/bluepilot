@@ -74,6 +74,17 @@ Pflichtpruefung:
 
 Codex uebernimmt externe KI-Outputs nie blind. Codex korrigiert, reduziert oder optimiert sie, bevor sie gebaut, committed oder gepusht werden. Wenn ein externer Vorschlag mit WLP, Repo-Stand oder User-Ziel kollidiert, gilt WLP und der aktuelle Repo-Stand; die Abweichung wird im Review Packet benannt.
 
+## Autonomie- und Anti-Buerokratie-Anker
+
+Bluepilot erfindet keine eigene Autonomie-Charta. Bis eine AICOS-Governance-Quelle zentral gespiegelt ist, gilt die bestehende soulmatch-Familie als kanonischer Referenzsatz fuer Autonomie, Rechte, Hard Caps und Anti-Buerokratie:
+
+- `soulmatch/docs/AI-AUTONOMY-LAYER-v0.1.md` - Rechte-, Gates- und Hard-Caps-Mapping.
+- `soulmatch/docs/AI-TEAM-ANTI-BUREAUCRACY-CHARTER-v0.1.md` - Arbeitsweise gegen Spec-Inflation.
+- `soulmatch/docs/AI-TEAM-AUTONOMY-CHARTER-v0.1.md` - Team-Autonomie-Kurzform.
+- `soulmatch/docs/MAYA-APPWIDE-AUTONOMY-MODEL.md` - Maya appweite Permission-Sprache.
+
+Review-Check fuer neue Bluepilot-Bloecke: Fuegt dieser Block ein neues Limit, Gate, Approval oder Spec-/Zeremonie ohne lauffaehiges Artefakt hinzu? Wenn ja: nicht still bauen, sondern als Entscheidungsvorschlag an Gurcan/Maya markieren. Wenn nein: weiterarbeiten.
+
 ## Hard Stop
 
 Stoppe sofort bei:

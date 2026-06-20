@@ -1,7 +1,7 @@
 # STATE - Bluepilot
 
 > Momentaufnahme nach `docs/CLAUDE-CONTEXT.md` und `docs/SESSION-LOG.md`.
-> Stand: 2026-06-15.
+> Stand: 2026-06-20.
 
 ## Branch und Stand
 
@@ -246,7 +246,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-150. Aktueller BPK-Contract: BPK-227.
+- Hoechster Contract: BP-150. Aktueller BPK-Contract: BPK-228.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -763,6 +763,12 @@
   `builder/data/bpk-governance-manifest.json`, damit der bytegenaue Generator-Check auf Windows
   nicht wegen CRLF-Arbeitskopie rot wird. Manifest-Semantik, Generator, Tests, Runtime, Provider,
   Writes, Env und Deploy bleiben unveraendert.
+- BPK-228: Autonomie-Familie-Referenz; Bluepilot schreibt keine neue Autonomie-Charta, sondern
+  referenziert die bestehende soulmatch-Familie (`AI-AUTONOMY-LAYER`,
+  `AI-TEAM-ANTI-BUREAUCRACY-CHARTER`, `AI-TEAM-AUTONOMY-CHARTER` und
+  `MAYA-APPWIDE-AUTONOMY-MODEL`) als Bauanker. Neue Limits, Gates, Approvals oder
+  Spec-/Zeremonie ohne lauffaehiges Artefakt werden als Entscheidungsvorschlag markiert, nicht
+  still gebaut.
 - Repo-Scan/Verdrahtung 2026-06-15: Bluepilot ergaenzt als ersten Integrationsschnitt eine
   read-only Meta- und Capability-Audit-Surface. `GET /api/meta` und `GET /meta` melden
   BPK-Abschluss, Git-Metadaten aus Env und sichere Bluepilot-Surfaces. `GET
@@ -913,9 +919,9 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-227 ist der post-BPK-226-Verifikationsblock lokal wieder sauber pruefbar: Der
-Governance-Manifest-Waechter bleibt bytegenau und ist auf Windows nicht mehr durch CRLF-
-Checkout verrauscht.
+Nach BPK-228 ist der post-BPK-226-Trim sauberer entscheidbar: Die bestehenden soulmatch-
+Autonomie- und Anti-Buerokratie-Regeln sind als Bluepilot-Referenz verankert, ohne neue Gates,
+Routes, Runtime, Provider, Writes, Env oder Deploy zu oeffnen.
 
 Nach BPK-226 ist das gebuendelte Permit-/Approved-Action-Consume-Execution-Receipt-Record-Audit-
 Receipt-Record-Audit-Receipt-Record-Authority-Bundle abgeschlossen: Ready-Audit-Receipt-Record-

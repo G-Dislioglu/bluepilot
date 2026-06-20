@@ -1,0 +1,94 @@
+{
+  "task_id": "BPK-228",
+  "task_name": "bluepilot-autonomy-family-reference-anchor-v0.1",
+  "created": "2026-06-20",
+  "scope": "bluepilot/governance/autonomy-reference-anchor",
+  "mode": "lite",
+  "task_type": "governance_task",
+  "risk_class": "low",
+  "impact_class": "governance_anchor",
+  "goal": "Reference the existing soulmatch autonomy and anti-bureaucracy family as Bluepilot's autonomy governance anchor without creating a new charter or opening any activation surface.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/CODEX-RICHTUNGSBRIEF-optimized.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "contracts/BPK-228.json",
+    "review-packets/BPK-228.md",
+    "soulmatch/docs/AI-AUTONOMY-LAYER-v0.1.md",
+    "soulmatch/docs/AI-TEAM-ANTI-BUREAUCRACY-CHARTER-v0.1.md",
+    "soulmatch/docs/AI-TEAM-AUTONOMY-CHARTER-v0.1.md",
+    "soulmatch/docs/MAYA-APPWIDE-AUTONOMY-MODEL.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/CODEX-RICHTUNGSBRIEF-optimized.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "contracts/BPK-228.json",
+    "review-packets/BPK-228.md"
+  ],
+  "forbidden_files": [
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    ".github/**",
+    "builder/src/**",
+    "builder/scripts/**",
+    "builder/tests/**",
+    "builder/data/**",
+    "builder/output/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not create a new autonomy charter file, copy soulmatch documents into Bluepilot, add new runtime gates, routes, providers, tests, environment variables, deploy configuration, writes, persistence, activation, or external calls."
+  ],
+  "claims": [
+    "Soulmatch already contains the canonical autonomy and anti-bureaucracy reference family.",
+    "Bluepilot should reference that family instead of creating a competing governance document.",
+    "The only behavior change is a documented review check against unnecessary limits, gates, approvals, or ceremony without a runnable artifact."
+  ],
+  "assumptions": [
+    "The referenced soulmatch documents remain the current repo-family source until an AICOS-wide governance mirror exists.",
+    "A documentation anchor is sufficient for this block; activation and post-BPK-226 trimming require later human-gated tasks."
+  ],
+  "dod": [
+    "AGENTS.md documents the soulmatch autonomy reference family and review check.",
+    "docs/CLAUDE-CONTEXT.md documents the same reference family and BPK-228 context.",
+    "docs/CODEX-RICHTUNGSBRIEF-optimized.md includes the Charter-Check for future blocks.",
+    "STATE.md and docs/SESSION-LOG.md record BPK-228 and its safety boundary.",
+    "No runtime, provider, write, route, test-machine, environment, deploy, or new charter file is added."
+  ],
+  "evidence_required": [
+    "diff_ref",
+    "content_check"
+  ],
+  "required_commands": [
+    "rg -n \"AI-AUTONOMY-LAYER|AI-TEAM-ANTI-BUREAUCRACY|AI-TEAM-AUTONOMY|MAYA-APPWIDE|Charter-Check\" AGENTS.md docs/CLAUDE-CONTEXT.md docs/CODEX-RICHTUNGSBRIEF-optimized.md STATE.md docs/SESSION-LOG.md",
+    "node tools/verify-task-lock.cjs BPK-228 --verify",
+    "git diff --check --cached"
+  ],
+  "stop_conditions": [
+    "Creating a new charter, copying soulmatch docs, adding runtime gates/routes/tests, or changing provider, write, DB, auth, deploy, package, workflow, environment, or builder source files becomes necessary."
+  ],
+  "prior_task_findings": "BPK-227 merged to main at da3883752b077105d961ba7d59965abd6b6ec0e9. A repo-family check found that soulmatch already references AI-AUTONOMY-LAYER and AI-TEAM-ANTI-BUREAUCRACY as canonical policy documents, while Bluepilot only had an abstract charter slot and generic Charta wording.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "da3883752b077105d961ba7d59965abd6b6ec0e9"
+}

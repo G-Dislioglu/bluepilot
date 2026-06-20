@@ -47,6 +47,21 @@ werden als `GOAL_DELTA_PROPOSAL` dokumentiert, nicht still eingebaut.
 - UI-Aenderungen brauchen Sicht-Test-Evidence; reine Build- oder Typechecks
   reichen fuer UI nicht.
 
+## Autonomie-/Anti-Buerokratie-Referenz
+
+Bluepilot nutzt keine neue konkurrierende Autonomie-Charta. Bis eine zentrale
+AICOS-Governance-Kopie existiert, referenziert Bluepilot die bestehende
+soulmatch-Familie:
+
+- `soulmatch/docs/AI-AUTONOMY-LAYER-v0.1.md` fuer Rechte, Gates und Hard Caps.
+- `soulmatch/docs/AI-TEAM-ANTI-BUREAUCRACY-CHARTER-v0.1.md` fuer Anti-Spec-Inflation.
+- `soulmatch/docs/AI-TEAM-AUTONOMY-CHARTER-v0.1.md` fuer Team-Autonomie.
+- `soulmatch/docs/MAYA-APPWIDE-AUTONOMY-MODEL.md` fuer Mayas appweite Permission-Sprache.
+
+Charter-Check im Review: Fuegt der Block ein neues Limit, Gate, Approval oder
+Spec-/Zeremonie ohne lauffaehiges Artefakt hinzu? Wenn ja, wird er als
+Entscheidungsvorschlag markiert statt still gebaut.
+
 ## Aktueller Repo-Stand
 
 - Repo-Kandidat: dieses Bluepilot-Repo auf Branch `main` vor BPK-001.
@@ -572,6 +587,9 @@ read-only verdrahtet und das zweite Readonly-Buendel ist darauf aufgebaut:
   Operator-Dashboard, wenn `BLUEPILOT_OPERATOR_READ_ONLY_ROUTE_ENABLED=true` gesetzt ist.
 - Diese Surfaces schreiben nichts, rufen keine Provider, fuehren keine Runtime aus, deployen nicht
   und mergen nicht.
+- BPK-227 stabilisiert den Governance-Manifest-Waechter auf Windows per LF-Checkout.
+- BPK-228 verankert die bestehende soulmatch-Autonomie-Familie als Bluepilot-Referenz und
+  ergaenzt den Charter-Check gegen neue unnoetige Limits/Gates/Zeremonie.
 - GOAT Desktop ist jetzt als contract-only Surface angebunden:
   `GET /probe/goat-desktop-bridge-contract` beschreibt die lokale `/builder-cue`-Grenze und
   `POST /probe/goat-desktop-builder-cue-preflight` prueft Payloads trocken. Bluepilot ruft GOAT

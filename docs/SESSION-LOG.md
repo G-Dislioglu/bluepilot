@@ -5,6 +5,21 @@
 
 ---
 
+## 2026-06-20 - BPK-228 Autonomie-Familie-Referenz
+
+- Gebaut: Bluepilot referenziert jetzt die bestehende soulmatch-Autonomie-Familie als
+  kanonischen Bauanker, statt eine neue konkurrierende Charta anzulegen.
+- Verhalten: `AGENTS.md`, `docs/CLAUDE-CONTEXT.md` und der Richtungsbrief nennen die
+  Referenzen fuer Rechte/Gates/Hard Caps, Anti-Buerokratie, Team-Autonomie und Mayas appweite
+  Permission-Sprache.
+- Review-Check: Neue Bluepilot-Bloecke muessen fragen, ob sie ein neues Limit, Gate, Approval
+  oder Spec-/Zeremonie ohne lauffaehiges Artefakt hinzufuegen. Falls ja, wird das als
+  Entscheidungsvorschlag markiert statt still gebaut.
+- Sicherheitsentscheidung: Keine Runtime, keine Provider, keine Writes, keine Routes, keine
+  Env-Aenderung, kein Deploy und kein neuer Charter-Doc.
+- Roter Faden weiter: Der post-BPK-226-Trim kann gegen die kanonische Hard-Caps-/Anti-
+  Buerokratie-Referenz bewertet werden, bevor irgendeine geschlossene Surface aktiviert wird.
+
 ## 2026-06-20 - BPK-227 Governance Manifest LF Checkout Stability
 
 - Gebaut: `.gitattributes` erzwingt jetzt LF-Checkout fuer
