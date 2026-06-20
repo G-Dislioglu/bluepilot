@@ -76,14 +76,17 @@ Codex uebernimmt externe KI-Outputs nie blind. Codex korrigiert, reduziert oder 
 
 ## Autonomie- und Anti-Buerokratie-Anker
 
-Bluepilot erfindet keine eigene Autonomie-Charta. Bis eine AICOS-Governance-Quelle zentral gespiegelt ist, gilt die bestehende soulmatch-Familie als kanonischer Referenzsatz fuer Autonomie, Rechte, Hard Caps und Anti-Buerokratie:
+Bluepilot erfindet keine eigene Autonomie-Charta. Kanonische Quelle ist die AICOS-Agent-Charta:
 
-- `soulmatch/docs/AI-AUTONOMY-LAYER-v0.1.md` - Rechte-, Gates- und Hard-Caps-Mapping.
-- `soulmatch/docs/AI-TEAM-ANTI-BUREAUCRACY-CHARTER-v0.1.md` - Arbeitsweise gegen Spec-Inflation.
-- `soulmatch/docs/AI-TEAM-AUTONOMY-CHARTER-v0.1.md` - Team-Autonomie-Kurzform.
-- `soulmatch/docs/MAYA-APPWIDE-AUTONOMY-MODEL.md` - Maya appweite Permission-Sprache.
+- `aicos-registry/AICOS_AGENT_CHARTER.md` - Arbeitsweise gegen Spec-Inflation und fuer Team-Autonomie.
+- `aicos-registry/AICOS_AUTONOMY_LAYER.md` - Rechte-, Rollen-, Gates- und Hard-Caps-Mapping.
+- `aicos-registry/MAYA_APPWIDE_AUTONOMY_MODEL.md` - Maya appweite Permission-Sprache.
+
+Lokaler Multi-Repo-Pfad fuer Codex-Workspaces: `../aicos-registry/AICOS_AGENT_CHARTER.md`.
 
 Review-Check fuer neue Bluepilot-Bloecke: Fuegt dieser Block ein neues Limit, Gate, Approval oder Spec-/Zeremonie ohne lauffaehiges Artefakt hinzu? Wenn ja: nicht still bauen, sondern als Entscheidungsvorschlag an Gurcan/Maya markieren. Wenn nein: weiterarbeiten.
+
+Keine Runtime-Loader, Compliance-Bots oder Verteil-Systeme fuer die Charta einfuehren.
 
 ## Hard Stop
 
