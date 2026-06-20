@@ -246,7 +246,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-150. Aktueller BPK-Contract: BPK-230.
+- Hoechster Contract: BP-150. Aktueller BPK-Contract: BPK-231.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -777,6 +777,12 @@
   `main` und `master` als `class_3`/`manual_only`/blocked, und `permitApply` reicht den Branch
   vor `smartPush` in diese Safety-Policy durch. Nicht geschuetzte Branches behalten den
   bestehenden Permit-Apply-Pfad.
+- BPK-231: Local Emergency Stop and Daily Provider Cap; `localSafetyGuard` blockiert lokale
+  Provider-Calls und `permitApply`-Writes bei `BLUEPILOT_LOCAL_EMERGENCY_STOP=true` vor Remote-
+  Gate oder `smartPush`. Zusaetzlich blockiert
+  `BLUEPILOT_LOCAL_DAILY_PROVIDER_TOKEN_LIMIT` projizierte Provider-Calls ueber einem lokalen
+  prozessinternen Tages-Token-Cap. Maya-core bleibt Quelle fuer kanonische Budget-/Cost-
+  Entscheidungen.
 - Repo-Scan/Verdrahtung 2026-06-15: Bluepilot ergaenzt als ersten Integrationsschnitt eine
   read-only Meta- und Capability-Audit-Surface. `GET /api/meta` und `GET /meta` melden
   BPK-Abschluss, Git-Metadaten aus Env und sichere Bluepilot-Surfaces. `GET
@@ -927,10 +933,9 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-230 ist Hard-Cap #3 am echten `permitApply`-Write-Pfad fail-closed: `main`/`master`
-werden vor `smartPush` blockiert. Der naechste kleinste Sicherheitsblock bleibt der lokale
-Not-Aus/Tagesdeckel; der Runtime-Patch-Permit-Consume-Receipt/Audit-Turm wird weiterhin erst nach
-Dependency-Graph angefasst.
+Nach BPK-231 gibt es einen lokalen Sofort-Stopp fuer Provider-Calls und `permitApply`-Writes plus
+einen lokalen Tages-Provider-Token-Cap. Der Runtime-Patch-Permit-Consume-Receipt/Audit-Turm wird
+weiterhin erst nach Dependency-Graph angefasst.
 
 Nach BPK-226 ist das gebuendelte Permit-/Approved-Action-Consume-Execution-Receipt-Record-Audit-
 Receipt-Record-Audit-Receipt-Record-Authority-Bundle abgeschlossen: Ready-Audit-Receipt-Record-

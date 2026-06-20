@@ -2,6 +2,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import path from 'node:path';
 
 import { classifyBuilderTask, guardBuilderPush, type BuilderSafetyDecision } from './builderSafetyPolicy.js';
+import { applyLocalSafetyToBuilderSafetyDecision, assessLocalSafetyGuard } from './localSafetyGuard.js';
 import { resolveSmartPushTargetRepo, smartPush } from './opusSmartPush.js';
 import type { WritePermitOperation } from './writePermitContentHash.js';
 
@@ -97,7 +98,7 @@ export async function handlePermitApplyRequest(
     return true;
   }
 
-  const safety = classifyBuilderTask({
+  const safety = applyLocalSafetyToBuilderSafetyDecision(classifyBuilderTask({
     targetFile: input.path,
     files: [input.path],
     approvalId: input.approvalId,
@@ -105,7 +106,7 @@ export async function handlePermitApplyRequest(
     allowAutonomousPush: true,
     judgeDecision: 'approve',
     targetBranch: input.branch,
-  });
+  }), assessLocalSafetyGuard({ target: 'write_action' }));
 
   const guarded = await guardBuilderPush(safety, async () => {
     const mode = input.op === 'create' ? 'create' : 'overwrite';

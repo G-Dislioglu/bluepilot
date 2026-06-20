@@ -1,0 +1,102 @@
+{
+  "task_id": "BPK-231",
+  "task_name": "bluepilot-local-emergency-stop-and-daily-provider-cap-v0.1",
+  "created": "2026-06-20",
+  "scope": "bluepilot/builder/local-safety-guard",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "write_and_provider_safety",
+  "goal": "Add a small local safety guard that can stop provider calls and permitApply writes before remote gates or smartPush, with a local emergency stop and daily provider-token cap.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "docs/POST-BPK-226-TRIM-MAP.md",
+    "builder/src/localSafetyGuard.ts",
+    "builder/src/providers.ts",
+    "builder/src/permitApply.ts",
+    "builder/tests/localSafetyGuard.test.ts",
+    "builder/tests/providerLocalSafetyGuard.test.ts",
+    "builder/tests/permitApply.test.ts",
+    "contracts/BPK-231.json",
+    "review-packets/BPK-231.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "builder/src/localSafetyGuard.ts",
+    "builder/src/providers.ts",
+    "builder/src/permitApply.ts",
+    "builder/tests/localSafetyGuard.test.ts",
+    "builder/tests/providerLocalSafetyGuard.test.ts",
+    "builder/tests/permitApply.test.ts",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "contracts/BPK-231.json",
+    "review-packets/BPK-231.md"
+  ],
+  "forbidden_files": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/CODEX-RICHTUNGSBRIEF-optimized.md",
+    "docs/POST-BPK-226-TRIM-MAP.md",
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    ".github/**",
+    "builder/scripts/**",
+    "builder/data/**",
+    "builder/output/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not add a new route, database table, remote provider budget implementation, USD pricing table, proof-gate flow, deploy, package change, workflow change, runtime activation, or runtime patch permit-consume trim."
+  ],
+  "claims": [
+    "A local emergency stop should block provider calls and permitApply writes before remote gates or smartPush.",
+    "A local daily provider-token cap should block projected provider calls before the Maya budget gate is contacted.",
+    "The local guard should reuse existing provider token estimates and the existing builder safety decision path for permitApply instead of creating a new governance machine."
+  ],
+  "assumptions": [
+    "The local daily cap is token-based, not USD-based, to avoid duplicating provider pricing logic already owned by Maya-core.",
+    "The cap is process-local and resets by UTC day; durable accounting remains a separate future decision.",
+    "Remote assessBudget and recordCost remain the source of truth for canonical cost tracking."
+  ],
+  "dod": [
+    "builder/src/localSafetyGuard.ts exports a local emergency-stop and daily provider-token cap decision.",
+    "providers.ts checks local safety before assessBudget and records local provider tokens after a successful provider response.",
+    "permitApply.ts folds local safety into the existing builder safety/guardBuilderPush path before smartPush.",
+    "Focused local guard, provider, and permitApply tests pass, typecheck passes, task-lock verify passes, diff-check passes, and full builder tests pass."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "npx tsx --test tests/localSafetyGuard.test.ts tests/providerLocalSafetyGuard.test.ts tests/permitApply.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-231 --verify",
+    "git diff --check --cached",
+    "npm test"
+  ],
+  "stop_conditions": [
+    "A route, DB persistence, USD pricing table, package change, workflow change, remote budget redesign, deploy, runtime activation, or runtime patch permit-consume trim becomes necessary."
+  ],
+  "prior_task_findings": "BPK-230 closed hard cap #3 at permitApply. BPK-229 identified the remaining small safety gap as a local emergency stop plus local daily cap without touching the runtime patch permit-consume tower.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "11f2b3fdbf626006e16f592221a122ab53700029"
+}

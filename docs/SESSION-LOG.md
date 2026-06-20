@@ -5,6 +5,22 @@
 
 ---
 
+## 2026-06-20 - BPK-231 Local Emergency Stop and Daily Provider Cap
+
+- Gebaut: `builder/src/localSafetyGuard.ts` als kleine lokale Guard-Funktion fuer Not-Aus und
+  Tages-Provider-Token-Cap.
+- Verdrahtet: Provider-Calls pruefen den lokalen Guard vor dem Maya-Budget-Gate; erfolgreiche
+  Provider-Antworten erhoehen den lokalen Tages-Token-Zaehler. `permitApply` faltet den lokalen
+  Guard in die bestehende `builderSafetyPolicy`/`guardBuilderPush`-Durchsetzung ein.
+- Controls: `BLUEPILOT_LOCAL_EMERGENCY_STOP=true` blockiert lokal;
+  `BLUEPILOT_LOCAL_DAILY_PROVIDER_TOKEN_LIMIT=<positive integer>` deckelt projizierte Provider-
+  Tokens pro UTC-Tag im Prozess.
+- Sicherheitsentscheidung: Keine neue Route, keine DB, keine USD-Preistabelle, kein Deploy,
+  keine Provider-Neuberechnung und kein Runtime-Patch-Permit-Consume-Trim. Maya-core bleibt die
+  kanonische Budget-/Cost-Quelle.
+- Roter Faden weiter: Wenn dieser Block reviewt/gemerged ist, bleibt als naechster sauberer
+  Schritt die Dependency-Map fuer den Runtime-Patch-Permit-Consume-Receipt/Audit-Turm.
+
 ## 2026-06-20 - BPK-230 Permit Apply Main/Master Write Cap
 
 - Gebaut: `builderSafetyPolicy` nimmt jetzt einen optionalen `targetBranch` an und blockiert

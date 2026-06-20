@@ -14,6 +14,11 @@ import {
   estimateProviderOutputTokens,
   recordCost,
 } from './mayaBuilderGateClient.js';
+import {
+  assessLocalSafetyGuard,
+  assertLocalSafetyAllowed,
+  recordLocalProviderTokens,
+} from './localSafetyGuard.js';
 
 interface ProviderEndpoint {
   apiUrl: string;
@@ -437,12 +442,17 @@ export function buildOpenAiCompatibleChatCompletionRequest(
 
 async function assertBuilderBudgetGate(provider: string, model: string, params: CallProviderParams): Promise<number> {
   const inputTokens = estimateProviderInputTokens({ system: params.system, messages: params.messages });
+  const outputTokens = params.maxTokens ?? 2000;
+  assertLocalSafetyAllowed(assessLocalSafetyGuard({
+    target: 'provider_call',
+    requestedProviderTokens: inputTokens + outputTokens,
+  }));
   const decision = await assessBudget({
     taskId: process.env.MAYA_BUILDER_TASK_ID || 'soulmatch-builder',
     providerId: provider,
     modelId: model,
     inputTokens,
-    outputTokens: params.maxTokens ?? 2000,
+    outputTokens,
     taskDescription: `soulmatch builder model call ${provider}/${model}`,
   });
   assertGateAllowed('budget', decision);
@@ -450,12 +460,14 @@ async function assertBuilderBudgetGate(provider: string, model: string, params: 
 }
 
 async function recordBuilderCost(provider: string, model: string, inputTokens: number, outputText: string): Promise<void> {
+  const outputTokens = estimateProviderOutputTokens(outputText);
+  recordLocalProviderTokens(inputTokens + outputTokens);
   const result = await recordCost({
     taskId: process.env.MAYA_BUILDER_TASK_ID || 'soulmatch-builder',
     providerId: provider,
     modelId: model,
     inputTokens,
-    outputTokens: estimateProviderOutputTokens(outputText),
+    outputTokens,
     taskDescription: `soulmatch builder model call ${provider}/${model}`,
   });
 

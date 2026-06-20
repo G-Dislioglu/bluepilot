@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 
 import { handlePermitApplyRequest, type PermitApplyPayload } from '../src/permitApply.js';
+import { LOCAL_EMERGENCY_STOP_ENV } from '../src/localSafetyGuard.js';
 import type { smartPush } from '../src/opusSmartPush.js';
 
 type SmartPushCall = {
@@ -128,6 +129,45 @@ test('POST /probe/permit-apply blocks main and master before smartPush', async (
         assert.equal(called, false);
       },
     );
+  }
+});
+
+test('POST /probe/permit-apply obeys local emergency stop before smartPush', async () => {
+  const previous = process.env[LOCAL_EMERGENCY_STOP_ENV];
+  process.env[LOCAL_EMERGENCY_STOP_ENV] = 'true';
+  let called = false;
+
+  try {
+    await withPermitApplyServer(
+      (async () => {
+        called = true;
+        throw new Error('must not be called');
+      }) as never,
+      async (url) => {
+        const response = await fetch(`${url}/probe/permit-apply`, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(validBody),
+        });
+        const body = await response.json() as {
+          error: string;
+          reason: string;
+          safety: PermitApplyPayload['safety'];
+        };
+
+        assert.equal(response.status, 403);
+        assert.equal(body.error, 'builder_safety_policy_blocked');
+        assert.match(body.reason, /local_emergency_stop/);
+        assert.equal(body.safety.pushAllowed, false);
+        assert.equal(called, false);
+      },
+    );
+  } finally {
+    if (previous === undefined) {
+      delete process.env[LOCAL_EMERGENCY_STOP_ENV];
+    } else {
+      process.env[LOCAL_EMERGENCY_STOP_ENV] = previous;
+    }
   }
 });
 
