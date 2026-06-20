@@ -5,6 +5,20 @@
 
 ---
 
+## 2026-06-20 - BPK-232 Runtime Patch Permit-Consume Dependency Map
+
+- Gebaut: `docs/RUNTIME-PATCH-PERMIT-CONSUME-DEPENDENCY-MAP.md` als read-only Karte vor einem
+  moeglichen Turm-Schnitt.
+- Ergebnis: Der Cluster umfasst 41 Source-Dateien und 41 direkte Tests. Es gibt keine externen
+  Source-Importer, keine externen Test-Importer, keine `server.ts`-Route und keine
+  `bpk-governance-manifest`-Referenz auf den Cluster.
+- Verdrahtet: Der Befund liegt als Contract, Review-Packet, State-Anker und Map im Repo. Er ist
+  nicht nur Chat-Kontext.
+- Roter Faden weiter: BPK-233 waere der eigentliche Turm-Schnitt, aber nur nach Human-Go. Dann
+  nur den Cluster plus direkte Tests entfernen; `permitApply`, Safety-Policy, lokale Guards,
+  Provider, Activation-Locks, Runtime-Dry-Run-Routen, Deploy, Env, DB, Packages und Workflows
+  bleiben unberuehrt.
+
 ## 2026-06-20 - BPK-231 Local Emergency Stop and Daily Provider Cap
 
 - Gebaut: `builder/src/localSafetyGuard.ts` als kleine lokale Guard-Funktion fuer Not-Aus und

@@ -933,9 +933,15 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-231 gibt es einen lokalen Sofort-Stopp fuer Provider-Calls und `permitApply`-Writes plus
-einen lokalen Tages-Provider-Token-Cap. Der Runtime-Patch-Permit-Consume-Receipt/Audit-Turm wird
-weiterhin erst nach Dependency-Graph angefasst.
+Nach BPK-232 liegt der Dependency-Graph fuer den Runtime-Patch-Permit-Consume-Receipt/Audit-Turm
+als Repo-Artefakt vor. Befund: 41 Source-Dateien und 41 direkte Tests, keine externe Source- oder
+Test-Importer, keine Server-Route und keine Governance-Manifest-Referenz. Der Turm ist damit ein
+Trim-Kandidat, aber geloescht wird erst in einem separaten Human-Gate-Block.
+
+Naechster sinnvoller Block: BPK-233 als bewusster Turm-Schnitt, falls freigegeben. Dabei nur die
+41 Cluster-Source-Dateien und 41 direkten Tests entfernen, `permitApply`, `builderSafetyPolicy`,
+`localSafetyGuard`, Provider, Activation-Locks, Runtime-Dry-Run-Routen, Deploy, Env, DB, Packages
+und Workflows unberuehrt lassen. Backstop: Typecheck, volle Tests, Task-Lock, Diff-Check.
 
 Nach BPK-226 ist das gebuendelte Permit-/Approved-Action-Consume-Execution-Receipt-Record-Audit-
 Receipt-Record-Audit-Receipt-Record-Authority-Bundle abgeschlossen: Ready-Audit-Receipt-Record-
