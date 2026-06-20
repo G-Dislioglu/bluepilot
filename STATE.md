@@ -933,9 +933,18 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-231 gibt es einen lokalen Sofort-Stopp fuer Provider-Calls und `permitApply`-Writes plus
-einen lokalen Tages-Provider-Token-Cap. Der Runtime-Patch-Permit-Consume-Receipt/Audit-Turm wird
-weiterhin erst nach Dependency-Graph angefasst.
+Nach BPK-233 ist der Runtime-Patch-Permit-Consume-Receipt/Audit-Turm entfernt. Geloescht wurden
+exakt die in BPK-232 kartierten 41 Source-Dateien und 41 direkten Tests. `permitApply`,
+`builderSafetyPolicy`, `localSafetyGuard`, Provider, Activation-Locks, Runtime-Dry-Run-Routen,
+Deploy, Env, DB, Packages, Workflows und alte Audit-Contracts blieben unberuehrt.
+
+Beweis: Typecheck gruen, volle Builder-Tests gruen mit 244/244, und es bleiben keine
+`runtimePatch*`/`runtimeServerPatch*` Source- oder Testdateien unter `builder/src` oder
+`builder/tests`.
+
+Naechster sinnvoller Block: Den verbliebenen post-226-Trim nur noch gegen echte Wiederverwendung
+pruefen, nicht mehr automatisch loeschen. Kandidaten sind die in BPK-229 markierten Align/Fold-
+Flaechen rund um alte Hard-Stop-Listen und doppelte Mount-Lock-/Receipt-Evidence.
 
 Nach BPK-226 ist das gebuendelte Permit-/Approved-Action-Consume-Execution-Receipt-Record-Audit-
 Receipt-Record-Audit-Receipt-Record-Authority-Bundle abgeschlossen: Ready-Audit-Receipt-Record-

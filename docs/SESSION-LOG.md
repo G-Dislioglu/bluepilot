@@ -5,6 +5,33 @@
 
 ---
 
+## 2026-06-20 - BPK-233 Runtime Patch Permit-Consume Tower Trim
+
+- Gebaut: Der in BPK-232 kartierte Runtime-Patch-Permit-Consume-Cluster wurde entfernt.
+- Ergebnis: 41 Source-Dateien und 41 direkte Tests sind weg. `permitApply`, `server.ts`,
+  Safety-Policy, lokale Guards, Provider, Activation-Locks, Runtime-Dry-Run-Routen, Deploy, Env,
+  DB, Packages, Workflows und alte Audit-Contracts blieben unberuehrt.
+- Beweis: `npm run typecheck` gruen, volle Builder-Tests gruen mit 244/244, und unter
+  `builder/src`/`builder/tests` bleiben keine `runtimePatch*`/`runtimeServerPatch*` Dateien.
+- Verdrahtet: Der Schnitt ist ueber `contracts/BPK-233.json`, dieses Log und
+  `review-packets/BPK-233.md` nachvollziehbar; BPK-232 bleibt als Dependency-Map im Stack.
+- Roter Faden weiter: Keine weitere automatische Loeschwelle. Verbliebene post-226-Flaechen nur
+  gegen echte Wiederverwendung und die 10 Hard Caps einzeln pruefen.
+
+## 2026-06-20 - BPK-232 Runtime Patch Permit-Consume Dependency Map
+
+- Gebaut: `docs/RUNTIME-PATCH-PERMIT-CONSUME-DEPENDENCY-MAP.md` als read-only Karte vor einem
+  moeglichen Turm-Schnitt.
+- Ergebnis: Der Cluster umfasst 41 Source-Dateien und 41 direkte Tests. Es gibt keine externen
+  Source-Importer, keine externen Test-Importer, keine `server.ts`-Route und keine
+  `bpk-governance-manifest`-Referenz auf den Cluster.
+- Verdrahtet: Der Befund liegt als Contract, Review-Packet, State-Anker und Map im Repo. Er ist
+  nicht nur Chat-Kontext.
+- Roter Faden weiter: BPK-233 waere der eigentliche Turm-Schnitt, aber nur nach Human-Go. Dann
+  nur den Cluster plus direkte Tests entfernen; `permitApply`, Safety-Policy, lokale Guards,
+  Provider, Activation-Locks, Runtime-Dry-Run-Routen, Deploy, Env, DB, Packages und Workflows
+  bleiben unberuehrt.
+
 ## 2026-06-20 - BPK-231 Local Emergency Stop and Daily Provider Cap
 
 - Gebaut: `builder/src/localSafetyGuard.ts` als kleine lokale Guard-Funktion fuer Not-Aus und

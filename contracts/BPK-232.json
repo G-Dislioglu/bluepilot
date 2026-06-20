@@ -1,0 +1,94 @@
+{
+  "task_id": "BPK-232",
+  "task_name": "bluepilot-runtime-patch-permit-consume-dependency-map-v0.1",
+  "created": "2026-06-20",
+  "scope": "bluepilot/builder/runtime-patch-permit-consume-trim-readiness",
+  "mode": "standard",
+  "task_type": "doc_task",
+  "risk_class": "low",
+  "impact_class": "trim_decision_map",
+  "goal": "Map whether the runtime patch permit-consume tower is mounted or externally imported before any deletion task is approved.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "docs/POST-BPK-226-TRIM-MAP.md",
+    "docs/RUNTIME-PATCH-PERMIT-CONSUME-DEPENDENCY-MAP.md",
+    "contracts/BPK-232.json",
+    "review-packets/BPK-232.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "docs/RUNTIME-PATCH-PERMIT-CONSUME-DEPENDENCY-MAP.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "contracts/BPK-232.json",
+    "review-packets/BPK-232.md"
+  ],
+  "forbidden_files": [
+    "builder/src/**",
+    "builder/tests/**",
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/CODEX-RICHTUNGSBRIEF-optimized.md",
+    "docs/POST-BPK-226-TRIM-MAP.md",
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    ".github/**",
+    "builder/scripts/**",
+    "builder/data/**",
+    "builder/output/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not delete runtime patch permit-consume files in BPK-232.",
+    "Do not change source, tests, routes, env, DB, deploy, provider, write, runtime, activation, package, or workflow behavior."
+  ],
+  "claims": [
+    "The runtime patch permit-consume cluster is not mounted in builder/src/server.ts.",
+    "The cluster has no external source importers and no external test importers.",
+    "The cluster is separate from the retained permitApply write path.",
+    "Any actual deletion should be a later human-approved task."
+  ],
+  "assumptions": [
+    "Static import and route scans are sufficient for a decision map, but a later deletion task still needs typecheck and full tests as backstops.",
+    "Historical contracts and review packets may keep references as audit history unless a later task decides otherwise."
+  ],
+  "dod": [
+    "docs/RUNTIME-PATCH-PERMIT-CONSUME-DEPENDENCY-MAP.md records file counts, route findings, import findings, and the next-task guardrails.",
+    "BPK-232 does not modify builder/src or builder/tests.",
+    "Task-lock verify, content checks, and diff-check pass."
+  ],
+  "evidence_required": [
+    "content_check",
+    "task_lock",
+    "diff_check"
+  ],
+  "required_commands": [
+    "rg -n \"Source files: 41|External source importers: 0|route mounts.*: 0|BPK-233\" docs/RUNTIME-PATCH-PERMIT-CONSUME-DEPENDENCY-MAP.md review-packets/BPK-232.md STATE.md docs/SESSION-LOG.md",
+    "node tools/verify-task-lock.cjs BPK-232 --verify",
+    "git diff --check --cached"
+  ],
+  "stop_conditions": [
+    "A source, test, package, workflow, env, DB, deploy, runtime activation, or deletion change becomes necessary."
+  ],
+  "prior_task_findings": "BPK-231 added local emergency stop and daily provider-token cap at provider and permitApply entry points. BPK-229 recommended a dependency graph for the runtime patch permit-consume tower before any deletion.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "58752e5"
+}

@@ -1,0 +1,108 @@
+{
+  "task_id": "BPK-233",
+  "task_name": "bluepilot-runtime-patch-permit-consume-tower-trim-v0.1",
+  "created": "2026-06-20",
+  "scope": "bluepilot/builder/runtime-patch-permit-consume-trim",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "dead_code_trim",
+  "goal": "Remove the closed runtime patch permit-consume cluster identified by BPK-232 while preserving real safety, write, provider, runtime dry-run, and activation paths.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "docs/POST-BPK-226-TRIM-MAP.md",
+    "docs/RUNTIME-PATCH-PERMIT-CONSUME-DEPENDENCY-MAP.md",
+    "contracts/BPK-232.json",
+    "contracts/BPK-233.json",
+    "review-packets/BPK-232.md",
+    "review-packets/BPK-233.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "builder/src/runtimePatch*.ts",
+    "builder/src/runtimeServerPatch*.ts",
+    "builder/tests/runtimePatch*.test.ts",
+    "builder/tests/runtimeServerPatch*.test.ts",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "contracts/BPK-233.json",
+    "review-packets/BPK-233.md"
+  ],
+  "forbidden_files": [
+    "builder/src/permitApply.ts",
+    "builder/src/server.ts",
+    "builder/src/runtimeDryRunAdapterContract.ts",
+    "builder/src/builderSafetyPolicy.ts",
+    "builder/src/activationLockBoundary.ts",
+    "builder/src/runtimeExecutionDecision.ts",
+    "builder/src/localSafetyGuard.ts",
+    "builder/src/providers.ts",
+    "builder/src/mayaBuilderGateClient.ts",
+    "builder/data/**",
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/CODEX-RICHTUNGSBRIEF-optimized.md",
+    "docs/POST-BPK-226-TRIM-MAP.md",
+    "docs/RUNTIME-PATCH-PERMIT-CONSUME-DEPENDENCY-MAP.md",
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    ".github/**",
+    "builder/scripts/**",
+    "builder/output/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not change permitApply, server routes, runtime dry-run routes, builder safety policy, local safety guard, providers, activation locks, env, DB, deploy, package files, workflows, or old audit contracts.",
+    "Do not delete by broad shell discovery beyond the BPK-232 checked cluster."
+  ],
+  "claims": [
+    "BPK-232 found the cluster has 41 source files, 41 direct tests, no external source importers, no external test importers, no server route mounts, and no bpk-governance-manifest refs.",
+    "Deleting the checked cluster should not affect retained live paths.",
+    "Typecheck and full tests are the backstop for hidden imports or dynamic references."
+  ],
+  "assumptions": [
+    "Historical contracts and review packets remain as audit history.",
+    "The BPK-232 branch is included in this stack so the dependency map is reviewable with the deletion."
+  ],
+  "dod": [
+    "The 41 checked runtime patch/server patch source files are deleted.",
+    "The 41 direct matching tests are deleted.",
+    "Retained safety/write/provider/runtime dry-run files are untouched.",
+    "Typecheck, full builder tests, task-lock verify, and diff-check pass."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "npm run typecheck",
+    "npm test",
+    "node tools/verify-task-lock.cjs BPK-233 --verify",
+    "git diff --check --cached"
+  ],
+  "stop_conditions": [
+    "Typecheck reports a dangling import outside the deleted cluster.",
+    "Full tests fail outside the deleted cluster.",
+    "A route, provider, write, runtime dry-run, activation, env, DB, deploy, package, workflow, or old audit-contract change becomes necessary."
+  ],
+  "prior_task_findings": "BPK-232 mapped the runtime patch permit-consume cluster as a closed island: 41 source files, 41 direct tests, zero external source/test importers, zero server route mounts, and zero governance-manifest refs.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "2b231b168531e35feabb3532ee46d182e6af0e1f"
+}
