@@ -5,6 +5,22 @@
 
 ---
 
+## 2026-06-20 - BPK-229 Post-BPK-226 Trim Map
+
+- Gebaut: `docs/POST-BPK-226-TRIM-MAP.md` als reine Entscheidungskarte fuer den post-226-Trim.
+- Ergebnis: Behalten werden die echten Grenzen (`activationLockBoundary`,
+  `runtimeExecutionDecision`, Maya-core-Gate-Evidence, Provider-Budget/Cost-Gate,
+  `permitApply` und Builder-Safety-Policy). Ausrichten sollen die alten generischen Hard-Stop-
+  Listen auf die 10 soulmatch-Caps. Der Runtime-Patch-Permit-Consume-Receipt/Audit-Turm ist ein
+  Trim-Kandidat, aber nur nach Dependency-Graph.
+- Korrektur: Budget fehlt nicht komplett; `providers.ts` nutzt `assessBudget` und `recordCost`.
+  Es fehlt nur ein einfacher lokaler Not-Aus/Tagesdeckel in Bluepilot selbst.
+- Sicherheitsentscheidung: Keine Code-Aenderung, keine Loeschung, keine Runtime, keine Provider,
+  keine Writes, keine Routes, keine Env, keine DB, kein Deploy und keine Aktivierung.
+- Roter Faden weiter: Nach Review sind die kleinsten Bau-Folgen `main`/`master`-Write-Cap fuer
+  `permitApply` und lokaler Not-Aus/Tagesdeckel. Der grosse Turm wird erst nach
+  Dependency-Graph angefasst.
+
 ## 2026-06-20 - BPK-228 Autonomie-Familie-Referenz
 
 - Gebaut: Bluepilot referenziert jetzt die bestehende soulmatch-Autonomie-Familie als

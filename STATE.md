@@ -246,7 +246,7 @@
 
 ## Contracts
 
-- Hoechster Contract: BP-150. Aktueller BPK-Contract: BPK-228.
+- Hoechster Contract: BP-150. Aktueller BPK-Contract: BPK-229.
 - BP-122: erster Bluepilot-Anker (`docs/CLAUDE-CONTEXT.md`).
 - BP-123: Bluepilot Maya-Memory an gemeinsamen Block-2-Store angebunden.
 - BP-124: maya-core Memory-Route fuer Server-to-Server-Gate-Auth vorbereitet.
@@ -769,6 +769,10 @@
   `MAYA-APPWIDE-AUTONOMY-MODEL`) als Bauanker. Neue Limits, Gates, Approvals oder
   Spec-/Zeremonie ohne lauffaehiges Artefakt werden als Entscheidungsvorschlag markiert, nicht
   still gebaut.
+- BPK-229: Post-BPK-226 Trim Map; `docs/POST-BPK-226-TRIM-MAP.md` sortiert die post-226-
+  Surfaces gegen die 10 soulmatch-Hard-Caps in Behalten, Ausrichten/Einschmelzen, Trim-
+  Kandidaten und spaetere echte Luecken. Keine Datei wird geloescht, keine Runtime, Provider,
+  Writes, Routes, Env, DB, Deploy oder Aktivierung werden geaendert.
 - Repo-Scan/Verdrahtung 2026-06-15: Bluepilot ergaenzt als ersten Integrationsschnitt eine
   read-only Meta- und Capability-Audit-Surface. `GET /api/meta` und `GET /meta` melden
   BPK-Abschluss, Git-Metadaten aus Env und sichere Bluepilot-Surfaces. `GET
@@ -919,9 +923,13 @@
 
 ## Naechster sinnvoller Schritt
 
-Nach BPK-228 ist der post-BPK-226-Trim sauberer entscheidbar: Die bestehenden soulmatch-
-Autonomie- und Anti-Buerokratie-Regeln sind als Bluepilot-Referenz verankert, ohne neue Gates,
-Routes, Runtime, Provider, Writes, Env oder Deploy zu oeffnen.
+Nach BPK-229 ist der post-BPK-226-Trim als Entscheidungskarte greifbar: behalten werden die
+zentralen echten Grenzen (`activationLockBoundary`, `runtimeExecutionDecision`, Maya-core-Gate-
+Evidence, Provider-Budget/Cost-Gate, `permitApply` und Builder-Safety-Policy). Ausrichten sollen
+die alten generischen Hard-Stop-Listen auf die 10 soulmatch-Caps. Trim-Kandidat ist der Runtime-
+Patch-Permit-Consume-Receipt/Audit-Turm, aber erst nach Dependency-Graph. Als spaetere kleine
+Fixes sind `main`/`master`-Write-Cap fuer `permitApply` und ein lokaler Not-Aus/Tagesdeckel
+vorgeschlagen.
 
 Nach BPK-226 ist das gebuendelte Permit-/Approved-Action-Consume-Execution-Receipt-Record-Audit-
 Receipt-Record-Audit-Receipt-Record-Authority-Bundle abgeschlossen: Ready-Audit-Receipt-Record-

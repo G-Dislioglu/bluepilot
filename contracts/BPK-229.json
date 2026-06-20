@@ -1,0 +1,102 @@
+{
+  "task_id": "BPK-229",
+  "task_name": "bluepilot-post-bpk-226-trim-map-v0.1",
+  "created": "2026-06-20",
+  "scope": "bluepilot/governance/post-226-trim-map",
+  "mode": "lite",
+  "task_type": "governance_task",
+  "risk_class": "low",
+  "impact_class": "decision_map",
+  "goal": "Create a no-code decision map that sorts post-BPK-226 Bluepilot surfaces against the 10 soulmatch hard caps before any trim, activation, write, or deletion work.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/CODEX-RICHTUNGSBRIEF-optimized.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "docs/POST-BPK-226-TRIM-MAP.md",
+    "contracts/BPK-229.json",
+    "review-packets/BPK-229.md",
+    "builder/src/activationLockBoundary.ts",
+    "builder/src/runtimeExecutionDecision.ts",
+    "builder/src/mayaCoreGateEnforcementContract.ts",
+    "builder/src/providers.ts",
+    "builder/src/mayaBuilderGateClient.ts",
+    "builder/src/permitApply.ts",
+    "builder/src/builderSafetyPolicy.ts",
+    "builder/src/activationDecisionOperatorMode.ts",
+    "builder/src/mayaAutonomyAuthorityIntake.ts",
+    "soulmatch/docs/AI-AUTONOMY-LAYER-v0.1.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "docs/POST-BPK-226-TRIM-MAP.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "contracts/BPK-229.json",
+    "review-packets/BPK-229.md"
+  ],
+  "forbidden_files": [
+    "AGENTS.md",
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    ".github/**",
+    "builder/src/**",
+    "builder/scripts/**",
+    "builder/tests/**",
+    "builder/data/**",
+    "builder/output/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not delete files, trim code, add or change runtime gates, add routes, change provider/write/runtime behavior, change environment variables, change DB/schema behavior, deploy, merge, or activate any surface."
+  ],
+  "claims": [
+    "Provider budget/cost gating exists through assertBuilderBudgetGate, assessBudget, recordBuilderCost, and recordCost.",
+    "permitApply.ts is a real write/push endpoint and should be retained, but its branch hard cap for main/master needs a later small fix.",
+    "activationLockBoundary.ts and runtimeExecutionDecision.ts are useful central execution boundaries.",
+    "activationDecisionOperatorMode.ts and mayaAutonomyAuthorityIntake.ts use an older generic hard-stop list that should be aligned to the 10 soulmatch hard caps.",
+    "The runtimePatchPermitConsume receipt/audit chain is a trim candidate, but only after a dependency graph and test impact map."
+  ],
+  "assumptions": [
+    "BPK-229 is stacked on BPK-228 so the soulmatch autonomy reference is present in the build prompt.",
+    "A decision map is the correct next step before code deletion or safety-gap fixes."
+  ],
+  "dod": [
+    "docs/POST-BPK-226-TRIM-MAP.md lists the 10 hard caps and sorts the post-226 surfaces into keep, align/fold, trim candidates, and build-later gaps.",
+    "STATE.md and docs/SESSION-LOG.md record the BPK-229 map and safety boundary.",
+    "docs/CLAUDE-CONTEXT.md references BPK-229 in the next-block context.",
+    "No code, tests, package files, runtime routes, provider behavior, write behavior, env, DB, deploy, or activation changes are made."
+  ],
+  "evidence_required": [
+    "diff_ref",
+    "content_check"
+  ],
+  "required_commands": [
+    "rg -n \"Post-BPK-226 Trim Map|10 Hard Caps|Main/master write cap|local emergency stop|runtimePatchPermitConsume|assertBuilderBudgetGate|permitApply\" docs/POST-BPK-226-TRIM-MAP.md STATE.md docs/SESSION-LOG.md docs/CLAUDE-CONTEXT.md",
+    "node tools/verify-task-lock.cjs BPK-229 --verify",
+    "git diff --check --cached"
+  ],
+  "stop_conditions": [
+    "Any code deletion, runtime/provider/write/route/test change, env/DB/deploy activation, or merge becomes necessary."
+  ],
+  "prior_task_findings": "BPK-228 anchored the existing soulmatch autonomy family in the Bluepilot build prompt. Follow-up code reading found that provider budget/cost gating exists, permitApply is a real write endpoint, the old hard-stop lists do not match the 10 soulmatch caps, and the runtimePatchPermitConsume receipt/audit tower is the strongest trim candidate.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "7dfcb0368365e3db5878b790b7795d8663485be1"
+}

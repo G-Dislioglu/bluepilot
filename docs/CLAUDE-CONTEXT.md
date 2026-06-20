@@ -590,6 +590,10 @@ read-only verdrahtet und das zweite Readonly-Buendel ist darauf aufgebaut:
 - BPK-227 stabilisiert den Governance-Manifest-Waechter auf Windows per LF-Checkout.
 - BPK-228 verankert die bestehende soulmatch-Autonomie-Familie als Bluepilot-Referenz und
   ergaenzt den Charter-Check gegen neue unnoetige Limits/Gates/Zeremonie.
+- BPK-229 legt die post-BPK-226-Trim-Karte an: echte Grenzen behalten, alte Hard-Stop-Listen auf
+  die 10 soulmatch-Caps ausrichten, Runtime-Patch-Permit-Consume-Turm nur nach Dependency-Graph
+  trimmen, und kleine Folge-Fixes fuer `main`/`master`-Write-Cap sowie lokalen Not-Aus/Tagesdeckel
+  separat entscheiden.
 - GOAT Desktop ist jetzt als contract-only Surface angebunden:
   `GET /probe/goat-desktop-bridge-contract` beschreibt die lokale `/builder-cue`-Grenze und
   `POST /probe/goat-desktop-builder-cue-preflight` prueft Payloads trocken. Bluepilot ruft GOAT
