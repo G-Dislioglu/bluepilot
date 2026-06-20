@@ -38,6 +38,7 @@ type BuilderSafetyInput = {
   approvalValid?: boolean;
   approvalValidationReason?: string;
   judgeDecision?: BuilderGateDecision;
+  targetBranch?: string;
 };
 
 const MANUAL_ONLY_RULES = [
@@ -110,12 +111,23 @@ function isProtectedPath(filePath: string): boolean {
     || MANUAL_ONLY_PATTERNS.some((pattern) => pattern.test(normalizedPath));
 }
 
+function normalizeBranch(branch?: string): string | undefined {
+  const normalized = branch?.trim();
+  return normalized ? normalized : undefined;
+}
+
+function isProtectedBranch(branch?: string): boolean {
+  const normalized = normalizeBranch(branch)?.toLowerCase();
+  return normalized === 'main' || normalized === 'master';
+}
+
 export function classifyBuilderTask(input: BuilderSafetyInput): BuilderSafetyDecision {
   const candidatePaths = collectCandidatePaths(input);
   const protectedPathsTouched = candidatePaths.filter((path) => isProtectedPath(path));
+  const protectedBranch = normalizeBranch(input.targetBranch);
   const reasons: string[] = [];
 
-  const taskClass: BuilderTaskClass = protectedPathsTouched.length > 0
+  const taskClass: BuilderTaskClass = protectedPathsTouched.length > 0 || isProtectedBranch(protectedBranch)
     ? 'class_3'
     : candidatePaths.length === 0
       ? 'class_2'
@@ -137,6 +149,15 @@ export function classifyBuilderTask(input: BuilderSafetyInput): BuilderSafetyDec
     requiredExternalApproval = true;
     approvalReason = `Protected builder paths require manual review: ${protectedPathsTouched.join(', ')}`;
     reasons.push(approvalReason);
+  }
+
+  if (isProtectedBranch(protectedBranch)) {
+    decision = 'block';
+    executionPolicy = 'manual_only';
+    requiredExternalApproval = true;
+    const branchReason = `Protected branch requires manual proof gate before live push: ${protectedBranch}`;
+    approvalReason = approvalReason ?? branchReason;
+    reasons.push(branchReason);
   }
 
   if (taskClass === 'class_2' && (!approvedPlan || !approvalId)) {

@@ -104,6 +104,7 @@ export async function handlePermitApplyRequest(
     hasApprovedPlan: Boolean(input.approvalId),
     allowAutonomousPush: true,
     judgeDecision: 'approve',
+    targetBranch: input.branch,
   });
 
   const guarded = await guardBuilderPush(safety, async () => {

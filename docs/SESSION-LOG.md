@@ -5,6 +5,18 @@
 
 ---
 
+## 2026-06-20 - BPK-230 Permit Apply Main/Master Write Cap
+
+- Gebaut: `builderSafetyPolicy` nimmt jetzt einen optionalen `targetBranch` an und blockiert
+  `main`/`master` als `class_3`/`manual_only`, bevor ein Live-Push erlaubt wird.
+- Verdrahtet: `permitApply` reicht den Request-Branch in die Safety-Policy durch. Dadurch
+  antwortet `POST /probe/permit-apply` fuer `main` und `master` mit 403, bevor `smartPush`
+  aufgerufen wird.
+- Sicherheitsentscheidung: Kein neuer Proof-Gate, keine neue Route, kein neues Permit-System,
+  keine Env, keine DB, kein Provider, kein Deploy und keine Runtime-Aktivierung.
+- Roter Faden weiter: Der naechste kleine Fix ist lokaler Not-Aus/Tagesdeckel. Der grosse
+  Runtime-Patch-Permit-Consume-Receipt/Audit-Turm bleibt bis zu einem Dependency-Graph unberuehrt.
+
 ## 2026-06-20 - BPK-229 Post-BPK-226 Trim Map
 
 - Gebaut: `docs/POST-BPK-226-TRIM-MAP.md` als reine Entscheidungskarte fuer den post-226-Trim.

@@ -1,0 +1,97 @@
+{
+  "task_id": "BPK-230",
+  "task_name": "bluepilot-permit-apply-main-master-write-cap-v0.1",
+  "created": "2026-06-20",
+  "scope": "bluepilot/builder/permit-apply-protected-branch-cap",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "medium",
+  "impact_class": "write_safety",
+  "goal": "Fail closed before smartPush when permitApply targets main or master, enforcing the BPK-229 hard cap at the real write endpoint.",
+  "eligible_context": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "docs/POST-BPK-226-TRIM-MAP.md",
+    "builder/src/builderSafetyPolicy.ts",
+    "builder/src/permitApply.ts",
+    "builder/tests/builderSafetyPolicy.test.ts",
+    "builder/tests/permitApply.test.ts",
+    "contracts/BPK-230.json",
+    "review-packets/BPK-230.md"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "builder/src/builderSafetyPolicy.ts",
+    "builder/src/permitApply.ts",
+    "builder/tests/builderSafetyPolicy.test.ts",
+    "builder/tests/permitApply.test.ts",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "contracts/BPK-230.json",
+    "review-packets/BPK-230.md"
+  ],
+  "forbidden_files": [
+    "AGENTS.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/CODEX-RICHTUNGSBRIEF-optimized.md",
+    "docs/POST-BPK-226-TRIM-MAP.md",
+    "tools/**",
+    "package.json",
+    "package-lock.json",
+    "builder/package.json",
+    "builder/package-lock.json",
+    ".github/**",
+    "builder/scripts/**",
+    "builder/data/**",
+    "builder/output/**",
+    ".specify/**",
+    "contracts/BP-*.json",
+    "review-packets/BP-*.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not add a new permit system, proof-gate route, local budget cap, emergency stop, deploy, provider change, DB change, env change, package change, workflow change, or runtime activation."
+  ],
+  "claims": [
+    "permitApply.ts is a real write endpoint and currently accepts a branch field before smartPush.",
+    "main and master are protected live branches under the BPK-228/BPK-229 hard-cap reference.",
+    "The safest minimal fix is to classify main/master as manual_only/block in builderSafetyPolicy and pass permitApply's target branch into that classifier."
+  ],
+  "assumptions": [
+    "Non-protected branches remain eligible for the existing permitApply flow.",
+    "A future proof-gate can intentionally reopen main/master under a separate explicit contract."
+  ],
+  "dod": [
+    "builderSafetyPolicy treats main/master target branches as class_3 manual_only blocked decisions.",
+    "permitApply passes its branch into builderSafetyPolicy before smartPush.",
+    "permitApply returns 403 and does not call smartPush for main/master.",
+    "Focused safety and permitApply tests pass, typecheck passes, task-lock verify passes, diff-check passes, and full builder tests pass."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "npx tsx --test tests/builderSafetyPolicy.test.ts tests/permitApply.test.ts",
+    "npm run typecheck",
+    "node tools/verify-task-lock.cjs BPK-230 --verify",
+    "git diff --check --cached",
+    "npm test"
+  ],
+  "stop_conditions": [
+    "A new proof-gate, route, env var, package change, DB change, provider change, deploy, runtime activation, or broader write-policy redesign becomes necessary."
+  ],
+  "prior_task_findings": "BPK-229 found that provider budget/cost gating exists, permitApply is a real write endpoint, and the smallest verified gap is lack of a visible main/master hard cap before smartPush.",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "cf2ff4743d8d8fb2c55f88f01e132e017489d7aa"
+}

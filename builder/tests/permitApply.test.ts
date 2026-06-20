@@ -15,7 +15,7 @@ type SmartPushImpl = typeof smartPush;
 const validBody = {
   permitId: 'permit-apply-1',
   repo: 'G-Dislioglu/bluepilot-sandbox',
-  branch: 'main',
+  branch: 'feature/permit-apply',
   path: '.bluepilot/permit-apply.md',
   content: 'permit-bound apply\n',
   baseSha: '',
@@ -93,11 +93,42 @@ test('POST /probe/permit-apply applies one whole-file edit through smartPush wri
       assert.deepEqual(captured?.options.writePermit, {
         permitId: 'permit-apply-1',
         op: 'create',
-        branch: 'main',
+        branch: 'feature/permit-apply',
         baseSha: '',
       });
     },
   );
+});
+
+test('POST /probe/permit-apply blocks main and master before smartPush', async () => {
+  for (const branch of ['main', 'master']) {
+    let called = false;
+
+    await withPermitApplyServer(
+      (async () => {
+        called = true;
+        throw new Error('must not be called');
+      }) as never,
+      async (url) => {
+        const response = await fetch(`${url}/probe/permit-apply`, {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ ...validBody, branch }),
+        });
+        const body = await response.json() as {
+          error: string;
+          reason: string;
+          safety: PermitApplyPayload['safety'];
+        };
+
+        assert.equal(response.status, 403);
+        assert.equal(body.error, 'builder_safety_policy_blocked');
+        assert.match(body.reason, new RegExp(`Protected branch.*${branch}`));
+        assert.equal(body.safety.pushAllowed, false);
+        assert.equal(called, false);
+      },
+    );
+  }
 });
 
 test('POST /probe/permit-apply surfaces hash_mismatch without writing in the endpoint', async () => {
