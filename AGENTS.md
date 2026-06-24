@@ -1,5 +1,19 @@
 # AGENTS.md - Bluepilot
 
+## Codex Starter Pack / Task Learning Log
+
+Ergaenzend vor nicht-trivialer Arbeit kritisch lesen:
+
+`C:\Users\guerc\Documents\Codex\CODEX-STARTER-PACK.md`
+
+Repo-local learning log:
+
+`docs/TASK-LEARNINGS.md`
+
+Diese Regel ersetzt keine Bluepilot-Wahrheit. `docs/CLAUDE-CONTEXT.md`, `docs/SESSION-LOG.md`, `STATE.md`, Task-Contracts, WLP, Review Packets und die Pflicht-Lesereihenfolge in diesem Dokument bleiben vorrangig.
+
+Nach nicht-trivialer Arbeit kurze, wiederverwendbare Learnings in `docs/TASK-LEARNINGS.md` eintragen. Cross-Repo-Learnings zusaetzlich in `C:\Users\guerc\Documents\Codex\GLOBAL-TASK-LEARNINGS-GROWING-LOG.md` eintragen. Keine Secrets, Credentials, privaten Kundendaten, rohen privaten Chats oder sensiblen personenbezogenen Daten speichern.
+
 Lies diese Datei vor jedem Task. Keine Ausnahmen.
 
 ## Rolle
