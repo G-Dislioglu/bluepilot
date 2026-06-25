@@ -1,4 +1,3 @@
-// @orphan-by-design: dry-run dispatch composition; live exposure in WIRE-SLICE-002; consumer = future route/orchestrator
 import { planCardConditionedDispatch, type CardConditionedDispatchPlan, type DispatchConditionCard } from './cardConditionedDispatch.js';
 import { projectDispatchFrontendReadiness, type DispatchFrontendReadinessProjection, type DispatchFrontendSurface } from './dispatchFrontendReadiness.js';
 import { evaluatePreRegisteredClaims, type PreRegisteredClaim, type PreRegisteredClaimsGateResult } from './preRegisteredClaims.js';

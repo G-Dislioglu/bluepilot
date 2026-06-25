@@ -1,0 +1,112 @@
+{
+  "task_id": "WIRE-SLICE-002",
+  "task_name": "bluepilot-dispatch-dryrun-live-readback-v0.1",
+  "created": "2026-06-16",
+  "scope": "bluepilot/builder/dispatch-dryrun-live-readback",
+  "mode": "standard",
+  "task_type": "code_task",
+  "risk_class": "high",
+  "impact_class": "first_live_feature",
+  "goal": "Make the WIRE-SLICE-001 dry-run dispatch chain LIVE-reachable from the single live root builder/src/server.ts, behind a default-off env flag, with a visible status/result readback. A new read-only route handler calls runDispatchDryRunSlice and returns the readiness stage, the dispatch decision (allow/review/block) and the claim-gate decision as JSON. No provider call, no write, no DB. With the flag off, server behavior is byte-for-byte unchanged. Because the chain is now genuinely live, the @orphan-by-design tag on dispatchDryRunSlice.ts is removed and the orphan gate must pass it via serverReachable, not via the tag. This is the first feature a user/Maya can actually see a result from.",
+  "feature_evidence": {
+    "who_calls_it": "builder/src/server.ts mounts handleDispatchDryRunReadbackRequest behind BLUEPILOT_DISPATCH_DRY_RUN_READBACK_ROUTE_ENABLED; the handler calls runDispatchDryRunSlice.",
+    "where_user_sees_it": "The readback endpoint returns a JSON status/result (readiness stage + dispatch decision + claim-gate decision); surfacing this into Maya/chat is a later step, the live HTTP readback is this task.",
+    "which_test_runs_the_real_path": "builder/tests/wireSlice002DispatchReadback.test.ts drives the real handler with the flag ON and asserts a status/result; with the flag OFF it asserts the route is not mounted.",
+    "what_status_result_returns": "readiness.stage, dispatchPlan.decision, claimGate.decision, plus invokedSteps, for the supplied worker packet."
+  },
+  "eligible_context": [
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "docs/ORPHAN-CENSUS-v0.1.md",
+    "builder/src/server.ts",
+    "builder/src/dispatchDryRunSlice.ts",
+    "builder/src/runtimeDryRunRoute.ts",
+    "builder/src/cockpitReadOnlyRoute.ts"
+  ],
+  "excluded_context": [
+    ".env*",
+    "node_modules/**",
+    ".git/**",
+    "C:/Users/**/.env*"
+  ],
+  "allowed_files": [
+    "builder/src/dispatchDryRunReadbackRoute.ts",
+    "builder/src/server.ts",
+    "builder/src/dispatchDryRunSlice.ts",
+    "builder/tests/wireSlice002DispatchReadback.test.ts",
+    "docs/ORPHAN-CENSUS-v0.1.md",
+    "docs/CLAUDE-CONTEXT.md",
+    "docs/SESSION-LOG.md",
+    "STATE.md",
+    "review-packets/WIRE-SLICE-002.md",
+    "contracts/WIRE-SLICE-002.json"
+  ],
+  "forbidden_files": [
+    "builder/src/opusSmartPush.ts",
+    "builder/src/providers.ts",
+    "builder/src/db.ts",
+    "builder/src/opusTaskOrchestrator.ts",
+    "builder/src/cockpit*.ts",
+    "builder/src/runtime*.ts",
+    "builder/src/memory*.ts",
+    "builder/src/release*.ts",
+    "builder/package.json",
+    "package.json",
+    "package-lock.json",
+    "tools/**",
+    ".github/**",
+    "builder/scripts/**",
+    "builder/data/**",
+    "builder/output/**",
+    ".specify/**",
+    "AGENTS.md",
+    "soulmatch/**"
+  ],
+  "scope_out": [
+    "Do not call any provider, write any file, mount any write path, or touch the DB. The route is strictly read-only. The only change to server.ts is an additive, flag-gated mount; with BLUEPILOT_DISPATCH_DRY_RUN_READBACK_ROUTE_ENABLED unset or false, server.ts behavior is byte-for-byte unchanged. Do not modify the chain modules themselves; only compose them via the existing runDispatchDryRunSlice. Do not change tools/ (the scanner/gate stay as shipped by WIRE-SCAN-002)."
+  ],
+  "claims": [
+    "server.ts can mount a new read-only route by importing handleDispatchDryRunReadbackRequest and gating it on process.env.BLUEPILOT_DISPATCH_DRY_RUN_READBACK_ROUTE_ENABLED, matching the existing BLUEPILOT_*_ROUTE_ENABLED pattern, without changing behavior when off.",
+    "runDispatchDryRunSlice(input) can be driven from an HTTP handler to return a status/result readback with no side effects.",
+    "After this task dispatchDryRunSlice and the five chain modules (cardConditionedDispatch, workerPacketWlpAdapter, preRegisteredClaims, dispatchFrontendReadiness, runtimeDispatchIntegrationContract) become runtime_value_connected with serverReachable true.",
+    "The @orphan-by-design tag on dispatchDryRunSlice.ts is removed because the module is now genuinely live; the orphan gate (enforce) then passes it via serverReachable, not via the tag."
+  ],
+  "assumptions": [
+    "dispatchDryRunSlice exports runDispatchDryRunSlice(input: DispatchDryRunSliceInput): DispatchDryRunSliceResult (verified present).",
+    "server.ts mounts routes by importing handle*Request functions and gating them on BLUEPILOT_*_ROUTE_ENABLED env flags (verified pattern).",
+    "WIRE-SCAN-002 is live, so docs/ORPHAN-CENSUS-v0.1.md is in allowed_files and orphan-scan --check is read-only; baseline_ref is set at lock time to the commit after WIRE-SCAN-002 lands."
+  ],
+  "dod": [
+    "builder/src/dispatchDryRunReadbackRoute.ts exports handleDispatchDryRunReadbackRequest: a read-only handler that parses a worker packet from the request, calls runDispatchDryRunSlice, and returns readiness.stage, dispatchPlan.decision, claimGate.decision and invokedSteps as JSON; it performs no provider call, no write and no DB access.",
+    "builder/src/server.ts imports and mounts the handler ONLY when process.env.BLUEPILOT_DISPATCH_DRY_RUN_READBACK_ROUTE_ENABLED === 'true'; with the flag unset or false, server.ts is byte-for-byte unchanged on the off-path.",
+    "builder/src/dispatchDryRunSlice.ts has its '// @orphan-by-design' tag REMOVED, because it is now live-reachable.",
+    "node tools/orphan-scan.cjs --check shows dispatchDryRunSlice and the five chain modules as runtime_value_connected (serverReachable true), and the committed docs/ORPHAN-CENSUS-v0.1.md is regenerated via --write to reflect this.",
+    "node tools/verify-task-lock.cjs WIRE-SLICE-002 --verify passes with orphan_gate enforce, and the gate output shows dispatchDryRunSlice passing via serverReachable (PASS, not 'orphan-by-design').",
+    "builder/tests/wireSlice002DispatchReadback.test.ts asserts: with the flag ON, the handler returns the status/result readback for a sample worker packet and no side effect occurs; with the flag OFF, the route is not mounted.",
+    "Focused test, builder typecheck, orphan-scan --check, task-lock verify and diff-check pass."
+  ],
+  "evidence_required": [
+    "test_result"
+  ],
+  "required_commands": [
+    "cd builder && npx tsx --test tests/wireSlice002DispatchReadback.test.ts",
+    "npm --prefix builder run typecheck",
+    "node tools/orphan-scan.cjs --check",
+    "node tools/verify-task-lock.cjs WIRE-SLICE-002 --verify",
+    "git diff --check"
+  ],
+  "stop_conditions": [
+    "Live exposure would require a provider call, a real write, a write-path mount, or a DB call.",
+    "The server.ts off-path cannot remain byte-for-byte unchanged.",
+    "More than the new route, the server mount, the slice tag removal, the test and the docs must change."
+  ],
+  "prior_task_findings": "WIRE-SLICE-001 built dispatchDryRunSlice as a dry-run composition, non_live_value_referenced and tagged @orphan-by-design pending live exposure. WIRE-SCAN-002 hardened the scanner (--check read-only, --write regenerate) and put the report in allowed_files. server.ts mounts routes via handle*Request imports gated on BLUEPILOT_*_ROUTE_ENABLED (e.g. runtimeDryRunRoute); dispatchDryRunSlice exports runDispatchDryRunSlice(input). This task turns the dry-run into the first live, default-off, read-only feature with a visible readback.",
+  "orphan_gate": "enforce",
+  "reuse_target": [
+    "session_log",
+    "review_packet",
+    "next_task_pre_lock"
+  ],
+  "baseline_ref": "5a2052d"
+}

@@ -3,6 +3,7 @@ import { createServer } from 'node:http';
 import { handleActivationDecisionOperatorModeRequest } from './activationDecisionOperatorModeRoute.js';
 import { handleActivationLockRequest } from './activationLockRoute.js';
 import { handleCockpitReadOnlyRouteRequest } from './cockpitReadOnlyRoute.js';
+import { handleDispatchDryRunReadbackRequest } from './dispatchDryRunReadbackRoute.js';
 import { handleDurableAuditReceiptStoreRequest } from './durableAuditReceiptStoreRoute.js';
 import { handleGoatDesktopBridgeRequest } from './goatDesktopBridgeRoute.js';
 import { handleHealthRequest } from './health.js';
@@ -52,6 +53,13 @@ const server = createServer((request, response) => {
     }
 
     if (await handleRuntimeDryRunRouteRequest(request, response)) {
+      return;
+    }
+
+    if (
+      process.env.BLUEPILOT_DISPATCH_DRY_RUN_READBACK_ROUTE_ENABLED === 'true'
+      && await handleDispatchDryRunReadbackRequest(request, response, { enabled: true })
+    ) {
       return;
     }
 
